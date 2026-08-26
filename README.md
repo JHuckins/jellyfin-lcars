@@ -1,8 +1,8 @@
 # Jellyfin LCARS Theme
 
-Star Trek **LCARS** theme for **Jellyfin Web**.
+Star Trek **LCARS** theme for **Jellyfin**.
 
-- **jellyfin-lcars-injector.js** — **one pasteable script** for [JavaScript Injector](https://github.com/n00bcodr/Jellyfin-JavaScript-Injector) (panel CSS + structure + auto-init)
+- **jellyfin-lcars-injector.js** — **one pasteable script** via the [JavaScript Injector Plugin](https://github.com/n00bcodr/Jellyfin-JavaScript-Injector) (panel CSS + structure + auto-init)
 
 Colors / design from [thelcars.com](https://www.thelcars.com) and [ha-lcars](https://github.com/th3jesta/ha-lcars).
 
