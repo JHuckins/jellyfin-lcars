@@ -15,7 +15,7 @@ Due to this, the theme styles are contained in a single JavaScript file.
 A plugin is required to load and execute the theme script, see below. 
 (A stretch goal is to make this self contained and not need a separate plugin.)
 
-### 1. Install [Jellyfin-JavaScript-Injector](https://github.com/n00bcodr/Jellyfin-JavaScript-Injector) Plugin.
+### 1. Install [Jellyfin-JavaScript-Injector](https://github.com/n00bcodr/Jellyfin-JavaScript-Injector#%EF%B8%8F-installation) Plugin.
 You only need to complete this step once.
 
 1. Go to **Dashboard → Plugins**
