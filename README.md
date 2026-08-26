@@ -32,8 +32,6 @@ That single script:
 - Styles buttons
 - Auto-inits and re-runs on SPA navigation
 
-You do **not** need a separate `panels.css` import when using this script.
-
 ---
 
 ## Project layout
