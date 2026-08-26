@@ -2,7 +2,6 @@
 
 Star Trek **LCARS** theme for **Jellyfin Web**.
 
-- **theme.css** — base theme (Custom CSS)
 - **jellyfin-lcars-injector.js** — **one pasteable script** for [JavaScript Injector](https://github.com/n00bcodr/Jellyfin-JavaScript-Injector) (panel CSS + structure + auto-init)
 
 Colors / design from [thelcars.com](https://www.thelcars.com) and [ha-lcars](https://github.com/th3jesta/ha-lcars).
@@ -11,61 +10,33 @@ Colors / design from [thelcars.com](https://www.thelcars.com) and [ha-lcars](htt
 
 ## Setup
 
-### 1. Base theme (Custom CSS)
+I have not had consistent results in applying theme.css via the *Branding* section of the Jellyfin dashboard.
+Due to this, the theme styles are contained in a single JavaScript file.
+A plugin is required to load and execute the theme script, see below. 
+(A stretch goal is to make this self contained and not need a separate plugin.)
 
-**Dashboard → Branding → Custom CSS:**
+### 1. Install [Jellyfin-JavaScript-Injector](https://github.com/n00bcodr/Jellyfin-JavaScript-Injector) Plugin.
+You only need to complete this step once.
 
-```css
-@import url("https://cdn.jsdelivr.net/gh/YOUR_USER/jellyfin-lcars@main/theme.css");
-```
+1. Go to **Dashboard → Plugins**
+3. Select JavaScript Injector**.
+2. Restart Jellyfin.
 
-Optional add-ons after that line:
+### 2. Install the LCARs theme
 
-```css
-@import url("https://cdn.jsdelivr.net/gh/YOUR_USER/jellyfin-lcars@main/options/classic-strong-borders.css");
-@import url("https://cdn.jsdelivr.net/gh/YOUR_USER/jellyfin-lcars@main/options/picard-palette.css");
-```
-
-### 2. Full panels (JavaScript Injector)
-
-1. Install [Jellyfin-JavaScript-Injector](https://github.com/n00bcodr/Jellyfin-JavaScript-Injector).
-2. **Dashboard → Plugins → JavaScript Injector → Add Script**.
-3. Name it e.g. `LCARS Panels`.
-4. Paste the **entire** contents of `jellyfin-lcars-injector.js`.
-5. Enable → Save → hard-refresh the browser.
+1. Go to **Dashboard → JS Injector**.
+2. On the JavaScript Injector Plugin settings page, click  **Add Script**.
+3. In the *Script Name* field use **jellyfin-lcars-injector.js**. 
+4. Copy the [script contents](https://raw.githubusercontent.com/JHuckins/jellyfin-lcars/refs/heads/main/jellyfin-lcars-injector.js) into the text area below the *Script Name* field.
+5. Click/Tap **Save**.
 
 That single script:
-
 - Injects panel/frame CSS (`<style>`)
 - Builds header rail, drawer rail, section frames, detail bars
+- Styles buttons
 - Auto-inits and re-runs on SPA navigation
 
 You do **not** need a separate `panels.css` import when using this script.
-
----
-
-## Script API (optional)
-
-After load:
-
-```js
-JellyfinLCARS.refresh();
-JellyfinLCARS.setAlert('red');   // or 'blue' / 'none'
-JellyfinLCARS.destroy();
-```
-
----
-
-## Optional CSS add-ons
-
-| File | Effect |
-|------|--------|
-| `options/classic-strong-borders.css` | Thicker H/V bars |
-| `options/next-gen-palette.css` | Warmer TNG oranges |
-| `options/picard-palette.css` | Picard blue + coral |
-| `options/lower-decks-palette.css` | Lower Decks golds |
-| `options/hide-jellyfin-logo.css` | Hide default logo |
-| `options/section-frames.css` | CSS-only section bars (not needed with injector) |
 
 ---
 
@@ -73,12 +44,7 @@ JellyfinLCARS.destroy();
 
 ```
 jellyfin-lcars/
-├── theme.css                      # Base theme → Custom CSS
-├── jellyfin-lcars-injector.js     # ONE script → JS Injector plugin
-├── lcars-inject.js                # Modular source (same logic, no embedded CSS)
-├── options/
-│   ├── panels.css                 # Source styles embedded in injector
-│   └── …
+├── jellyfin-lcars-injector.js     # Single script containing the theme
 ├── LICENSE
 └── README.md
 ```
@@ -87,9 +53,9 @@ jellyfin-lcars/
 
 ## Compatibility
 
-- Jellyfin Web + JavaScript Injector plugin
-- CSS-only mode still works without the script
-- Native TV apps: limited / no JS
+- Web: Supported
+- Mobile App: Coming soon
+- Native TV apps: not supported / no JS
 
 ## License
 
