@@ -1,6 +1,5 @@
 /**
- * Jellyfin LCARS — Picard v2.5.1
- * Concave elbow aligned with bars; tabs on same row as header icons
+ * Jellyfin LCARS
  * License: MIT
  */
 (function () {
@@ -11,6 +10,9 @@
   var RUNNER_ID = "jf-lcars-top-runner";
   var ELBOW_ID = "jf-lcars-elbow";
   var CUT_ID = "jf-lcars-elbow-cut";
+  var DASH_ELBOW_ID = "jf-lcars-dash-elbow";
+  var DASH_CUT_ID = "jf-lcars-dash-elbow-cut";
+  var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var THEME_CSS = `/*
  * Jellyfin LCARS — Picard theme v2.3.0
  * Full styles restored + frame matching thelcars.com/themes/picard.html
@@ -38,7 +40,7 @@
   --primary-gray: #6d748c;
   --starlight: #f3f4f7;
   --lcars-sidebar: 56px;
-  --lcars-bar-h: 16px;
+  --lcars-bar-h: 25px;
   --lcars-bar-gap: 8px;
   --lcars-elbow-size: 40px;
   --lcars-header-height: 48px;
@@ -58,6 +60,15 @@
   --drawer-background-color: var(--primary-gray);
   --primary-color: var(--orange-red);
   --accent: var(--orange-red);
+  /* Semantic status — Picard palette only (no non-Picard greens/purples) */
+  --lcars-alert: var(--orange-red);
+  --lcars-alert-soft: var(--light-orange-red);
+  --lcars-info: var(--blue);
+  --lcars-info-bright: var(--bright-blue);
+  --lcars-confirm: var(--medium-dark-blue);
+  --lcars-system: var(--primary-gray);
+  --lcars-hover-brighten: 1.12;
+  --lcars-admin-drawer: 240px;
 }
 html, body {
   background: #000 !important;
@@ -88,7 +99,7 @@ html, body {
   position: fixed !important;
   display: block !important;
   left: 0 !important;
-  top: 55px !important;
+  top: 73px !important;
   width: calc(var(--lcars-sidebar) + var(--lcars-elbow-size)) !important;
   height: var(--lcars-elbow-size) !important;
   background: var(--primary-gray) !important;
@@ -104,7 +115,7 @@ html, body {
   position: fixed !important;
   display: block !important;
   left: var(--lcars-sidebar) !important;
-  top: 64px !important;
+  top: 73px !important;
   width: var(--lcars-elbow-size) !important;
   height: var(--lcars-elbow-size) !important;
   background: #101014 !important;
@@ -289,6 +300,42 @@ body.jf-lcars-active::after {
 .dashboardDocument .content-primary {
     padding-top: 5rem;
 }
+
+/* ========== Content well border (thelcars top-display-right style) ========== */
+/*
+ * Thin dark-gray frame around primary content, large top-left radius
+ * matching the Picard demo page content well.
+ */
+
+.jf-lcars-active.dashboardDocument .content-primary {
+    border-radius: 1.75rem !important;
+    border: 2px solid var(--light-gray) !important;
+    margin-right: 10%;
+    margin-top: 8rem !important;
+    padding: 40px;
+}
+
+.content-primary,
+.content-primary.MuiBox-root,
+.dashboardDocument .content-primary,
+.dashboardDocument .content-primary.MuiBox-root {
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+
+/* Optional top edge line under the runner (thelcars well outline) */
+.dashboardDocument .content-primary::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  background: var(--dark-gray) !important;
+  pointer-events: none !important;
+}
+
+
 .libraryPage,
 .homePage,
 .itemDetailPage,
@@ -332,8 +379,8 @@ a.MuiButtonBase-root.MuiCardActionArea-root {
 }
 .MuiCard-root:hover,
 .MuiPaper-root.MuiCard-root:hover {
-  border-color: var(--light-orange-red) !important;
-  filter: brightness(1.05);
+  border-color: var(--lcars-alert-soft) !important;
+  filter: brightness(var(--lcars-hover-brighten));
   box-shadow: none !important;
 }
 .MuiCardActionArea-root {
@@ -404,19 +451,25 @@ a.MuiButtonBase-root.MuiCardActionArea-root {
 button.raised {
   background: var(--primary-gray) !important;
   color: #000 !important;
-  border-radius: 4px !important;
+  border-radius: 0px !important;
   font-family: var(--lcars-font) !important;
   text-transform: uppercase !important;
   font-weight: 700 !important;
 }
 .raised:hover,
 .emby-button.raised:hover {
-  filter: brightness(1.15);
+  filter: brightness(var(--lcars-hover-brighten));
 }
 button.button-submit,
 .button-submit {
   background: var(--orange-red) !important;
   color: #000 !important;
+}
+button.button-submit:hover,
+.button-submit:hover {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+  filter: brightness(var(--lcars-hover-brighten));
 }
 /* Drawer — black field; items are outlined keypad-style buttons */
 .mainDrawer {
@@ -453,9 +506,9 @@ button.button-submit,
 }
 .navMenuOption:hover {
   background: #000 !important;
-  border-color: var(--blue) !important;
+  border-color: var(--lcars-info) !important;
   color: var(--starlight) !important;
-  filter: brightness(1.1);
+  filter: brightness(var(--lcars-hover-brighten));
 }
 .navMenuOption-selected {
   background: #000 !important;
@@ -498,8 +551,9 @@ button.button-submit,
 }
 .emby-tab-button:hover,
 .headerTabs .emby-button:hover {
-  border-color: var(--blue) !important;
+  border-color: var(--lcars-info) !important;
   color: var(--starlight) !important;
+  filter: brightness(var(--lcars-hover-brighten));
 }
 .emby-tab-button-active,
 .headerTabs .emby-tab-button-active {
@@ -513,6 +567,12 @@ button.button-submit,
   min-height: 44px !important;
 }
 /* Detail / forms */
+@media (min-width: 50em) {
+    .readOnlyContent, form {
+        max-width: unset;
+    }
+}
+
 .detailSectionHeader,
 .itemName,
 .itemFocusable {
@@ -545,11 +605,624 @@ textarea,
 }
 .toast {
   background: var(--dark-gray) !important;
-  border-left: 4px solid var(--orange-red) !important;
+  border-left: 4px solid var(--lcars-alert) !important;
   color: var(--starlight) !important;
   font-family: var(--lcars-font) !important;
 }
+.toast-info,
+.toast.info {
+  border-left-color: var(--lcars-info) !important;
+}
+.toast-success,
+.toast.success,
+.toast-confirm {
+  border-left-color: var(--lcars-info-bright) !important;
+}
+.toast-error,
+.toast.error,
+.toast-alert {
+  border-left-color: var(--lcars-alert) !important;
+}
+/* Played / favorite / progress indicators */
+.playedIndicator,
+.indicator.playedIndicator,
+.countIndicator,
+.syncIndicator {
+  background: var(--lcars-confirm) !important;
+  color: var(--starlight) !important;
+  border-radius: 0 !important;
+}
+.favoriteIcon,
+.ratingbutton-icon-withrating,
+.cardOverlayButtonIcon.favorite {
+  color: var(--lcars-alert-soft) !important;
+}
+.playstatebutton-icon-played,
+.cardOverlayButtonIcon.check.playstatebutton-icon-played {
+  color: var(--lcars-info-bright) !important;
+}
 
+/* ========== Detail / content left accents (lcars-css pattern, Picard colors) ========== */
+.detailSection,
+.detailPageContentContainer .detailSection,
+.itemDetailsGroup,
+.overview-text,
+.detailSectionContent p,
+.detailRibbon + .detailSection,
+.padded-left.padded-right.padded-bottom p,
+.listItemBody,
+.secondaryText {
+  border-left: 2px solid var(--primary-gray) !important;
+  padding-left: 10px !important;
+  box-sizing: border-box !important;
+}
+.detailSectionHeader,
+.sectionTitleTextButton + .sectionTitleContainer {
+  border-left: 3px solid var(--orange-red) !important;
+  padding-left: 10px !important;
+}
+.detailSection .detailSectionHeader {
+  border-left-color: var(--lcars-info) !important;
+}
+/* Genres / tags / metadata chips stay clean */
+.itemMiscInfo,
+.mediaInfoTags {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+/* ========== DASHBOARD — ion-inspired multi-bar panels (Picard colors) ========== */
+/*
+ * Scoped carefully so the admin left nav (permanent drawer) is not broken.
+ * Content panels only: Server / Activity / Paths / Devices cards.
+ */
+.dashboardDocument,
+.dashboardDocument .content-primary {
+  color: var(--light-gray) !important;
+}
+
+
+/* ========== DASHBOARD ELBOW (injected element, thelcars 80px) ========== */
+/*
+ * Border L-curve. Overlaps drawer edge so gray is continuous (no black gap).
+ * Arm thickness 20px; radius 80px.
+ */
+#jf-lcars-dash-elbow,
+#jf-lcars-dash-elbow-cut,
+#jf-lcars-dash-bridge {
+  display: none !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+}
+
+.dashboardDocument #jf-lcars-dash-elbow {
+  display: block !important;
+  position: fixed !important;
+  /* overlap drawer by arm thickness so column gray merges into the curve */
+  left: calc(var(--lcars-admin-drawer) - 20px) !important;
+  top: 53px !important;
+  width: 100px !important;  /* 20px overlap + 80px curve */
+  height: 100px !important;
+  background: transparent !important;
+  border-style: solid !important;
+  border-color: var(--primary-gray) !important;
+  border-width: 20px 0 0 20px !important;
+  border-top-left-radius: 80px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  z-index: 1094 !important;
+}
+
+/* Top arm continues into runner — no gap */
+.dashboardDocument #jf-lcars-dash-bridge {
+    display: block !important;
+    position: fixed !important;
+    left: calc(var(--lcars-admin-drawer) - 20px) !important;
+    top: 60px !important;
+    width: 40px !important;
+    height: 20px !important;
+    background: var(--primary-gray) !important;
+    border-radius: 0 !important;
+    z-index: 1095 !important;
+}
+
+/* Hide the elbow if the dashboard is at a mobile device width */
+
+@media screen and (width <= 900px) {
+  .dashboardDocument #jf-lcars-dash-elbow, .dashboardDocument #jf-lcars-dash-bridge {
+    display: none !important;
+  }
+}
+
+.dashboardDocument #jf-lcars-dash-elbow-cut {
+  display: none !important;
+}
+
+/* Runner starts where bridge ends */
+.dashboardDocument .jf-lcars-top-runner {
+  left: calc(var(--lcars-admin-drawer) - 20px + 100px - 20px + 40px) !important;
+  top: 48px !important;
+  height: 20px !important;
+}
+
+.dashboardDocument .jf-lcars-top-runner .jf-lcars-seg {
+  /* keep bar height in sync with arm */
+}
+
+/* ----- Admin left nav — clean continuous column + flush runner ----- */
+/*
+ * Previous floating elbow/cut pseudo-elements broke the layout.
+ * Approach: drawer is the gray column; top-runner abuts it flush;
+ * first runner segment is primary-gray so column → bars read continuous.
+ * Optional large curve deferred until junction is stable.
+ */
+html.dashboardDocument,
+body.dashboardDocument,
+.dashboardDocument {
+  --lcars-admin-drawer: 240px;
+}
+
+/* Hide library-mode frame chrome on dashboard */
+.dashboardDocument .jf-lcars-frame,
+.dashboardDocument .jf-lcars-elbow,
+.dashboardDocument .jf-lcars-elbow-cut {
+  display: none !important;
+}
+
+/* Header + runner flush to drawer right edge */
+.dashboardDocument .skinHeader,
+.dashboardDocument .skinHeader-withBackground,
+.dashboardDocument .skinHeader.focuscontainer-x {
+  left: var(--lcars-admin-drawer) !important;
+  background: #000 !important;
+}
+
+.dashboardDocument .jf-lcars-top-runner {
+  left: var(--lcars-admin-drawer) !important;
+  top: 48px !important;
+  right: 0 !important;
+  height: var(--lcars-bar-h) !important;
+  z-index: 1093 !important;
+}
+
+/* First segment matches column gray → continuous color into the bars */
+.dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
+  flex: 0 0 clamp(64px, 10vw, 120px) !important;
+  background: var(--primary-gray) !important;
+  border-radius: 0 !important;
+}
+
+.dashboardDocument .backgroundContainer,
+.dashboardDocument .mainAnimatedPages {
+  margin-left: 0 !important;
+}
+
+/* ========== Drawer = solid Picard gray column ========== */
+.dashboardDocument .MuiDrawer-root.MuiDrawer-docked,
+.dashboardDocument .MuiDrawer-docked {
+  width: var(--lcars-admin-drawer) !important;
+  background: transparent !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+.dashboardDocument .MuiDrawer-paper,
+.dashboardDocument .MuiDrawer-paperAnchorLeft,
+.dashboardDocument .MuiDrawer-paperAnchorDockedLeft {
+  background: var(--primary-gray) !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: #000 !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100% !important;
+  width: var(--lcars-admin-drawer) !important;
+  max-width: var(--lcars-admin-drawer) !important;
+  padding: 0 0 40px 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  z-index: 1100 !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  clip-path: none !important;
+  transform: none !important;
+  /* no black gutter — elbow overlaps for continuous gray */
+  border-right: none !important;
+}
+
+.dashboardDocument .MuiDrawer-paper::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+/* NO ::after elbow plate — that caused the floating gray blob */
+.dashboardDocument .MuiDrawer-paper::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Thin light rail on far left only */
+.dashboardDocument .MuiDrawer-paper::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 6px !important;
+  background: var(--ghost-gray) !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+/* NO black cut pseudo on runner */
+.dashboardDocument .jf-lcars-top-runner::before,
+.dashboardDocument .jf-lcars-top-runner::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Server identity */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+  background: transparent !important;
+  margin: 10px 10px 8px 14px !important;
+  padding: 0 !important;
+  border: none !important;
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItem-root {
+  background: #000 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  min-height: 52px !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiTypography-h6,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemText-primary {
+  color: var(--starlight) !important;
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+}
+
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemText-secondary {
+  color: var(--light-gray) !important;
+  font-size: 0.75rem !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiList-root {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 10px 0 14px !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 3 !important;
+  overflow: visible !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiList-root::before,
+.dashboardDocument .MuiDrawer-paper .MuiList-root::after {
+  content: none !important;
+  display: none !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root {
+  padding: 0 !important;
+  margin: 0 0 5px 0 !important;
+  background: transparent !important;
+  border: none !important;
+  display: block !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root {
+  background: #000 !important;
+  color: var(--ghost-gray) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 9px 12px !important;
+  min-height: 40px !important;
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 0 0 2px var(--medium-dark-gray) !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover {
+  color: var(--starlight) !important;
+  box-shadow: inset 0 0 0 2px var(--blue) !important;
+  background: #000 !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected {
+  color: var(--light-orange-red) !important;
+  box-shadow: inset 0 0 0 2px var(--orange-red) !important;
+  background: #000 !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemIcon-root {
+  color: inherit !important;
+  min-width: 34px !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiSvgIcon-root {
+  color: inherit !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemText-primary,
+.dashboardDocument .MuiDrawer-paper .MuiListItemText-root .MuiTypography-body1 {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 700 !important;
+  color: inherit !important;
+  font-size: 0.8rem !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiDivider-root {
+  display: none !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListSubheader-root,
+.dashboardDocument .MuiDrawer-paper .MuiListSubheader-sticky {
+  background: transparent !important;
+  color: #000 !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.12em !important;
+  margin: 14px 0 6px 0 !important;
+  padding: 2px 4px !important;
+  font-size: 0.7rem !important;
+  position: static !important;
+}
+
+/* Content well — no pseudo curves */
+.dashboardDocument main,
+.dashboardDocument .content-primary {
+  position: relative !important;
+  background: #000 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
+.dashboardDocument main::before,
+.dashboardDocument main::after {
+  content: none !important;
+  display: none !important;
+}
+
+.dashboardDocument main > .MuiBox-root {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.dashboardDocument .MuiAppBar-root {
+  background: #000 !important;
+  box-shadow: none !important;
+}
+
+.dashboardDocument .MuiToolbar-root {
+  min-height: 48px !important;
+  background: #000 !important;
+}
+
+.dashboardDocument .MuiToolbar-root .MuiIconButton-root {
+  color: var(--starlight) !important;
+}
+
+.dashboardDocument .MuiToolbar-root .MuiTypography-root {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  color: var(--pale-orange-red) !important;
+  font-weight: 700 !important;
+}
+
+/* ----- Content panels only (main column, not drawer) ----- */
+.dashboardDocument main .MuiPaper-root:not(.MuiCard-root),
+.dashboardDocument .content-primary .MuiPaper-root:not(.MuiCard-root) {
+  background: #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Segmented top bar on content papers / path lists only */
+.dashboardDocument main .MuiPaper-root:not(.MuiCard-root)::before,
+.dashboardDocument main .MuiList-root::before,
+.dashboardDocument .content-primary .MuiPaper-root:not(.MuiCard-root)::before {
+  content: "" !important;
+  display: block !important;
+  height: 12px !important;
+  margin: 0 0 10px 0 !important;
+  background: linear-gradient(
+    90deg,
+    var(--primary-gray) 0 12%,
+    #000 12% 13.5%,
+    var(--orange-red) 13.5% 28%,
+    #000 28% 29.5%,
+    var(--light-gray) 29.5% 48%,
+    #000 48% 49.5%,
+    var(--medium-dark-gray) 49.5% 62%,
+    #000 62% 63.5%,
+    var(--ghost-gray) 63.5% 82%,
+    #000 82% 83.5%,
+    var(--orange-red) 83.5% 92%,
+    #000 92% 93.5%,
+    var(--primary-gray) 93.5% 100%
+  ) !important;
+}
+
+/* Content lists (Activity, Paths) — left rail + bottom curve, NOT drawer lists */
+.dashboardDocument main .MuiList-root,
+.dashboardDocument .content-primary .MuiList-root {
+  position: relative !important;
+  margin: 0 0 1rem 0 !important;
+  padding: 10px 10px 10px 18px !important;
+  background: #000 !important;
+  border-left: 12px solid var(--primary-gray) !important;
+  border-bottom: 8px solid var(--primary-gray) !important;
+  border-bottom-left-radius: 24px !important;
+  box-sizing: border-box !important;
+}
+
+.dashboardDocument main .MuiList-root::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 12px !important;
+  bottom: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  background: #000 !important;
+  border-radius: 0 0 0 24px !important;
+  pointer-events: none !important;
+}
+
+.dashboardDocument main .MuiListItem-root {
+  background: transparent !important;
+  border-radius: 0 !important;
+  margin: 4px 0 !important;
+  padding: 8px 10px !important;
+  border-left: 3px solid var(--medium-dark-gray) !important;
+}
+
+.dashboardDocument main .MuiListItem-root:hover {
+  border-left-color: var(--orange-red) !important;
+}
+
+.dashboardDocument main .MuiListItemIcon-root .MuiSvgIcon-root {
+  color: var(--ghost-gray) !important;
+}
+
+.dashboardDocument main .MuiListItemText-primary,
+.dashboardDocument main .MuiListItemText-root .MuiTypography-root {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 700 !important;
+  color: var(--starlight) !important;
+}
+
+.dashboardDocument main .MuiListItemText-secondary,
+.dashboardDocument main .MuiListItemText-secondary .MuiTypography-root {
+  font-family: var(--lcars-font) !important;
+  color: var(--light-gray) !important;
+  text-transform: none !important;
+  font-weight: 400 !important;
+}
+
+/* Paths progress */
+.dashboardDocument main .MuiLinearProgress-root {
+  height: 8px !important;
+  border-radius: 0 !important;
+  background-color: var(--medium-dark-gray) !important;
+  margin: 6px 0 !important;
+}
+
+.dashboardDocument main .MuiLinearProgress-bar,
+.dashboardDocument main .MuiLinearProgress-barColorSuccess,
+.dashboardDocument main .MuiLinearProgress-barColorPrimary {
+  background-color: var(--orange-red) !important;
+  border-radius: 0 !important;
+}
+
+/* Server info table / dl rows */
+.dashboardDocument main .MuiTable-root,
+.dashboardDocument main .MuiTableCell-root {
+  border-color: var(--medium-dark-gray) !important;
+  font-family: var(--lcars-font) !important;
+  color: var(--light-gray) !important;
+}
+
+.dashboardDocument main .MuiTableCell-head {
+  color: var(--pale-orange-red) !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+}
+
+/* Action buttons */
+.dashboardDocument main .MuiButton-root {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 700 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.dashboardDocument main .MuiButton-contained,
+.dashboardDocument main .MuiButton-containedPrimary {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+}
+
+.dashboardDocument main .MuiButton-contained:hover {
+  background: var(--orange-red) !important;
+  filter: brightness(var(--lcars-hover-brighten));
+}
+
+.dashboardDocument main .MuiButton-outlined {
+  border: 2px solid var(--light-gray) !important;
+  color: var(--starlight) !important;
+  background: #000 !important;
+}
+
+/* Stat tiles (Movies 308, Series, etc.) */
+.dashboardDocument main .MuiCard-root,
+.dashboardDocument main [class*="stat"] {
+  background: #000 !important;
+  border: 2px solid var(--medium-dark-gray) !important;
+  border-radius: 0 !important;
+}
+
+.dashboardDocument main .MuiTypography-h4,
+.dashboardDocument main .MuiTypography-h5 {
+  font-family: var(--lcars-font) !important;
+  color: var(--orange-red) !important;
+  font-weight: 700 !important;
+}
+
+/* Section labels SERVER > ACTIVITY > */
+.dashboardDocument main .MuiTypography-overline,
+.dashboardDocument main a[class*="section"] {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--pale-orange-red) !important;
+  font-weight: 700 !important;
+}
+
+/* Device cards */
+.dashboardDocument main .MuiCardContent-root {
+  border-color: var(--medium-dark-gray) !important;
+}
+
+/* Activity icons — map MUI success blue to Picard info blue */
+.dashboardDocument main .MuiAvatar-root,
+.dashboardDocument main [class*="Avatar"] {
+  background: var(--blue) !important;
+  color: #000 !important;
+}
 
 /* ========== VIDEO PLAYBACK — full-bleed, hide LCARS chrome ========== */
 /*
@@ -571,7 +1244,6 @@ html.jf-lcars-video .jf-lcars-top-runner {
   display: none !important;
   visibility: hidden !important;
 }
-
 body:has(#videoOsdPage:not(.hide)) .skinHeader,
 body:has([data-type="video-osd"]:not(.hide)) .skinHeader,
 html.jf-lcars-video .skinHeader {
@@ -579,7 +1251,6 @@ html.jf-lcars-video .skinHeader {
   margin-left: 0 !important;
   display: none !important; /* OSD has its own controls */
 }
-
 /* Restore drawer left in video mode (override theme left: -265px) */
 body:has(#videoOsdPage:not(.hide)) .mainDrawer,
 body:has([data-type="video-osd"]:not(.hide)) .mainDrawer,
@@ -588,7 +1259,6 @@ body.jf-lcars-video .mainDrawer {
   left: unset !important;
   top: unset !important;
 }
-
 body:has(#videoOsdPage:not(.hide)) .backgroundContainer,
 body:has(#videoOsdPage:not(.hide)) .mainAnimatedPages,
 body:has([data-type="video-osd"]:not(.hide)) .backgroundContainer,
@@ -599,7 +1269,6 @@ html.jf-lcars-video .mainAnimatedPages {
   padding-top: 0 !important;
   padding-left: 0 !important;
 }
-
 #videoOsdPage,
 [data-type="video-osd"] {
   margin-left: 0 !important;
@@ -608,13 +1277,11 @@ html.jf-lcars-video .mainAnimatedPages {
   width: 100% !important;
   max-width: 100% !important;
 }
-
 /* ========== OSD CONTROLS — LCARS bar aesthetic ========== */
 .videoOsdBottom {
   background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 70%, transparent 100%) !important;
   font-family: var(--lcars-font) !important;
 }
-
 .osdTitle,
 .osdMainTextContainer h3 {
   font-family: var(--lcars-font) !important;
@@ -623,7 +1290,6 @@ html.jf-lcars-video .mainAnimatedPages {
   color: var(--pale-orange-red) !important;
   font-weight: 700 !important;
 }
-
 .osdPositionText,
 .osdDurationText,
 .osdTimeText,
@@ -634,7 +1300,6 @@ html.jf-lcars-video .mainAnimatedPages {
   letter-spacing: 0.04em !important;
   font-size: 0.85rem !important;
 }
-
 /*
  * Progress bar ≈ LCARS horizontal bar (rounded capsule, warm orange)
  * Reference: thelcars.com solid bar with rounded ends
@@ -643,24 +1308,20 @@ html.jf-lcars-video .mainAnimatedPages {
 .videoOsdBottom .mdl-slider {
   height: 14px !important;
 }
-
 .videoOsdBottom .mdl-slider-background-flex,
 .videoOsdBottom .mdl-slider-background-flex-inner {
   height: 10px !important;
   border-radius: 999px !important;
   overflow: hidden !important;
 }
-
 .videoOsdBottom .mdl-slider-background-upper {
   background: var(--medium-dark-gray) !important;
   border-radius: 999px !important;
 }
-
 .videoOsdBottom .mdl-slider-background-lower {
   background: var(--pale-orange-red) !important;
   border-radius: 999px !important;
 }
-
 /* Thumb */
 .videoOsdBottom .mdl-slider::-webkit-slider-thumb {
   width: 18px !important;
@@ -677,7 +1338,6 @@ html.jf-lcars-video .mainAnimatedPages {
   border: 2px solid var(--starlight) !important;
   border-radius: 50% !important;
 }
-
 /* Chapter markers on the bar */
 .videoOsdBottom .sliderMarker {
   background: var(--ghost-gray) !important;
@@ -686,7 +1346,6 @@ html.jf-lcars-video .mainAnimatedPages {
 .videoOsdBottom .sliderMarker.watched {
   background: var(--orange-red) !important;
 }
-
 /* Volume slider — thinner LCARS rail */
 .osdVolumeSliderContainer .mdl-slider-background-lower {
   background: var(--blue) !important;
@@ -696,7 +1355,6 @@ html.jf-lcars-video .mainAnimatedPages {
   background: var(--medium-dark-gray) !important;
   border-radius: 999px !important;
 }
-
 /* OSD icon buttons */
 .videoOsdBottom .paper-icon-button-light,
 .videoOsdBottom .emby-button {
@@ -713,7 +1371,6 @@ html.jf-lcars-video .mainAnimatedPages {
 .videoOsdBottom .xlargePaperIconButton {
   color: inherit !important;
 }
-
 /* Chapter thumb bubble */
 .chapterThumbContainer {
   border: 2px solid var(--orange-red) !important;
@@ -725,8 +1382,6 @@ html.jf-lcars-video .mainAnimatedPages {
   text-transform: uppercase !important;
   color: var(--light-orange-red) !important;
 }
-
-
 /* ========== LIBRARY / HOME CARDS — LCARS panel tiles ========== */
 /*
  * [14px bar][5px gap][ image column ]
@@ -746,13 +1401,11 @@ html.jf-lcars-video .mainAnimatedPages {
   overflow: visible !important;
   padding-bottom: 0 !important;
 }
-
 .card.overflowBackdropCard .cardBox-bottompadded,
 .card[data-type="CollectionFolder"] .cardBox-bottompadded,
 .card[data-type="UserView"] .cardBox-bottompadded {
   padding-bottom: 0 !important;
 }
-
 /* Left vertical bar — full height of card content */
 .card.overflowBackdropCard .cardBox::before,
 .card[data-type="CollectionFolder"] .cardBox::before,
@@ -770,7 +1423,6 @@ html.jf-lcars-video .mainAnimatedPages {
   z-index: 5 !important;
   pointer-events: none !important;
 }
-
 /* Image column: 14px bar + 5px gap */
 .card.overflowBackdropCard .cardScalable,
 .card[data-type="CollectionFolder"] .cardScalable,
@@ -779,12 +1431,11 @@ html.jf-lcars-video .mainAnimatedPages {
 .card[data-collectiontype] .cardScalable {
   position: relative !important;
   border-radius: 0 !important;
-  margin-left: 22px !important;
-  width: calc(100% - 19px) !important;
+  margin-left: 19px !important;
+  width: calc(100% - 22px) !important;
   overflow: hidden !important;
   background: var(--dark-gray) !important;
 }
-
 /* No bar on scalable (cardBox owns it) */
 .card.overflowBackdropCard .cardScalable::before,
 .card[data-type="CollectionFolder"] .cardScalable::before,
@@ -794,7 +1445,6 @@ html.jf-lcars-video .mainAnimatedPages {
   content: none !important;
   display: none !important;
 }
-
 .card.overflowBackdropCard .cardImageContainer,
 .card[data-type="CollectionFolder"] .cardImageContainer,
 .card[data-type="UserView"] .cardImageContainer,
@@ -802,12 +1452,10 @@ html.jf-lcars-video .mainAnimatedPages {
   border-radius: 0 !important;
   filter: none !important;
 }
-
 .card.overflowBackdropCard .cardPadder,
 .card[data-type="CollectionFolder"] .cardPadder {
   border-radius: 0 !important;
 }
-
 /* Hide title under tiles */
 .card.overflowBackdropCard .cardText-first,
 .card[data-type="CollectionFolder"] .cardText-first,
@@ -817,7 +1465,6 @@ html.jf-lcars-video .mainAnimatedPages {
 .card .cardText-first .textActionButton {
   display: none !important;
 }
-
 /* Year — under image column only */
 .card.overflowBackdropCard .cardText-secondary,
 .card[data-type="CollectionFolder"] .cardText-secondary,
@@ -826,10 +1473,10 @@ html.jf-lcars-video .mainAnimatedPages {
 .card .cardText-secondary {
   display: block !important;
   box-sizing: border-box !important;
-  margin: 0 0 0 19px !important;
+  margin: 0 0 0 22px !important;
   padding: 4px 8px !important;
-  width: calc(100% - 19px) !important;
-  max-width: calc(100% - 19px) !important;
+  width: calc(100% - 22px) !important;
+  max-width: calc(100% - 22px) !important;
   background: var(--dark-gray) !important;
   color: var(--light-gray) !important;
   font-family: var(--lcars-font) !important;
@@ -839,7 +1486,6 @@ html.jf-lcars-video .mainAnimatedPages {
   font-size: 0.8rem !important;
   text-align: left !important;
 }
-
 /*
  * Progress bar — simple track under/on the poster.
  * Prefer overlay-at-bottom-of-image (inside cardScalable) full width of image.
@@ -858,21 +1504,19 @@ html.jf-lcars-video .mainAnimatedPages {
   background: transparent !important;
   z-index: 2 !important;
 }
-
 /* Sibling footers under the image column */
 .cardBox > .innerCardFooter,
 .cardBox > .cardFooter,
 .card .cardProgressBarContainer:not(.cardScalable *) {
   box-sizing: border-box !important;
-  margin: 0 0 0 19px !important;
+  margin: 0 0 0 22px !important;
   padding: 0 !important;
-  width: calc(100% - 19px) !important;
-  max-width: calc(100% - 19px) !important;
+  width: calc(100% - 22px) !important;
+  max-width: calc(100% - 22px) !important;
   left: auto !important;
   right: auto !important;
   background: var(--dark-gray) !important;
 }
-
 .card .itemProgressBar,
 .cardProgressBar,
 .card .primaryProgress,
@@ -893,7 +1537,6 @@ html.jf-lcars-video .mainAnimatedPages {
   left: 0 !important;
   position: relative !important;
 }
-
 .card .itemProgressBarForeground,
 .card .primaryProgress > div,
 .cardProgressBarForeground,
@@ -907,7 +1550,6 @@ html.jf-lcars-video .mainAnimatedPages {
   margin: 0 !important;
   padding: 0 !important;
 }
-
 /* Year inside a footer row */
 .card .innerCardFooter,
 .card .cardFooter {
@@ -915,7 +1557,6 @@ html.jf-lcars-video .mainAnimatedPages {
   align-items: center !important;
   gap: 8px !important;
 }
-
 .card .innerCardFooter .cardText,
 .card .cardFooter .cardText,
 .card .innerCardFooter .cardText-secondary {
@@ -925,26 +1566,168 @@ html.jf-lcars-video .mainAnimatedPages {
   padding: 2px 6px !important;
   background: transparent !important;
 }
-
+/* ========== PORTRAIT / MOVIE CARDS — same layout, orange-red bar ========== */
+.card.overflowPortraitCard .cardBox,
+.card[data-type="Movie"] .cardBox,
+.card[data-type="Episode"] .cardBox,
+.card[data-type="Series"] .cardBox,
+.card[data-type="Video"] .cardBox {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  position: relative !important;
+  overflow: visible !important;
+  padding-bottom: 0 !important;
+}
+.card.overflowPortraitCard .cardBox-bottompadded,
+.card[data-type="Movie"] .cardBox-bottompadded {
+  padding-bottom: 0 !important;
+}
+.card.overflowPortraitCard .cardScalable,
+.card[data-type="Movie"] .cardScalable,
+.card[data-type="Episode"] .cardScalable,
+.card[data-type="Series"] .cardScalable,
+.card[data-type="Video"] .cardScalable {
+  position: relative !important;
+  border-radius: 0 !important;
+  margin-left: 22px !important;
+  width: calc(100% - 22px) !important;
+  overflow: hidden !important;
+  background: var(--dark-gray) !important;
+}
+.card.overflowPortraitCard .cardScalable::before,
+.card[data-type="Movie"] .cardScalable::before {
+  content: none !important;
+  display: none !important;
+}
+.card.overflowPortraitCard .cardImageContainer,
+.card[data-type="Movie"] .cardImageContainer {
+  border-radius: 0 !important;
+  filter: none !important;
+}
+.card.overflowPortraitCard .cardPadder,
+.card[data-type="Movie"] .cardPadder {
+  border-radius: 0 !important;
+}
+/* Hide title; keep year */
+.card.overflowPortraitCard .cardText-first,
+.card[data-type="Movie"] .cardText-first,
+.card[data-type="Episode"] .cardText-first,
+.card[data-type="Series"] .cardText-first,
+.card.overflowPortraitCard .cardTextCentered.cardText-first {
+  display: none !important;
+}
+.card.overflowPortraitCard .cardText-secondary,
+.card[data-type="Movie"] .cardText-secondary,
+.card[data-type="Episode"] .cardText-secondary,
+.card[data-type="Series"] .cardText-secondary {
+  display: block !important;
+  box-sizing: border-box !important;
+  margin: 0 0 0 22px !important;
+  padding: 4px 8px !important;
+  width: calc(100% - 22px) !important;
+  max-width: calc(100% - 22px) !important;
+  background: var(--primary-gray) !important;
+  color: var(--lcars-text-secondary) !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.8rem !important;
+  text-align: left !important;
+}
+.card.overflowPortraitCard .cardScalable .innerCardFooter,
+.card[data-type="Movie"] .cardScalable .innerCardFooter,
+.card.overflowPortraitCard .cardScalable .cardFooter {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  background: transparent !important;
+}
+.card.overflowPortraitCard .itemProgressBar,
+.card[data-type="Movie"] .itemProgressBar,
+.card.overflowPortraitCard .cardProgressBar {
+  display: block !important;
+  height: 5px !important;
+  border-radius: 0 !important;
+  background: rgba(82, 89, 110, 0.85) !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+.card.overflowPortraitCard .itemProgressBarForeground,
+.card[data-type="Movie"] .itemProgressBarForeground {
+  background: #e7442a !important;
+  height: 100% !important;
+}
 /* ========== Centered PLAY only ========== */
+/* Portrait FAB play button (cardOverlayFab-primary) */
+.card .cardOverlayFab-primary,
+.card button.cardOverlayFab-primary {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  min-width: 4.5em !important;
+  height: 2.25em !important;
+  width: auto !important;
+  padding: 0 1.1em !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  box-shadow: none !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.card .cardOverlayFab-primary:hover {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+  filter: brightness(var(--lcars-hover-brighten));
+}
+.card .cardOverlayFab-primary .material-icons,
+.card .cardOverlayFab-primary .cardOverlayButtonIcon {
+  font-size: 0 !important;
+  color: #000 !important;
+}
+.card .cardOverlayFab-primary .material-icons::after,
+.card .cardOverlayFab-primary .cardOverlayButtonIcon::after {
+  content: "PLAY" !important;
+  font-size: 0.85rem !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  color: #000 !important;
+  text-transform: uppercase !important;
+}
 .card .cardOverlayContainer {
   background: rgba(0, 0, 0, 0.35) !important;
 }
-
 .card .cardOverlayContainer > .cardOverlayButton,
 .card .cardOverlayContainer > button.cardOverlayButton.itemAction[data-action="link"],
 .card .cardOverlayContainer > button.cardOverlayButton.itemAction[data-action="resume"],
 .card .cardOverlayButton.cardOverlayButton-hover[data-action="link"],
 .card .cardOverlayButton.cardOverlayButton-hover[data-action="resume"] {
-  background: var(--pale-orange-red) !important;
+  background: var(--orange-red) !important;
   color: #000 !important;
   border: none !important;
-  border-radius: 1.25em !important;
+  border-radius: 0 !important;
   min-width: 4.5em !important;
   height: 2.25em !important;
   padding: 0 1.1em !important;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
   box-shadow: none !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -955,13 +1738,13 @@ html.jf-lcars-video .mainAnimatedPages {
   transform: translate(-50%, -50%) !important;
   margin: 0 !important;
 }
-
 .card .cardOverlayContainer > .cardOverlayButton:hover,
 .card .cardOverlayButton.cardOverlayButton-hover[data-action="link"]:hover,
 .card .cardOverlayButton.cardOverlayButton-hover[data-action="resume"]:hover {
   background: var(--orange-red) !important;
+  color: #000 !important;
+  filter: brightness(var(--lcars-hover-brighten));
 }
-
 .card .cardOverlayContainer > .cardOverlayButton .material-icons.play_arrow,
 .card .cardOverlayContainer > .cardOverlayButton .material-icons.play,
 .card .cardOverlayContainer > .cardOverlayButton .material-icons.resume,
@@ -973,7 +1756,6 @@ html.jf-lcars-video .mainAnimatedPages {
   line-height: 1 !important;
   color: #000 !important;
 }
-
 .card .cardOverlayContainer > .cardOverlayButton .material-icons.play_arrow::after,
 .card .cardOverlayContainer > .cardOverlayButton .material-icons.play::after,
 .card .cardOverlayContainer > .cardOverlayButton .material-icons.resume::after,
@@ -989,7 +1771,6 @@ html.jf-lcars-video .mainAnimatedPages {
   color: #000 !important;
   text-transform: uppercase !important;
 }
-
 .card .cardOverlayButton-br {
   position: absolute !important;
   right: 4px !important;
@@ -1001,7 +1782,6 @@ html.jf-lcars-video .mainAnimatedPages {
   display: flex !important;
   gap: 2px !important;
 }
-
 .card .cardOverlayButton-br .cardOverlayButton,
 .card .cardOverlayButton-br .paper-icon-button-light {
   background: transparent !important;
@@ -1015,18 +1795,15 @@ html.jf-lcars-video .mainAnimatedPages {
   transform: none !important;
   color: var(--starlight) !important;
 }
-
 .card .cardOverlayButton-br .material-icons,
 .card .cardOverlayButton-br .cardOverlayButtonIcon {
   font-size: 1.35rem !important;
   color: var(--starlight) !important;
 }
-
 .card .cardOverlayButton-br .material-icons::after,
 .card .cardOverlayButton-br .cardOverlayButtonIcon::after {
   content: none !important;
 }
-
 @media (max-width: 600px) {
   :root {
     --lcars-sidebar: 40px;
@@ -1042,10 +1819,45 @@ html.jf-lcars-video .mainAnimatedPages {
     el.textContent = THEME_CSS;
     (document.head || document.documentElement).appendChild(el);
   }
+  
+  function ensureDashElbow() {
+    var isDash = !!(document.querySelector(".dashboardDocument") ||
+      document.body.classList.contains("dashboardDocument") ||
+      (location.hash && location.hash.indexOf("dashboard") !== -1));
+    function ensure(id, className) {
+      var el = document.getElementById(id);
+      if (!isDash) {
+        if (el) el.remove();
+        return null;
+      }
+      if (!el) {
+        el = document.createElement("div");
+        el.id = id;
+        if (className) el.className = className;
+        el.setAttribute("aria-hidden", "true");
+        document.body.appendChild(el);
+      }
+      return el;
+    }
+    ensure(DASH_ELBOW_ID, "jf-lcars-dash-elbow");
+    ensure(DASH_BRIDGE_ID, "jf-lcars-dash-bridge");
+    ensure(DASH_CUT_ID, "jf-lcars-dash-elbow-cut");
+  }
+
   function measureHeader() {
     document.documentElement.style.setProperty("--lcars-header-height", "48px");
   }
-
+  function measureAdminDrawer() {
+    try {
+      var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper, .dashboardDocument .MuiDrawer-docked .MuiDrawer-paper");
+      if (paper) {
+        var w = Math.round(paper.getBoundingClientRect().width);
+        if (w > 80 && w < 400) {
+          document.documentElement.style.setProperty("--lcars-admin-drawer", w + "px");
+        }
+      }
+    } catch (e) {}
+  }
   function ensureFrame() {
     if (!document.body) return;
     if (!document.getElementById(FRAME_ID)) {
@@ -1103,7 +1915,6 @@ html.jf-lcars-video .mainAnimatedPages {
       if (document.body) document.body.classList.toggle("jf-lcars-video", !!playing);
     } catch (e) {}
   }
-
   function run() {
     try {
       injectCss();
@@ -1111,17 +1922,19 @@ html.jf-lcars-video .mainAnimatedPages {
       if (document.body) document.body.classList.add("jf-lcars-active");
       ensureFrame();
       measureHeader();
+      measureAdminDrawer();
+      ensureDashElbow();
       syncVideoMode();
     } catch (e) {
       console.warn("[JellyfinLCARS]", e);
     }
   }
   window.JellyfinLCARS = {
-    version: "2.8.5-bar-progress-fix",
+    version: "2.10.6-content-border",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
-      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID].forEach(function (id) {
+      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.remove();
       });
@@ -1134,7 +1947,7 @@ html.jf-lcars-video .mainAnimatedPages {
   } else {
     run();
   }
-  window.addEventListener("resize", measureHeader);
+  window.addEventListener("resize", function () { measureHeader(); measureAdminDrawer(); });
   setInterval(syncVideoMode, 500);
   document.addEventListener("viewshow", function () { setTimeout(syncVideoMode, 50); }, true);
   document.addEventListener("video-osd-show", function () { setTimeout(syncVideoMode, 30); }, true);
