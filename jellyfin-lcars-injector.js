@@ -1,5 +1,6 @@
 /**
- * Jellyfin LCARS
+ * Jellyfin LCARS — Picard v2.5.1
+ * Concave elbow aligned with bars; tabs on same row as header icons
  * License: MIT
  */
 (function () {
@@ -473,7 +474,7 @@ button.button-submit:hover,
 }
 /* Drawer — black field; items are outlined keypad-style buttons */
 .mainDrawer {
-  background: #000 !important;
+  background: var(--lcars-page-bg) !important;
   border-right: none !important;
   padding: 12px 10px !important;
   box-shadow: none !important;
@@ -481,7 +482,7 @@ button.button-submit:hover,
   top: 100px !important;
 }
 .mainDrawer.drawer-open {
-  margin-left: 10px;
+  margin-left: 9px;
 }
 .mainDrawer::before,
 .mainDrawer::after {
@@ -733,7 +734,10 @@ textarea,
   .dashboardDocument #jf-lcars-dash-elbow, .dashboardDocument #jf-lcars-dash-bridge {
     display: none !important;
   }
-}
+
+  .dashboardDocument #jf-lcars-top-runner {
+    left: 0px !important;
+  }
 
 .dashboardDocument #jf-lcars-dash-elbow-cut {
   display: none !important;
@@ -1222,6 +1226,7 @@ body.dashboardDocument,
 .dashboardDocument main [class*="Avatar"] {
   background: var(--blue) !important;
   color: #000 !important;
+  margin-right: 20px;
 }
 
 /* ========== VIDEO PLAYBACK — full-bleed, hide LCARS chrome ========== */
@@ -1628,7 +1633,7 @@ html.jf-lcars-video .mainAnimatedPages {
   padding: 4px 8px !important;
   width: calc(100% - 22px) !important;
   max-width: calc(100% - 22px) !important;
-  background: var(--primary-gray) !important;
+  background: var(--dark-gray) !important;
   color: var(--lcars-text-secondary) !important;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
@@ -1782,10 +1787,15 @@ html.jf-lcars-video .mainAnimatedPages {
   display: flex !important;
   gap: 2px !important;
 }
+
+.paper-icon-button-light {
+  border-radius: 0% !important;
+}
+
 .card .cardOverlayButton-br .cardOverlayButton,
 .card .cardOverlayButton-br .paper-icon-button-light {
   background: transparent !important;
-  border-radius: 50% !important;
+  border-radius: 0% !important;
   min-width: 0 !important;
   height: auto !important;
   padding: 6px !important;
@@ -1918,7 +1928,7 @@ html.jf-lcars-video .mainAnimatedPages {
   function run() {
     try {
       injectCss();
-      document.documentElement.classList.add("jf-lcars-active");
+      document.documentElement.classList.add("jf---dark-gralcars-active");
       if (document.body) document.body.classList.add("jf-lcars-active");
       ensureFrame();
       measureHeader();
