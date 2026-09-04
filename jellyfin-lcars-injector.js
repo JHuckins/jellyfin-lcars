@@ -1,6 +1,5 @@
 /**
- * Jellyfin LCARS — Picard v2.5.1
- * Concave elbow aligned with bars; tabs on same row as header icons
+ * Jellyfin LCARS
  * License: MIT
  */
 (function () {
