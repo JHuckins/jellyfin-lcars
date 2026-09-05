@@ -343,7 +343,7 @@ body.jf-lcars-active::after {
     0 0 0 var(--lcars-well-gap) #000,
     0 0 0 calc(var(--lcars-well-gap) + 2px) var(--light-gray) !important;
 
-  margin-top: 6rem !important;
+  margin-top: 8rem !important;
   margin-right: 4% !important;
   margin-left: 0.75rem !important;
   margin-bottom: 2rem !important;
