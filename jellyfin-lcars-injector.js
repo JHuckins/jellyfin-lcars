@@ -301,65 +301,93 @@ body.jf-lcars-active::after {
     padding-top: 5rem;
 }
 
-/* ========== Content well border (thelcars top-display-right style) ========== */
+
+
+
+/* ========== Content well — outer line + 10px gap + LCARS bars ========== */
 /*
- * Thin dark-gray frame around primary content, large top-left radius
- * matching the Picard demo page content well.
+ * Layers (outside → inside):
+ *   1) thin light-gray outline
+ *   2) 10px black gap
+ *   3) LCARS rails (left 36px, right 72px = 2×, top/bottom 12px)
+ *   4) 10px padding to content
  */
-
-.jf-lcars-active.dashboardDocument .content-primary {
-    border-radius: 1.75rem !important;
-    border: 2px solid var(--light-gray) !important;
-    margin-right: 10%;
-    margin-top: 8rem !important;
-    padding: 40px;
-}
-
-.content-primary,
-.content-primary.MuiBox-root,
+.jf-lcars-active.dashboardDocument .content-primary,
 .dashboardDocument .content-primary,
-.dashboardDocument .content-primary.MuiBox-root {
-  box-sizing: border-box !important;
+.dashboardDocument .content-primary.MuiBox-root,
+.content-primary.MuiBox-root {
+  --lcars-well-left: 36px;
+  --lcars-well-right: 72px;
+  --lcars-well-tb: 12px;
+  --lcars-well-gap: 10px;
+  --lcars-well-inset: 10px;
+
   position: relative !important;
+  box-sizing: border-box !important;
+  background: #000 !important;
+
+  /* Inner LCARS rails */
+  border-style: solid !important;
+  border-color: var(--primary-gray) !important;
+  border-left-width: var(--lcars-well-left) !important;
+  border-right-width: var(--lcars-well-right) !important;
+  border-top-width: var(--lcars-well-tb) !important;
+  border-bottom-width: var(--lcars-well-tb) !important;
+  border-radius: 1.5rem !important;
+
+  /* Content inset inside rails */
+  padding: var(--lcars-well-inset) !important;
+
+  /* Outer: 10px gap then 2px light-gray line */
+  box-shadow:
+    0 0 0 var(--lcars-well-gap) #000,
+    0 0 0 calc(var(--lcars-well-gap) + 2px) var(--light-gray) !important;
+
+  margin-top: 6rem !important;
+  margin-right: 4% !important;
+  margin-left: 0.75rem !important;
+  margin-bottom: 2rem !important;
+  overflow: visible !important;
 }
 
-/* Optional top edge line under the runner (thelcars well outline) */
+/* Segmented right rail (behind action buttons) */
 .dashboardDocument .content-primary::before {
   content: "" !important;
-  display: block !important;
   position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  top: 0 !important;
-  background: var(--dark-gray) !important;
+  top: var(--lcars-well-tb) !important;
+  right: calc(-1 * var(--lcars-well-right)) !important;
+  bottom: var(--lcars-well-tb) !important;
+  width: var(--lcars-well-right) !important;
+  box-sizing: border-box !important;
   pointer-events: none !important;
+  z-index: 0 !important;
+  border-radius: 0 0.85rem 0.85rem 0 !important;
+  background: linear-gradient(
+    to bottom,
+    var(--orange-red) 0 10%,
+    var(--primary-gray) 10% 14%,
+    var(--ghost-gray) 14% 22%,
+    var(--primary-gray) 22% 40%,
+    var(--medium-dark-gray) 40% 48%,
+    var(--primary-gray) 48% 72%,
+    var(--light-orange-red) 72% 80%,
+    var(--primary-gray) 80% 100%
+  ) !important;
 }
 
+/* Left rail top orange accent */
+.dashboardDocument .content-primary::after {
+  content: "" !important;
+  position: absolute !important;
+  left: calc(-1 * var(--lcars-well-left)) !important;
+  top: var(--lcars-well-tb) !important;
+  width: var(--lcars-well-left) !important;
+  height: 22% !important;
+  background: var(--orange-red) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
 
-.libraryPage,
-.homePage,
-.itemDetailPage,
-.page {
-  padding-top: 0.25rem !important;
-  margin-left: 30px;
-}
-/* Tighten padded view tops under the chrome */
-.padded-top,
-.libraryPage.padded-top,
-.padded-bottom.padded-top {
-  padding-top: 0.25rem !important;
-}
-.sectionTitle,
-.sectionTitleTextButton,
-h1, h2 {
-  color: var(--pale-orange-red) !important;
-  font-family: var(--lcars-font) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-}
-.sectionTitleContainer {
-  margin-top: 0.75rem !important;
-}
 /* ========== Dashboard plugin cards (MUI) — LCARS primary-nav style ========== */
 /*
  * Reference: thelcars Picard #primary-nav buttons
@@ -473,7 +501,7 @@ button.button-submit:hover,
 }
 /* Drawer — black field; items are outlined keypad-style buttons */
 .mainDrawer {
-  background: var(--lcars-page-bg) !important;
+  background: #000 !important;
   border-right: none !important;
   padding: 12px 10px !important;
   box-shadow: none !important;
@@ -481,7 +509,7 @@ button.button-submit:hover,
   top: 100px !important;
 }
 .mainDrawer.drawer-open {
-  margin-left: 9px;
+  margin-left: 10px;
 }
 .mainDrawer::before,
 .mainDrawer::after {
@@ -737,6 +765,8 @@ textarea,
   .dashboardDocument #jf-lcars-top-runner {
     left: 0px !important;
   }
+
+}
 
 .dashboardDocument #jf-lcars-dash-elbow-cut {
   display: none !important;
@@ -1225,7 +1255,6 @@ body.dashboardDocument,
 .dashboardDocument main [class*="Avatar"] {
   background: var(--blue) !important;
   color: #000 !important;
-  margin-right: 20px;
 }
 
 /* ========== VIDEO PLAYBACK — full-bleed, hide LCARS chrome ========== */
@@ -1632,7 +1661,7 @@ html.jf-lcars-video .mainAnimatedPages {
   padding: 4px 8px !important;
   width: calc(100% - 22px) !important;
   max-width: calc(100% - 22px) !important;
-  background: var(--dark-gray) !important;
+  background: var(--primary-gray) !important;
   color: var(--lcars-text-secondary) !important;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
@@ -1786,15 +1815,10 @@ html.jf-lcars-video .mainAnimatedPages {
   display: flex !important;
   gap: 2px !important;
 }
-
-.paper-icon-button-light {
-  border-radius: 0% !important;
-}
-
 .card .cardOverlayButton-br .cardOverlayButton,
 .card .cardOverlayButton-br .paper-icon-button-light {
   background: transparent !important;
-  border-radius: 0% !important;
+  border-radius: 50% !important;
   min-width: 0 !important;
   height: auto !important;
   padding: 6px !important;
@@ -1813,6 +1837,239 @@ html.jf-lcars-video .mainAnimatedPages {
 .card .cardOverlayButton-br .cardOverlayButtonIcon::after {
   content: none !important;
 }
+
+/* ========== USERS section + local user cards ========== */
+.dashboardDocument .content-primary .verticalSection {
+  margin: 0.5rem 0.25rem 1rem 0.25rem !important;
+}
+.dashboardDocument .content-primary .sectionTitleContainer .sectionTitle,
+.dashboardDocument .content-primary h2.sectionTitle {
+  color: var(--pale-orange-red) !important;
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  font-weight: 700 !important;
+}
+.dashboardDocument .content-primary #btnAddUser.fab,
+.dashboardDocument .content-primary .sectionTitleButton.fab {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  min-width: 2.25rem !important;
+  margin-left: 12px !important;
+}
+.dashboardDocument .content-primary #btnAddUser .material-icons {
+  color: #000 !important;
+}
+.localUsers.itemsContainer {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+  padding: 0.25rem 0.5rem 1rem 0.25rem !important;
+}
+.localUsers .card.squareCard,
+.localUsers .card.squareCard-scalable {
+  width: 10.5em !important;
+  max-width: 10.5em !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.localUsers .cardBox.visualCardBox {
+  background: #000 !important;
+  border: 2px solid var(--medium-dark-gray) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+.localUsers .cardScalable.visualCardBox-cardScalable {
+  background: var(--dark-gray) !important;
+  border-radius: 0 !important;
+}
+.localUsers .cardImage,
+.localUsers .defaultCardBackground,
+.localUsers .defaultCardBackground2 {
+  background: var(--dark-gray) !important;
+  background-color: var(--dark-gray) !important;
+  background-image: none !important;
+  border-radius: 0 !important;
+}
+.localUsers .cardImageIcon.person {
+  color: var(--ghost-gray) !important;
+  font-size: 2.5rem !important;
+}
+.localUsers .cardFooter.visualCardBox-cardFooter {
+  background: #000 !important;
+  border-top: 2px solid var(--primary-gray) !important;
+  padding: 8px 10px 10px 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+.localUsers .cardFooter .cardText {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 700 !important;
+  color: var(--pale-orange-red) !important;
+  font-size: 0.85rem !important;
+  margin: 0 0 2px 0 !important;
+  float: none !important;
+  width: 100% !important;
+}
+.localUsers .cardFooter .cardText-secondary {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  color: var(--light-gray) !important;
+  font-size: 0.65rem !important;
+  margin: 0 !important;
+  float: none !important;
+  width: 100% !important;
+}
+.localUsers .card.jf-lcars-user-selected .cardBox.visualCardBox {
+  border-color: var(--orange-red) !important;
+}
+.localUsers .btnUserMenu,
+.localUsers button.btnUserMenu,
+.localUsers .cardFooter .btnUserMenu {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  float: none !important;
+  opacity: 0 !important;
+}
+.localUsers .cardFooter > div[style*="float"],
+.localUsers .cardFooter > div[style*="text-align"] {
+  display: none !important;
+  float: none !important;
+}
+
+/* ========== Permanent user action rail ========== */
+#jf-lcars-user-rail {
+  display: none;
+  position: fixed;
+  z-index: 12050;
+  box-sizing: border-box;
+  width: 72px;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  pointer-events: auto;
+  background: transparent;
+  border: none;
+}
+#jf-lcars-user-rail.jf-lcars-user-rail-on {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  width: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
+}
+#jf-lcars-user-rail .jf-lcars-rail-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 72px !important;
+  min-height: 56px !important;
+  margin: 0 !important;
+  padding: 8px 4px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+#jf-lcars-user-rail .jf-lcars-rail-btn[data-action="open"] {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+}
+#jf-lcars-user-rail .jf-lcars-rail-btn[data-action="access"] {
+  background: var(--ghost-gray) !important;
+  color: #000 !important;
+}
+#jf-lcars-user-rail .jf-lcars-rail-btn[data-action="parentalcontrol"] {
+  background: var(--medium-dark-gray) !important;
+  color: var(--starlight) !important;
+}
+#jf-lcars-user-rail .jf-lcars-rail-btn[data-action="delete"] {
+  background: var(--light-orange-red) !important;
+  color: #000 !important;
+}
+#jf-lcars-user-rail .jf-lcars-rail-btn .material-icons {
+  font-size: 1.05rem !important;
+  color: inherit !important;
+}
+#jf-lcars-user-rail .jf-lcars-rail-btn:hover {
+  filter: brightness(var(--lcars-hover-brighten));
+}
+
+
+/* User card footer — never vertical text / ⋮ */
+.localUsers .cardFooter.visualCardBox-cardFooter,
+.localUsers .visualCardBox-cardFooter {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  float: none !important;
+  writing-mode: horizontal-tb !important;
+}
+.localUsers .cardFooter .cardText,
+.localUsers .cardFooter .cardText-secondary,
+.localUsers .cardFooter .cardText span,
+.localUsers .cardFooter .cardText-secondary span {
+  display: block !important;
+  float: none !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  white-space: normal !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  transform: none !important;
+}
+.localUsers .btnUserMenu,
+.localUsers button.btnUserMenu,
+.localUsers .cardFooter .btnUserMenu,
+.localUsers .cardFooter button.paper-icon-button-light {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  float: none !important;
+  pointer-events: none !important;
+}
+.localUsers .cardFooter > div[style],
+.localUsers .cardFooter > div[style*="float"],
+.localUsers .cardFooter > div[style*="text-align"] {
+  display: none !important;
+  float: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
 @media (max-width: 600px) {
   :root {
     --lcars-sidebar: 40px;
@@ -1829,6 +2086,176 @@ html.jf-lcars-video .mainAnimatedPages {
     (document.head || document.documentElement).appendChild(el);
   }
   
+  
+  var __jfRailTimer = null;
+  var __jfRailPoll = null;
+
+  function scheduleUserActionRail() {
+    if (__jfRailTimer) return;
+    __jfRailTimer = setTimeout(function () {
+      __jfRailTimer = null;
+      ensureUserActionRail();
+    }, 100);
+  }
+
+  function ensureUserActionRail() {
+    try {
+      var hash = location.hash || "";
+      var onUsers = hash.indexOf("dashboard/users") !== -1;
+      var localUsers = document.querySelector(".localUsers");
+      var well = document.querySelector(
+        ".dashboardDocument .content-primary, .content-primary.MuiBox-root, .content-primary"
+      );
+      var rail = document.getElementById("jf-lcars-user-rail");
+
+      if (!onUsers) {
+        if (rail) {
+          rail.classList.remove("jf-lcars-user-rail-on");
+          rail.style.cssText = "display:none";
+        }
+        if (__jfRailPoll) { clearInterval(__jfRailPoll); __jfRailPoll = null; }
+        return;
+      }
+
+      if (!localUsers || !well) {
+        if (!__jfRailPoll) {
+          var n = 0;
+          __jfRailPoll = setInterval(function () {
+            n++;
+            scheduleUserActionRail();
+            if (n >= 12 || document.querySelector(".localUsers")) {
+              clearInterval(__jfRailPoll);
+              __jfRailPoll = null;
+            }
+          }, 500);
+        }
+        return;
+      }
+      if (__jfRailPoll) { clearInterval(__jfRailPoll); __jfRailPoll = null; }
+
+      if (!rail) {
+        rail = document.createElement("div");
+        rail.id = "jf-lcars-user-rail";
+        rail.setAttribute("aria-label", "User actions");
+        [
+          { id: "open", label: "Edit user", icon: "mode_edit" },
+          { id: "access", label: "Library access", icon: "lock" },
+          { id: "parentalcontrol", label: "Parental control", icon: "person" },
+          { id: "delete", label: "Delete", icon: "delete" }
+        ].forEach(function (a) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "jf-lcars-rail-btn";
+          btn.setAttribute("data-action", a.id);
+          btn.innerHTML = '<span class="material-icons" aria-hidden="true">' + a.icon +
+            '</span><span class="jf-lcars-rail-label">' + a.label + "</span>";
+          btn.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            triggerUserAction(a.id);
+          });
+          rail.appendChild(btn);
+        });
+        document.body.appendChild(rail);
+      }
+
+            var rect = well.getBoundingClientRect();
+      var barW = 72; /* matches --lcars-well-right */
+      var tb = 12;
+      var top = Math.round(rect.top + tb + 6);
+      /* center rail in the right border gutter */
+      var rightGap = Math.max(0, Math.round(window.innerWidth - rect.right));
+      if (top < 4) top = 4;
+
+      rail.style.cssText = [
+        "position:fixed",
+        "top:" + top + "px",
+        "right:" + rightGap + "px",
+        "left:auto",
+        "width:" + barW + "px",
+        "min-width:" + barW + "px",
+        "max-width:" + barW + "px",
+        "display:flex",
+        "flex-direction:column",
+        "flex-wrap:nowrap",
+        "align-items:stretch",
+        "gap:5px",
+        "visibility:visible",
+        "opacity:1",
+        "z-index:12050",
+        "pointer-events:auto",
+        "margin:0",
+        "padding:0",
+        "box-sizing:border-box",
+        "background:transparent",
+        "border:none"
+      ].join(";") + ";";
+      rail.classList.add("jf-lcars-user-rail-on");
+
+      if (!localUsers.__jfLcarsSelectBound) {
+        localUsers.__jfLcarsSelectBound = true;
+        localUsers.addEventListener("click", function (e) {
+          var card = e.target.closest(".card[data-userid]");
+          if (!card) return;
+          var prev = localUsers.querySelector(".card.jf-lcars-user-selected");
+          if (prev && prev !== card) prev.classList.remove("jf-lcars-user-selected");
+          card.classList.add("jf-lcars-user-selected");
+        }, true);
+        var first = localUsers.querySelector(".card[data-userid]");
+        if (first) first.classList.add("jf-lcars-user-selected");
+      }
+    } catch (e) {
+      console.warn("[JellyfinLCARS] user rail", e);
+    }
+  }
+
+  function getSelectedUserCard() {
+    return document.querySelector(".localUsers .card.jf-lcars-user-selected[data-userid]") ||
+      document.querySelector(".localUsers .card[data-userid]");
+  }
+
+  function triggerUserAction(actionId) {
+    var card = getSelectedUserCard();
+    if (!card) return;
+    var userId = card.getAttribute("data-userid");
+    if (!userId) return;
+
+    if (actionId === "open") {
+      location.hash = "#/dashboard/users/profile?userId=" + encodeURIComponent(userId);
+      return;
+    }
+
+    var menuBtn = card.querySelector(".btnUserMenu, button.btnUserMenu, .cardFooter button.paper-icon-button-light");
+    if (!menuBtn) return;
+    var prevDisplay = menuBtn.style.display;
+    menuBtn.style.setProperty("display", "block", "important");
+    menuBtn.style.setProperty("visibility", "hidden", "important");
+    menuBtn.style.setProperty("pointer-events", "auto", "important");
+    menuBtn.click();
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries++;
+      var item = document.querySelector(
+        '.dialog.actionSheet.opened .actionSheetMenuItem[data-id="' + actionId + '"],' +
+        '.dialog.actionsheet-not-fullscreen.opened .actionSheetMenuItem[data-id="' + actionId + '"]'
+      );
+      if (item) {
+        clearInterval(timer);
+        var sheet = item.closest(".dialog");
+        if (sheet) {
+          sheet.style.setProperty("opacity", "0", "important");
+          sheet.style.setProperty("pointer-events", "none", "important");
+        }
+        item.click();
+        menuBtn.style.display = prevDisplay || "";
+      } else if (tries > 15) {
+        clearInterval(timer);
+        menuBtn.style.display = prevDisplay || "";
+      }
+    }, 50);
+  }
+
+
   function ensureDashElbow() {
     var isDash = !!(document.querySelector(".dashboardDocument") ||
       document.body.classList.contains("dashboardDocument") ||
@@ -1927,22 +2354,25 @@ html.jf-lcars-video .mainAnimatedPages {
   function run() {
     try {
       injectCss();
-      document.documentElement.classList.add("jf---dark-gralcars-active");
+      document.documentElement.classList.add("jf-lcars-active");
       if (document.body) document.body.classList.add("jf-lcars-active");
       ensureFrame();
       measureHeader();
       measureAdminDrawer();
       ensureDashElbow();
+      scheduleUserActionRail();
       syncVideoMode();
     } catch (e) {
       console.warn("[JellyfinLCARS]", e);
     }
   }
   window.JellyfinLCARS = {
-    version: "2.10.6-content-border",
+    version: "2.11.8-outer-ring",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
+      var _rail = document.getElementById("jf-lcars-user-rail");
+      if (_rail) _rail.remove();
       [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.remove();
@@ -1956,9 +2386,9 @@ html.jf-lcars-video .mainAnimatedPages {
   } else {
     run();
   }
-  window.addEventListener("resize", function () { measureHeader(); measureAdminDrawer(); });
+  window.addEventListener("resize", function () { measureHeader(); measureAdminDrawer(); scheduleUserActionRail(); });
   setInterval(syncVideoMode, 500);
-  document.addEventListener("viewshow", function () { setTimeout(syncVideoMode, 50); }, true);
+  document.addEventListener("viewshow", function () { setTimeout(syncVideoMode, 50); setTimeout(scheduleUserActionRail, 80); }, true);
   document.addEventListener("video-osd-show", function () { setTimeout(syncVideoMode, 30); }, true);
   var n = 0;
   var id = setInterval(function () {
