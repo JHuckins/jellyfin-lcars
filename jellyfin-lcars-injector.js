@@ -2071,6 +2071,116 @@ html.jf-lcars-video .mainAnimatedPages {
   overflow: hidden !important;
 }
 
+
+/* ========== Card overlay buttons — LCARS squares ========== */
+/*
+ * Markup: .cardOverlayButton-br > button.cardOverlayButton
+ *   emby-playstatebutton | emby-ratingbutton | data-action=menu
+ * Match flat LCARS color squares (ghost / primary-gray / medium-dark-gray).
+ */
+.cardOverlayButton-br {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  gap: 4px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.cardOverlayButton-br .cardOverlayButton,
+.cardOverlayButton-br button.cardOverlayButton,
+.cardOverlayContainer .cardOverlayButton.cardOverlayButton-hover {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  min-width: 2.25rem !important;
+  min-height: 2.25rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: var(--primary-gray) !important;
+  color: #000 !important;
+  opacity: 1 !important;
+}
+
+/* 1: Mark played */
+.cardOverlayButton-br .cardOverlayButton:nth-child(1),
+.cardOverlayButton-br button.emby-playstatebutton {
+  background: var(--ghost-gray) !important;
+  color: #000 !important;
+}
+/* 2: Favorite (default unfavorited) */
+.cardOverlayButton-br .cardOverlayButton:nth-child(2),
+.cardOverlayButton-br button.emby-ratingbutton {
+  background: var(--primary-gray) !important;
+  color: #000 !important;
+}
+/* 3: More menu */
+.cardOverlayButton-br .cardOverlayButton:nth-child(3),
+.cardOverlayButton-br button[data-action="menu"] {
+  background: var(--medium-dark-gray) !important;
+  color: var(--starlight) !important;
+}
+
+.cardOverlayButton-br .cardOverlayButton:hover,
+.cardOverlayButton-br .cardOverlayButton.cardOverlayButton-hover:hover {
+  filter: brightness(var(--lcars-hover-brighten));
+  opacity: 1 !important;
+}
+
+.cardOverlayButton-br .cardOverlayButtonIcon,
+.cardOverlayButton-br .material-icons.cardOverlayButtonIcon {
+  font-size: 1.15rem !important;
+  opacity: 1 !important;
+}
+
+/* Default icon color inherits from button unless favorited/played overrides below */
+.cardOverlayButton-br .cardOverlayButton:not([data-isfavorite="true"]) .cardOverlayButtonIcon,
+.cardOverlayButton-br .cardOverlayButton:not([data-isfavorite="true"]) .material-icons {
+  color: inherit !important;
+}
+
+/* Played state */
+.cardOverlayButton-br button.emby-playstatebutton[data-played="true"],
+.cardOverlayButton-br .playstatebutton-icon-played {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+}
+
+/*
+ * Favorite ACTIVE — data-isfavorite="true"
+ * Icon must be --lcars-alert-soft (light-orange-red). High specificity to beat
+ * paper-icon-button / material-icons defaults and the inherit rule above.
+ */
+.cardOverlayButton-br button.emby-ratingbutton[data-isfavorite="true"],
+.cardOverlayButton-br button.emby-ratingbutton[dataisfavorite="true"],
+.cardOverlayContainer button.emby-ratingbutton[data-isfavorite="true"],
+button.cardOverlayButton.emby-ratingbutton[data-isfavorite="true"] {
+  background: var(--primary-gray) !important;
+  color: var(--lcars-alert-soft) !important;
+}
+
+.cardOverlayButton-br button.emby-ratingbutton[data-isfavorite="true"] .cardOverlayButtonIcon,
+.cardOverlayButton-br button.emby-ratingbutton[data-isfavorite="true"] .cardOverlayButtonIcon-hover,
+.cardOverlayButton-br button.emby-ratingbutton[data-isfavorite="true"] .material-icons,
+.cardOverlayButton-br button.emby-ratingbutton[data-isfavorite="true"] .material-icons.favorite,
+.cardOverlayButton-br button.emby-ratingbutton[data-isfavorite="true"] span,
+.cardOverlayButton-br button.emby-ratingbutton[dataisfavorite="true"] .material-icons,
+.cardOverlayButton-br button.emby-ratingbutton[dataisfavorite="true"] span,
+.cardOverlayContainer button.emby-ratingbutton[data-isfavorite="true"] .material-icons,
+.cardOverlayContainer button.emby-ratingbutton[data-isfavorite="true"] span,
+button.emby-ratingbutton[data-isfavorite="true"] .material-icons.favorite,
+button.emby-ratingbutton[data-isfavorite="true"] .cardOverlayButtonIcon {
+  color: var(--lcars-alert-soft) !important;
+  fill: var(--lcars-alert-soft) !important;
+  -webkit-text-fill-color: var(--lcars-alert-soft) !important;
+}
+
 @media (max-width: 600px) {
   :root {
     --lcars-sidebar: 40px;
@@ -2368,7 +2478,7 @@ html.jf-lcars-video .mainAnimatedPages {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.11.8-outer-ring",
+    version: "2.11.11-favorite-icon-fix",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
