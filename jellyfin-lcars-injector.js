@@ -65,6 +65,7 @@
   --lcars-alert-soft: var(--light-orange-red);
   --lcars-info: var(--blue);
   --lcars-info-bright: var(--bright-blue);
+  --lcars-sublabels: var(--medium-dark-blue);
   --lcars-confirm: var(--medium-dark-blue);
   --lcars-system: var(--primary-gray);
   --lcars-hover-brighten: 1.12;
@@ -317,7 +318,7 @@ body.jf-lcars-active::after {
 .dashboardDocument .content-primary.MuiBox-root,
 .content-primary.MuiBox-root {
   --lcars-well-left: 36px;
-  --lcars-well-right: 72px;
+  --lcars-well-right: 100px;
   --lcars-well-tb: 12px;
   --lcars-well-gap: 10px;
   --lcars-well-inset: 10px;
@@ -1661,7 +1662,7 @@ html.jf-lcars-video .mainAnimatedPages {
   padding: 4px 8px !important;
   width: calc(100% - 22px) !important;
   max-width: calc(100% - 22px) !important;
-  background: var(--primary-gray) !important;
+  background: var(--lcars-sublabels) !important;
   color: var(--lcars-text-secondary) !important;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
