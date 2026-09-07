@@ -766,6 +766,15 @@ textarea,
   .dashboardDocument #jf-lcars-top-runner {
     left: 0px !important;
   }
+
+  .jf-lcars-active.dashboardDocument .content-primary,
+  .dashboardDocument .content-primary,
+  .dashboardDocument .content-primary.MuiBox-root,
+  .content-primary.MuiBox-root {
+    margin-left: 0.75rem !important; 
+  }
+
+
 }
 
 @media screen and (width <= 1350px) {
@@ -2328,7 +2337,7 @@ button.btnFilter .material-icons {
 
 @media (max-width: 600px) {
   :root {
-    --lcars-sidebar: 40px;
+    --lcars-sidebar: 42px;
     --lcars-elbow-size: 32px;
   }
 }
