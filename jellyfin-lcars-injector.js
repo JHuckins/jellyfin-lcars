@@ -2187,6 +2187,145 @@ button.emby-ratingbutton[data-isfavorite="true"] .cardOverlayButtonIcon {
   -webkit-text-fill-color: var(--lcars-alert-soft) !important;
 }
 
+
+
+
+/* ========== Library list toolbar — outlined LCARS tiles ========== */
+/*
+ * Dark fill + light border; Material icons must stay visible (font + color).
+ */
+.listPaging,
+.paging .listPaging {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--ghost-gray) !important;
+}
+.listPaging span {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  color: var(--ghost-gray) !important;
+  font-size: 0.85rem !important;
+  vertical-align: middle !important;
+}
+
+.btnPreviousPage,
+.btnNextPage,
+.btnPlayAll,
+.btnShuffle,
+.btnSelectView,
+.btnSort,
+.btnFilter,
+.btnFilter-wrapper .btnFilter,
+button.btnPreviousPage.paper-icon-button-light,
+button.btnNextPage.paper-icon-button-light,
+button.btnPlayAll.paper-icon-button-light,
+button.btnShuffle.paper-icon-button-light,
+button.btnSelectView.paper-icon-button-light,
+button.btnSort.paper-icon-button-light,
+button.btnFilter.paper-icon-button-light {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  min-width: 2.75rem !important;
+  min-height: 2.75rem !important;
+  margin: 0 4px !important;
+  padding: 0 !important;
+  border-radius: 0rem !important;
+  border: 2px solid var(--light-gray) !important;
+  box-shadow: none !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  color: var(--ghost-gray) !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+/* Force Material Icons glyphs to render inside toolbar buttons */
+.btnPreviousPage .material-icons,
+.btnNextPage .material-icons,
+.btnPlayAll .material-icons,
+.btnShuffle .material-icons,
+.btnSelectView .material-icons,
+.btnSort .material-icons,
+.btnFilter .material-icons,
+button.btnPreviousPage .material-icons,
+button.btnNextPage .material-icons,
+button.btnPlayAll .material-icons,
+button.btnShuffle .material-icons,
+button.btnSelectView .material-icons,
+button.btnSort .material-icons,
+button.btnFilter .material-icons {
+  font-family: "Material Icons", "MaterialIcons", sans-serif !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 1.35rem !important;
+  line-height: 1 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important;
+  direction: ltr !important;
+  color: var(--ghost-gray) !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: optimizeLegibility !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  width: auto !important;
+  height: auto !important;
+  speak: none !important;
+}
+
+.btnPreviousPage:hover,
+.btnNextPage:hover,
+.btnPlayAll:hover,
+.btnShuffle:hover,
+.btnSelectView:hover,
+.btnSort:hover,
+.btnFilter:hover {
+  border-color: var(--ghost-gray) !important;
+  color: var(--starlight) !important;
+  background: #000 !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+.btnPreviousPage:hover .material-icons,
+.btnNextPage:hover .material-icons,
+.btnPlayAll:hover .material-icons,
+.btnShuffle:hover .material-icons,
+.btnSelectView:hover .material-icons,
+.btnSort:hover .material-icons,
+.btnFilter:hover .material-icons {
+  color: var(--starlight) !important;
+}
+
+.btnPreviousPage[disabled],
+.btnNextPage[disabled],
+.btnPreviousPage:disabled,
+.btnNextPage:disabled {
+  opacity: 0.4 !important;
+  border-color: var(--medium-dark-gray) !important;
+  cursor: default !important;
+}
+.btnPreviousPage[disabled] .material-icons,
+.btnNextPage[disabled] .material-icons,
+.btnPreviousPage:disabled .material-icons,
+.btnNextPage:disabled .material-icons {
+  color: var(--medium-dark-gray) !important;
+  opacity: 1 !important;
+}
+
+.flex.align-items-center.justify-content-center.flex-wrap-wrap.padded-top.padded-left.padded-right.padded-bottom.focuscontainer-x {
+  gap: 4px !important;
+}
+
 @media (max-width: 600px) {
   :root {
     --lcars-sidebar: 40px;
@@ -2484,7 +2623,7 @@ button.emby-ratingbutton[data-isfavorite="true"] .cardOverlayButtonIcon {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.11.11-favorite-icon-fix",
+    version: "2.12.2-toolbar-icons",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
