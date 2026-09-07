@@ -346,7 +346,7 @@ body.jf-lcars-active::after {
 
   margin-top: 8rem !important;
   margin-right: 4% !important;
-  margin-left: 0.75rem !important;
+  margin-left: 0rem !important;
   margin-bottom: 2rem !important;
   overflow: visible !important;
 }
@@ -766,7 +766,13 @@ textarea,
   .dashboardDocument #jf-lcars-top-runner {
     left: 0px !important;
   }
+}
 
+@media screen and (width <= 1350px) {
+  #dashboardPage .content-primary.MuiBox-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-7.MuiGrid-grid-lg-7.MuiGrid-grid-xl-6 {
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+  }
 }
 
 .dashboardDocument #jf-lcars-dash-elbow-cut {
