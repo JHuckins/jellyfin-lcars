@@ -2837,6 +2837,67 @@ table tbody td:nth-child(6n+6) {
       if (document.body) document.body.classList.toggle("jf-lcars-video", !!playing);
     } catch (e) {}
   }
+
+  /** Hide table columns where every body cell has no visible text. */
+  function pruneEmptyTableColumns() {
+    try {
+      var tables = document.querySelectorAll(
+        ".MuiTable-root, table.MuiTable-root, .MuiTableContainer-root table, table"
+      );
+      for (var t = 0; t < tables.length; t++) {
+        var table = tables[t];
+        var body = table.tBodies && table.tBodies[0];
+        if (!body || !body.rows || body.rows.length === 0) continue;
+        var headRow =
+          (table.tHead && table.tHead.rows[0]) ||
+          table.querySelector("thead tr");
+        var colCount = 0;
+        for (var r = 0; r < body.rows.length; r++) {
+          if (body.rows[r].cells.length > colCount) {
+            colCount = body.rows[r].cells.length;
+          }
+        }
+        if (headRow && headRow.cells.length > colCount) {
+          colCount = headRow.cells.length;
+        }
+        for (var c = 0; c < colCount; c++) {
+          var hasText = false;
+          for (var r2 = 0; r2 < body.rows.length; r2++) {
+            var cell = body.rows[r2].cells[c];
+            if (!cell) continue;
+            // Prefer text content; ignore pure whitespace
+            var text = (cell.innerText || cell.textContent || "").replace(/\s+/g, " ").trim();
+            // Icons-only action columns still count as content if they have buttons
+            // but spacer columns are empty of both text and interactive controls
+            var hasControl = !!cell.querySelector(
+              "button, a, input, select, textarea, img, svg, .MuiAvatar-root"
+            );
+            if (text.length > 0 || hasControl) {
+              hasText = true;
+              break;
+            }
+          }
+          var display = hasText ? "" : "none";
+          for (var r3 = 0; r3 < body.rows.length; r3++) {
+            var bc = body.rows[r3].cells[c];
+            if (bc) bc.style.display = display;
+          }
+          if (headRow && headRow.cells[c]) {
+            headRow.cells[c].style.display = display;
+          }
+          // Sticky header clones / extra header rows
+          var allHeadRows = table.querySelectorAll("thead tr");
+          for (var h = 0; h < allHeadRows.length; h++) {
+            var hc = allHeadRows[h].cells[c];
+            if (hc) hc.style.display = display;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[JellyfinLCARS] pruneEmptyTableColumns", e);
+    }
+  }
+
   function run() {
     try {
       injectCss();
@@ -2848,12 +2909,13 @@ table tbody td:nth-child(6n+6) {
       ensureDashElbow();
       scheduleUserActionRail();
       syncVideoMode();
+      pruneEmptyTableColumns();
     } catch (e) {
       console.warn("[JellyfinLCARS]", e);
     }
   }
   window.JellyfinLCARS = {
-    version: "2.13.1-table-gutters",
+    version: "2.13.2-prune-empty-cols",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -2874,6 +2936,7 @@ table tbody td:nth-child(6n+6) {
   }
   window.addEventListener("resize", function () { measureHeader(); measureAdminDrawer(); scheduleUserActionRail(); });
   setInterval(syncVideoMode, 500);
+  setInterval(pruneEmptyTableColumns, 1200);
   document.addEventListener("viewshow", function () { setTimeout(syncVideoMode, 50); setTimeout(scheduleUserActionRail, 80); }, true);
   document.addEventListener("video-osd-show", function () { setTimeout(syncVideoMode, 30); }, true);
   var n = 0;
