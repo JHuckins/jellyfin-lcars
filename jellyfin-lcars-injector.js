@@ -2343,6 +2343,219 @@ button.btnFilter .material-icons {
   gap: 4px !important;
 }
 
+
+
+/* ========== Tables — LCARS tile grid + text-bar headers ========== */
+/*
+ * Gutters via border-collapse:separate + border-spacing (black shows through).
+ * Headers: square-end text bars. Body: mosaic tiles.
+ * Palette: #37a6d1 #41c4f7 #2a7193 #f3f4f7 #d2d5df #1c3c55
+ */
+.MuiTableContainer-root,
+.tableContainer,
+.detailTableContainer {
+  background: #000 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 6px !important;
+  overflow-x: auto !important;
+}
+
+.MuiTable-root,
+table.MuiTable-root,
+.MuiTableContainer-root > table,
+table {
+  border-collapse: separate !important;
+  border-spacing: 4px 4px !important;
+  background: #000 !important;
+  width: 100% !important;
+  table-layout: auto !important;
+}
+
+.MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader {
+     margin: 2px;
+}
+
+.MuiTableBody-root .MuiTableCell-body, table tbody td {
+     margin: 2px;
+}
+
+/* Kill MUI collapse / divider lines that erase gutters */
+.MuiTable-root .MuiTableCell-root,
+.MuiTable-root td,
+.MuiTable-root th {
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.MuiTable-root .MuiDivider-root,
+.MuiTable-root .Mui-TableHeadCell-ResizeHandle-Divider {
+  display: none !important;
+}
+
+/* --- Header: LCARS text bar (square ends) --- */
+.MuiTableHead-root .MuiTableCell-head,
+.MuiTable-root thead th,
+table thead th {
+  background: var(--blue) !important;
+  color: #000 !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 10px 12px !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+  height: auto !important;
+  line-height: 1.2 !important;
+}
+
+.MuiTableHead-root .MuiTableCell-head:nth-child(6n+1),
+table thead th:nth-child(6n+1) { background: var(--blue) !important; color: #000 !important; }
+.MuiTableHead-root .MuiTableCell-head:nth-child(6n+2),
+table thead th:nth-child(6n+2) { background: var(--bright-blue) !important; color: #000 !important; }
+.MuiTableHead-root .MuiTableCell-head:nth-child(6n+3),
+table thead th:nth-child(6n+3) { background: var(--medium-dark-blue) !important; color: var(--starlight) !important; }
+.MuiTableHead-root .MuiTableCell-head:nth-child(6n+4),
+table thead th:nth-child(6n+4) { background: var(--ghost-gray) !important; color: #000 !important; }
+.MuiTableHead-root .MuiTableCell-head:nth-child(6n+5),
+table thead th:nth-child(6n+5) { background: var(--dark-blue) !important; color: var(--starlight) !important; }
+.MuiTableHead-root .MuiTableCell-head:nth-child(6n+6),
+table thead th:nth-child(6n+6) { background: var(--starlight) !important; color: #000 !important; }
+
+.MuiTableHead-root .MuiTableCell-head .MuiTypography-root,
+.MuiTableHead-root .MuiTableCell-head .Mui-TableHeadCell-Content-Wrapper,
+.MuiTableHead-root .MuiTableCell-head .MuiBox-root {
+  color: inherit !important;
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 700 !important;
+}
+
+.MuiTableHead-root .MuiTableCell-head .MuiSvgIcon-root,
+.MuiTableHead-root .MuiTableCell-head .MuiIconButton-root,
+.MuiTableHead-root .MuiTableSortLabel-icon {
+  color: inherit !important;
+  opacity: 0.85 !important;
+}
+
+.MuiTableHead-root .MuiTableRow-head,
+.MuiTable-root thead tr {
+  background: transparent !important;
+}
+
+/* Sticky header: same tile bg, no overlap gutters */
+.MuiTableCell-stickyHeader {
+  background-clip: padding-box !important;
+  opacity: 1 !important;
+}
+.MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+1) { background: var(--blue) !important; }
+.MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+2) { background: var(--bright-blue) !important; }
+.MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+3) { background: var(--medium-dark-blue) !important; }
+.MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+4) { background: var(--ghost-gray) !important; }
+.MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+5) { background: var(--dark-blue) !important; }
+.MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+6) { background: var(--starlight) !important; }
+
+/* --- Body cells: mosaic tiles --- */
+.MuiTableBody-root .MuiTableCell-body,
+.MuiTable-root tbody td,
+table tbody td {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 10px 12px !important;
+  font-family: var(--lcars-font) !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  vertical-align: middle !important;
+  color: #000 !important;
+  height: auto !important;
+  line-height: 1.25 !important;
+  background-clip: padding-box !important;
+}
+
+.MuiTableBody-root .MuiTableCell-body:nth-child(6n+1),
+table tbody td:nth-child(6n+1) {
+  background: var(--medium-dark-blue) !important;
+  color: var(--starlight) !important;
+}
+.MuiTableBody-root .MuiTableCell-body:nth-child(6n+2),
+table tbody td:nth-child(6n+2) {
+  background: var(--blue) !important;
+  color: #000 !important;
+}
+.MuiTableBody-root .MuiTableCell-body:nth-child(6n+3),
+table tbody td:nth-child(6n+3) {
+  background: var(--bright-blue) !important;
+  color: #000 !important;
+}
+.MuiTableBody-root .MuiTableCell-body:nth-child(6n+4),
+table tbody td:nth-child(6n+4) {
+  background: var(--ghost-gray) !important;
+  color: #000 !important;
+}
+.MuiTableBody-root .MuiTableCell-body:nth-child(6n+5),
+table tbody td:nth-child(6n+5) {
+  background: var(--dark-blue) !important;
+  color: var(--starlight) !important;
+}
+.MuiTableBody-root .MuiTableCell-body:nth-child(6n+6),
+table tbody td:nth-child(6n+6) {
+  background: var(--starlight) !important;
+  color: #000 !important;
+}
+
+/* Row hover without breaking alignment */
+.MuiTableBody-root .MuiTableRow-root:hover .MuiTableCell-body {
+  filter: brightness(1.06);
+}
+
+.MuiTableBody-root .MuiTableRow-root,
+.MuiTable-root tbody tr {
+  background: transparent !important;
+}
+
+.MuiTableBody-root .MuiTableCell-body a,
+.MuiTableBody-root .MuiTableCell-body .MuiTypography-root {
+  color: inherit !important;
+}
+.MuiTableBody-root .MuiTableCell-body .MuiSvgIcon-root,
+.MuiTableBody-root .MuiTableCell-body .MuiIconButton-root {
+  color: inherit !important;
+}
+
+/* Avatar / action columns — keep content centered in tile */
+.MuiTableBody-root .MuiTableCell-body .MuiAvatar-root {
+  width: 28px !important;
+  height: 28px !important;
+  margin-right: 8px !important;
+}
+.MuiTableBody-root .MuiTableCell-body .MuiBox-root {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  vertical-align: middle !important;
+}
+
+.MuiTablePagination-root,
+.MuiTableContainer-root + .MuiBox-root {
+  color: var(--ghost-gray) !important;
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  background: #000 !important;
+}
+
 @media (max-width: 600px) {
   :root {
     --lcars-sidebar: 42px;
@@ -2640,7 +2853,7 @@ button.btnFilter .material-icons {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.12.2-toolbar-icons",
+    version: "2.13.1-table-gutters",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
