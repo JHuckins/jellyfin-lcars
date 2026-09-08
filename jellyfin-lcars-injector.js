@@ -788,6 +788,10 @@ textarea,
   }
 }
 
+.css-9ac84v {
+  margin-left: 10px;
+}
+
 .dashboardDocument #jf-lcars-dash-elbow-cut {
   display: none !important;
 }
