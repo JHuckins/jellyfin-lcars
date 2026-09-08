@@ -786,6 +786,10 @@ textarea,
     flex-basis: 100% !important;
     max-width: 100% !important;
   }
+
+  .css-dfo1ey {
+    max-width: 100% !important;
+  }
 }
 
 .dashboardDocument #jf-lcars-dash-elbow-cut {
