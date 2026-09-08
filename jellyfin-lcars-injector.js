@@ -346,7 +346,7 @@ body.jf-lcars-active::after {
 
   margin-top: 8rem !important;
   margin-right: 4% !important;
-  margin-left: 0rem !important;
+  margin-left: 12px !important;
   margin-bottom: 2rem !important;
   overflow: visible !important;
 }
@@ -773,8 +773,12 @@ textarea,
   .content-primary.MuiBox-root {
     margin-left: 0.75rem !important; 
   }
+}
 
-
+@media screen and (width >= 900px) {
+  .dashboardDocument .mainAnimatedPage:not(.metadataEditorPage) {
+    left: 40px; 
+  }
 }
 
 @media screen and (width <= 1350px) {
