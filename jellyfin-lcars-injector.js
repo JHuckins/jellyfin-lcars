@@ -782,12 +782,8 @@ textarea,
 }
 
 @media screen and (width <= 1350px) {
-  #dashboardPage .content-primary.MuiBox-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-7.MuiGrid-grid-lg-7.MuiGrid-grid-xl-6 {
+  #dashboardPage .content-primary.MuiBox-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-7.MuiGrid-grid-lg-7.MuiGrid-grid-xl-6, .css-dfo1ey, .css-1y3ixly  {
     flex-basis: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .css-dfo1ey {
     max-width: 100% !important;
   }
 }
