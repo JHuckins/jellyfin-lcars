@@ -2556,6 +2556,54 @@ table tbody td:nth-child(6n+6) {
   background: #000 !important;
 }
 
+
+/* ========== MUI Back button — outlined LCARS tile ========== */
+/*
+ * Markup: button.MuiIconButton[aria-label="Back"] with ArrowBackIcon
+ * Match keypad tile: black fill, light-gray border, ghost-gray glyph
+ */
+button.MuiIconButton-root[aria-label="Back"],
+button.MuiIconButton-root.MuiIconButton-edgeStart[aria-label="Back"],
+button.MuiButtonBase-root.MuiIconButton-root[aria-label="Back"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  min-width: 2.5rem !important;
+  min-height: 2.5rem !important;
+  margin: 0 4px !important;
+  padding: 0 !important;
+  border-radius: 0.35rem !important;
+  border: 2px solid var(--light-gray) !important;
+  box-shadow: none !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  color: var(--ghost-gray) !important;
+  opacity: 1 !important;
+}
+
+button.MuiIconButton-root[aria-label="Back"] .MuiSvgIcon-root,
+button.MuiIconButton-root[aria-label="Back"] svg {
+  color: var(--ghost-gray) !important;
+  fill: var(--ghost-gray) !important;
+  font-size: 1.35rem !important;
+  width: 1.35rem !important;
+  height: 1.35rem !important;
+}
+
+button.MuiIconButton-root[aria-label="Back"]:hover {
+  border-color: var(--ghost-gray) !important;
+  background: #000 !important;
+  color: var(--starlight) !important;
+}
+button.MuiIconButton-root[aria-label="Back"]:hover .MuiSvgIcon-root,
+button.MuiIconButton-root[aria-label="Back"]:hover svg {
+  color: var(--starlight) !important;
+  fill: var(--starlight) !important;
+}
+
 @media (max-width: 600px) {
   :root {
     --lcars-sidebar: 42px;
@@ -2915,7 +2963,7 @@ table tbody td:nth-child(6n+6) {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.13.2-prune-empty-cols",
+    version: "2.13.3-back-btn",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
