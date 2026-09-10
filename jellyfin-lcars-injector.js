@@ -2557,14 +2557,24 @@ table tbody td:nth-child(6n+6) {
 }
 
 
-/* ========== MUI Back button — outlined LCARS tile ========== */
+
+/* ========== MUI Back / Forward buttons — outlined LCARS tiles ========== */
 /*
- * Markup: button.MuiIconButton[aria-label="Back"] with ArrowBackIcon
- * Match keypad tile: black fill, light-gray border, ghost-gray glyph
+ * Back & Forward icon buttons: black fill, light-gray border, square corners.
  */
 button.MuiIconButton-root[aria-label="Back"],
+button.MuiIconButton-root[aria-label="back"],
+button.MuiIconButton-root[aria-label="Forward"],
+button.MuiIconButton-root[aria-label="forward"],
+button.MuiIconButton-root[aria-label="Go back"],
+button.MuiIconButton-root[aria-label="Go forward"],
 button.MuiIconButton-root.MuiIconButton-edgeStart[aria-label="Back"],
-button.MuiButtonBase-root.MuiIconButton-root[aria-label="Back"] {
+button.MuiButtonBase-root.MuiIconButton-root[aria-label="Back"],
+button.MuiButtonBase-root.MuiIconButton-root[aria-label="Forward"],
+button.MuiIconButton-root:has([data-testid="ArrowBackIcon"]),
+button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]),
+button.MuiIconButton-root:has([data-testid="ArrowBackIosIcon"]),
+button.MuiIconButton-root:has([data-testid="ArrowForwardIosIcon"]) {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -2575,7 +2585,7 @@ button.MuiButtonBase-root.MuiIconButton-root[aria-label="Back"] {
   min-height: 2.5rem !important;
   margin: 0 4px !important;
   padding: 0 !important;
-  border-radius: 0.35rem !important;
+  border-radius: 0 !important;
   border: 2px solid var(--light-gray) !important;
   box-shadow: none !important;
   background: #000 !important;
@@ -2585,7 +2595,15 @@ button.MuiButtonBase-root.MuiIconButton-root[aria-label="Back"] {
 }
 
 button.MuiIconButton-root[aria-label="Back"] .MuiSvgIcon-root,
-button.MuiIconButton-root[aria-label="Back"] svg {
+button.MuiIconButton-root[aria-label="Back"] svg,
+button.MuiIconButton-root[aria-label="Forward"] .MuiSvgIcon-root,
+button.MuiIconButton-root[aria-label="Forward"] svg,
+button.MuiIconButton-root[aria-label="back"] svg,
+button.MuiIconButton-root[aria-label="forward"] svg,
+button.MuiIconButton-root[aria-label="Go back"] svg,
+button.MuiIconButton-root[aria-label="Go forward"] svg,
+button.MuiIconButton-root:has([data-testid="ArrowBackIcon"]) svg,
+button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]) svg {
   color: var(--ghost-gray) !important;
   fill: var(--ghost-gray) !important;
   font-size: 1.35rem !important;
@@ -2593,13 +2611,25 @@ button.MuiIconButton-root[aria-label="Back"] svg {
   height: 1.35rem !important;
 }
 
-button.MuiIconButton-root[aria-label="Back"]:hover {
+button.MuiIconButton-root[aria-label="Back"]:hover,
+button.MuiIconButton-root[aria-label="Forward"]:hover,
+button.MuiIconButton-root[aria-label="back"]:hover,
+button.MuiIconButton-root[aria-label="forward"]:hover,
+button.MuiIconButton-root[aria-label="Go back"]:hover,
+button.MuiIconButton-root[aria-label="Go forward"]:hover,
+button.MuiIconButton-root:has([data-testid="ArrowBackIcon"]):hover,
+button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover {
   border-color: var(--ghost-gray) !important;
   background: #000 !important;
   color: var(--starlight) !important;
+  border-radius: 0 !important;
 }
-button.MuiIconButton-root[aria-label="Back"]:hover .MuiSvgIcon-root,
-button.MuiIconButton-root[aria-label="Back"]:hover svg {
+button.MuiIconButton-root[aria-label="Back"]:hover svg,
+button.MuiIconButton-root[aria-label="Forward"]:hover svg,
+button.MuiIconButton-root[aria-label="Go back"]:hover svg,
+button.MuiIconButton-root[aria-label="Go forward"]:hover svg,
+button.MuiIconButton-root:has([data-testid="ArrowBackIcon"]):hover svg,
+button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   color: var(--starlight) !important;
   fill: var(--starlight) !important;
 }
@@ -2963,7 +2993,7 @@ button.MuiIconButton-root[aria-label="Back"]:hover svg {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.13.3-back-btn",
+    version: "2.13.4-back-forward-square",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
