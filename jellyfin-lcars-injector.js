@@ -117,7 +117,7 @@ html, body {
   display: block !important;
   left: var(--lcars-sidebar) !important;
   top: 73px !important;
-  width: var(--lcars-elbow-size) !important;
+  width: 100vw !important;
   height: var(--lcars-elbow-size) !important;
   background: #101014 !important;
   border-radius: var(--lcars-elbow-size) 0 0 0 !important;
