@@ -348,7 +348,12 @@ body.jf-lcars-active::after {
   margin-right: 4% !important;
   margin-left: 12px !important;
   margin-bottom: 2rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
   overflow: visible !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
 }
 
 /* Segmented right rail (behind action buttons) */
@@ -2351,6 +2356,7 @@ button.btnFilter .material-icons {
  * Headers: square-end text bars. Body: mosaic tiles.
  * Palette: #37a6d1 #41c4f7 #2a7193 #f3f4f7 #d2d5df #1c3c55
  */
+/* Table + wrappers: height follows content (no clip past LCARS well) */
 .MuiTableContainer-root,
 .tableContainer,
 .detailTableContainer {
@@ -2358,6 +2364,19 @@ button.btnFilter .material-icons {
   border: none !important;
   box-shadow: none !important;
   padding: 6px !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.dashboardDocument .content-primary .MuiPaper-root,
+.dashboardDocument .content-primary .MuiPaper-root.MuiPaper-elevation,
+.dashboardDocument .content-primary .MuiPaper-root:has(.MuiTableContainer-root),
+.dashboardDocument .content-primary .MuiBox-root:has(.MuiTableContainer-root) {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
   overflow-x: auto !important;
 }
 
@@ -2369,8 +2388,11 @@ table {
   border-spacing: 4px 4px !important;
   background: #000 !important;
   width: 100% !important;
+  max-width: 100% !important;
   table-layout: auto !important;
+  height: auto !important;
 }
+
 
 .MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader {
      margin: 2px;
@@ -2993,7 +3015,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.13.4-back-forward-square",
+    version: "2.13.5-table-height-auto",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
