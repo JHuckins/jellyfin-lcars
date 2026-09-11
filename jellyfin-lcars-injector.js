@@ -777,7 +777,7 @@ textarea,
 
 @media screen and (width >= 900px) {
   .dashboardDocument .mainAnimatedPage:not(.metadataEditorPage) {
-    left: 280px; 
+    left: 40px; 
   }
 }
 
