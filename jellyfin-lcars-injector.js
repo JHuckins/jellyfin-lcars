@@ -117,7 +117,8 @@ html, body {
   display: block !important;
   left: var(--lcars-sidebar) !important;
   top: 73px !important;
-  width: 100vw !important;
+  right: 0 !important;
+  width: auto !important;
   height: var(--lcars-elbow-size) !important;
   background: #101014 !important;
   border-radius: var(--lcars-elbow-size) 0 0 0 !important;
@@ -318,14 +319,15 @@ body.jf-lcars-active::after {
 .dashboardDocument .content-primary.MuiBox-root,
 .content-primary.MuiBox-root {
   --lcars-well-left: 36px;
-  --lcars-well-right: 100px;
+  --lcars-well-right: 72px;
   --lcars-well-tb: 12px;
   --lcars-well-gap: 10px;
-  --lcars-well-inset: 10px;
+  --lcars-well-inset: 16px;
 
   position: relative !important;
   box-sizing: border-box !important;
   background: #000 !important;
+  width: auto !important;
 
   /* Inner LCARS rails */
   border-style: solid !important;
@@ -336,8 +338,9 @@ body.jf-lcars-active::after {
   border-bottom-width: var(--lcars-well-tb) !important;
   border-radius: 1.5rem !important;
 
-  /* Content inset inside rails */
+  /* Content inset inside rails — extra left so titles aren't tight on the bar */
   padding: var(--lcars-well-inset) !important;
+  padding-left: calc(var(--lcars-well-inset) + 4px) !important;
 
   /* Outer: 10px gap then 2px light-gray line */
   box-shadow:
@@ -782,14 +785,19 @@ textarea,
 }
 
 @media screen and (width <= 1350px) {
-  #dashboardPage .content-primary.MuiBox-root .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-7.MuiGrid-grid-lg-7.MuiGrid-grid-xl-6, .css-dfo1ey, .css-1y3ixly  {
+  /* Stack wide dashboard columns without Emotion hashes */
+  body.dashboardDocument .content-primary > .MuiGrid-root > .MuiGrid-item.MuiGrid-grid-md-7,
+  body.dashboardDocument .content-primary > .MuiGrid-root > .MuiGrid-item.MuiGrid-grid-lg-7,
+  body.dashboardDocument .content-primary > .MuiGrid-root > .MuiGrid-item.MuiGrid-grid-xl-6 {
     flex-basis: 100% !important;
     max-width: 100% !important;
   }
 }
 
-.css-9ac84v {
-  margin-left: 10px;
+/* Drawer list secondary/primary text spacing */
+.dashboardDocument .MuiDrawer-paper .MuiListItemText-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItemText-multiline {
+  margin-left: 10px !important;
 }
 
 .dashboardDocument #jf-lcars-dash-elbow-cut {
@@ -853,6 +861,35 @@ body.dashboardDocument,
 .dashboardDocument .backgroundContainer,
 .dashboardDocument .mainAnimatedPages {
   margin-left: 0 !important;
+}
+
+
+
+/* ========== Jellyfin / MUI palette bridge ========== */
+/*
+ * Accent mapping only — avoid global background/paper overrides that break
+ * home header and clip dashboard content layout.
+ */
+html.jf-lcars-active {
+  --jf-palette-primary-main: var(--orange-red);
+  --jf-palette-primary-mainChannel: 231 68 42;
+  --jf-palette-primary-contrastText: #000000;
+  --jf-palette-secondary-main: var(--blue);
+  --jf-palette-secondary-mainChannel: 55 166 209;
+  --jf-palette-secondary-contrastText: #000000;
+  --jf-palette-error-main: var(--orange-red);
+  --jf-palette-info-main: var(--bright-blue);
+}
+
+html.jf-lcars-active body.dashboardDocument,
+html.jf-lcars-active.dashboardDocument,
+body.dashboardDocument {
+  --jf-palette-primary-main: var(--orange-red) !important;
+  --jf-palette-primary-mainChannel: 231 68 42 !important;
+  --jf-palette-primary-contrastText: #000000 !important;
+  --jf-palette-secondary-main: var(--blue) !important;
+  --jf-palette-secondary-mainChannel: 55 166 209 !important;
+  --jf-card-borderRadius: 0px !important;
 }
 
 /* ========== Drawer = solid Picard gray column ========== */
@@ -2359,6 +2396,8 @@ button.btnFilter .material-icons {
   box-shadow: none !important;
   padding: 6px !important;
   overflow-x: auto !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .MuiTable-root,
@@ -2369,7 +2408,9 @@ table {
   border-spacing: 4px 4px !important;
   background: #000 !important;
   width: 100% !important;
+  max-width: 100% !important;
   table-layout: auto !important;
+  box-sizing: border-box !important;
 }
 
 .MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader {
@@ -2633,6 +2674,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   color: var(--starlight) !important;
   fill: var(--starlight) !important;
 }
+
 
 @media (max-width: 600px) {
   :root {
@@ -2993,7 +3035,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.13.4-back-forward-square",
+    version: "2.13.7-fix-clip",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
