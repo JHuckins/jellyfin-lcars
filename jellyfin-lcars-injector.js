@@ -2735,13 +2735,15 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
 
 
 
+
 /* ========== MUI / plugin buttons — LCARS tiles (stable classes only) ========== */
 /*
- * Picard bars: square corners, uppercase Antonio, gray fill or black+outline.
- * No Emotion .css-* hashes.
+ * Filled buttons (defined background) → Picard "MORE THEMES" bar:
+ *   solid gray body, left orange-red accent strip, NO outer border.
+ * Outlined / text keep thin borders.
  */
 
-/* --- Shared button chrome --- */
+/* Shared type */
 .dashboardDocument .MuiButton-root,
 .dashboardDocument button.MuiButton-root,
 .dashboardDocument .MuiButtonBase-root.MuiButton-root,
@@ -2752,15 +2754,16 @@ html.jf-lcars-active .MuiButton-root {
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.08em !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   min-height: 2.5rem !important;
-  padding: 0.4rem 1.1rem !important;
+  padding: 0.45rem 1.25rem 0.45rem 1.35rem !important;
   line-height: 1.2 !important;
+  position: relative !important;
 }
 
-/* Contained = solid LCARS bar */
+/* --- Filled / contained: left accent bar, no border --- */
 .dashboardDocument .MuiButton-contained,
 .dashboardDocument .MuiButton-containedPrimary,
 .dashboardDocument .MuiButton-containedSecondary,
@@ -2768,48 +2771,60 @@ html.jf-lcars-active .MuiButton-root {
 .dashboardDocument .MuiButton-containedSizeSmall,
 .dashboardDocument .MuiButton-containedSizeMedium,
 .dashboardDocument .MuiButton-containedSizeLarge,
+.dashboardDocument .MuiButton-containedError,
+.dashboardDocument .MuiButton-colorError.MuiButton-contained,
+.dashboardDocument main .MuiButton-contained,
+.dashboardDocument main .MuiButton-containedPrimary,
 html.jf-lcars-active .MuiButton-contained {
-  background: var(--primary-gray) !important;
+  background: var(--light-gray) !important;
   background-image: none !important;
   color: #000 !important;
-  border: 2px solid var(--light-gray) !important;
+  border: none !important;
+  border-left: 6px solid var(--orange-red) !important;
+  box-shadow: none !important;
+  padding-left: 1.25rem !important;
 }
 .dashboardDocument .MuiButton-contained:hover,
+.dashboardDocument main .MuiButton-contained:hover,
 html.jf-lcars-active .MuiButton-contained:hover {
   background: var(--ghost-gray) !important;
   color: #000 !important;
-  border-color: var(--ghost-gray) !important;
+  border: none !important;
+  border-left: 6px solid var(--orange-red) !important;
   filter: none !important;
 }
 
-/* Primary emphasis (optional orange bar) */
-.dashboardDocument .MuiButton-containedPrimary.MuiButton-colorPrimary:not(.MuiButton-containedError) {
-  background: var(--primary-gray) !important;
-  color: #000 !important;
-  border: 2px solid var(--light-gray) !important;
-}
-
-/* Destructive */
+/* Error filled: orange body, darker left tick */
 .dashboardDocument .MuiButton-containedError,
-.dashboardDocument .MuiButton-colorError.MuiButton-contained,
-.dashboardDocument .MuiButton-outlinedError {
+.dashboardDocument .MuiButton-colorError.MuiButton-contained {
   background: var(--orange-red) !important;
   color: #000 !important;
-  border: 2px solid var(--orange-red) !important;
+  border: none !important;
+  border-left: 6px solid var(--pale-orange-red) !important;
 }
 .dashboardDocument .MuiButton-containedError:hover {
-  filter: brightness(1.1) !important;
-  background: var(--orange-red) !important;
+  background: var(--light-orange-red) !important;
+  border-left: 6px solid var(--pale-orange-red) !important;
 }
 
-/* Outlined = black tile + light border */
+/* Secondary filled: blue-gray body */
+.dashboardDocument .MuiButton-containedSecondary {
+  background: var(--blue) !important;
+  color: #000 !important;
+  border: none !important;
+  border-left: 6px solid var(--bright-blue) !important;
+}
+
+/* --- Outlined: black + light border (no left bar) --- */
 .dashboardDocument .MuiButton-outlined,
 .dashboardDocument .MuiButton-outlinedPrimary,
 .dashboardDocument .MuiButton-outlinedSecondary,
+.dashboardDocument main .MuiButton-outlined,
 html.jf-lcars-active .MuiButton-outlined {
   background: #000 !important;
   color: var(--ghost-gray) !important;
   border: 2px solid var(--light-gray) !important;
+  border-left: 2px solid var(--light-gray) !important;
 }
 .dashboardDocument .MuiButton-outlined:hover {
   border-color: var(--ghost-gray) !important;
@@ -2817,30 +2832,25 @@ html.jf-lcars-active .MuiButton-outlined {
   background: #000 !important;
 }
 
-/* Text buttons */
+/* Text */
 .dashboardDocument .MuiButton-text,
 .dashboardDocument .MuiButton-textPrimary {
   background: transparent !important;
   color: var(--ghost-gray) !important;
-  border: 2px solid transparent !important;
+  border: none !important;
 }
 .dashboardDocument .MuiButton-text:hover {
   color: var(--starlight) !important;
   background: rgba(109, 116, 140, 0.2) !important;
-  border-color: var(--medium-dark-gray) !important;
 }
 
 /* Disabled */
-.dashboardDocument .MuiButton-root.Mui-disabled,
-.dashboardDocument .MuiIconButton-root.Mui-disabled {
+.dashboardDocument .MuiButton-root.Mui-disabled {
   opacity: 0.4 !important;
-  color: var(--medium-dark-gray) !important;
-  border-color: var(--medium-dark-gray) !important;
 }
 
-/* Icon buttons — square LCARS tiles */
-.dashboardDocument .MuiIconButton-root,
-html.jf-lcars-active .MuiIconButton-root:not(.headerButton) {
+/* Icon buttons — square outlined tiles */
+.dashboardDocument .MuiIconButton-root {
   border-radius: 0 !important;
   color: var(--ghost-gray) !important;
   border: 2px solid var(--light-gray) !important;
@@ -2860,20 +2870,16 @@ html.jf-lcars-active .MuiIconButton-root:not(.headerButton) {
   font-size: 1.35rem !important;
 }
 
-/* Button groups — flush LCARS segments */
+/* Button groups */
 .dashboardDocument .MuiButtonGroup-root {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
 .dashboardDocument .MuiButtonGroup-root .MuiButton-root {
   border-radius: 0 !important;
-  margin: 0 !important;
-}
-.dashboardDocument .MuiButtonGroup-grouped:not(:last-of-type) {
-  border-right-color: #000 !important;
 }
 
-/* Toggle buttons */
+/* Toggle */
 .dashboardDocument .MuiToggleButton-root {
   border-radius: 0 !important;
   border: 2px solid var(--light-gray) !important;
@@ -2884,18 +2890,20 @@ html.jf-lcars-active .MuiIconButton-root:not(.headerButton) {
   font-weight: 700 !important;
 }
 .dashboardDocument .MuiToggleButton-root.Mui-selected {
-  background: var(--primary-gray) !important;
+  background: var(--light-gray) !important;
   color: #000 !important;
-  border-color: var(--light-gray) !important;
+  border: none !important;
+  border-left: 6px solid var(--orange-red) !important;
 }
 
-/* FAB */
+/* FAB — filled with left accent */
 .dashboardDocument .MuiFab-root {
   border-radius: 0 !important;
-  background: var(--orange-red) !important;
+  background: var(--light-gray) !important;
   color: #000 !important;
   box-shadow: none !important;
-  border: 2px solid var(--orange-red) !important;
+  border: none !important;
+  border-left: 6px solid var(--orange-red) !important;
 }
 
 /* Tabs / chips */
@@ -2907,29 +2915,18 @@ html.jf-lcars-active .MuiIconButton-root:not(.headerButton) {
   font-weight: 700 !important;
   letter-spacing: 0.05em !important;
 }
-.dashboardDocument .MuiTab-root {
-  color: var(--ghost-gray) !important;
-  min-height: 2.5rem !important;
-  border: 2px solid transparent !important;
-}
 .dashboardDocument .MuiTab-root.Mui-selected {
   background: var(--orange-red) !important;
   color: #000 !important;
-  border-color: var(--orange-red) !important;
 }
-.dashboardDocument .MuiChip-filled,
-.dashboardDocument .MuiChip-colorPrimary {
-  background: var(--primary-gray) !important;
+.dashboardDocument .MuiChip-filled {
+  background: var(--light-gray) !important;
   color: #000 !important;
-  border: 2px solid var(--light-gray) !important;
-}
-.dashboardDocument .MuiChip-outlined {
-  background: #000 !important;
-  color: var(--ghost-gray) !important;
-  border: 2px solid var(--light-gray) !important;
+  border: none !important;
+  border-left: 4px solid var(--orange-red) !important;
 }
 
-/* Text fields (square LCARS) */
+/* Inputs */
 .dashboardDocument .MuiInputBase-root,
 .dashboardDocument .MuiOutlinedInput-root {
   border-radius: 0 !important;
@@ -2952,7 +2949,6 @@ html.jf-lcars-active .MuiIconButton-root:not(.headerButton) {
   font-family: var(--lcars-font) !important;
   color: var(--ghost-gray) !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
 }
 
 /* Alerts */
@@ -2964,8 +2960,8 @@ html.jf-lcars-active .MuiIconButton-root:not(.headerButton) {
   color: var(--ghost-gray) !important;
 }
 
-/* --- Legacy Emby / library shell buttons --- */
-html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton),
+/* Legacy Emby raised / submit — filled MORE THEMES style */
+html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):not(.emby-button-outline),
 html.jf-lcars-active button.raised,
 html.jf-lcars-active .raised.emby-button,
 html.jf-lcars-active .fab.emby-button,
@@ -2974,14 +2970,15 @@ html.jf-lcars-active .button-submit {
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.08em !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   min-height: 2.5rem !important;
-  padding: 0.4rem 1.1rem !important;
-  background: var(--primary-gray) !important;
+  padding: 0.45rem 1.25rem !important;
+  background: var(--light-gray) !important;
   color: #000 !important;
-  border: 2px solid var(--light-gray) !important;
+  border: none !important;
+  border-left: 6px solid var(--orange-red) !important;
 }
 html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):hover,
 html.jf-lcars-active button.raised:hover {
@@ -2997,25 +2994,11 @@ html.jf-lcars-active button.emby-button.emby-button-outline {
   border-radius: 0 !important;
 }
 
-/* List / menu action items in dialogs */
 html.jf-lcars-active .actionSheetMenuItem,
 html.jf-lcars-active .listItem-button {
   font-family: var(--lcars-font) !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
   border-radius: 0 !important;
-}
-
-/* Override earlier main-only orange contained so all bars match */
-.dashboardDocument main .MuiButton-contained,
-.dashboardDocument main .MuiButton-containedPrimary {
-  background: var(--primary-gray) !important;
-  color: #000 !important;
-  border: 2px solid var(--light-gray) !important;
-}
-.dashboardDocument main .MuiButton-contained:hover {
-  background: var(--ghost-gray) !important;
-  filter: none !important;
 }
 
 @media (max-width: 600px) {
@@ -3377,7 +3360,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.14.2-lcars-buttons",
+    version: "2.14.3-more-themes-btn",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
