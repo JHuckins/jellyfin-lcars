@@ -306,6 +306,60 @@ body.jf-lcars-active::after {
 
 
 
+
+/* ========== Dashboard main content visibility ========== */
+/*
+ * MUI permanent drawer owns horizontal inset (padding-left / width).
+ * Do not set left/width on .mainAnimatedPage — that hid the main column.
+ * Ensure text and papers remain visible on black LCARS surfaces.
+ */
+.dashboardDocument .mainAnimatedPage,
+.dashboardDocument .mainAnimatedPages {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: var(--starlight) !important;
+}
+
+.dashboardDocument .MuiDrawer-docked + *,
+.dashboardDocument main,
+.dashboardDocument main.MuiBox-root {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: var(--starlight) !important;
+  min-width: 0 !important;
+  flex-grow: 1 !important;
+}
+
+.dashboardDocument .content-primary,
+.dashboardDocument .content-primary.MuiBox-root {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: var(--starlight) !important;
+  display: block !important;
+}
+
+.dashboardDocument main .MuiTypography-root,
+.dashboardDocument .content-primary .MuiTypography-root {
+  color: var(--starlight) !important;
+}
+.dashboardDocument main .MuiTypography-body2,
+.dashboardDocument main .MuiTypography-caption,
+.dashboardDocument .content-primary .MuiTypography-body2 {
+  color: var(--ghost-gray) !important;
+}
+.dashboardDocument main .MuiTypography-h4,
+.dashboardDocument main .MuiTypography-h5,
+.dashboardDocument main .MuiTypography-h6 {
+  color: var(--orange-red) !important;
+}
+
+/* Library LCARS frame is for non-admin shell only */
+.dashboardDocument .jf-lcars-frame,
+.dashboardDocument #jf-lcars-frame {
+  display: none !important;
+  width: 0 !important;
+}
+
 /* ========== Content well — outer line + 10px gap + LCARS bars ========== */
 /*
  * Layers (outside → inside):
@@ -778,31 +832,7 @@ textarea,
   }
 }
 
-/* Main column sits beside the docked drawer — never under it */
-@media screen and (width >= 900px) {
-  .dashboardDocument .mainAnimatedPage:not(.metadataEditorPage) {
-    left: auto !important;
-    margin-left: 0 !important;
-  }
-  /* If MUI uses a content wrapper next to the drawer, keep it clear of the rail */
-  .dashboardDocument .MuiDrawer-docked + * ,
-  .dashboardDocument main {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    box-sizing: border-box !important;
-    max-width: 100% !important;
-  }
-}
 
-/* Dashboard: keep primary content fully to the right of the docked drawer */
-.dashboardDocument .mainAnimatedPages,
-.dashboardDocument .mainAnimatedPage {
-  left: auto !important;
-  position: relative !important;
-}
-.dashboardDocument .MuiDrawer-docked {
-  flex-shrink: 0 !important;
-}
 
 
 @media screen and (width <= 1350px) {
@@ -913,6 +943,12 @@ body.dashboardDocument {
   --jf-card-borderRadius: 0px !important;
 }
 
+
+/* Preserve MUI permanent-drawer content inset (do not zero padding-left) */
+.dashboardDocument .MuiDrawer-docked + .MuiBox-root,
+.dashboardDocument main.MuiBox-root {
+  box-sizing: border-box !important;
+}
 /* ========== Drawer = solid Picard gray column ========== */
 .dashboardDocument .MuiDrawer-root.MuiDrawer-docked,
 .dashboardDocument .MuiDrawer-docked {
@@ -2697,6 +2733,291 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
 }
 
 
+
+
+/* ========== MUI / plugin buttons — LCARS tiles (stable classes only) ========== */
+/*
+ * Picard bars: square corners, uppercase Antonio, gray fill or black+outline.
+ * No Emotion .css-* hashes.
+ */
+
+/* --- Shared button chrome --- */
+.dashboardDocument .MuiButton-root,
+.dashboardDocument button.MuiButton-root,
+.dashboardDocument .MuiButtonBase-root.MuiButton-root,
+.dashboardDocument .MuiLoadingButton-root,
+.dashboardDocument .MuiToggleButton-root,
+.dashboardDocument .MuiFab-root,
+html.jf-lcars-active .MuiButton-root {
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-height: 2.5rem !important;
+  padding: 0.4rem 1.1rem !important;
+  line-height: 1.2 !important;
+}
+
+/* Contained = solid LCARS bar */
+.dashboardDocument .MuiButton-contained,
+.dashboardDocument .MuiButton-containedPrimary,
+.dashboardDocument .MuiButton-containedSecondary,
+.dashboardDocument .MuiButton-containedInherit,
+.dashboardDocument .MuiButton-containedSizeSmall,
+.dashboardDocument .MuiButton-containedSizeMedium,
+.dashboardDocument .MuiButton-containedSizeLarge,
+html.jf-lcars-active .MuiButton-contained {
+  background: var(--primary-gray) !important;
+  background-image: none !important;
+  color: #000 !important;
+  border: 2px solid var(--light-gray) !important;
+}
+.dashboardDocument .MuiButton-contained:hover,
+html.jf-lcars-active .MuiButton-contained:hover {
+  background: var(--ghost-gray) !important;
+  color: #000 !important;
+  border-color: var(--ghost-gray) !important;
+  filter: none !important;
+}
+
+/* Primary emphasis (optional orange bar) */
+.dashboardDocument .MuiButton-containedPrimary.MuiButton-colorPrimary:not(.MuiButton-containedError) {
+  background: var(--primary-gray) !important;
+  color: #000 !important;
+  border: 2px solid var(--light-gray) !important;
+}
+
+/* Destructive */
+.dashboardDocument .MuiButton-containedError,
+.dashboardDocument .MuiButton-colorError.MuiButton-contained,
+.dashboardDocument .MuiButton-outlinedError {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+  border: 2px solid var(--orange-red) !important;
+}
+.dashboardDocument .MuiButton-containedError:hover {
+  filter: brightness(1.1) !important;
+  background: var(--orange-red) !important;
+}
+
+/* Outlined = black tile + light border */
+.dashboardDocument .MuiButton-outlined,
+.dashboardDocument .MuiButton-outlinedPrimary,
+.dashboardDocument .MuiButton-outlinedSecondary,
+html.jf-lcars-active .MuiButton-outlined {
+  background: #000 !important;
+  color: var(--ghost-gray) !important;
+  border: 2px solid var(--light-gray) !important;
+}
+.dashboardDocument .MuiButton-outlined:hover {
+  border-color: var(--ghost-gray) !important;
+  color: var(--starlight) !important;
+  background: #000 !important;
+}
+
+/* Text buttons */
+.dashboardDocument .MuiButton-text,
+.dashboardDocument .MuiButton-textPrimary {
+  background: transparent !important;
+  color: var(--ghost-gray) !important;
+  border: 2px solid transparent !important;
+}
+.dashboardDocument .MuiButton-text:hover {
+  color: var(--starlight) !important;
+  background: rgba(109, 116, 140, 0.2) !important;
+  border-color: var(--medium-dark-gray) !important;
+}
+
+/* Disabled */
+.dashboardDocument .MuiButton-root.Mui-disabled,
+.dashboardDocument .MuiIconButton-root.Mui-disabled {
+  opacity: 0.4 !important;
+  color: var(--medium-dark-gray) !important;
+  border-color: var(--medium-dark-gray) !important;
+}
+
+/* Icon buttons — square LCARS tiles */
+.dashboardDocument .MuiIconButton-root,
+html.jf-lcars-active .MuiIconButton-root:not(.headerButton) {
+  border-radius: 0 !important;
+  color: var(--ghost-gray) !important;
+  border: 2px solid var(--light-gray) !important;
+  background: #000 !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  padding: 0 !important;
+}
+.dashboardDocument .MuiIconButton-root:hover {
+  color: var(--starlight) !important;
+  border-color: var(--ghost-gray) !important;
+  background: #000 !important;
+}
+.dashboardDocument .MuiIconButton-root .MuiSvgIcon-root {
+  color: inherit !important;
+  fill: currentColor !important;
+  font-size: 1.35rem !important;
+}
+
+/* Button groups — flush LCARS segments */
+.dashboardDocument .MuiButtonGroup-root {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.dashboardDocument .MuiButtonGroup-root .MuiButton-root {
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+.dashboardDocument .MuiButtonGroup-grouped:not(:last-of-type) {
+  border-right-color: #000 !important;
+}
+
+/* Toggle buttons */
+.dashboardDocument .MuiToggleButton-root {
+  border-radius: 0 !important;
+  border: 2px solid var(--light-gray) !important;
+  color: var(--ghost-gray) !important;
+  background: #000 !important;
+  text-transform: uppercase !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+}
+.dashboardDocument .MuiToggleButton-root.Mui-selected {
+  background: var(--primary-gray) !important;
+  color: #000 !important;
+  border-color: var(--light-gray) !important;
+}
+
+/* FAB */
+.dashboardDocument .MuiFab-root {
+  border-radius: 0 !important;
+  background: var(--orange-red) !important;
+  color: #000 !important;
+  box-shadow: none !important;
+  border: 2px solid var(--orange-red) !important;
+}
+
+/* Tabs / chips */
+.dashboardDocument .MuiTab-root,
+.dashboardDocument .MuiChip-root {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+.dashboardDocument .MuiTab-root {
+  color: var(--ghost-gray) !important;
+  min-height: 2.5rem !important;
+  border: 2px solid transparent !important;
+}
+.dashboardDocument .MuiTab-root.Mui-selected {
+  background: var(--orange-red) !important;
+  color: #000 !important;
+  border-color: var(--orange-red) !important;
+}
+.dashboardDocument .MuiChip-filled,
+.dashboardDocument .MuiChip-colorPrimary {
+  background: var(--primary-gray) !important;
+  color: #000 !important;
+  border: 2px solid var(--light-gray) !important;
+}
+.dashboardDocument .MuiChip-outlined {
+  background: #000 !important;
+  color: var(--ghost-gray) !important;
+  border: 2px solid var(--light-gray) !important;
+}
+
+/* Text fields (square LCARS) */
+.dashboardDocument .MuiInputBase-root,
+.dashboardDocument .MuiOutlinedInput-root {
+  border-radius: 0 !important;
+  font-family: var(--lcars-font) !important;
+  color: var(--starlight) !important;
+  background: #000 !important;
+}
+.dashboardDocument .MuiOutlinedInput-notchedOutline {
+  border-color: var(--medium-dark-gray) !important;
+  border-radius: 0 !important;
+  border-width: 2px !important;
+}
+.dashboardDocument .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--light-gray) !important;
+}
+.dashboardDocument .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--blue) !important;
+}
+.dashboardDocument .MuiInputLabel-root {
+  font-family: var(--lcars-font) !important;
+  color: var(--ghost-gray) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Alerts */
+.dashboardDocument .MuiAlert-root {
+  border-radius: 0 !important;
+  font-family: var(--lcars-font) !important;
+  border: 2px solid var(--medium-dark-gray) !important;
+  background: #000 !important;
+  color: var(--ghost-gray) !important;
+}
+
+/* --- Legacy Emby / library shell buttons --- */
+html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton),
+html.jf-lcars-active button.raised,
+html.jf-lcars-active .raised.emby-button,
+html.jf-lcars-active .fab.emby-button,
+html.jf-lcars-active .btnSubmit,
+html.jf-lcars-active .button-submit {
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-height: 2.5rem !important;
+  padding: 0.4rem 1.1rem !important;
+  background: var(--primary-gray) !important;
+  color: #000 !important;
+  border: 2px solid var(--light-gray) !important;
+}
+html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):hover,
+html.jf-lcars-active button.raised:hover {
+  background: var(--ghost-gray) !important;
+  color: #000 !important;
+}
+
+html.jf-lcars-active .emby-button-outline,
+html.jf-lcars-active button.emby-button.emby-button-outline {
+  background: #000 !important;
+  color: var(--ghost-gray) !important;
+  border: 2px solid var(--light-gray) !important;
+  border-radius: 0 !important;
+}
+
+/* List / menu action items in dialogs */
+html.jf-lcars-active .actionSheetMenuItem,
+html.jf-lcars-active .listItem-button {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  border-radius: 0 !important;
+}
+
+/* Override earlier main-only orange contained so all bars match */
+.dashboardDocument main .MuiButton-contained,
+.dashboardDocument main .MuiButton-containedPrimary {
+  background: var(--primary-gray) !important;
+  color: #000 !important;
+  border: 2px solid var(--light-gray) !important;
+}
+.dashboardDocument main .MuiButton-contained:hover {
+  background: var(--ghost-gray) !important;
+  filter: none !important;
+}
+
 @media (max-width: 600px) {
   :root {
     --lcars-sidebar: 42px;
@@ -3056,7 +3377,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.13.8-drawer-clear",
+    version: "2.14.2-lcars-buttons",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
