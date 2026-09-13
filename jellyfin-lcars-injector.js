@@ -2736,6 +2736,200 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
 
 
 
+
+
+/* ========== App toolbar nav (Favorites / Movies / …) — Picard bars ========== */
+/*
+ * Endcap + black gap + body (picard.css .buttons button).
+ * Body after the gap is at least square; icons centered in that body.
+ */
+html.jf-lcars-active .MuiToolbar-root,
+html.jf-lcars-active .MuiToolbar-root.MuiToolbar-dense {
+  gap: 0.45rem !important;
+  min-height: 3rem !important;
+  align-items: center !important;
+}
+
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root {
+  gap: 0.45rem !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+}
+
+/* Shared tile metrics */
+html.jf-lcars-active .MuiToolbar-root {
+  --lcars-tb-h: 2.6rem;
+  --lcars-tb-cap: 10px;
+  --lcars-tb-gap: 8px;
+}
+
+/* Text nav links */
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-root,
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-text,
+html.jf-lcars-active .MuiToolbar-root .MuiButton-textInherit {
+  position: relative !important;
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  height: var(--lcars-tb-h) !important;
+  min-height: var(--lcars-tb-h) !important;
+  /* body at least square after cap+gap */
+  min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-right: 0.85rem !important;
+  padding-left: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + 0.55rem) !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-transform: uppercase !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  color: #000 !important;
+  background-color: var(--light-gray) !important;
+  background-image: none !important;
+  border: none !important;
+  border-left: var(--lcars-tb-cap) solid var(--orange-red) !important;
+  overflow: hidden !important;
+}
+
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-root::before,
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-text::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: var(--lcars-tb-gap) !important;
+  height: 100% !important;
+  background-color: #000 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* Color mix */
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
+  border-left-color: var(--primary-gray) !important;
+  background-color: var(--ghost-gray) !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(3) {
+  border-left-color: var(--orange-red) !important;
+  background-color: var(--light-gray) !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(4) {
+  border-left-color: var(--medium-dark-gray) !important;
+  background-color: var(--ghost-gray) !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(5) {
+  border-left-color: var(--orange-red) !important;
+  background-color: var(--primary-gray) !important;
+}
+
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-root:hover {
+  filter: brightness(1.15) !important;
+  color: #000 !important;
+}
+
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-root .MuiButton-startIcon {
+  margin: 0 0.35rem 0 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #000 !important;
+}
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-root .MuiSvgIcon-root {
+  color: #000 !important;
+  fill: #000 !important;
+  font-size: 1.15rem !important;
+}
+html.jf-lcars-active .MuiToolbar-root a.MuiButton-root img {
+  filter: brightness(0) !important;
+  max-height: 1.15em !important;
+}
+
+/* Icon-only toolbar buttons — square body, icon centered */
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root,
+html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root {
+  --lcars-tb-cap: 6px;
+  --lcars-tb-gap: 6px;
+  box-sizing: border-box !important;
+  height: var(--lcars-tb-h) !important;
+  width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
+  min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
+  min-height: var(--lcars-tb-h) !important;
+  padding: 0 !important;
+  padding-left: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap)) !important;
+  margin: 0 0.2rem !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-left: var(--lcars-tb-cap) solid var(--orange-red) !important;
+  background-color: var(--primary-gray) !important;
+  color: #000 !important;
+  position: relative !important;
+  overflow: hidden !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root::before,
+html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: var(--lcars-tb-gap) !important;
+  height: 100% !important;
+  background: #000 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root:nth-of-type(2) {
+  border-left-color: var(--medium-dark-gray) !important;
+  background-color: var(--light-gray) !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root:nth-of-type(3),
+html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root[aria-label="Search"] {
+  border-left-color: var(--orange-red) !important;
+  background-color: var(--ghost-gray) !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root:hover {
+  filter: brightness(1.15) !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiSvgIcon-root,
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiBadge-root {
+  position: relative !important;
+  z-index: 1 !important;
+  color: #000 !important;
+  fill: #000 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiSvgIcon-root {
+  font-size: 1.3rem !important;
+  margin: 0 !important;
+}
+
+/* User menu — square orange plate */
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] {
+  border-left-color: var(--pale-orange-red) !important;
+  background-color: var(--orange-red) !important;
+  width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
+  height: var(--lcars-tb-h) !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] .MuiAvatar-root {
+  background: transparent !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  margin: 0 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] .MuiSvgIcon-root {
+  color: #000 !important;
+  fill: #000 !important;
+}
+
 /* ========== MUI / plugin buttons — LCARS tiles (stable classes only) ========== */
 /*
  * Filled buttons (defined background) → Picard "MORE THEMES" bar:
@@ -2754,16 +2948,23 @@ html.jf-lcars-active .MuiButton-root {
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.1em !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  min-height: 2.5rem !important;
-  padding: 0.45rem 1.25rem 0.45rem 1.35rem !important;
-  line-height: 1.2 !important;
+  min-height: 2.6rem !important;
+  font-size: 0.95rem !important;
+  line-height: 1.15 !important;
   position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
 }
 
-/* --- Filled / contained: left accent bar, no border --- */
+/* --- Filled / contained: red endcap + gap + body (MORE THEMES) --- */
+/*
+ * [6px orange] [8px black gap] [gray body]
+ * Text: uniform size, right-aligned in the body (Picard panel labels).
+ */
 .dashboardDocument .MuiButton-contained,
 .dashboardDocument .MuiButton-containedPrimary,
 .dashboardDocument .MuiButton-containedSecondary,
@@ -2776,43 +2977,66 @@ html.jf-lcars-active .MuiButton-root {
 .dashboardDocument main .MuiButton-contained,
 .dashboardDocument main .MuiButton-containedPrimary,
 html.jf-lcars-active .MuiButton-contained {
-  background: var(--light-gray) !important;
-  background-image: none !important;
+  --lcars-btn-cap: 6px;
+  --lcars-btn-gap: 8px;
   color: #000 !important;
   border: none !important;
-  border-left: 6px solid var(--orange-red) !important;
   box-shadow: none !important;
-  padding-left: 1.25rem !important;
+  background-color: #000 !important;
+  background-image:
+    linear-gradient(var(--orange-red), var(--orange-red)),
+    linear-gradient(var(--light-gray), var(--light-gray)) !important;
+  background-size:
+    var(--lcars-btn-cap) 100%,
+    calc(100% - var(--lcars-btn-cap) - var(--lcars-btn-gap)) 100% !important;
+  background-position: left center, right center !important;
+  background-repeat: no-repeat !important;
+  padding: 0.5rem 1.15rem 0.5rem calc(var(--lcars-btn-cap) + var(--lcars-btn-gap) + 0.75rem) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.1em !important;
+  text-align: right !important;
+  justify-content: flex-end !important;
+  min-height: 2.6rem !important;
+  min-width: 7.5rem !important;
 }
 .dashboardDocument .MuiButton-contained:hover,
 .dashboardDocument main .MuiButton-contained:hover,
 html.jf-lcars-active .MuiButton-contained:hover {
-  background: var(--ghost-gray) !important;
+  background-color: #000 !important;
+  background-image:
+    linear-gradient(var(--orange-red), var(--orange-red)),
+    linear-gradient(var(--ghost-gray), var(--ghost-gray)) !important;
+  background-size:
+    var(--lcars-btn-cap) 100%,
+    calc(100% - var(--lcars-btn-cap) - var(--lcars-btn-gap)) 100% !important;
+  background-position: left center, right center !important;
+  background-repeat: no-repeat !important;
   color: #000 !important;
   border: none !important;
-  border-left: 6px solid var(--orange-red) !important;
   filter: none !important;
 }
 
-/* Error filled: orange body, darker left tick */
+/* Error filled */
 .dashboardDocument .MuiButton-containedError,
 .dashboardDocument .MuiButton-colorError.MuiButton-contained {
-  background: var(--orange-red) !important;
+  background-image:
+    linear-gradient(var(--pale-orange-red), var(--pale-orange-red)),
+    linear-gradient(var(--orange-red), var(--orange-red)) !important;
   color: #000 !important;
-  border: none !important;
-  border-left: 6px solid var(--pale-orange-red) !important;
 }
 .dashboardDocument .MuiButton-containedError:hover {
-  background: var(--light-orange-red) !important;
-  border-left: 6px solid var(--pale-orange-red) !important;
+  background-image:
+    linear-gradient(var(--pale-orange-red), var(--pale-orange-red)),
+    linear-gradient(var(--light-orange-red), var(--light-orange-red)) !important;
 }
 
-/* Secondary filled: blue-gray body */
+/* Secondary filled */
 .dashboardDocument .MuiButton-containedSecondary {
-  background: var(--blue) !important;
+  background-image:
+    linear-gradient(var(--bright-blue), var(--bright-blue)),
+    linear-gradient(var(--blue), var(--blue)) !important;
   color: #000 !important;
-  border: none !important;
-  border-left: 6px solid var(--bright-blue) !important;
 }
 
 /* --- Outlined: black + light border (no left bar) --- */
@@ -2967,22 +3191,40 @@ html.jf-lcars-active .raised.emby-button,
 html.jf-lcars-active .fab.emby-button,
 html.jf-lcars-active .btnSubmit,
 html.jf-lcars-active .button-submit {
+  --lcars-btn-cap: 6px;
+  --lcars-btn-gap: 8px;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.1em !important;
+  font-size: 0.95rem !important;
+  line-height: 1.15 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  min-height: 2.5rem !important;
-  padding: 0.45rem 1.25rem !important;
-  background: var(--light-gray) !important;
+  min-height: 2.6rem !important;
+  min-width: 7.5rem !important;
+  text-align: right !important;
+  justify-content: flex-end !important;
+  display: inline-flex !important;
+  align-items: center !important;
   color: #000 !important;
   border: none !important;
-  border-left: 6px solid var(--orange-red) !important;
+  background-color: #000 !important;
+  background-image:
+    linear-gradient(var(--orange-red), var(--orange-red)),
+    linear-gradient(var(--light-gray), var(--light-gray)) !important;
+  background-size:
+    var(--lcars-btn-cap) 100%,
+    calc(100% - var(--lcars-btn-cap) - var(--lcars-btn-gap)) 100% !important;
+  background-position: left center, right center !important;
+  background-repeat: no-repeat !important;
+  padding: 0.5rem 1.15rem 0.5rem calc(var(--lcars-btn-cap) + var(--lcars-btn-gap) + 0.75rem) !important;
 }
 html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):hover,
 html.jf-lcars-active button.raised:hover {
-  background: var(--ghost-gray) !important;
+  background-image:
+    linear-gradient(var(--orange-red), var(--orange-red)),
+    linear-gradient(var(--ghost-gray), var(--ghost-gray)) !important;
   color: #000 !important;
 }
 
@@ -3360,7 +3602,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.14.3-more-themes-btn",
+    version: "2.14.6-toolbar-square",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
