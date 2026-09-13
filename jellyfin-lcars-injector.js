@@ -778,11 +778,32 @@ textarea,
   }
 }
 
+/* Main column sits beside the docked drawer — never under it */
 @media screen and (width >= 900px) {
   .dashboardDocument .mainAnimatedPage:not(.metadataEditorPage) {
-    left: 40px; 
+    left: auto !important;
+    margin-left: 0 !important;
+  }
+  /* If MUI uses a content wrapper next to the drawer, keep it clear of the rail */
+  .dashboardDocument .MuiDrawer-docked + * ,
+  .dashboardDocument main {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
   }
 }
+
+/* Dashboard: keep primary content fully to the right of the docked drawer */
+.dashboardDocument .mainAnimatedPages,
+.dashboardDocument .mainAnimatedPage {
+  left: auto !important;
+  position: relative !important;
+}
+.dashboardDocument .MuiDrawer-docked {
+  flex-shrink: 0 !important;
+}
+
 
 @media screen and (width <= 1350px) {
   /* Stack wide dashboard columns without Emotion hashes */
@@ -865,7 +886,7 @@ body.dashboardDocument,
 
 
 
-/* ========== Jellyfin / MUI palette bridge ========== */
+/* ========== Jellyfin / MUI palette bridge (stable tokens, no .css-*) ========== */
 /*
  * Accent mapping only — avoid global background/paper overrides that break
  * home header and clip dashboard content layout.
@@ -3035,7 +3056,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.13.7-fix-clip",
+    version: "2.13.8-drawer-clear",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
