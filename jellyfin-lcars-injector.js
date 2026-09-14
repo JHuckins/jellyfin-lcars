@@ -1132,38 +1132,38 @@ body.dashboardDocument {
 }
 
 /* Alternating solid colors */
-.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root:not(.Mui-selected),
-.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+1):not(.Mui-selected) {
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+1):not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--primary-gray) !important;
   background-color: var(--primary-gray) !important;
   color: #000 !important;
 }
-.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+2) > .MuiListItemButton-root:not(.Mui-selected),
-.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+2):not(.Mui-selected) {
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+2) > .MuiListItemButton-root:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+2):not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--light-gray) !important;
   background-color: var(--light-gray) !important;
   color: #000 !important;
 }
-.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+3) > .MuiListItemButton-root:not(.Mui-selected),
-.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+3):not(.Mui-selected) {
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+3) > .MuiListItemButton-root:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+3):not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--medium-dark-gray) !important;
   background-color: var(--medium-dark-gray) !important;
   color: var(--starlight) !important;
 }
-.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+4) > .MuiListItemButton-root:not(.Mui-selected),
-.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+4):not(.Mui-selected) {
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+4) > .MuiListItemButton-root:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+4):not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
   color: #000 !important;
 }
-.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+5) > .MuiListItemButton-root:not(.Mui-selected),
-.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+5):not(.Mui-selected) {
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+5) > .MuiListItemButton-root:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+5):not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--blue) !important;
   background-color: var(--blue) !important;
   color: #000 !important;
 }
-.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+6) > .MuiListItemButton-root:not(.Mui-selected),
-.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+6):not(.Mui-selected) {
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+6) > .MuiListItemButton-root:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+6):not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--orange-red) !important;
   background-color: var(--orange-red) !important;
   color: #000 !important;
@@ -1210,15 +1210,15 @@ body.dashboardDocument {
   color: inherit !important;
 }
 
-.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected,
-.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root.Mui-selected {
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected:not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root.Mui-selected:not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--orange-red) !important;
   background-color: var(--orange-red) !important;
   color: #000 !important;
   border: none !important;
   filter: none !important;
 }
-.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected:hover {
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected:not([href="#/dashboard"]):not([href="#/dashboard/"]):hover {
   background: var(--light-orange-red) !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected .MuiSvgIcon-root,
@@ -1302,14 +1302,16 @@ body.dashboardDocument {
 
 /* Dashboard + true concave LCARS elbow (L with inner quarter-circle) */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
-.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected {
   --lcars-dash-fill: var(--starlight);
   /* thicker arm to match Picard runner / prior thicker bar */
   --lcars-dash-arm: 28px;
-  --lcars-dash-arm-len: clamp(72px, 11vw, 130px);
+  --lcars-dash-arm-len: clamp(72px, 6.85vw, 130px);
   --lcars-dash-curve: 55px;
-  background: var(--lcars-dash-fill) !important;
-  background-color: var(--lcars-dash-fill) !important;
+  background: var(--starlight) !important;
+  background-color: var(--starlight) !important;
   color: #000 !important;
   min-height: 10.8rem !important;
   height: 10.8rem !important;
@@ -1346,7 +1348,7 @@ body.dashboardDocument {
    * concave arc + short stub stick out past the right edge.
    */
   left: calc(100% - (var(--lcars-dash-curve) - var(--lcars-dash-arm))) !important;
-  top: 0 !important;
+  top: 1px !important;
   width: var(--lcars-dash-curve) !important;
   height: var(--lcars-dash-curve) !important;
   box-sizing: border-box !important;
@@ -1394,18 +1396,18 @@ body.dashboardDocument {
 
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover {
-  --lcars-dash-fill: var(--light-gray);
+  --lcars-dash-fill: var(--ghost-gray);
   filter: none !important;
-  background: var(--lcars-dash-fill) !important;
-  background-color: var(--lcars-dash-fill) !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
 }
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:active,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:active {
-  --lcars-dash-fill: var(--ghost-gray);
-  background: var(--lcars-dash-fill) !important;
-  background-color: var(--lcars-dash-fill) !important;
+  --lcars-dash-fill: var(--starlight);
+  background: var(--starlight) !important;
+  background-color: var(--starlight) !important;
   color: #000 !important;
   filter: none !important;
 }
@@ -3968,7 +3970,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.17.2-curve-under",
+    version: "2.17.4-dash-starlight",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
