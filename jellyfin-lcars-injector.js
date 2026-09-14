@@ -1309,7 +1309,7 @@ body.dashboardDocument {
   /* fixed lengths — no clamp (stable gap to runner) */
   --lcars-dash-arm: 30px;
   --lcars-dash-arm-len: 96px;
-  --lcars-dash-curve: 80px;
+  --lcars-dash-curve: 60px;
   background: var(--starlight) !important;
   background-color: var(--starlight) !important;
   color: #000 !important;
