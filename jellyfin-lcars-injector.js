@@ -779,38 +779,40 @@ textarea,
   display: none !important;
   pointer-events: none !important;
   box-sizing: border-box !important;
+  visibility: hidden !important;
 }
 
 .dashboardDocument #jf-lcars-dash-elbow {
-  display: block !important;
+  display: none !important;
   position: fixed !important;
-  /* overlap drawer by arm thickness so column gray merges into the curve */
-  left: calc(var(--lcars-admin-drawer) - 20px) !important;
-  top: 53px !important;
-  width: 100px !important;  /* 20px overlap + 80px curve */
-  height: 100px !important;
+  /* top of curve = top of Dashboard; bottom of curve ends above Dashboard bottom */
+  left: calc(var(--lcars-admin-drawer) - var(--lcars-dash-arm, 20px)) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
+  width: calc(var(--lcars-dash-arm, 20px) + var(--lcars-dash-curve-r, 80px)) !important;
+  height: calc(var(--lcars-dash-arm, 20px) + var(--lcars-dash-curve-r, 80px)) !important;
   background: transparent !important;
   border-style: solid !important;
   border-color: var(--primary-gray) !important;
-  border-width: 20px 0 0 20px !important;
-  border-top-left-radius: 80px !important;
+  border-width: var(--lcars-dash-arm, 20px) 0 0 var(--lcars-dash-arm, 20px) !important;
+  border-top-left-radius: var(--lcars-dash-curve-r, 80px) !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
   z-index: 1094 !important;
+  pointer-events: none !important;
 }
 
-/* Top arm continues into runner — no gap */
 .dashboardDocument #jf-lcars-dash-bridge {
-    display: block !important;
-    position: fixed !important;
-    left: calc(var(--lcars-admin-drawer) - 20px) !important;
-    top: 60px !important;
-    width: 40px !important;
-    height: 20px !important;
-    background: var(--primary-gray) !important;
-    border-radius: 0 !important;
-    z-index: 1095 !important;
+  display: none !important;
+  position: fixed !important;
+  left: calc(var(--lcars-admin-drawer) - var(--lcars-dash-arm, 20px)) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
+  width: calc(var(--lcars-dash-arm, 20px) + 24px) !important;
+  height: var(--lcars-dash-arm, 20px) !important;
+  background: var(--primary-gray) !important;
+  border-radius: 0 !important;
+  z-index: 1095 !important;
+  pointer-events: none !important;
 }
 
 /* Hide the elbow if the dashboard is at a mobile device width */
@@ -857,9 +859,9 @@ textarea,
 
 /* Runner starts where bridge ends */
 .dashboardDocument .jf-lcars-top-runner {
-  left: calc(var(--lcars-admin-drawer) - 20px + 100px - 20px + 40px) !important;
-  top: 48px !important;
-  height: 20px !important;
+  left: calc(var(--lcars-admin-drawer) + clamp(64px, 10vw, 120px)) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
+  height: var(--lcars-dash-arm, 28px) !important;
 }
 
 .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg {
@@ -895,10 +897,10 @@ body.dashboardDocument,
 }
 
 .dashboardDocument .jf-lcars-top-runner {
-  left: var(--lcars-admin-drawer) !important;
-  top: 48px !important;
+  left: calc(var(--lcars-admin-drawer) + clamp(64px, 10vw, 120px)) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
   right: 0 !important;
-  height: var(--lcars-bar-h) !important;
+  height: var(--lcars-dash-arm, 28px) !important;
   z-index: 1093 !important;
 }
 
@@ -907,6 +909,7 @@ body.dashboardDocument,
   flex: 0 0 clamp(64px, 10vw, 120px) !important;
   background: var(--primary-gray) !important;
   border-radius: 0 !important;
+  min-height: 100% !important;
 }
 
 .dashboardDocument .backgroundContainer,
@@ -949,201 +952,482 @@ body.dashboardDocument {
 .dashboardDocument main.MuiBox-root {
   box-sizing: border-box !important;
 }
-/* ========== Drawer = solid Picard gray column ========== */
+
+
+
+
+/* ========== Drawer — classic LCARS solid column (refs: color blocks) ========== */
+/*
+ * Stacked solid bars, black gutters, right-aligned labels, mixed heights.
+ * Subheaders hidden. No bottom elbow curve.
+ * #jf-lcars-topBtn appears when drawer scrolled (Picard #topBtn).
+ */
 .dashboardDocument .MuiDrawer-root.MuiDrawer-docked,
 .dashboardDocument .MuiDrawer-docked {
   width: var(--lcars-admin-drawer) !important;
+  flex-shrink: 0 !important;
   background: transparent !important;
   border: none !important;
-  overflow: hidden !important;
+  /* participate in page scroll — not a fixed viewport column */
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  bottom: auto !important;
+  overflow: visible !important;
 }
 
 .dashboardDocument .MuiDrawer-paper,
 .dashboardDocument .MuiDrawer-paperAnchorLeft,
 .dashboardDocument .MuiDrawer-paperAnchorDockedLeft {
-  background: var(--primary-gray) !important;
+  background: #000 !important;
+  background-color: #000 !important;
   background-image: none !important;
   border: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
   color: #000 !important;
+  position: relative !important;
   top: 0 !important;
   left: 0 !important;
-  height: 100% !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
   width: var(--lcars-admin-drawer) !important;
   max-width: var(--lcars-admin-drawer) !important;
-  padding: 0 0 40px 0 !important;
+  padding: 0 0 72px 0 !important;
   box-sizing: border-box !important;
+  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  /* kill internal scrollbar */
+  scrollbar-width: none !important;
+}
+
+/* Force page-level scroll for admin shell */
+.dashboardDocument .MuiDrawer-root.MuiDrawer-docked .MuiDrawer-paper {
+  position: relative !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+.dashboardDocument > .MuiBox-root,
+.dashboardDocument .MuiBox-root[class*="MuiBox"],
+body.dashboardDocument {
   overflow-x: hidden !important;
   overflow-y: auto !important;
-  z-index: 1100 !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  clip-path: none !important;
-  transform: none !important;
-  /* no black gutter — elbow overlaps for continuous gray */
-  border-right: none !important;
 }
 
-.dashboardDocument .MuiDrawer-paper::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  display: none !important;
-}
 
-/* NO ::after elbow plate — that caused the floating gray blob */
-.dashboardDocument .MuiDrawer-paper::after {
-  content: none !important;
-  display: none !important;
+.dashboardDocument .MuiDrawer-paper,
+.dashboardDocument .MuiDrawer-paper .MuiList-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root {
+  overflow: visible !important;
 }
-
-/* Thin light rail on far left only */
-.dashboardDocument .MuiDrawer-paper::before {
-  content: "" !important;
-  position: absolute !important;
-  left: 0 !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  width: 6px !important;
-  background: var(--ghost-gray) !important;
-  pointer-events: none !important;
-  z-index: 2 !important;
-}
-
-/* NO black cut pseudo on runner */
-.dashboardDocument .jf-lcars-top-runner::before,
-.dashboardDocument .jf-lcars-top-runner::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* Server identity */
-.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
-  background: transparent !important;
-  margin: 10px 10px 8px 14px !important;
-  padding: 0 !important;
-  border: none !important;
-  position: relative !important;
-  z-index: 3 !important;
-}
-
-.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemButton-root,
-.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItem-root {
-  background: #000 !important;
-  border: none !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 10px 12px !important;
-  min-height: 52px !important;
-  box-shadow: none !important;
-  clip-path: none !important;
-}
-
-.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiTypography-h6,
-.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemText-primary {
-  color: var(--starlight) !important;
-  font-family: var(--lcars-font) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
-  font-weight: 700 !important;
-  font-size: 0.85rem !important;
-}
-
-.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemText-secondary {
-  color: var(--light-gray) !important;
-  font-size: 0.75rem !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiList-root {
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  margin: 0 10px 0 14px !important;
-  padding: 0 !important;
-  position: relative !important;
-  z-index: 3 !important;
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
   overflow: visible !important;
 }
 
-.dashboardDocument .MuiDrawer-paper .MuiList-root::before,
-.dashboardDocument .MuiDrawer-paper .MuiList-root::after {
-  content: none !important;
+.dashboardDocument .MuiDrawer-paper::-webkit-scrollbar {
   display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.dashboardDocument .MuiDrawer-paper > .MuiList-root {
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root {
   padding: 0 !important;
-  margin: 0 0 5px 0 !important;
-  background: transparent !important;
-  border: none !important;
+  margin: 0 !important;
   display: block !important;
+  background: transparent !important;
 }
 
+/* Hide section subheaders (Server, Devices, Plugins, …) */
+.dashboardDocument .MuiDrawer-paper .MuiListSubheader-root,
+.dashboardDocument .MuiDrawer-paper .MuiListSubheader-sticky,
+.dashboardDocument .MuiDrawer-paper .MuiListSubheader-gutters,
+.dashboardDocument .MuiDrawer-paper [id$="-subheader"] {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: none !important;
+}
+
+/* Solid LCARS bars */
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root,
-.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root {
-  background: #000 !important;
-  color: var(--ghost-gray) !important;
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-gutters {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 0 3px 0 !important;
+  padding: 0.45rem 0.65rem !important;
+  min-height: 2.4rem !important;
+  height: auto !important;
   border: none !important;
   border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 9px 12px !important;
-  min-height: 40px !important;
-  font-family: var(--lcars-font) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 0 0 2px var(--medium-dark-gray) !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover {
-  color: var(--starlight) !important;
-  box-shadow: inset 0 0 0 2px var(--blue) !important;
-  background: #000 !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected {
-  color: var(--light-orange-red) !important;
-  box-shadow: inset 0 0 0 2px var(--orange-red) !important;
-  background: #000 !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiListItemIcon-root {
-  color: inherit !important;
-  min-width: 34px !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiSvgIcon-root {
-  color: inherit !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiListItemText-primary,
-.dashboardDocument .MuiDrawer-paper .MuiListItemText-root .MuiTypography-body1 {
-  font-family: var(--lcars-font) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-  font-weight: 700 !important;
-  color: inherit !important;
-  font-size: 0.8rem !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiDivider-root {
-  display: none !important;
-}
-
-.dashboardDocument .MuiDrawer-paper .MuiListSubheader-root,
-.dashboardDocument .MuiDrawer-paper .MuiListSubheader-sticky {
-  background: transparent !important;
+  box-shadow: none !important;
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
   color: #000 !important;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.12em !important;
-  margin: 14px 0 6px 0 !important;
-  padding: 2px 4px !important;
-  font-size: 0.7rem !important;
-  position: static !important;
+  letter-spacing: 0.08em !important;
+  text-align: right !important;
+  overflow: hidden !important;
+  position: relative !important;
 }
 
+/* Variable heights — LCARS uneven panels (some ~3× base) */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+1) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+1) {
+  min-height: 2.4rem !important;
+  padding-top: 0.45rem !important;
+  padding-bottom: 0.45rem !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+2) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+2) {
+  min-height: 4.2rem !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+3) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+3) {
+  min-height: 2.4rem !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+4) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+4) {
+  min-height: 7.2rem !important; /* ~3× base */
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  align-items: flex-end !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+5) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+5) {
+  min-height: 2.4rem !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+6) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+6) {
+  min-height: 3.6rem !important;
+  padding-top: 0.65rem !important;
+  padding-bottom: 0.65rem !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+7) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+7) {
+  min-height: 2.4rem !important;
+}
+
+/* Alternating solid colors */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root:not(.Mui-selected),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+1):not(.Mui-selected) {
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
+  color: #000 !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+2) > .MuiListItemButton-root:not(.Mui-selected),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+2):not(.Mui-selected) {
+  background: var(--light-gray) !important;
+  background-color: var(--light-gray) !important;
+  color: #000 !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+3) > .MuiListItemButton-root:not(.Mui-selected),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+3):not(.Mui-selected) {
+  background: var(--medium-dark-gray) !important;
+  background-color: var(--medium-dark-gray) !important;
+  color: var(--starlight) !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+4) > .MuiListItemButton-root:not(.Mui-selected),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+4):not(.Mui-selected) {
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+  color: #000 !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+5) > .MuiListItemButton-root:not(.Mui-selected),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+5):not(.Mui-selected) {
+  background: var(--blue) !important;
+  background-color: var(--blue) !important;
+  color: #000 !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+6) > .MuiListItemButton-root:not(.Mui-selected),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+6):not(.Mui-selected) {
+  background: var(--orange-red) !important;
+  background-color: var(--orange-red) !important;
+  color: #000 !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover {
+  filter: brightness(1.12) !important;
+  border: none !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiListItemIcon-root {
+  order: 2 !important;
+  min-width: 0 !important;
+  margin: 0 0 0 0.45rem !important;
+  color: inherit !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiListItemText-root {
+  order: 1 !important;
+  margin: 0 !important;
+  flex: 1 1 auto !important;
+  text-align: right !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiListItemText-primary,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiTypography-body1,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiTypography-root {
+  color: inherit !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.8rem !important;
+  text-align: right !important;
+  line-height: 1.1 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiSvgIcon-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiIcon-root {
+  color: inherit !important;
+  fill: currentColor !important;
+  font-size: 1.15rem !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root > .MuiSvgIcon-root {
+  order: 3 !important;
+  margin-left: 0.2rem !important;
+  color: inherit !important;
+}
+
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root.Mui-selected {
+  background: var(--orange-red) !important;
+  background-color: var(--orange-red) !important;
+  color: #000 !important;
+  border: none !important;
+  filter: none !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected:hover {
+  background: var(--light-orange-red) !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected .MuiSvgIcon-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected .MuiTypography-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected .MuiListItemIcon-root {
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+/* Server header — tall solid bar */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child a.MuiListItemButton-root {
+  min-height: 3.5rem !important;
+  background: var(--pale-orange-red) !important;
+  background-color: var(--pale-orange-red) !important;
+  color: #000 !important;
+  margin-bottom: 3px !important;
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+  padding: 0.65rem 0.75rem !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiTypography-h6,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemText-primary {
+  color: #000 !important;
+  text-align: right !important;
+  font-size: 0.9rem !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiTypography-body2,
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItemText-secondary {
+  color: var(--dark-gray) !important;
+  text-align: right !important;
+}
+
+/* Nested submenu — uniform bars (not parent colors) */
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root {
+  background: #000 !important;
+  padding: 0 0 4px 0 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiList-root {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root {
+  background: var(--dark-gray) !important;
+  background-color: var(--dark-gray) !important;
+  color: var(--ghost-gray) !important;
+  border: none !important;
+  margin: 0 0 3px 0 !important;
+  width: 100% !important;
+  min-height: 2.2rem !important;
+  height: auto !important;
+  padding: 0.4rem 0.65rem !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  filter: none !important;
+  /* reset nth-child parent colors */
+  border-radius: 0 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root:hover {
+  background: var(--medium-dark-gray) !important;
+  color: var(--starlight) !important;
+  filter: none !important;
+  border: none !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root.Mui-selected,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root.Mui-selected {
+  background: var(--medium-dark-blue) !important;
+  background-color: var(--medium-dark-blue) !important;
+  color: #000 !important;
+  border: none !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiTypography-root,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiSvgIcon-root {
+  color: inherit !important;
+  fill: currentColor !important;
+  text-align: right !important;
+}
+
+
+/* Dashboard + true concave LCARS elbow (L with inner quarter-circle) */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  --lcars-dash-fill: var(--starlight);
+  /* thicker arm to match Picard runner / prior thicker bar */
+  --lcars-dash-arm: 28px;
+  --lcars-dash-arm-len: clamp(72px, 11vw, 130px);
+  --lcars-dash-curve: 55px;
+  background: var(--lcars-dash-fill) !important;
+  background-color: var(--lcars-dash-fill) !important;
+  color: #000 !important;
+  min-height: 10.8rem !important;
+  height: 10.8rem !important;
+  max-height: none !important;
+  margin: 0 0 3px 0 !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  padding: 0.75rem 0.65rem !important;
+  box-shadow: none !important;
+  position: relative !important;
+  z-index: 20 !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] > *,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] > * {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/*
+ * Concave elbow: gray square with bottom-right quarter cut out (mask).
+ * Remaining shape = horizontal top + vertical left with smooth inner radius.
+ * Arm length = first runner segment only.
+ */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::after,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  /*
+   * Sit mostly under the button: shift left by (curve - arm) so only the
+   * concave arc + short stub stick out past the right edge.
+   */
+  left: calc(100% - (var(--lcars-dash-curve) - var(--lcars-dash-arm))) !important;
+  top: 0 !important;
+  width: var(--lcars-dash-curve) !important;
+  height: var(--lcars-dash-curve) !important;
+  box-sizing: border-box !important;
+  background: var(--lcars-dash-fill) !important;
+  background-color: var(--lcars-dash-fill) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  pointer-events: auto !important;
+  /* behind button face; only the protruding curve is seen */
+  z-index: 0 !important;
+  -webkit-mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve) - var(--lcars-dash-arm)),
+    #000 calc(var(--lcars-dash-curve) - var(--lcars-dash-arm) + 1px)
+  ) !important;
+  mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve) - var(--lcars-dash-arm)),
+    #000 calc(var(--lcars-dash-curve) - var(--lcars-dash-arm) + 1px)
+  ) !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+}
+
+/* Horizontal bar starts at button edge (not past full curve plate) */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::before,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 100% !important;
+  top: 0 !important;
+  width: var(--lcars-dash-arm-len) !important;
+  height: var(--lcars-dash-arm) !important;
+  background: var(--lcars-dash-fill) !important;
+  background-color: var(--lcars-dash-fill) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+  box-sizing: border-box !important;
+}
+
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover {
+  --lcars-dash-fill: var(--light-gray);
+  filter: none !important;
+  background: var(--lcars-dash-fill) !important;
+  background-color: var(--lcars-dash-fill) !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:active,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:active {
+  --lcars-dash-fill: var(--ghost-gray);
+  background: var(--lcars-dash-fill) !important;
+  background-color: var(--lcars-dash-fill) !important;
+  color: #000 !important;
+  filter: none !important;
+}
+
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root:not([href="#/dashboard"]):not([href="#/dashboard/"])::before,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root:not([href="#/dashboard"]):not([href="#/dashboard/"])::after,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:not([href="#/dashboard"]):not([href="#/dashboard/"])::before,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:not([href="#/dashboard"]):not([href="#/dashboard/"])::after {
+  content: none !important;
+  display: none !important;
+  border: none !important;
+  background: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+
+
+
+/* Content well — no pseudo curves */
 /* Content well — no pseudo curves */
 .dashboardDocument main,
 .dashboardDocument .content-primary {
@@ -3464,6 +3748,35 @@ html.jf-lcars-active .listItem-button {
         if (w > 80 && w < 400) {
           document.documentElement.style.setProperty("--lcars-admin-drawer", w + "px");
         }
+        /* prevent internal drawer scroll — page scrolls instead */
+        paper.style.setProperty("overflow", "visible", "important");
+        paper.style.setProperty("overflow-y", "visible", "important");
+        paper.style.setProperty("height", "auto", "important");
+        paper.style.setProperty("max-height", "none", "important");
+        paper.style.setProperty("position", "relative", "important");
+      }
+      var dock = document.querySelector(".dashboardDocument .MuiDrawer-docked, .dashboardDocument .MuiDrawer-root.MuiDrawer-docked");
+      if (dock) {
+        dock.style.setProperty("height", "auto", "important");
+        dock.style.setProperty("overflow", "visible", "important");
+        dock.style.setProperty("position", "absolute", "important");
+      }
+      var dash =
+        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
+        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
+      if (dash) {
+        var r = dash.getBoundingClientRect();
+        if (r.height > 8) {
+          /* horizontal runner arm stays thin; panel itself is tall */
+          var arm = 28;
+          document.documentElement.style.setProperty("--lcars-dash-row-top", Math.round(r.top) + "px");
+          document.documentElement.style.setProperty("--lcars-dash-row-height", Math.round(r.height) + "px");
+          document.documentElement.style.setProperty("--lcars-dash-arm", arm + "px");
+          /* curve radius: keep bottom of curve above bottom of Dashboard */
+          var maxR = Math.max(40, Math.round(r.height) - arm - 8);
+          var rad = Math.min(80, maxR);
+          document.documentElement.style.setProperty("--lcars-dash-curve-r", rad + "px");
+        }
       }
     } catch (e) {}
   }
@@ -3585,6 +3898,57 @@ html.jf-lcars-active .listItem-button {
     }
   }
 
+  
+  var TOP_BTN_ID = "jf-lcars-topBtn";
+  function ensureTopBtn() {
+    if (!document.body) return null;
+    var btn = document.getElementById(TOP_BTN_ID);
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.id = TOP_BTN_ID;
+      btn.type = "button";
+      btn.textContent = "Screen Top";
+      btn.setAttribute("aria-label", "Scroll to top");
+      btn.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        var main = document.querySelector(
+          ".dashboardDocument main, .dashboardDocument .content-primary, .mainAnimatedPage, .MuiBox-root"
+        );
+        if (main && typeof main.scrollTo === "function") {
+          try { main.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {}
+        }
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
+      document.body.appendChild(btn);
+    }
+    return btn;
+  }
+  function syncTopBtn() {
+    try {
+      if (!document.querySelector(".dashboardDocument")) {
+        var b = document.getElementById(TOP_BTN_ID);
+        if (b) b.style.display = "none";
+        return;
+      }
+      var btn = ensureTopBtn();
+      if (!btn) return;
+      var doc = document.documentElement;
+      var scrollTop = window.pageYOffset || doc.scrollTop || document.body.scrollTop || 0;
+      var overflow = doc.scrollHeight > window.innerHeight + 40;
+      var nearBottom = scrollTop + window.innerHeight >= doc.scrollHeight - 80;
+      btn.style.display = overflow && (nearBottom || scrollTop > 120) ? "block" : "none";
+    } catch (e) {}
+  }
+  function bindDrawerScroll() {
+    var paper = document.querySelector(
+      ".dashboardDocument .MuiDrawer-paper, .MuiDrawer-paperAnchorDockedLeft"
+    );
+    if (!paper || paper.__lcarsScrollBound) return;
+    paper.__lcarsScrollBound = true;
+    paper.addEventListener("scroll", function () { syncTopBtn(); measureAdminDrawer(); }, { passive: true });
+  }
+
   function run() {
     try {
       injectCss();
@@ -3596,13 +3960,15 @@ html.jf-lcars-active .listItem-button {
       ensureDashElbow();
       scheduleUserActionRail();
       syncVideoMode();
+      bindDrawerScroll();
+      syncTopBtn();
       pruneEmptyTableColumns();
     } catch (e) {
       console.warn("[JellyfinLCARS]", e);
     }
   }
   window.JellyfinLCARS = {
-    version: "2.14.6-toolbar-square",
+    version: "2.17.2-curve-under",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -3623,6 +3989,8 @@ html.jf-lcars-active .listItem-button {
   }
   window.addEventListener("resize", function () { measureHeader(); measureAdminDrawer(); scheduleUserActionRail(); });
   setInterval(syncVideoMode, 500);
+  window.addEventListener("scroll", function () { measureAdminDrawer(); syncTopBtn(); }, { passive: true });
+  setInterval(function () { bindDrawerScroll(); syncTopBtn(); }, 600);
   setInterval(pruneEmptyTableColumns, 1200);
   document.addEventListener("viewshow", function () { setTimeout(syncVideoMode, 50); setTimeout(scheduleUserActionRail, 80); }, true);
   document.addEventListener("video-osd-show", function () { setTimeout(syncVideoMode, 30); }, true);
