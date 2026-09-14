@@ -147,7 +147,7 @@ html, body {
 .jf-lcars-seg:last-child {
   border-right: none !important;
 }
-.jf-lcars-seg-a { flex: 0 0 96px !important; background: var(--starlight); }
+.jf-lcars-seg-a { flex: 0 0 96px !important; background: var(--starlight) !important; }
 .jf-lcars-seg-b { flex: 0 0 clamp(80px, 12vw, 180px); background: var(--ghost-gray); }
 .jf-lcars-seg-c { flex: 0 0 clamp(40px, 6vw, 90px); background: var(--medium-dark-gray); }
 .jf-lcars-seg-d { flex: 1 1 auto; background: var(--light-gray); }
@@ -1308,7 +1308,8 @@ body.dashboardDocument {
   --lcars-dash-fill: var(--starlight);
   /* fixed lengths — no clamp (stable gap to runner) */
   --lcars-dash-arm: 30px;
-  --lcars-dash-arm-len: 96px;
+  /* arm + first runner section (seg-a 96px) so the circled gap is covered */
+  --lcars-dash-arm-len: 192px;
   --lcars-dash-curve: 60px;
   background: var(--starlight) !important;
   background-color: var(--starlight) !important;
@@ -1397,14 +1398,22 @@ body.dashboardDocument {
   cursor: pointer !important;
 }
 
-/* First runner segment is decorative only — Dashboard ::before is the real control */
+/* First runner section — bridges Dashboard arm to the rest of the bar */
 .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
-  pointer-events: none !important;
-  opacity: 0 !important;
+  flex: 0 0 96px !important;
+  background: var(--starlight) !important;
+  background-color: var(--starlight) !important;
+  opacity: 1 !important;
+  pointer-events: none !important; /* paint only; Dashboard arm-hit covers clicks */
+  border-right: var(--lcars-bar-gap, 8px) solid #000 !important;
+  min-height: 100% !important;
 }
 .dashboardDocument .jf-lcars-top-runner {
   pointer-events: none !important;
 }
+/* When Dashboard is hovered/selected, tint first section via body class set by JS optional —
+ * arm-hit already paints over the joint; keep seg-a as continuous starlight base */
+
 
 
 /* Real hit targets (span) — same paint as elbow; guaranteed clickable */
@@ -4058,7 +4067,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.17.6-arm-hit",
+    version: "2.17.7-runner-sega",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
