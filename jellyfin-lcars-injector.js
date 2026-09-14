@@ -147,7 +147,7 @@ html, body {
 .jf-lcars-seg:last-child {
   border-right: none !important;
 }
-.jf-lcars-seg-a { flex: 0 0 clamp(48px, 8vw, 100px); background: var(--primary-gray); }
+.jf-lcars-seg-a { flex: 0 0 96px !important; background: var(--starlight); }
 .jf-lcars-seg-b { flex: 0 0 clamp(80px, 12vw, 180px); background: var(--ghost-gray); }
 .jf-lcars-seg-c { flex: 0 0 clamp(40px, 6vw, 90px); background: var(--medium-dark-gray); }
 .jf-lcars-seg-d { flex: 1 1 auto; background: var(--light-gray); }
@@ -786,14 +786,14 @@ textarea,
   display: none !important;
   position: fixed !important;
   /* top of curve = top of Dashboard; bottom of curve ends above Dashboard bottom */
-  left: calc(var(--lcars-admin-drawer) - var(--lcars-dash-arm, 20px)) !important;
+  left: calc(var(--lcars-admin-drawer) - var(--lcars-dash-arm, 30px)) !important;
   top: var(--lcars-dash-row-top, 48px) !important;
-  width: calc(var(--lcars-dash-arm, 20px) + var(--lcars-dash-curve-r, 80px)) !important;
-  height: calc(var(--lcars-dash-arm, 20px) + var(--lcars-dash-curve-r, 80px)) !important;
+  width: calc(var(--lcars-dash-arm, 30px) + var(--lcars-dash-curve-r, 80px)) !important;
+  height: calc(var(--lcars-dash-arm, 30px) + var(--lcars-dash-curve-r, 80px)) !important;
   background: transparent !important;
   border-style: solid !important;
   border-color: var(--primary-gray) !important;
-  border-width: var(--lcars-dash-arm, 20px) 0 0 var(--lcars-dash-arm, 20px) !important;
+  border-width: var(--lcars-dash-arm, 30px) 0 0 var(--lcars-dash-arm, 30px) !important;
   border-top-left-radius: var(--lcars-dash-curve-r, 80px) !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -805,10 +805,10 @@ textarea,
 .dashboardDocument #jf-lcars-dash-bridge {
   display: none !important;
   position: fixed !important;
-  left: calc(var(--lcars-admin-drawer) - var(--lcars-dash-arm, 20px)) !important;
+  left: calc(var(--lcars-admin-drawer) - var(--lcars-dash-arm, 30px)) !important;
   top: var(--lcars-dash-row-top, 48px) !important;
-  width: calc(var(--lcars-dash-arm, 20px) + 24px) !important;
-  height: var(--lcars-dash-arm, 20px) !important;
+  width: calc(var(--lcars-dash-arm, 30px) + 24px) !important;
+  height: var(--lcars-dash-arm, 30px) !important;
   background: var(--primary-gray) !important;
   border-radius: 0 !important;
   z-index: 1095 !important;
@@ -859,9 +859,9 @@ textarea,
 
 /* Runner starts where bridge ends */
 .dashboardDocument .jf-lcars-top-runner {
-  left: calc(var(--lcars-admin-drawer) + clamp(64px, 10vw, 120px)) !important;
+  left: calc(var(--lcars-admin-drawer) + 96px) !important;
   top: var(--lcars-dash-row-top, 48px) !important;
-  height: var(--lcars-dash-arm, 28px) !important;
+  height: var(--lcars-dash-arm, 30px) !important;
 }
 
 .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg {
@@ -897,17 +897,17 @@ body.dashboardDocument,
 }
 
 .dashboardDocument .jf-lcars-top-runner {
-  left: calc(var(--lcars-admin-drawer) + clamp(64px, 10vw, 120px)) !important;
+  left: calc(var(--lcars-admin-drawer) + 96px) !important;
   top: var(--lcars-dash-row-top, 48px) !important;
   right: 0 !important;
-  height: var(--lcars-dash-arm, 28px) !important;
+  height: var(--lcars-dash-arm, 30px) !important;
   z-index: 1093 !important;
 }
 
 /* First segment matches column gray → continuous color into the bars */
 .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
-  flex: 0 0 clamp(64px, 10vw, 120px) !important;
-  background: var(--primary-gray) !important;
+  flex: 0 0 96px !important;
+  background: var(--starlight) !important;
   border-radius: 0 !important;
   min-height: 100% !important;
 }
@@ -1306,10 +1306,10 @@ body.dashboardDocument {
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected {
   --lcars-dash-fill: var(--starlight);
-  /* thicker arm to match Picard runner / prior thicker bar */
-  --lcars-dash-arm: 28px;
-  --lcars-dash-arm-len: clamp(72px, 6.85vw, 130px);
-  --lcars-dash-curve: 55px;
+  /* fixed lengths — no clamp (stable gap to runner) */
+  --lcars-dash-arm: 30px;
+  --lcars-dash-arm-len: 96px;
+  --lcars-dash-curve: 80px;
   background: var(--starlight) !important;
   background-color: var(--starlight) !important;
   color: #000 !important;
@@ -1357,8 +1357,8 @@ body.dashboardDocument {
   border: none !important;
   border-radius: 0 !important;
   pointer-events: auto !important;
-  /* behind button face; only the protruding curve is seen */
-  z-index: 0 !important;
+  /* under button label, above page chrome so the exposed curve is clickable */
+  z-index: 29 !important;
   -webkit-mask-image: radial-gradient(
     circle at 100% 100%,
     transparent 0,
@@ -1383,6 +1383,7 @@ body.dashboardDocument {
   position: absolute !important;
   left: 100% !important;
   top: 0 !important;
+  /* full first segment — entire bar is part of the hit target */
   width: var(--lcars-dash-arm-len) !important;
   height: var(--lcars-dash-arm) !important;
   background: var(--lcars-dash-fill) !important;
@@ -1390,9 +1391,70 @@ body.dashboardDocument {
   border: none !important;
   border-radius: 0 !important;
   pointer-events: auto !important;
-  z-index: 1 !important;
+  /* above runner / content overlays so clicks hit the <a> */
+  z-index: 30 !important;
   box-sizing: border-box !important;
+  cursor: pointer !important;
 }
+
+/* First runner segment is decorative only — Dashboard ::before is the real control */
+.dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+.dashboardDocument .jf-lcars-top-runner {
+  pointer-events: none !important;
+}
+
+
+/* Real hit targets (span) — same paint as elbow; guaranteed clickable */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .jf-lcars-dash-arm-hit,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .jf-lcars-dash-arm-hit {
+  position: absolute !important;
+  left: 100% !important;
+  top: 0 !important;
+  width: var(--lcars-dash-arm-len, 96px) !important;
+  height: var(--lcars-dash-arm, 30px) !important;
+  background: var(--lcars-dash-fill, var(--starlight)) !important;
+  display: block !important;
+  z-index: 30 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .jf-lcars-dash-curve-hit,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .jf-lcars-dash-curve-hit {
+  position: absolute !important;
+  left: calc(100% - (var(--lcars-dash-curve, 80px) - var(--lcars-dash-arm, 30px))) !important;
+  top: 0 !important;
+  width: var(--lcars-dash-curve, 80px) !important;
+  height: var(--lcars-dash-curve, 80px) !important;
+  background: var(--lcars-dash-fill, var(--starlight)) !important;
+  display: block !important;
+  z-index: 29 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  -webkit-mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve, 80px) - var(--lcars-dash-arm, 30px)),
+    #000 calc(var(--lcars-dash-curve, 80px) - var(--lcars-dash-arm, 30px) + 1px)
+  ) !important;
+  mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve, 80px) - var(--lcars-dash-arm, 30px)),
+    #000 calc(var(--lcars-dash-curve, 80px) - var(--lcars-dash-arm, 30px) + 1px)
+  ) !important;
+}
+/* Prefer real spans; hide duplicate pseudo paint to avoid double thickness */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].jf-lcars-has-arm::before,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].jf-lcars-has-arm::before,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].jf-lcars-has-arm::after,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].jf-lcars-has-arm::after {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover {
@@ -3770,7 +3832,7 @@ html.jf-lcars-active .listItem-button {
         var r = dash.getBoundingClientRect();
         if (r.height > 8) {
           /* horizontal runner arm stays thin; panel itself is tall */
-          var arm = 28;
+          var arm = 30;
           document.documentElement.style.setProperty("--lcars-dash-row-top", Math.round(r.top) + "px");
           document.documentElement.style.setProperty("--lcars-dash-row-height", Math.round(r.height) + "px");
           document.documentElement.style.setProperty("--lcars-dash-arm", arm + "px");
@@ -3902,6 +3964,31 @@ html.jf-lcars-active .listItem-button {
 
   
   var TOP_BTN_ID = "jf-lcars-topBtn";
+  
+  function ensureDashArmHit() {
+    try {
+      var link =
+        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
+        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
+      if (!link) return;
+      link.classList.add("jf-lcars-has-arm");
+      var arm = link.querySelector(".jf-lcars-dash-arm-hit");
+      if (!arm) {
+        arm = document.createElement("span");
+        arm.className = "jf-lcars-dash-arm-hit";
+        arm.setAttribute("aria-hidden", "true");
+        link.appendChild(arm);
+      }
+      var curve = link.querySelector(".jf-lcars-dash-curve-hit");
+      if (!curve) {
+        curve = document.createElement("span");
+        curve.className = "jf-lcars-dash-curve-hit";
+        curve.setAttribute("aria-hidden", "true");
+        link.appendChild(curve);
+      }
+    } catch (e) {}
+  }
+
   function ensureTopBtn() {
     if (!document.body) return null;
     var btn = document.getElementById(TOP_BTN_ID);
@@ -3963,6 +4050,7 @@ html.jf-lcars-active .listItem-button {
       scheduleUserActionRail();
       syncVideoMode();
       bindDrawerScroll();
+      ensureDashArmHit();
       syncTopBtn();
       pruneEmptyTableColumns();
     } catch (e) {
@@ -3970,7 +4058,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.17.4-dash-starlight",
+    version: "2.17.6-arm-hit",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
