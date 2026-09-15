@@ -403,7 +403,7 @@ body.jf-lcars-active::after {
 
   margin-top: 8rem !important;
   margin-right: 4% !important;
-  margin-left: 12px !important;
+  margin-left: 40px !important;
   margin-bottom: 2rem !important;
   overflow: visible !important;
 }
@@ -460,9 +460,7 @@ body.jf-lcars-active::after {
   overflow: hidden !important;
   transition: border-color 0.15s ease, filter 0.15s ease !important;
 }
-a.MuiButtonBase-root.MuiCardActionArea-root {
-  border: 3px solid var(--ghost-gray) !important;
-}
+
 .MuiCard-root:hover,
 .MuiPaper-root.MuiCard-root:hover {
   border-color: var(--lcars-alert-soft) !important;
@@ -1694,8 +1692,6 @@ body.dashboardDocument {
 .dashboardDocument main .MuiCard-root,
 .dashboardDocument main [class*="stat"] {
   background: #000 !important;
-  border: 2px solid var(--medium-dark-gray) !important;
-  border-radius: 0 !important;
 }
 
 .dashboardDocument main .MuiTypography-h4,
