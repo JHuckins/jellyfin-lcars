@@ -1248,45 +1248,97 @@ body.dashboardDocument {
   text-align: right !important;
 }
 
-/* Nested submenu — uniform bars (not parent colors) */
+/* Nested submenu — Picard keypad cluster: dual left bars + bordered keys */
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root {
+  position: relative !important;
   background: #000 !important;
-  padding: 0 0 4px 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  padding: 4px 6px 8px 4px !important;
+  margin: 0 0 6px 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+/* Dual left side bars — independent flex children (margins adjustable) */
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar {
+  position: relative !important;
+  flex: 0 0 8px !important;
+  width: 8px !important;
+  min-width: 8px !important;
+  align-self: stretch !important;
+  display: block !important;
+  pointer-events: none !important;
+  border-radius: 0 !important;
+  box-sizing: border-box !important;
+  z-index: 1 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar-a {
+  margin: 0 2px 0 0 !important; /* outer */
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar-b {
+  margin: 0 6px 0 2px !important; /* inner — extra gap before buttons */
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .MuiCollapse-wrapper {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root::before,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root::after {
+  content: none !important;
+  display: none !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiList-root {
   margin: 0 !important;
   padding: 0 !important;
   background: transparent !important;
 }
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItem-root {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+/* Bordered key-style buttons (black fill, light outline) */
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root,
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root {
-  background: var(--dark-gray) !important;
-  background-color: var(--dark-gray) !important;
+  background: #000 !important;
+  background-color: #000 !important;
   color: var(--ghost-gray) !important;
-  border: none !important;
-  margin: 0 0 3px 0 !important;
+  border: 2px solid var(--ghost-gray) !important;
+  border-radius: 0 !important;
+  margin: 15px 0 15px 5px !important;
   width: 100% !important;
-  min-height: 2.2rem !important;
+  min-height: 2.15rem !important;
   height: auto !important;
-  padding: 0.4rem 0.65rem !important;
+  padding: 0.35rem 0.55rem !important;
   justify-content: flex-end !important;
   align-items: center !important;
   filter: none !important;
-  /* reset nth-child parent colors */
-  border-radius: 0 !important;
+  box-sizing: border-box !important;
+  text-transform: uppercase !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
 }
-.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root:hover {
-  background: var(--medium-dark-gray) !important;
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root:hover,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root:hover {
+  background: #000 !important;
+  background-color: #000 !important;
   color: var(--starlight) !important;
+  border-color: var(--starlight) !important;
   filter: none !important;
-  border: none !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root.Mui-selected,
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root.Mui-selected {
-  background: var(--medium-dark-blue) !important;
-  background-color: var(--medium-dark-blue) !important;
-  color: #000 !important;
-  border: none !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  color: var(--pale-orange-red) !important;
+  border: 2px solid var(--orange-red) !important;
+  filter: none !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiTypography-root,
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiSvgIcon-root {
@@ -3843,6 +3895,37 @@ html.jf-lcars-active .listItem-button {
     document.documentElement.style.setProperty("--lcars-header-height", "48px");
   }
   
+  
+  function ensureSubmenuBars() {
+    try {
+      var collapses = document.querySelectorAll(
+        ".dashboardDocument .MuiDrawer-paper .MuiCollapse-root, .dashboardDocument .MuiDrawer-paper .MuiCollapse-vertical"
+      );
+      collapses.forEach(function (col) {
+        /* skip zero-size closed collapses for injection target still OK */
+        var a = col.querySelector(".jf-lcars-sub-bar-a");
+        var b = col.querySelector(".jf-lcars-sub-bar-b");
+        if (!a) {
+          a = document.createElement("div");
+          a.className = "jf-lcars-sub-bar jf-lcars-sub-bar-a";
+          a.setAttribute("aria-hidden", "true");
+        } else {
+          a.parentNode && a.parentNode.removeChild(a);
+        }
+        if (!b) {
+          b = document.createElement("div");
+          b.className = "jf-lcars-sub-bar jf-lcars-sub-bar-b";
+          b.setAttribute("aria-hidden", "true");
+        } else {
+          b.parentNode && b.parentNode.removeChild(b);
+        }
+        /* always pin as first two children so flex order is bar-a | bar-b | wrapper */
+        col.insertBefore(b, col.firstChild);
+        col.insertBefore(a, col.firstChild);
+      });
+    } catch (e) {}
+  }
+
   function ensureHeaderMask() {
     if (!document.body) return null;
     var el = document.getElementById(HEADER_MASK_ID);
@@ -4107,7 +4190,8 @@ html.jf-lcars-active .listItem-button {
     if (!paper || paper.__lcarsScrollBound) return;
     paper.__lcarsScrollBound = true;
     paper.addEventListener("scroll", function () { syncTopBtn(); measureAdminDrawer();
-      ensureHeaderMask(); }, { passive: true });
+      ensureHeaderMask();
+      ensureSubmenuBars(); }, { passive: true });
   }
 
   function run() {
@@ -4123,6 +4207,7 @@ html.jf-lcars-active .listItem-button {
       syncVideoMode();
       bindDrawerScroll();
       ensureDashArmHit();
+      ensureSubmenuBars();
       syncTopBtn();
       pruneEmptyTableColumns();
     } catch (e) {
@@ -4130,7 +4215,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.18.5-header-mask",
+    version: "2.18.9-sub-bar-flex",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
