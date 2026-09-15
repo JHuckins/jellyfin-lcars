@@ -147,7 +147,7 @@ html, body {
 .jf-lcars-seg:last-child {
   border-right: none !important;
 }
-.jf-lcars-seg-a { flex: 0 0 96px !important; background: var(--starlight) !important; }
+.jf-lcars-seg-a { flex: 0 0 96px !important; background: var(--primary-gray) !important; }
 .jf-lcars-seg-b { flex: 0 0 clamp(80px, 12vw, 180px); background: var(--ghost-gray); }
 .jf-lcars-seg-c { flex: 0 0 clamp(40px, 6vw, 90px); background: var(--medium-dark-gray); }
 .jf-lcars-seg-d { flex: 1 1 auto; background: var(--light-gray); }
@@ -1302,14 +1302,14 @@ body.dashboardDocument {
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected {
-  --lcars-dash-fill: var(--starlight);
+  --lcars-dash-fill: var(--primary-gray);
   /* fixed lengths — no clamp (stable gap to runner) */
   --lcars-dash-arm: 30px;
   /* arm + first runner section (seg-a 96px) so the circled gap is covered */
   --lcars-dash-arm-len: 192px;
   --lcars-dash-curve: 60px;
-  background: var(--starlight) !important;
-  background-color: var(--starlight) !important;
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
   color: #000 !important;
   min-height: 10.8rem !important;
   height: 10.8rem !important;
@@ -1396,8 +1396,8 @@ body.dashboardDocument {
 /* First runner section — bridges Dashboard arm to the rest of the bar */
 .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
   flex: 0 0 96px !important;
-  background: var(--starlight) !important;
-  background-color: var(--starlight) !important;
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
   opacity: 1 !important;
   pointer-events: none !important; /* paint only; Dashboard arm-hit covers clicks */
   border-right: var(--lcars-bar-gap, 8px) solid #000 !important;
@@ -1419,7 +1419,7 @@ body.dashboardDocument {
   top: var(--lcars-dash-row-top, 48px) !important;
   width: var(--lcars-dash-arm-len, 96px) !important;
   height: var(--lcars-dash-arm, 30px) !important;
-  background: var(--lcars-dash-fill, var(--starlight)) !important;
+  background: var(--lcars-dash-fill, var(--primary-gray)) !important;
   display: block !important;
   z-index: 30 !important;
   pointer-events: auto !important;
@@ -1432,7 +1432,7 @@ body.dashboardDocument {
   top: var(--lcars-dash-row-top, 48px) !important;
   width: var(--lcars-dash-curve, 80px) !important;
   height: var(--lcars-dash-curve, 80px) !important;
-  background: var(--lcars-dash-fill, var(--starlight)) !important;
+  background: var(--lcars-dash-fill, var(--primary-gray)) !important;
   display: block !important;
   z-index: 29 !important;
   pointer-events: auto !important;
@@ -1471,9 +1471,9 @@ body.dashboardDocument {
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:active,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:active {
-  --lcars-dash-fill: var(--starlight);
-  background: var(--starlight) !important;
-  background-color: var(--starlight) !important;
+  --lcars-dash-fill: var(--primary-gray);
+  background: var(--medium-dark-gray) !important;
+  background-color: var(--medium-dark-gray) !important;
   color: #000 !important;
   filter: none !important;
 }
@@ -4087,7 +4087,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.18.2-curve-fixed",
+    version: "2.18.4-dash-pgray",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
