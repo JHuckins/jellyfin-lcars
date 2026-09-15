@@ -1519,12 +1519,11 @@ body.dashboardDocument {
 
 .dashboardDocument .MuiAppBar-root {
   background: #000 !important;
+  background-color: #000 !important;
+  background-image: none !important;
   box-shadow: none !important;
-}
-
-.dashboardDocument .MuiToolbar-root {
   min-height: 48px !important;
-  background: #000 !important;
+  padding-bottom: 9px;
 }
 
 .dashboardDocument .MuiToolbar-root .MuiIconButton-root {
@@ -3635,11 +3634,7 @@ html.jf-lcars-active .listItem-button {
   opacity: 1 !important;
   z-index: 12035 !important;
 }
-.dashboardDocument .MuiToolbar-root {
-  background: #000 !important;
-  background-color: #000 !important;
-  background-image: none !important;
-}
+
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
