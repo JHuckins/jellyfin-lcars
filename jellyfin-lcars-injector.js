@@ -956,11 +956,10 @@ body.dashboardDocument {
 
 
 
-/* ========== Drawer — classic LCARS solid column (refs: color blocks) ========== */
+/* ========== Drawer — sticky LCARS header + internal nav scroll ========== */
 /*
- * Stacked solid bars, black gutters, right-aligned labels, mixed heights.
- * Subheaders hidden. No bottom elbow curve.
- * #jf-lcars-topBtn appears when drawer scrolled (Picard #topBtn).
+ * Top (server header + Dashboard + LCARS bar): sticky / fixed — does not scroll away.
+ * Nav items below Dashboard: scroll inside the drawer only (no page scroll, no scrollbar).
  */
 .dashboardDocument .MuiDrawer-root.MuiDrawer-docked,
 .dashboardDocument .MuiDrawer-docked {
@@ -968,14 +967,14 @@ body.dashboardDocument {
   flex-shrink: 0 !important;
   background: transparent !important;
   border: none !important;
-  /* participate in page scroll — not a fixed viewport column */
-  position: absolute !important;
+  position: fixed !important;
   top: 0 !important;
   left: 0 !important;
-  height: auto !important;
-  max-height: none !important;
-  bottom: auto !important;
-  overflow: visible !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  bottom: 0 !important;
+  overflow: hidden !important;
+  z-index: 1200 !important;
 }
 
 .dashboardDocument .MuiDrawer-paper,
@@ -988,51 +987,49 @@ body.dashboardDocument {
   box-shadow: none !important;
   border-radius: 0 !important;
   color: #000 !important;
-  position: relative !important;
+  position: fixed !important;
   top: 0 !important;
   left: 0 !important;
-  height: auto !important;
-  min-height: 100vh !important;
-  max-height: none !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  min-height: 0 !important;
   width: var(--lcars-admin-drawer) !important;
   max-width: var(--lcars-admin-drawer) !important;
-  padding: 0 0 72px 0 !important;
+  padding: 0 0 56px 0 !important;
   box-sizing: border-box !important;
-  overflow: visible !important;
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
-  /* kill internal scrollbar */
-  scrollbar-width: none !important;
-}
-
-/* Force page-level scroll for admin shell */
-.dashboardDocument .MuiDrawer-root.MuiDrawer-docked .MuiDrawer-paper {
-  position: relative !important;
-  transform: none !important;
-  visibility: visible !important;
-}
-.dashboardDocument > .MuiBox-root,
-.dashboardDocument .MuiBox-root[class*="MuiBox"],
-body.dashboardDocument {
   overflow-x: hidden !important;
   overflow-y: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
-
-
-.dashboardDocument .MuiDrawer-paper,
-.dashboardDocument .MuiDrawer-paper .MuiList-root,
-.dashboardDocument .MuiDrawer-paper .MuiListItem-root {
-  overflow: visible !important;
-}
-.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
-.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
-  overflow: visible !important;
-}
-
 .dashboardDocument .MuiDrawer-paper::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
+}
+
+/* Server header list — pinned at top of drawer */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 20 !important;
+  background: #000 !important;
+  margin: 0 !important;
+}
+
+/* Dashboard control — sticky under server header; does not scroll away */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  position: sticky !important;
+  top: var(--lcars-nav-sticky-top, 52px) !important;
+  z-index: 19 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+  position: sticky !important;
+  top: var(--lcars-nav-sticky-top, 52px) !important;
+  z-index: 19 !important;
+  background: #000 !important;
 }
 
 .dashboardDocument .MuiDrawer-paper > .MuiList-root {
@@ -1343,17 +1340,15 @@ body.dashboardDocument {
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::after {
   content: "" !important;
   display: block !important;
-  position: absolute !important;
-  /*
-   * Sit mostly under the button: shift left by (curve - arm) so only the
-   * concave arc + short stub stick out past the right edge.
-   */
-  left: calc(100% - (var(--lcars-dash-curve) - var(--lcars-dash-arm))) !important;
-  top: 1px !important;
+  /* fixed so drawer overflow does not clip the elbow */
+  position: fixed !important;
+  left: var(--lcars-dash-curve-left, auto) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
   width: var(--lcars-dash-curve) !important;
   height: var(--lcars-dash-curve) !important;
   box-sizing: border-box !important;
   background: var(--lcars-dash-fill) !important;
+  z-index: 12042 !important;
   background-color: var(--lcars-dash-fill) !important;
   border: none !important;
   border-radius: 0 !important;
@@ -1381,9 +1376,9 @@ body.dashboardDocument {
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::before {
   content: "" !important;
   display: block !important;
-  position: absolute !important;
-  left: 100% !important;
-  top: 0 !important;
+  position: fixed !important;
+  left: var(--lcars-dash-arm-left, 0) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
   /* full first segment — entire bar is part of the hit target */
   width: var(--lcars-dash-arm-len) !important;
   height: var(--lcars-dash-arm) !important;
@@ -1419,9 +1414,9 @@ body.dashboardDocument {
 /* Real hit targets (span) — same paint as elbow; guaranteed clickable */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .jf-lcars-dash-arm-hit,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .jf-lcars-dash-arm-hit {
-  position: absolute !important;
-  left: 100% !important;
-  top: 0 !important;
+  position: fixed !important;
+  left: var(--lcars-dash-arm-left, 0) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
   width: var(--lcars-dash-arm-len, 96px) !important;
   height: var(--lcars-dash-arm, 30px) !important;
   background: var(--lcars-dash-fill, var(--starlight)) !important;
@@ -1432,9 +1427,9 @@ body.dashboardDocument {
 }
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .jf-lcars-dash-curve-hit,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .jf-lcars-dash-curve-hit {
-  position: absolute !important;
-  left: calc(100% - (var(--lcars-dash-curve, 80px) - var(--lcars-dash-arm, 30px))) !important;
-  top: 0 !important;
+  position: fixed !important;
+  left: var(--lcars-dash-curve-left, 0) !important;
+  top: var(--lcars-dash-row-top, 48px) !important;
   width: var(--lcars-dash-curve, 80px) !important;
   height: var(--lcars-dash-curve, 80px) !important;
   background: var(--lcars-dash-fill, var(--starlight)) !important;
@@ -3606,6 +3601,14 @@ html.jf-lcars-active .listItem-button {
     --lcars-elbow-size: 32px;
   }
 }
+
+/* sticky Dashboard under server header */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  position: sticky !important;
+  top: var(--lcars-nav-sticky-top, 52px) !important;
+  z-index: 19 !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -3821,18 +3824,29 @@ html.jf-lcars-active .listItem-button {
         if (w > 80 && w < 400) {
           document.documentElement.style.setProperty("--lcars-admin-drawer", w + "px");
         }
-        /* prevent internal drawer scroll — page scrolls instead */
-        paper.style.setProperty("overflow", "visible", "important");
-        paper.style.setProperty("overflow-y", "visible", "important");
-        paper.style.setProperty("height", "auto", "important");
-        paper.style.setProperty("max-height", "none", "important");
-        paper.style.setProperty("position", "relative", "important");
+        /* fixed viewport column; nav below Dashboard scrolls inside paper */
+        paper.style.setProperty("overflow-x", "hidden", "important");
+        paper.style.setProperty("overflow-y", "auto", "important");
+        paper.style.setProperty("height", "100vh", "important");
+        paper.style.setProperty("max-height", "100vh", "important");
+        paper.style.setProperty("position", "fixed", "important");
+        paper.style.setProperty("top", "0", "important");
+        paper.style.setProperty("left", "0", "important");
       }
       var dock = document.querySelector(".dashboardDocument .MuiDrawer-docked, .dashboardDocument .MuiDrawer-root.MuiDrawer-docked");
       if (dock) {
-        dock.style.setProperty("height", "auto", "important");
-        dock.style.setProperty("overflow", "visible", "important");
-        dock.style.setProperty("position", "absolute", "important");
+        dock.style.setProperty("height", "100vh", "important");
+        dock.style.setProperty("overflow", "hidden", "important");
+        dock.style.setProperty("position", "fixed", "important");
+        dock.style.setProperty("top", "0", "important");
+        dock.style.setProperty("left", "0", "important");
+      }
+      var firstList = paper && paper.querySelector(":scope > .MuiList-root");
+      if (firstList) {
+        var fh = Math.round(firstList.getBoundingClientRect().height);
+        if (fh > 8 && fh < 200) {
+          document.documentElement.style.setProperty("--lcars-nav-sticky-top", fh + "px");
+        }
       }
       var dash =
         document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
@@ -3843,6 +3857,12 @@ html.jf-lcars-active .listItem-button {
           /* horizontal runner arm stays thin; panel itself is tall */
           var arm = 30;
           document.documentElement.style.setProperty("--lcars-dash-row-top", Math.round(r.top) + "px");
+          var armW = 30;
+          var curveW = 60;
+          var armLeft = Math.round(r.right);
+          var curveLeft = armLeft - (curveW - armW);
+          document.documentElement.style.setProperty("--lcars-dash-arm-left", armLeft + "px");
+          document.documentElement.style.setProperty("--lcars-dash-curve-left", curveLeft + "px");
           document.documentElement.style.setProperty("--lcars-dash-row-height", Math.round(r.height) + "px");
           document.documentElement.style.setProperty("--lcars-dash-arm", arm + "px");
           /* curve radius: keep bottom of curve above bottom of Dashboard */
@@ -4067,7 +4087,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.17.7-runner-sega",
+    version: "2.18.2-curve-fixed",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
