@@ -8,6 +8,7 @@
   var STYLE_ID = "jf-lcars-theme-css";
   var FRAME_ID = "jf-lcars-frame";
   var RUNNER_ID = "jf-lcars-top-runner";
+  var HEADER_MASK_ID = "jf-lcars-header-mask";
   var ELBOW_ID = "jf-lcars-elbow";
   var CUT_ID = "jf-lcars-elbow-cut";
   var DASH_ELBOW_ID = "jf-lcars-dash-elbow";
@@ -3605,6 +3606,40 @@ html.jf-lcars-active .listItem-button {
   top: var(--lcars-nav-sticky-top, 52px) !important;
   z-index: 19 !important;
 }
+
+/* Opaque black mask under top chrome — hides content scrolling underneath */
+#jf-lcars-header-mask {
+  display: none;
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: calc(var(--lcars-dash-row-top, 48px) + var(--lcars-dash-arm, 30px)) !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  z-index: 12020 !important;
+  pointer-events: none !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dashboardDocument #jf-lcars-header-mask {
+  display: block !important;
+}
+.dashboardDocument .MuiAppBar-root,
+.dashboardDocument header.MuiAppBar-root {
+  background: #000 !important;
+  background-color: #000 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  z-index: 12035 !important;
+}
+.dashboardDocument .MuiToolbar-root {
+  background: #000 !important;
+  background-color: #000 !important;
+  background-image: none !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -3812,6 +3847,22 @@ html.jf-lcars-active .listItem-button {
   function measureHeader() {
     document.documentElement.style.setProperty("--lcars-header-height", "48px");
   }
+  
+  function ensureHeaderMask() {
+    if (!document.body) return null;
+    var el = document.getElementById(HEADER_MASK_ID);
+    if (!el) {
+      el = document.createElement("div");
+      el.id = HEADER_MASK_ID;
+      el.setAttribute("aria-hidden", "true");
+      document.body.appendChild(el);
+    }
+    var isDash = !!(document.querySelector(".dashboardDocument") ||
+      (document.body && document.body.classList.contains("dashboardDocument")));
+    el.style.display = isDash ? "block" : "none";
+    return el;
+  }
+
   function measureAdminDrawer() {
     try {
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper, .dashboardDocument .MuiDrawer-docked .MuiDrawer-paper");
@@ -4060,7 +4111,8 @@ html.jf-lcars-active .listItem-button {
     );
     if (!paper || paper.__lcarsScrollBound) return;
     paper.__lcarsScrollBound = true;
-    paper.addEventListener("scroll", function () { syncTopBtn(); measureAdminDrawer(); }, { passive: true });
+    paper.addEventListener("scroll", function () { syncTopBtn(); measureAdminDrawer();
+      ensureHeaderMask(); }, { passive: true });
   }
 
   function run() {
@@ -4083,13 +4135,13 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.18.4-dash-pgray",
+    version: "2.18.5-header-mask",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
       var _rail = document.getElementById("jf-lcars-user-rail");
       if (_rail) _rail.remove();
-      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID].forEach(function (id) {
+      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID, HEADER_MASK_ID].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.remove();
       });
