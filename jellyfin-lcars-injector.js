@@ -3819,6 +3819,114 @@ html.jf-lcars-active .listItem-button {
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
+
+/* ========== LCARS MUI Menu / Popover (column actions, etc.) ========== */
+.MuiPopover-paper.MuiMenu-paper,
+.MuiMenu-paper,
+.MuiPopover-paper {
+  background: #000 !important;
+  background-color: #000 !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 6px 8px !important;
+  overflow: visible !important;
+}
+.MuiMenu-list,
+.MuiMenu-paper .MuiList-root {
+  background: #000 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.MuiMenuItem-root,
+.MuiMenu-paper .MuiMenuItem-root,
+.MuiPopover-paper .MuiMenuItem-root {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0 !important;
+  min-height: 2.25rem !important;
+  height: auto !important;
+  margin: 0 0 6px 0 !important;
+  padding: 0.4rem 0.75rem 0.4rem 0.5rem !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  color: var(--starlight) !important;
+  border: 2px solid var(--orange-red) !important;
+  border-radius: 0 !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  text-align: right !important;
+  box-sizing: border-box !important;
+}
+.MuiMenuItem-root:last-child {
+  margin-bottom: 0 !important;
+}
+/* Left LCARS square accent + margin before content */
+.MuiMenuItem-root::before {
+  content: "" !important;
+  display: block !important;
+  flex: 0 0 14px !important;
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  margin: 0 12px 0 0 !important; /* right margin after the square */
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
+  border-radius: 0 !important;
+  order: -1 !important;
+}
+.MuiMenuItem-root:nth-child(3n+1)::before {
+  background: var(--primary-gray) !important;
+}
+.MuiMenuItem-root:nth-child(3n+2)::before {
+  background: var(--medium-dark-gray) !important;
+}
+.MuiMenuItem-root:nth-child(3n+3)::before {
+  background: var(--ghost-gray) !important;
+}
+.MuiMenuItem-root:hover {
+  background: #000 !important;
+  background-color: #000 !important;
+  border-color: var(--pale-orange-red) !important;
+  color: var(--starlight) !important;
+}
+.MuiMenuItem-root.Mui-disabled {
+  opacity: 0.45 !important;
+  border-color: var(--medium-dark-gray) !important;
+  color: var(--light-gray) !important;
+}
+.MuiMenuItem-root.Mui-disabled::before {
+  background: var(--medium-dark-gray) !important;
+  opacity: 0.7 !important;
+}
+.MuiMenuItem-root .MuiListItemIcon-root {
+  min-width: 28px !important;
+  margin-right: 8px !important;
+  color: var(--orange-red) !important;
+}
+.MuiMenuItem-root .MuiSvgIcon-root {
+  color: var(--orange-red) !important;
+  fill: currentColor !important;
+  font-size: 1.15rem !important;
+}
+.MuiMenuItem-root .MuiBox-root {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex: 1 1 auto !important;
+  text-align: right !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  text-transform: uppercase !important;
+}
+.MuiMenuItem-divider {
+  border-bottom: none !important;
+  margin-bottom: 6px !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -4445,7 +4553,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.19.4-bars-tables",
+    version: "2.19.5-menu-lcars",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
