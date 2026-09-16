@@ -1252,27 +1252,24 @@ body.dashboardDocument {
 /* Nested submenu — Picard keypad cluster: dual left bars + bordered keys */
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root {
   position: relative !important;
-  background: #000 !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: stretch !important;
-  padding: 4px 6px 8px 4px !important;
+  /* Dual vertical bars via background — always visible when open, no JS required */
+  background-color: #000 !important;
+  background-image:
+    linear-gradient(var(--primary-gray), var(--primary-gray)),
+    linear-gradient(var(--ghost-gray), var(--ghost-gray)) !important;
+  background-size: 8px calc(100% - 12px), 8px calc(100% - 12px) !important;
+  background-position: 4px 6px, 16px 6px !important;
+  background-repeat: no-repeat, no-repeat !important;
+  display: block !important;
+  padding: 4px 6px 8px 34px !important;
   margin: 0 0 6px 0 !important;
   box-sizing: border-box !important;
   overflow: visible !important;
 }
 /* Dual left side bars — independent flex children (margins adjustable) */
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar {
-  position: relative !important;
-  flex: 0 0 8px !important;
-  width: 8px !important;
-  min-width: 8px !important;
-  align-self: stretch !important;
-  display: block !important;
-  pointer-events: none !important;
-  border-radius: 0 !important;
-  box-sizing: border-box !important;
-  z-index: 1 !important;
+  /* optional DOM bars — primary paint is collapse background-image */
+  display: none !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar-a {
   margin: 0 2px 0 0 !important; /* outer */
@@ -1285,8 +1282,7 @@ body.dashboardDocument {
   background-color: var(--ghost-gray) !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .MuiCollapse-wrapper {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
+  width: 100% !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root::before,
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root::after {
@@ -3789,6 +3785,40 @@ html.jf-lcars-active .listItem-button {
   width: 100% !important;
   pointer-events: none !important;
 }
+
+/* Tables fill their content containers */
+.dashboardDocument main .MuiTableContainer-root,
+.dashboardDocument main .MuiPaper-root:has(.MuiTable-root),
+.dashboardDocument main .MuiPaper-root:has(table),
+.dashboardDocument .content-primary .MuiTableContainer-root,
+.dashboardDocument .content-primary .MuiPaper-root:has(.MuiTable-root) {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument main .MuiTable-root,
+.dashboardDocument main table,
+.dashboardDocument .content-primary .MuiTable-root,
+.dashboardDocument .content-primary table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: auto !important;
+}
+.dashboardDocument main .MuiTable-root .MuiTableCell-root,
+.dashboardDocument .content-primary .MuiTableCell-root {
+  white-space: nowrap !important;
+}
+.dashboardDocument main .MuiBox-root:has(> .MuiTableContainer-root),
+.dashboardDocument main .MuiBox-root:has(.MuiTable-root) {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.dashboardDocument .content-primary > .MuiPaper-root,
+.dashboardDocument main > .MuiPaper-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -3998,6 +4028,18 @@ html.jf-lcars-active .listItem-button {
   }
   
   
+  
+  function bindCollapseObserver() {
+    if (window.__lcarsCollapseObs) return;
+    var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
+    if (!paper) return;
+    window.__lcarsCollapseObs = new MutationObserver(function () {
+      ensureSubmenuBars();
+      bindCollapseObserver();
+    });
+    window.__lcarsCollapseObs.observe(paper, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] });
+  }
+
   function ensureSubmenuBars() {
     try {
       var collapses = document.querySelectorAll(
@@ -4403,7 +4445,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.19.3-chrome-pin",
+    version: "2.19.4-bars-tables",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
