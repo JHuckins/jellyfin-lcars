@@ -9,6 +9,7 @@
   var FRAME_ID = "jf-lcars-frame";
   var RUNNER_ID = "jf-lcars-top-runner";
   var HEADER_MASK_ID = "jf-lcars-header-mask";
+  var ELBOW_CHROME_ID = "jf-lcars-elbow-chrome";
   var ELBOW_ID = "jf-lcars-elbow";
   var CUT_ID = "jf-lcars-elbow-cut";
   var DASH_ELBOW_ID = "jf-lcars-dash-elbow";
@@ -3687,6 +3688,107 @@ html.jf-lcars-active .listItem-button {
   z-index: 12035 !important;
 }
 
+
+/* --- Scroll-proof LCARS top chrome (runner + curve) --- */
+.dashboardDocument .jf-lcars-top-runner,
+#jf-lcars-top-runner {
+  position: fixed !important;
+  z-index: 12045 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+}
+.dashboardDocument .jf-lcars-top-runner {
+  left: calc(var(--lcars-admin-drawer, 240px) + 96px) !important;
+  top: var(--lcars-dash-row-top, 52px) !important;
+  right: 0 !important;
+  height: var(--lcars-dash-arm, 30px) !important;
+}
+#jf-lcars-elbow-chrome {
+  display: none;
+  position: fixed !important;
+  z-index: 12046 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+.dashboardDocument #jf-lcars-elbow-chrome {
+  display: block !important;
+}
+#jf-lcars-elbow-chrome .jf-lcars-elbow-arm {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: var(--lcars-dash-arm-len, 192px) !important;
+  height: var(--lcars-dash-arm, 30px) !important;
+  background: var(--primary-gray) !important;
+}
+#jf-lcars-elbow-chrome .jf-lcars-elbow-curve {
+  position: absolute !important;
+  left: calc(0px - (var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px))) !important;
+  top: 0 !important;
+  width: var(--lcars-dash-curve, 60px) !important;
+  height: var(--lcars-dash-curve, 60px) !important;
+  background: var(--primary-gray) !important;
+  -webkit-mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px)),
+    #000 calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px) + 1px)
+  ) !important;
+  mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px)),
+    #000 calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px) + 1px)
+  ) !important;
+}
+/* Hide drawer-local curve/arm so only fixed chrome draws them */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::before,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::before,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::after,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::after,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .jf-lcars-dash-arm-hit,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .jf-lcars-dash-arm-hit,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .jf-lcars-dash-curve-hit,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .jf-lcars-dash-curve-hit {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+/* Dashboard button fixed under server header while menu scrolls */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  position: fixed !important;
+  top: var(--lcars-nav-sticky-top, 52px) !important;
+  left: 0 !important;
+  width: var(--lcars-admin-drawer, 240px) !important;
+  z-index: 12030 !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: var(--lcars-admin-drawer, 240px) !important;
+  z-index: 12031 !important;
+  background: #000 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+  min-height: var(--lcars-dash-row-height, 10.8rem) !important;
+  height: var(--lcars-dash-row-height, 10.8rem) !important;
+}
+#jf-lcars-nav-header-spacer {
+  display: block !important;
+  height: var(--lcars-nav-sticky-top, 52px) !important;
+  width: 100% !important;
+  pointer-events: none !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -3941,6 +4043,84 @@ html.jf-lcars-active .listItem-button {
     return el;
   }
 
+  
+  function ensureElbowChrome() {
+    try {
+      var isDash = !!(document.querySelector(".dashboardDocument") ||
+        (document.body && document.body.classList.contains("dashboardDocument")));
+      var el = document.getElementById(ELBOW_CHROME_ID);
+      if (!isDash) {
+        if (el) el.style.display = "none";
+        return;
+      }
+      if (!el && document.body) {
+        el = document.createElement("div");
+        el.id = ELBOW_CHROME_ID;
+        el.setAttribute("aria-hidden", "true");
+        var curve = document.createElement("div");
+        curve.className = "jf-lcars-elbow-curve";
+        var arm = document.createElement("div");
+        arm.className = "jf-lcars-elbow-arm";
+        el.appendChild(curve);
+        el.appendChild(arm);
+        document.body.appendChild(el);
+      }
+      if (!el) return;
+      var drawerW = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-admin-drawer"), 10) || 240;
+      var topPx = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-dash-row-top"), 10);
+      if (isNaN(topPx)) topPx = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-nav-sticky-top"), 10) || 52;
+      el.style.display = "block";
+      el.style.setProperty("position", "fixed", "important");
+      el.style.setProperty("top", topPx + "px", "important");
+      el.style.setProperty("left", drawerW + "px", "important");
+      el.style.setProperty("z-index", "12046", "important");
+      el.style.setProperty("opacity", "1", "important");
+      el.style.setProperty("visibility", "visible", "important");
+    } catch (e) {}
+  }
+  function pinLcarsTopChrome() {
+    try {
+      var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
+      var stickyTop = 52;
+      if (paper) {
+        var fl = paper.querySelector(":scope > .MuiList-root");
+        if (fl) {
+          var fh = Math.round(fl.offsetHeight || fl.getBoundingClientRect().height);
+          if (fh > 8 && fh < 220) stickyTop = fh;
+        }
+      }
+      document.documentElement.style.setProperty("--lcars-nav-sticky-top", stickyTop + "px");
+      document.documentElement.style.setProperty("--lcars-dash-row-top", stickyTop + "px");
+      document.documentElement.style.setProperty("--lcars-dash-arm", "30px");
+      var runner = document.getElementById(RUNNER_ID);
+      if (runner) {
+        runner.style.setProperty("position", "fixed", "important");
+        runner.style.setProperty("top", stickyTop + "px", "important");
+        runner.style.setProperty("height", "30px", "important");
+        runner.style.setProperty("z-index", "12045", "important");
+        runner.style.setProperty("opacity", "1", "important");
+        runner.style.setProperty("visibility", "visible", "important");
+        runner.style.setProperty("display", "flex", "important");
+      }
+      ensureElbowChrome();
+    } catch (e) {}
+  }
+  function ensureNavHeaderSpacer() {
+    try {
+      var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
+      if (!paper) return;
+      var first = paper.querySelector(":scope > .MuiList-root");
+      if (!first) return;
+      var sp = document.getElementById("jf-lcars-nav-header-spacer");
+      if (!sp) {
+        sp = document.createElement("div");
+        sp.id = "jf-lcars-nav-header-spacer";
+        sp.setAttribute("aria-hidden", "true");
+        paper.insertBefore(sp, first.nextSibling);
+      }
+    } catch (e) {}
+  }
+
   function measureAdminDrawer() {
     try {
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper, .dashboardDocument .MuiDrawer-docked .MuiDrawer-paper");
@@ -3949,6 +4129,8 @@ html.jf-lcars-active .listItem-button {
         if (w > 80 && w < 400) {
           document.documentElement.style.setProperty("--lcars-admin-drawer", w + "px");
         }
+        pinLcarsTopChrome();
+        ensureNavHeaderSpacer();
         /* fixed viewport column; nav below Dashboard scrolls inside paper */
         paper.style.setProperty("overflow-x", "hidden", "important");
         paper.style.setProperty("overflow-y", "auto", "important");
@@ -4189,9 +4371,15 @@ html.jf-lcars-active .listItem-button {
     );
     if (!paper || paper.__lcarsScrollBound) return;
     paper.__lcarsScrollBound = true;
-    paper.addEventListener("scroll", function () { syncTopBtn(); measureAdminDrawer();
-      ensureHeaderMask();
-      ensureSubmenuBars(); }, { passive: true });
+    paper.addEventListener("scroll", function () {
+        if (paper.__lcarsScrollRAF) return;
+        paper.__lcarsScrollRAF = requestAnimationFrame(function () {
+          paper.__lcarsScrollRAF = 0;
+          pinLcarsTopChrome();
+          measureAdminDrawer();
+          syncTopBtn();
+        });
+      }, { passive: true });
   }
 
   function run() {
@@ -4215,7 +4403,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.18.9-sub-bar-flex",
+    version: "2.19.3-chrome-pin",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
