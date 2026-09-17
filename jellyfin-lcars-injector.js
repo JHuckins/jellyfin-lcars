@@ -4119,7 +4119,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
 }
 
 #jf-lcars-dash-label {
-  font-size: 1rem !important;
+  font-size: 0.85rem !important;
   line-height: 1.2 !important;
   font-family: var(--lcars-font, "Antonio", sans-serif) !important;
   font-weight: 700 !important;
