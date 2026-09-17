@@ -4009,7 +4009,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   z-index: 1 !important;
   opacity: 1 !important;
   visibility: visible !important;
-  margin-top: 3px !important;
+  margin-top: 12px !important;
   overflow: visible !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root > .MuiListItemButton-root,
