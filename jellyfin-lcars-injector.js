@@ -3720,7 +3720,8 @@ html.jf-lcars-active .listItem-button {
   top: 0 !important;
   width: var(--lcars-dash-arm-len, 192px) !important;
   height: var(--lcars-dash-arm, 30px) !important;
-  background: var(--primary-gray) !important;
+  background: var(--lcars-dash-fill, var(--primary-gray)) !important;
+  background-color: var(--lcars-dash-fill, var(--primary-gray)) !important;
 }
 #jf-lcars-elbow-chrome .jf-lcars-elbow-curve {
   position: absolute !important;
@@ -3728,7 +3729,8 @@ html.jf-lcars-active .listItem-button {
   top: 0 !important;
   width: var(--lcars-dash-curve, 60px) !important;
   height: var(--lcars-dash-curve, 60px) !important;
-  background: var(--primary-gray) !important;
+  background: var(--lcars-dash-fill, var(--primary-gray)) !important;
+  background-color: var(--lcars-dash-fill, var(--primary-gray)) !important;
   -webkit-mask-image: radial-gradient(
     circle at 100% 100%,
     transparent 0,
@@ -3764,14 +3766,14 @@ html.jf-lcars-active .listItem-button {
   top: var(--lcars-nav-sticky-top, 52px) !important;
   left: 0 !important;
   width: var(--lcars-admin-drawer, 240px) !important;
-  z-index: 12030 !important;
+  z-index: 12050 !important;
 }
 .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: var(--lcars-admin-drawer, 240px) !important;
-  z-index: 12031 !important;
+  z-index: 12051 !important;
   background: #000 !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
@@ -3926,6 +3928,129 @@ html.jf-lcars-active .listItem-button {
 .MuiMenuItem-divider {
   border-bottom: none !important;
   margin-bottom: 6px !important;
+}
+
+/* Dashboard + elbow + first runner segment share hover/selected fill */
+html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
+html.jf-lcars-dash-hot #jf-lcars-elbow-chrome .jf-lcars-elbow-arm,
+html.jf-lcars-dash-hot #jf-lcars-elbow-chrome .jf-lcars-elbow-curve,
+html.jf-lcars-dash-hot .jf-lcars-top-runner .jf-lcars-seg-a,
+.dashboardDocument:has(.MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover) #jf-lcars-elbow-chrome .jf-lcars-elbow-arm,
+.dashboardDocument:has(.MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover) #jf-lcars-elbow-chrome .jf-lcars-elbow-arm,
+.dashboardDocument:has(.MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover) #jf-lcars-elbow-chrome .jf-lcars-elbow-curve,
+.dashboardDocument:has(.MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover) #jf-lcars-elbow-chrome .jf-lcars-elbow-curve,
+.dashboardDocument:has(.MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover) .jf-lcars-top-runner .jf-lcars-seg-a,
+.dashboardDocument:has(.MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover) .jf-lcars-top-runner .jf-lcars-seg-a {
+  --lcars-dash-fill: var(--ghost-gray) !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+}
+/* Fix spacer gap under fixed Dashboard — no light strip */
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+  background: #000 !important;
+  background-color: #000 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  min-height: var(--lcars-dash-row-height, 10.8rem) !important;
+  height: var(--lcars-dash-row-height, 10.8rem) !important;
+  overflow: hidden !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  height: var(--lcars-dash-row-height, 10.8rem) !important;
+  min-height: var(--lcars-dash-row-height, 10.8rem) !important;
+  max-height: var(--lcars-dash-row-height, 10.8rem) !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+#jf-lcars-nav-header-spacer {
+  background: #000 !important;
+}
+
+/* Dashboard page: keep selected Dashboard panel continuous (no gap, no white elbow) */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected:hover,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected:hover {
+  --lcars-dash-fill: var(--primary-gray) !important;
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
+  color: #000 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  top: var(--lcars-nav-sticky-top, 52px) !important;
+  height: var(--lcars-dash-row-height, 10.8rem) !important;
+  min-height: var(--lcars-dash-row-height, 10.8rem) !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected.jf-lcars-dash-hot,
+html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
+html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected {
+  --lcars-dash-fill: var(--ghost-gray) !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+}
+/* Flush under server header — no black band */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  top: var(--lcars-nav-sticky-top, 52px) !important;
+  margin-top: 0 !important;
+  border-top: none !important;
+}
+/* seg-a always matches dash fill */
+.dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a,
+#jf-lcars-top-runner .jf-lcars-seg-a {
+  background: var(--lcars-dash-fill, var(--primary-gray)) !important;
+  background-color: var(--lcars-dash-fill, var(--primary-gray)) !important;
+}
+
+/* Second nav item under Dashboard — must clear fixed panel, not hidden/obscured */
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) + .MuiListItem-root {
+  position: relative !important;
+  z-index: 2 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  margin-top: 3px !important;
+  overflow: visible !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) + .MuiListItem-root > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root > a.MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) + .MuiListItem-root > a.MuiListItemButton-root {
+  position: relative !important;
+  z-index: 2 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+/* Dashboard list-item is only a height placeholder (button is fixed) */
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+  overflow: visible !important;
+}
+
+/* Scrolling nav items stay under fixed Dashboard + server header */
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:not(:has(> a[href="#/dashboard"])):not(:has(> a[href="#/dashboard/"])) {
+  position: relative !important;
+  z-index: 1 !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  z-index: 12050 !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+  z-index: 12051 !important;
 }
 `;
   function injectCss() {
@@ -4216,45 +4341,190 @@ html.jf-lcars-active .listItem-button {
         document.body.appendChild(el);
       }
       if (!el) return;
-      var drawerW = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-admin-drawer"), 10) || 240;
-      var topPx = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-dash-row-top"), 10);
-      if (isNaN(topPx)) topPx = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-nav-sticky-top"), 10) || 52;
+      var rootStyle = getComputedStyle(document.documentElement);
+      var drawerW = parseInt(rootStyle.getPropertyValue("--lcars-admin-drawer"), 10) || 240;
+      var topPx = parseInt(rootStyle.getPropertyValue("--lcars-dash-row-top"), 10);
+      if (isNaN(topPx)) topPx = parseInt(rootStyle.getPropertyValue("--lcars-nav-sticky-top"), 10) || 52;
+      var hot = document.documentElement.classList.contains("jf-lcars-dash-hot");
+      var fill = hot ? "#d2d5df" : "#6d748c"; /* ghost-gray | primary-gray */
       el.style.display = "block";
-      el.style.setProperty("position", "fixed", "important");
-      el.style.setProperty("top", topPx + "px", "important");
-      el.style.setProperty("left", drawerW + "px", "important");
-      el.style.setProperty("z-index", "12046", "important");
-      el.style.setProperty("opacity", "1", "important");
-      el.style.setProperty("visibility", "visible", "important");
+      el.style.cssText =
+        "position:fixed!important;top:" + topPx + "px!important;left:" + drawerW +
+        "px!important;z-index:12046!important;opacity:1!important;visibility:visible!important;" +
+        "pointer-events:none!important;margin:0!important;padding:0!important;border:none!important;" +
+        "background:transparent!important;display:block!important;";
+      var curveEl = el.querySelector(".jf-lcars-elbow-curve");
+      var armEl = el.querySelector(".jf-lcars-elbow-arm");
+      if (armEl) {
+        armEl.style.cssText =
+          "position:absolute!important;left:0!important;top:0!important;width:192px!important;height:30px!important;" +
+          "background:" + fill + "!important;background-color:" + fill + "!important;margin:0!important;padding:0!important;border:none!important;";
+      }
+      if (curveEl) {
+        curveEl.style.cssText =
+          "position:absolute!important;left:-30px!important;top:0!important;width:60px!important;height:60px!important;" +
+          "background:" + fill + "!important;background-color:" + fill + "!important;margin:0!important;padding:0!important;border:none!important;" +
+          "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 30px,#000 31px)!important;" +
+          "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 30px,#000 31px)!important;";
+      }
     } catch (e) {}
   }
+
+  function setDashHot(on) {
+    try {
+      document.documentElement.classList.toggle("jf-lcars-dash-hot", !!on);
+      if (document.body) document.body.classList.toggle("jf-lcars-dash-hot", !!on);
+      var fill = on ? "#d2d5df" : "#6d748c";
+      document.documentElement.style.setProperty("--lcars-dash-fill", fill);
+      pinLcarsTopChrome();
+    } catch (e) {}
+  }
+
+  function bindDashHover() {
+    try {
+      var link =
+        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
+        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
+      if (!link || link.__lcarsHotBound) return;
+      link.__lcarsHotBound = true;
+      link.addEventListener("pointerenter", function () { setDashHot(true); });
+      link.addEventListener("pointerleave", function () { setDashHot(false); });
+      link.addEventListener("focusin", function () { setDashHot(true); });
+      link.addEventListener("focusout", function () {
+        if (!link.matches(":hover")) setDashHot(false);
+      });
+    } catch (e) {}
+  }
+
   function pinLcarsTopChrome() {
     try {
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
+      if (!paper) return;
+      var drawerW = Math.round(paper.getBoundingClientRect().width) || 240;
+      if (drawerW > 80 && drawerW < 400) {
+        document.documentElement.style.setProperty("--lcars-admin-drawer", drawerW + "px");
+      }
+      paper.style.setProperty("overflow-x", "hidden", "important");
+      paper.style.setProperty("overflow-y", "auto", "important");
+
       var stickyTop = 52;
-      if (paper) {
-        var fl = paper.querySelector(":scope > .MuiList-root");
-        if (fl) {
-          var fh = Math.round(fl.offsetHeight || fl.getBoundingClientRect().height);
-          if (fh > 8 && fh < 220) stickyTop = fh;
-        }
+      var fl = paper.querySelector(":scope > .MuiList-root");
+      if (fl) {
+        fl.style.setProperty("position", "fixed", "important");
+        fl.style.setProperty("top", "0", "important");
+        fl.style.setProperty("left", "0", "important");
+        fl.style.setProperty("width", drawerW + "px", "important");
+        fl.style.setProperty("max-width", drawerW + "px", "important");
+        fl.style.setProperty("margin", "0", "important");
+        fl.style.setProperty("padding", "0", "important");
+        fl.style.setProperty("z-index", "12051", "important");
+        fl.style.setProperty("background", "#000", "important");
+        fl.style.setProperty("box-sizing", "border-box", "important");
+        var fr = fl.getBoundingClientRect();
+        var fh = Math.round(fr.height);
+        if (fh > 8 && fh < 220) stickyTop = Math.round(fr.bottom);
       }
       document.documentElement.style.setProperty("--lcars-nav-sticky-top", stickyTop + "px");
       document.documentElement.style.setProperty("--lcars-dash-row-top", stickyTop + "px");
       document.documentElement.style.setProperty("--lcars-dash-arm", "30px");
+      document.documentElement.style.setProperty("--lcars-dash-row-height", "10.8rem");
+
+      var hot = document.documentElement.classList.contains("jf-lcars-dash-hot");
+      var fill = hot ? "#d2d5df" : "#6d748c";
+      document.documentElement.style.setProperty("--lcars-dash-fill", fill);
+
+      function findDashBtn() {
+        var a =
+          document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
+          document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
+        if (a) return a;
+        var nodes = document.querySelectorAll(".dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root");
+        for (var i = 0; i < nodes.length; i++) {
+          if (/^\s*dashboard\s*$/i.test((nodes[i].textContent || "").replace(/\s+/g, " ").trim()) ||
+              /dashboard/i.test(nodes[i].textContent || "")) {
+            return nodes[i];
+          }
+        }
+        return null;
+      }
+      var dashBtn = findDashBtn();
+      if (dashBtn) {
+        dashBtn.style.setProperty("position", "fixed", "important");
+        dashBtn.style.setProperty("top", stickyTop + "px", "important");
+        dashBtn.style.setProperty("left", "0", "important");
+        dashBtn.style.setProperty("width", drawerW + "px", "important");
+        dashBtn.style.setProperty("max-width", drawerW + "px", "important");
+        dashBtn.style.setProperty("height", "10.8rem", "important");
+        dashBtn.style.setProperty("min-height", "10.8rem", "important");
+        dashBtn.style.setProperty("max-height", "10.8rem", "important");
+        dashBtn.style.setProperty("margin", "0", "important");
+        dashBtn.style.setProperty("padding", "0.75rem 0.65rem", "important");
+        dashBtn.style.setProperty("background", fill, "important");
+        dashBtn.style.setProperty("background-color", fill, "important");
+        dashBtn.style.setProperty("color", "#000", "important");
+        dashBtn.style.setProperty("z-index", "12050", "important");
+        dashBtn.style.setProperty("opacity", "1", "important");
+        dashBtn.style.setProperty("filter", "none", "important");
+        dashBtn.style.setProperty("border", "none", "important");
+        dashBtn.style.setProperty("border-radius", "0", "important");
+        dashBtn.style.setProperty("box-shadow", "none", "important");
+        dashBtn.style.setProperty("box-sizing", "border-box", "important");
+        var parent = dashBtn.closest(".MuiListItem-root");
+        var dashH = Math.round(dashBtn.getBoundingClientRect().height);
+        if (!dashH || dashH < 40) dashH = Math.round(10.8 * 16);
+        if (parent) {
+          /* In-flow placeholder so the next item (GENERAL) clears the fixed Dashboard */
+          parent.style.setProperty("min-height", dashH + "px", "important");
+          parent.style.setProperty("height", dashH + "px", "important");
+          parent.style.setProperty("max-height", dashH + "px", "important");
+          parent.style.setProperty("background", "#000", "important");
+          parent.style.setProperty("margin", "0", "important");
+          parent.style.setProperty("padding", "0", "important");
+          parent.style.setProperty("overflow", "visible", "important");
+          parent.style.setProperty("position", "relative", "important");
+          parent.style.setProperty("z-index", "0", "important");
+          var next = parent.nextElementSibling;
+          if (next) {
+            next.style.setProperty("position", "relative", "important");
+            next.style.setProperty("z-index", "2", "important");
+            next.style.setProperty("margin-top", "3px", "important");
+            next.style.setProperty("opacity", "1", "important");
+            next.style.setProperty("visibility", "visible", "important");
+            next.style.setProperty("display", "", "important");
+            var nextBtn = next.querySelector(".MuiListItemButton-root, a.MuiListItemButton-root");
+            if (nextBtn) {
+              nextBtn.style.setProperty("opacity", "1", "important");
+              nextBtn.style.setProperty("visibility", "visible", "important");
+              nextBtn.style.setProperty("position", "relative", "important");
+              nextBtn.style.setProperty("z-index", "2", "important");
+            }
+          }
+        }
+      }
+
       var runner = document.getElementById(RUNNER_ID);
       if (runner) {
         runner.style.setProperty("position", "fixed", "important");
         runner.style.setProperty("top", stickyTop + "px", "important");
+        runner.style.setProperty("left", drawerW + 96 + "px", "important");
+        runner.style.setProperty("right", "0", "important");
         runner.style.setProperty("height", "30px", "important");
         runner.style.setProperty("z-index", "12045", "important");
         runner.style.setProperty("opacity", "1", "important");
         runner.style.setProperty("visibility", "visible", "important");
         runner.style.setProperty("display", "flex", "important");
+        var sega = runner.querySelector(".jf-lcars-seg-a");
+        if (sega) {
+          sega.style.setProperty("background", fill, "important");
+          sega.style.setProperty("background-color", fill, "important");
+          sega.style.setProperty("opacity", "1", "important");
+        }
       }
       ensureElbowChrome();
+      bindDashHover();
     } catch (e) {}
   }
+
   function ensureNavHeaderSpacer() {
     try {
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
@@ -4266,8 +4536,14 @@ html.jf-lcars-active .listItem-button {
         sp = document.createElement("div");
         sp.id = "jf-lcars-nav-header-spacer";
         sp.setAttribute("aria-hidden", "true");
-        paper.insertBefore(sp, first.nextSibling);
+        if (first.nextSibling) paper.insertBefore(sp, first.nextSibling);
+        else paper.appendChild(sp);
       }
+      var h = Math.round(first.getBoundingClientRect().height) || 52;
+      sp.style.cssText =
+        "display:block!important;width:100%!important;height:" + h +
+        "px!important;min-height:" + h + "px!important;margin:0!important;padding:0!important;" +
+        "background:#000!important;pointer-events:none!important;flex-shrink:0!important;";
     } catch (e) {}
   }
 
@@ -4280,6 +4556,7 @@ html.jf-lcars-active .listItem-button {
           document.documentElement.style.setProperty("--lcars-admin-drawer", w + "px");
         }
         pinLcarsTopChrome();
+      bindDashHover();
         ensureNavHeaderSpacer();
         /* fixed viewport column; nav below Dashboard scrolls inside paper */
         paper.style.setProperty("overflow-x", "hidden", "important");
@@ -4553,7 +4830,7 @@ html.jf-lcars-active .listItem-button {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.19.5-menu-lcars",
+    version: "2.20.1-dash-z",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
