@@ -10,6 +10,7 @@
   var RUNNER_ID = "jf-lcars-top-runner";
   var HEADER_MASK_ID = "jf-lcars-header-mask";
   var ELBOW_CHROME_ID = "jf-lcars-elbow-chrome";
+  var DASH_PANEL_ID = "jf-lcars-dash-panel";
   var ELBOW_ID = "jf-lcars-elbow";
   var CUT_ID = "jf-lcars-elbow-cut";
   var DASH_ELBOW_ID = "jf-lcars-dash-elbow";
@@ -4001,11 +4002,11 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   background-color: var(--lcars-dash-fill, var(--primary-gray)) !important;
 }
 
-/* Second nav item under Dashboard — must clear fixed panel, not hidden/obscured */
+/* Second nav item under Dashboard — in flow below placeholder; scrolls under fixed Dashboard */
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root,
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) + .MuiListItem-root {
   position: relative !important;
-  z-index: 2 !important;
+  z-index: 1 !important;
   opacity: 1 !important;
   visibility: visible !important;
   margin-top: 3px !important;
@@ -4016,7 +4017,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root > a.MuiListItemButton-root,
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) + .MuiListItem-root > a.MuiListItemButton-root {
   position: relative !important;
-  z-index: 2 !important;
+  z-index: 1 !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -4037,6 +4038,84 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
 }
 .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
   z-index: 12051 !important;
+}
+
+/* Menu list scrolls underneath fixed Dashboard + server header */
+.dashboardDocument .MuiDrawer-paper {
+  isolation: auto !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  position: fixed !important;
+  z-index: 12050 !important;
+  /* solid fill so scrolling items disappear behind it */
+  background: var(--lcars-dash-fill, #6d748c) !important;
+  background-color: var(--lcars-dash-fill, #6d748c) !important;
+}
+.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+  z-index: 12051 !important;
+  background: #000 !important;
+}
+/* Scrolling items: low stack level so they pass under the fixed chrome */
+.dashboardDocument .MuiDrawer-paper .MuiList-root:not(:first-child),
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:not(:has(> a[href="#/dashboard"])):not(:has(> a[href="#/dashboard/"])),
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root {
+  position: relative !important;
+  z-index: 1 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:not(:has(> a[href="#/dashboard"])):not(:has(> a[href="#/dashboard/"])) > .MuiListItemButton-root,
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:not(:has(> a[href="#/dashboard"])):not(:has(> a[href="#/dashboard/"])) > a.MuiListItemButton-root {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Body-level Dashboard panel — always above drawer scroll (avoids drawer stacking context) */
+#jf-lcars-dash-panel {
+  display: none;
+  position: fixed !important;
+  left: 0 !important;
+  z-index: 12055 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0.75rem 0.65rem !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #6d748c !important;
+  color: #000 !important;
+  font-family: var(--lcars-font, "Antonio", sans-serif) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  pointer-events: none !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+}
+.dashboardDocument #jf-lcars-dash-panel {
+  display: flex !important;
+}
+html.jf-lcars-dash-hot #jf-lcars-dash-panel {
+  background: #d2d5df !important;
+  background-color: #d2d5df !important;
+}
+
+/* Real Dashboard link is hit-target only; #jf-lcars-dash-panel shows the label */
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  box-shadow: none !important;
+}
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] *,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] * {
+  color: transparent !important;
+  fill: transparent !important;
+  opacity: 0 !important;
+}
+#jf-lcars-dash-panel {
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
 }
 `;
   function injectCss() {
@@ -4305,6 +4384,42 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   }
 
   
+  
+  function ensureDashPanel(stickyTop, drawerW, fill, label) {
+    try {
+      var isDash = !!(document.querySelector(".dashboardDocument") ||
+        (document.body && document.body.classList.contains("dashboardDocument")));
+      var panel = document.getElementById(DASH_PANEL_ID);
+      if (!isDash) {
+        if (panel) panel.style.display = "none";
+        return;
+      }
+      if (!panel && document.body) {
+        panel = document.createElement("div");
+        panel.id = DASH_PANEL_ID;
+        panel.setAttribute("aria-hidden", "true");
+        document.body.appendChild(panel);
+      }
+      if (!panel) return;
+      var h = Math.round(10.8 * 16);
+      var lab = (label || "DASHBOARD").replace(/\s+/g, " ").trim();
+      /* Prefer short title without icons noise */
+      var m = lab.match(/dashboard/i);
+      panel.textContent = m ? "DASHBOARD" : lab;
+      panel.style.cssText =
+        "display:flex!important;position:fixed!important;left:0!important;top:" + stickyTop +
+        "px!important;width:" + drawerW + "px!important;height:" + h +
+        "px!important;min-height:" + h + "px!important;z-index:12055!important;" +
+        "box-sizing:border-box!important;margin:0!important;padding:0.75rem 0.65rem!important;" +
+        "background:" + fill + "!important;background-color:" + fill + "!important;color:#000!important;" +
+        "font-family:Antonio,Segoe UI,system-ui,sans-serif!important;font-weight:700!important;" +
+        "font-size:1rem!important;line-height:1.2!important;" +
+        "text-transform:uppercase!important;letter-spacing:0.06em!important;" +
+        "align-items:flex-end!important;justify-content:flex-end!important;" +
+        "pointer-events:none!important;border:none!important;border-radius:0!important;";
+    } catch (e) {}
+  }
+
   function ensureElbowChrome() {
     try {
       var isDash = !!(document.querySelector(".dashboardDocument") ||
@@ -4447,24 +4562,33 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
         dashBtn.style.setProperty("max-height", "10.8rem", "important");
         dashBtn.style.setProperty("margin", "0", "important");
         dashBtn.style.setProperty("padding", "0.75rem 0.65rem", "important");
-        dashBtn.style.setProperty("background", fill, "important");
-        dashBtn.style.setProperty("background-color", fill, "important");
-        dashBtn.style.setProperty("color", "#000", "important");
-        dashBtn.style.setProperty("z-index", "12050", "important");
+        /* Panel paints the visible face; button is the click layer only */
+        dashBtn.style.setProperty("background", "transparent", "important");
+        dashBtn.style.setProperty("background-color", "transparent", "important");
+        dashBtn.style.setProperty("color", "transparent", "important");
+        dashBtn.style.setProperty("z-index", "12056", "important");
         dashBtn.style.setProperty("opacity", "1", "important");
         dashBtn.style.setProperty("filter", "none", "important");
         dashBtn.style.setProperty("border", "none", "important");
         dashBtn.style.setProperty("border-radius", "0", "important");
         dashBtn.style.setProperty("box-shadow", "none", "important");
         dashBtn.style.setProperty("box-sizing", "border-box", "important");
+        dashBtn.style.setProperty("-webkit-text-fill-color", "transparent", "important");
+        var hideKids = dashBtn.querySelectorAll("*");
+        for (var hi = 0; hi < hideKids.length; hi++) {
+          hideKids[hi].style.setProperty("color", "transparent", "important");
+          hideKids[hi].style.setProperty("fill", "transparent", "important");
+          hideKids[hi].style.setProperty("opacity", "0", "important");
+        }
         var parent = dashBtn.closest(".MuiListItem-root");
         var dashH = Math.round(dashBtn.getBoundingClientRect().height);
         if (!dashH || dashH < 40) dashH = Math.round(10.8 * 16);
         if (parent) {
           /* In-flow placeholder so the next item (GENERAL) clears the fixed Dashboard */
-          parent.style.setProperty("min-height", dashH + "px", "important");
-          parent.style.setProperty("height", dashH + "px", "important");
-          parent.style.setProperty("max-height", dashH + "px", "important");
+          var placeH = dashH + 3;
+          parent.style.setProperty("min-height", placeH + "px", "important");
+          parent.style.setProperty("height", placeH + "px", "important");
+          parent.style.setProperty("max-height", placeH + "px", "important");
           parent.style.setProperty("background", "#000", "important");
           parent.style.setProperty("margin", "0", "important");
           parent.style.setProperty("padding", "0", "important");
@@ -4474,17 +4598,16 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
           var next = parent.nextElementSibling;
           if (next) {
             next.style.setProperty("position", "relative", "important");
-            next.style.setProperty("z-index", "2", "important");
+            next.style.setProperty("z-index", "1", "important");
             next.style.setProperty("margin-top", "3px", "important");
             next.style.setProperty("opacity", "1", "important");
             next.style.setProperty("visibility", "visible", "important");
-            next.style.setProperty("display", "", "important");
             var nextBtn = next.querySelector(".MuiListItemButton-root, a.MuiListItemButton-root");
             if (nextBtn) {
               nextBtn.style.setProperty("opacity", "1", "important");
               nextBtn.style.setProperty("visibility", "visible", "important");
               nextBtn.style.setProperty("position", "relative", "important");
-              nextBtn.style.setProperty("z-index", "2", "important");
+              nextBtn.style.setProperty("z-index", "1", "important");
             }
           }
         }
@@ -4508,6 +4631,12 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
           sega.style.setProperty("opacity", "1", "important");
         }
       }
+      var dashLabel = "DASHBOARD";
+      if (typeof dashBtn !== "undefined" && dashBtn) {
+        var t = (dashBtn.textContent || "").replace(/\s+/g, " ").trim();
+        if (t) dashLabel = t;
+      }
+      ensureDashPanel(stickyTop, drawerW, fill, dashLabel);
       ensureElbowChrome();
       bindDashHover();
     } catch (e) {}
@@ -4785,7 +4914,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.2-consolidate",
+    version: "2.20.5-dash-label",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
