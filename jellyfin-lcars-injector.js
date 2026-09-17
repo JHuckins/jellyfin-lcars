@@ -858,15 +858,8 @@ textarea,
 }
 
 /* Runner starts where bridge ends */
-.dashboardDocument .jf-lcars-top-runner {
-  left: calc(var(--lcars-admin-drawer) + 96px) !important;
-  top: var(--lcars-dash-row-top, 48px) !important;
-  height: var(--lcars-dash-arm, 30px) !important;
-}
+/* runner geometry: consolidated below */
 
-.dashboardDocument .jf-lcars-top-runner .jf-lcars-seg {
-  /* keep bar height in sync with arm */
-}
 
 /* ----- Admin left nav — clean continuous column + flush runner ----- */
 /*
@@ -905,12 +898,7 @@ body.dashboardDocument,
 }
 
 /* First segment matches column gray → continuous color into the bars */
-.dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
-  flex: 0 0 96px !important;
-  background: var(--starlight) !important;
-  border-radius: 0 !important;
-  min-height: 100% !important;
-}
+/* seg-a: see primary-gray / --lcars-dash-fill rules */
 
 .dashboardDocument .backgroundContainer,
 .dashboardDocument .mainAnimatedPages {
@@ -1451,9 +1439,7 @@ body.dashboardDocument {
   border-right: var(--lcars-bar-gap, 8px) solid #000 !important;
   min-height: 100% !important;
 }
-.dashboardDocument .jf-lcars-top-runner {
-  pointer-events: none !important;
-}
+
 /* When Dashboard is hovered/selected, tint first section via body class set by JS optional —
  * arm-hit already paints over the joint; keep seg-a as continuous starlight base */
 
@@ -4370,6 +4356,15 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
     } catch (e) {}
   }
 
+  
+  function queryDashLink() {
+    return (
+      document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
+      document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]') ||
+      null
+    );
+  }
+
   function setDashHot(on) {
     try {
       document.documentElement.classList.toggle("jf-lcars-dash-hot", !!on);
@@ -4382,9 +4377,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
 
   function bindDashHover() {
     try {
-      var link =
-        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
-        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
+      var link = queryDashLink();
       if (!link || link.__lcarsHotBound) return;
       link.__lcarsHotBound = true;
       link.addEventListener("pointerenter", function () { setDashHot(true); });
@@ -4433,21 +4426,16 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
       var fill = hot ? "#d2d5df" : "#6d748c";
       document.documentElement.style.setProperty("--lcars-dash-fill", fill);
 
-      function findDashBtn() {
-        var a =
-          document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
-          document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
-        if (a) return a;
+      var dashBtn = queryDashLink();
+      if (!dashBtn) {
         var nodes = document.querySelectorAll(".dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root");
         for (var i = 0; i < nodes.length; i++) {
-          if (/^\s*dashboard\s*$/i.test((nodes[i].textContent || "").replace(/\s+/g, " ").trim()) ||
-              /dashboard/i.test(nodes[i].textContent || "")) {
-            return nodes[i];
+          if (/dashboard/i.test(nodes[i].textContent || "")) {
+            dashBtn = nodes[i];
+            break;
           }
         }
-        return null;
       }
-      var dashBtn = findDashBtn();
       if (dashBtn) {
         dashBtn.style.setProperty("position", "fixed", "important");
         dashBtn.style.setProperty("top", stickyTop + "px", "important");
@@ -4555,10 +4543,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
         if (w > 80 && w < 400) {
           document.documentElement.style.setProperty("--lcars-admin-drawer", w + "px");
         }
-        pinLcarsTopChrome();
-      bindDashHover();
-        ensureNavHeaderSpacer();
-        /* fixed viewport column; nav below Dashboard scrolls inside paper */
+        /* fixed viewport column; pin chrome (header, dashboard, runner, elbow) */
         paper.style.setProperty("overflow-x", "hidden", "important");
         paper.style.setProperty("overflow-y", "auto", "important");
         paper.style.setProperty("height", "100vh", "important");
@@ -4575,36 +4560,8 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
         dock.style.setProperty("top", "0", "important");
         dock.style.setProperty("left", "0", "important");
       }
-      var firstList = paper && paper.querySelector(":scope > .MuiList-root");
-      if (firstList) {
-        var fh = Math.round(firstList.getBoundingClientRect().height);
-        if (fh > 8 && fh < 200) {
-          document.documentElement.style.setProperty("--lcars-nav-sticky-top", fh + "px");
-        }
-      }
-      var dash =
-        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
-        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
-      if (dash) {
-        var r = dash.getBoundingClientRect();
-        if (r.height > 8) {
-          /* horizontal runner arm stays thin; panel itself is tall */
-          var arm = 30;
-          document.documentElement.style.setProperty("--lcars-dash-row-top", Math.round(r.top) + "px");
-          var armW = 30;
-          var curveW = 60;
-          var armLeft = Math.round(r.right);
-          var curveLeft = armLeft - (curveW - armW);
-          document.documentElement.style.setProperty("--lcars-dash-arm-left", armLeft + "px");
-          document.documentElement.style.setProperty("--lcars-dash-curve-left", curveLeft + "px");
-          document.documentElement.style.setProperty("--lcars-dash-row-height", Math.round(r.height) + "px");
-          document.documentElement.style.setProperty("--lcars-dash-arm", arm + "px");
-          /* curve radius: keep bottom of curve above bottom of Dashboard */
-          var maxR = Math.max(40, Math.round(r.height) - arm - 8);
-          var rad = Math.min(80, maxR);
-          document.documentElement.style.setProperty("--lcars-dash-curve-r", rad + "px");
-        }
-      }
+      pinLcarsTopChrome();
+      ensureNavHeaderSpacer();
     } catch (e) {}
   }
   function ensureFrame() {
@@ -4730,9 +4687,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   
   function ensureDashArmHit() {
     try {
-      var link =
-        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]') ||
-        document.querySelector('.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]');
+      var link = queryDashLink();
       if (!link) return;
       link.classList.add("jf-lcars-has-arm");
       var arm = link.querySelector(".jf-lcars-dash-arm-hit");
@@ -4830,7 +4785,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.1-dash-z",
+    version: "2.20.2-consolidate",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
