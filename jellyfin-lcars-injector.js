@@ -4009,7 +4009,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   z-index: 1 !important;
   opacity: 1 !important;
   visibility: visible !important;
-  margin-top: 12px !important;
+  margin-top: 7px !important;
   overflow: visible !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root > .MuiListItemButton-root,
@@ -4119,7 +4119,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
 }
 
 #jf-lcars-dash-label {
-  font-size: 0.85rem !important;
+  font-size: 1rem !important;
   line-height: 1.2 !important;
   font-family: var(--lcars-font, "Antonio", sans-serif) !important;
   font-weight: 700 !important;
@@ -4604,7 +4604,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
         if (!dashH || dashH < 40) dashH = Math.round(10.8 * 16);
         if (parent) {
           /* In-flow placeholder so the next item (GENERAL) clears the fixed Dashboard */
-          var placeH = dashH + 3;
+          var placeH = dashH + 7;
           parent.style.setProperty("min-height", placeH + "px", "important");
           parent.style.setProperty("height", placeH + "px", "important");
           parent.style.setProperty("max-height", placeH + "px", "important");
@@ -4618,7 +4618,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
           if (next) {
             next.style.setProperty("position", "relative", "important");
             next.style.setProperty("z-index", "1", "important");
-            next.style.setProperty("margin-top", "3px", "important");
+            next.style.setProperty("margin-top", "7px", "important");
             next.style.setProperty("opacity", "1", "important");
             next.style.setProperty("visibility", "visible", "important");
             var nextBtn = next.querySelector(".MuiListItemButton-root, a.MuiListItemButton-root");
@@ -4933,7 +4933,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.6-dash-label-id",
+    version: "2.20.10-second-mt7",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
