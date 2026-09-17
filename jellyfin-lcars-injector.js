@@ -4117,6 +4117,17 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
   font-size: 1rem !important;
   line-height: 1.2 !important;
 }
+
+#jf-lcars-dash-label {
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
+  font-family: var(--lcars-font, "Antonio", sans-serif) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: #000 !important;
+  display: block !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -4405,7 +4416,15 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
       var lab = (label || "DASHBOARD").replace(/\s+/g, " ").trim();
       /* Prefer short title without icons noise */
       var m = lab.match(/dashboard/i);
-      panel.textContent = m ? "DASHBOARD" : lab;
+      var title = m ? "DASHBOARD" : lab;
+      var textEl = panel.querySelector("#jf-lcars-dash-label");
+      if (!textEl) {
+        textEl = document.createElement("span");
+        textEl.id = "jf-lcars-dash-label";
+        panel.textContent = "";
+        panel.appendChild(textEl);
+      }
+      textEl.textContent = title;
       panel.style.cssText =
         "display:flex!important;position:fixed!important;left:0!important;top:" + stickyTop +
         "px!important;width:" + drawerW + "px!important;height:" + h +
@@ -4914,7 +4933,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.5-dash-label",
+    version: "2.20.6-dash-label-id",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
