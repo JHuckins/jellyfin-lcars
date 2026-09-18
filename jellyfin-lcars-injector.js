@@ -4178,6 +4178,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   width: fit-content !important;
   max-width: 100% !important;
 }
+
+
+.dashboardDocument .MuiGrid-container > .MuiGrid-item:has(.MuiCard-root) {
+    max-width: max-content !important;
+}
+
+
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
