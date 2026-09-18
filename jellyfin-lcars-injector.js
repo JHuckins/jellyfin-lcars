@@ -4161,6 +4161,23 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 .MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]) {
   margin-left: 12px !important;
 }
+
+/* content-primary: shrink-wrap when showing cards/tiles (not data tables) */
+.dashboardDocument .content-primary:has(.localUsers),
+.dashboardDocument .content-primary:has(.itemsContainer.vertical-wrap),
+.dashboardDocument .content-primary:has(.MuiGrid-container),
+.dashboardDocument .page .content-primary:has(.localUsers),
+.dashboardDocument .page .content-primary:has(.itemsContainer.vertical-wrap),
+.dashboardDocument .page .content-primary:has(.MuiGrid-container) {
+  width: fit-content !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .content-primary:has(.localUsers) .localUsers,
+.dashboardDocument .content-primary:has(.itemsContainer.vertical-wrap) .itemsContainer {
+  width: fit-content !important;
+  max-width: 100% !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -4997,7 +5014,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.15-dash-font",
+    version: "2.20.16-content-fit",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
