@@ -4128,6 +4128,37 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
   color: #000 !important;
   display: block !important;
 }
+
+/* Main library content clears fixed top LCARS header + runner */
+body.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPage,
+body.jf-lcars-active:not(.dashboardDocument) .page,
+body.jf-lcars-active:not(.dashboardDocument) #mainContent,
+body.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPages,
+html.jf-lcars-active:not(:has(.dashboardDocument)) .mainAnimatedPage,
+html.jf-lcars-active:not(:has(.dashboardDocument)) .page {
+  padding-top: var(--lcars-content-top, 72px) !important;
+  box-sizing: border-box !important;
+}
+/* When header is fixed, ensure first section isn't under the bar */
+body.jf-lcars-active:not(.dashboardDocument) .skinHeader + .mainAnimatedPages,
+body.jf-lcars-active:not(.dashboardDocument) .mainDrawer-scrollContainer {
+  padding-top: 0 !important;
+}
+body.jf-lcars-active:not(.dashboardDocument) .sections.homeSections,
+body.jf-lcars-active:not(.dashboardDocument) .homeSectionsContainer,
+body.jf-lcars-active:not(.dashboardDocument) .padded-top-page,
+body.jf-lcars-active:not(.dashboardDocument) .pageWithAbsoluteTabs .pageTabContent {
+  scroll-margin-top: var(--lcars-content-top, 72px) !important;
+}
+
+.MuiBox-root:has(> .MuiIconButton-root svg[data-testid="MoreVertIcon"]),
+.MuiBox-root:has(> button.MuiIconButton-root svg[data-testid="MoreVertIcon"]) {
+  margin-left: 12px !important;
+}
+button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
+.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]) {
+  margin-left: 12px !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -4333,7 +4364,38 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
   }
 
   function measureHeader() {
-    document.documentElement.style.setProperty("--lcars-header-height", "48px");
+    try {
+      var h = 48;
+      var header =
+        document.querySelector(".skinHeader") ||
+        document.querySelector(".headerTop") ||
+        document.querySelector(".MuiAppBar-root");
+      if (header) {
+        var r = header.getBoundingClientRect();
+        if (r.height > 8) h = Math.ceil(r.bottom);
+      }
+      var runner = document.getElementById(RUNNER_ID);
+      if (runner && runner.style.display !== "none") {
+        var rr = runner.getBoundingClientRect();
+        if (rr.height > 0 && rr.bottom > h) h = Math.ceil(rr.bottom);
+      }
+      /* library top chrome: tabs row can extend below 48px header */
+      var tabs =
+        document.querySelector(".headerTabs") ||
+        document.querySelector(".sectionTabs") ||
+        document.querySelector(".emby-tabs");
+      if (tabs) {
+        var tr = tabs.getBoundingClientRect();
+        if (tr.bottom > h) h = Math.ceil(tr.bottom);
+      }
+      /* gap under bar so content is not clipped */
+      var offset = h + 8;
+      document.documentElement.style.setProperty("--lcars-header-height", h + "px");
+      document.documentElement.style.setProperty("--lcars-content-top", offset + "px");
+    } catch (e) {
+      document.documentElement.style.setProperty("--lcars-header-height", "48px");
+      document.documentElement.style.setProperty("--lcars-content-top", "72px");
+    }
   }
   
   
@@ -4933,7 +4995,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.10-second-mt7",
+    version: "2.20.12-morevert-mr",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
