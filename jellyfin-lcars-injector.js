@@ -4119,14 +4119,16 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
 }
 
 #jf-lcars-dash-label {
-  font-size: 1rem !important;
-  line-height: 1.2 !important;
+  font-size: 0.8rem !important;
+  line-height: 1.1 !important;
   font-family: var(--lcars-font, "Antonio", sans-serif) !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.04em !important;
   color: #000 !important;
   display: block !important;
+  transform: none !important;
+  zoom: 1 !important;
 }
 
 /* Main library content clears fixed top LCARS header + runner */
@@ -4494,7 +4496,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         "box-sizing:border-box!important;margin:0!important;padding:0.75rem 0.65rem!important;" +
         "background:" + fill + "!important;background-color:" + fill + "!important;color:#000!important;" +
         "font-family:Antonio,Segoe UI,system-ui,sans-serif!important;font-weight:700!important;" +
-        "font-size:1rem!important;line-height:1.2!important;" +
+        "font-size:0.8rem!important;line-height:1.1!important;" +
         "text-transform:uppercase!important;letter-spacing:0.06em!important;" +
         "align-items:flex-end!important;justify-content:flex-end!important;" +
         "pointer-events:none!important;border:none!important;border-radius:0!important;";
@@ -4995,7 +4997,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.12-morevert-mr",
+    version: "2.20.15-dash-font",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
