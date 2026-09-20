@@ -4185,6 +4185,115 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 }
 
 
+
+/* Library media cards — wider so image titles have horizontal padding */
+.dashboardDocument .MuiGrid-container > .MuiGrid-item:has(.MuiCard-root .MuiCardMedia-root) {
+  min-width: 300px !important;
+  flex-basis: 300px !important;
+  max-width: 320px !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .MuiGrid-item:has(.MuiCardMedia-root) .MuiCard-root {
+  min-width: 220px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .MuiGrid-item .MuiCardMedia-root {
+  min-height: 140px !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+.dashboardDocument .MuiGrid-item .MuiCardActionArea-root {
+  min-height: 140px !important;
+}
+.dashboardDocument .MuiGrid-item .MuiCardContent-root {
+  padding: 10px 12px !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .MuiGrid-item .MuiCardContent-root .MuiTypography-root {
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  padding-right: 4px !important;
+}
+
+/* ========== < 900px: straight top bar, no curve/Dashboard chrome ========== */
+@media (max-width: 899px) {
+  /* Hide curved Dashboard panel, elbow, arm, runner segments that form the L */
+  #jf-lcars-dash-panel,
+  #jf-lcars-elbow-chrome,
+  #jf-lcars-elbow,
+  #jf-lcars-elbow-cut,
+  #jf-lcars-dash-elbow,
+  #jf-lcars-dash-elbow-cut,
+  #jf-lcars-dash-bridge {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  /* Drawer is off-canvas; open via hamburger only */
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 2.5rem !important;
+    max-height: none !important;
+    background: var(--primary-gray) !important;
+    background-color: var(--primary-gray) !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    z-index: auto !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] *,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] * {
+    color: inherit !important;
+    fill: currentColor !important;
+    opacity: 1 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    z-index: auto !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+  /* Straight top runner — full width under header, no curve junction */
+  .dashboardDocument .jf-lcars-top-runner,
+  #jf-lcars-top-runner {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    top: var(--lcars-header-height, 48px) !important;
+    border-radius: 0 !important;
+  }
+  .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
+    background: var(--primary-gray) !important;
+  }
+  /* App bar / header full width straight strip */
+  .dashboardDocument .MuiAppBar-root,
+  .dashboardDocument header.MuiPaper-root {
+    left: 0 !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+  }
+  /* Ensure hamburger / menu button visible */
+  .dashboardDocument .MuiIconButton-root[aria-label="menu"],
+  .dashboardDocument .MuiIconButton-root[aria-label="Menu"],
+  .dashboardDocument .MuiIconButton-edgeStart {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -4486,6 +4595,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   
   function ensureDashPanel(stickyTop, drawerW, fill, label) {
     try {
+      if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+        var p = document.getElementById(DASH_PANEL_ID);
+        if (p) p.style.display = "none";
+        return;
+      }
       var isDash = !!(document.querySelector(".dashboardDocument") ||
         (document.body && document.body.classList.contains("dashboardDocument")));
       var panel = document.getElementById(DASH_PANEL_ID);
@@ -4529,6 +4643,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function ensureElbowChrome() {
     try {
+      if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+        var c = document.getElementById(ELBOW_CHROME_ID);
+        if (c) c.style.display = "none";
+        return;
+      }
       var isDash = !!(document.querySelector(".dashboardDocument") ||
         (document.body && document.body.classList.contains("dashboardDocument")));
       var el = document.getElementById(ELBOW_CHROME_ID);
@@ -4613,6 +4732,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function pinLcarsTopChrome() {
     try {
+      /* Mobile / narrow: no fixed L-curve chrome */
+      if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+        var panel = document.getElementById(DASH_PANEL_ID);
+        if (panel) panel.style.display = "none";
+        var chrome = document.getElementById(ELBOW_CHROME_ID);
+        if (chrome) chrome.style.display = "none";
+        return;
+      }
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
       if (!paper) return;
       var drawerW = Math.round(paper.getBoundingClientRect().width) || 240;
@@ -5021,7 +5148,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.16-content-fit",
+    version: "2.20.19-mobile-bar",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -5041,6 +5168,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     run();
   }
   window.addEventListener("resize", function () { measureHeader(); measureAdminDrawer(); scheduleUserActionRail(); });
+  try {
+    var lcarsMq899 = window.matchMedia("(max-width: 899px)");
+    var mqHandler = function () { setTimeout(run, 40); };
+    if (lcarsMq899.addEventListener) lcarsMq899.addEventListener("change", mqHandler);
+    else if (lcarsMq899.addListener) lcarsMq899.addListener(mqHandler);
+  } catch (e) {}
   setInterval(syncVideoMode, 500);
   window.addEventListener("scroll", function () { measureAdminDrawer(); syncTopBtn(); }, { passive: true });
   setInterval(function () { bindDrawerScroll(); syncTopBtn(); }, 600);
