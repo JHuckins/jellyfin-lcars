@@ -4218,76 +4218,204 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
 /* ========== < 900px: straight top bar, no curve/Dashboard chrome ========== */
 @media (max-width: 899px) {
-  /* Hide curved Dashboard panel, elbow, arm, runner segments that form the L */
+  /* Hide dashboard-only chrome (arm/panel) — keep junction elbow */
   #jf-lcars-dash-panel,
   #jf-lcars-elbow-chrome,
-  #jf-lcars-elbow,
-  #jf-lcars-elbow-cut,
   #jf-lcars-dash-elbow,
   #jf-lcars-dash-elbow-cut,
-  #jf-lcars-dash-bridge {
+  #jf-lcars-dash-bridge,
+  .jf-lcars-dash-arm-hit,
+  .jf-lcars-dash-curve-hit {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
   }
-  /* Drawer is off-canvas; open via hamburger only */
-  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
-  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+  /* Left vertical rail */
+  .dashboardDocument .jf-lcars-frame,
+  #jf-lcars-frame,
+  .jf-lcars-frame {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: var(--lcars-sidebar, 56px) !important;
+    background: var(--primary-gray) !important;
+    z-index: 1099 !important;
+    pointer-events: none !important;
+  }
+  /* Junction elbow: rail → horizontal bar (concave cut) */
+  #jf-lcars-elbow,
+  .jf-lcars-elbow {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 48px !important;
+    width: calc(var(--lcars-sidebar, 56px) + 40px) !important;
+    height: 40px !important;
+    background: var(--primary-gray) !important;
+    border-radius: 0 !important;
+    z-index: 1090 !important;
+    pointer-events: none !important;
+  }
+  #jf-lcars-elbow-cut,
+  .jf-lcars-elbow-cut {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    left: var(--lcars-sidebar, 56px) !important;
+    top: 48px !important;
+    width: 40px !important;
+    height: 40px !important;
+    background: #000 !important;
+    border-radius: 40px 0 0 0 !important;
+    z-index: 1091 !important;
+    pointer-events: none !important;
+  }
+  /* Top runner — 30px, starts after elbow */
+  .dashboardDocument .jf-lcars-top-runner,
+  #jf-lcars-top-runner,
+  .jf-lcars-top-runner {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 48px !important;
+    left: calc(var(--lcars-sidebar, 56px) + 40px) !important;
+    right: 0 !important;
+    width: auto !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    z-index: 12040 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    pointer-events: none !important;
+  }
+  .jf-lcars-top-runner .jf-lcars-bar-row {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .dashboardDocument .MuiAppBar-root,
+  .dashboardDocument header.MuiPaper-root,
+  .skinHeader {
+    position: fixed !important;
+    top: 0 !important;
+    left: var(--lcars-sidebar, 56px) !important;
+    right: 0 !important;
+    width: auto !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    z-index: 12050 !important;
+  }
+  #jf-lcars-header-mask {
+    display: none !important;
+  }
+  /* Main content to the RIGHT of the vertical bar */
+  .dashboardDocument .MuiDrawer-root + .MuiBox-root,
+  .dashboardDocument main.MuiBox-root,
+  .dashboardDocument main,
+  .dashboardDocument .mainAnimatedPage,
+  .dashboardDocument .mainAnimatedPages {
+    margin-left: var(--lcars-sidebar, 56px) !important;
+    max-width: calc(100vw - var(--lcars-sidebar, 56px)) !important;
+    box-sizing: border-box !important;
+  }
+  .backgroundContainer {
+    margin-left: var(--lcars-sidebar, 56px) !important;
+  }
+  /* Drawer below header+runner; desktop-like solid bars */
+  .dashboardDocument .MuiDrawer-paper,
+  .MuiDrawer-paperAnchorLeft,
+  .MuiDrawer-paperAnchorTemporary,
+  .MuiDrawer-root .MuiDrawer-paper {
+    top: 78px !important;
+    height: calc(100vh - 78px) !important;
+    max-height: calc(100vh - 78px) !important;
+    background: #000 !important;
+    background-color: #000 !important;
+    padding: 8px 10px 24px !important;
+    box-sizing: border-box !important;
+    border-right: none !important;
+    overflow-y: auto !important;
+    z-index: 13000 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListSubheader-root {
+    display: none !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root {
+    padding: 0 !important;
+    margin: 0 0 5px 0 !important;
+    display: block !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root {
     position: relative !important;
     top: auto !important;
     left: auto !important;
     width: 100% !important;
-    height: auto !important;
     min-height: 2.5rem !important;
+    height: auto !important;
     max-height: none !important;
+    margin: 0 !important;
+    padding: 0.65rem 0.85rem !important;
+    border-radius: 0 !important;
     background: var(--primary-gray) !important;
     background-color: var(--primary-gray) !important;
     color: #000 !important;
     -webkit-text-fill-color: #000 !important;
-    z-index: auto !important;
+    text-transform: uppercase !important;
+    font-family: var(--lcars-font) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    justify-content: flex-end !important;
+    text-align: right !important;
+    box-sizing: border-box !important;
   }
-  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] *,
-  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] * {
-    color: inherit !important;
-    fill: currentColor !important;
+  .dashboardDocument .MuiDrawer-paper .MuiList-root > .MuiListItem-root:nth-child(3n+1) > .MuiListItemButton-root {
+    min-height: 3.4rem !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiList-root > .MuiListItem-root:nth-child(4n+2) > .MuiListItemButton-root {
+    min-height: 3rem !important;
+    background: var(--medium-dark-gray) !important;
+    background-color: var(--medium-dark-gray) !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiList-root > .MuiListItem-root:nth-child(5n+3) > .MuiListItemButton-root {
+    background: var(--ghost-gray) !important;
+    background-color: var(--ghost-gray) !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root *,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root * {
+    color: #000 !important;
+    fill: #000 !important;
     opacity: 1 !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiListItemText-root {
+    text-align: right !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root.Mui-selected {
+    background: var(--orange-red) !important;
+    background-color: var(--orange-red) !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+    min-height: 3.6rem !important;
+    background: var(--primary-gray) !important;
   }
   .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
     position: relative !important;
     top: auto !important;
-    left: auto !important;
-    width: 100% !important;
-    z-index: auto !important;
+    background: #000 !important;
   }
-  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
-  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-  }
-  /* Straight top runner — full width under header, no curve junction */
-  .dashboardDocument .jf-lcars-top-runner,
-  #jf-lcars-top-runner {
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    top: var(--lcars-header-height, 48px) !important;
-    border-radius: 0 !important;
-  }
-  .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
-    background: var(--primary-gray) !important;
-  }
-  /* App bar / header full width straight strip */
-  .dashboardDocument .MuiAppBar-root,
-  .dashboardDocument header.MuiPaper-root {
-    left: 0 !important;
-    width: 100% !important;
-    border-radius: 0 !important;
-  }
-  /* Ensure hamburger / menu button visible */
-  .dashboardDocument .MuiIconButton-root[aria-label="menu"],
-  .dashboardDocument .MuiIconButton-root[aria-label="Menu"],
   .dashboardDocument .MuiIconButton-edgeStart {
     display: inline-flex !important;
     visibility: visible !important;
@@ -4596,6 +4724,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function measureHeader() {
     try {
+      var narrow = window.matchMedia && window.matchMedia("(max-width: 899px)").matches;
       var h = 48;
       var header =
         document.querySelector(".skinHeader") ||
@@ -4603,26 +4732,31 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         document.querySelector(".MuiAppBar-root");
       if (header) {
         var r = header.getBoundingClientRect();
-        if (r.height > 8) h = Math.ceil(r.bottom);
+        if (r.height > 8) h = Math.ceil(r.height);
+        /* use height not bottom — bottom jumps when header is not at y=0 */
+        if (!narrow && r.bottom > h) h = Math.ceil(r.bottom);
       }
-      var runner = document.getElementById(RUNNER_ID);
-      if (runner && runner.style.display !== "none") {
-        var rr = runner.getBoundingClientRect();
-        if (rr.height > 0 && rr.bottom > h) h = Math.ceil(rr.bottom);
+      if (!narrow) {
+        var runner = document.getElementById(RUNNER_ID);
+        if (runner && runner.style.display !== "none" && getComputedStyle(runner).display !== "none") {
+          var rr = runner.getBoundingClientRect();
+          if (rr.height > 0 && rr.bottom > h) h = Math.ceil(rr.bottom);
+        }
+        var tabs =
+          document.querySelector(".headerTabs") ||
+          document.querySelector(".sectionTabs") ||
+          document.querySelector(".emby-tabs");
+        if (tabs) {
+          var tr = tabs.getBoundingClientRect();
+          if (tr.bottom > h) h = Math.ceil(tr.bottom);
+        }
       }
-      /* library top chrome: tabs row can extend below 48px header */
-      var tabs =
-        document.querySelector(".headerTabs") ||
-        document.querySelector(".sectionTabs") ||
-        document.querySelector(".emby-tabs");
-      if (tabs) {
-        var tr = tabs.getBoundingClientRect();
-        if (tr.bottom > h) h = Math.ceil(tr.bottom);
-      }
-      /* gap under bar so content is not clipped */
       var offset = h + 8;
       document.documentElement.style.setProperty("--lcars-header-height", h + "px");
       document.documentElement.style.setProperty("--lcars-content-top", offset + "px");
+      if (narrow) {
+        document.documentElement.style.setProperty("--lcars-dash-row-top", h + "px");
+      }
     } catch (e) {
       document.documentElement.style.setProperty("--lcars-header-height", "48px");
       document.documentElement.style.setProperty("--lcars-content-top", "72px");
@@ -4830,10 +4964,67 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     try {
       /* Mobile / narrow: no fixed L-curve chrome */
       if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
-        var panel = document.getElementById(DASH_PANEL_ID);
-        if (panel) panel.style.display = "none";
-        var chrome = document.getElementById(ELBOW_CHROME_ID);
-        if (chrome) chrome.style.display = "none";
+        var hideIds = [
+          DASH_PANEL_ID, ELBOW_CHROME_ID,
+          "jf-lcars-dash-elbow", "jf-lcars-dash-elbow-cut", "jf-lcars-dash-bridge"
+        ];
+        hideIds.forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) {
+            el.style.setProperty("display", "none", "important");
+            el.style.setProperty("visibility", "hidden", "important");
+            el.style.setProperty("opacity", "0", "important");
+          }
+        });
+        document.querySelectorAll(".jf-lcars-dash-arm-hit, .jf-lcars-dash-curve-hit").forEach(function (el) {
+          el.style.setProperty("display", "none", "important");
+        });
+        var frame = document.getElementById(FRAME_ID);
+        if (frame) {
+          frame.style.setProperty("display", "block", "important");
+          frame.style.setProperty("visibility", "visible", "important");
+          frame.style.setProperty("opacity", "1", "important");
+          frame.style.setProperty("width", "56px", "important");
+          frame.style.setProperty("left", "0", "important");
+          frame.style.setProperty("top", "0", "important");
+          frame.style.setProperty("bottom", "0", "important");
+        }
+        /* Junction elbow visible */
+        var elbow = document.getElementById(ELBOW_ID);
+        if (elbow) {
+          elbow.style.cssText =
+            "display:block!important;visibility:visible!important;opacity:1!important;" +
+            "position:fixed!important;left:0!important;top:48px!important;" +
+            "width:96px!important;height:40px!important;background:#6d748c!important;" +
+            "z-index:1090!important;pointer-events:none!important;border-radius:0!important;";
+        }
+        var cut = document.getElementById(CUT_ID);
+        if (cut) {
+          cut.style.cssText =
+            "display:block!important;visibility:visible!important;opacity:1!important;" +
+            "position:fixed!important;left:56px!important;top:48px!important;" +
+            "width:40px!important;height:40px!important;background:#000!important;" +
+            "border-radius:40px 0 0 0!important;z-index:1091!important;pointer-events:none!important;";
+        }
+        var runner = document.getElementById(RUNNER_ID);
+        if (runner) {
+          runner.style.setProperty("display", "flex", "important");
+          runner.style.setProperty("visibility", "visible", "important");
+          runner.style.setProperty("opacity", "1", "important");
+          runner.style.setProperty("position", "fixed", "important");
+          runner.style.setProperty("top", "48px", "important");
+          runner.style.setProperty("left", "96px", "important");
+          runner.style.setProperty("right", "0", "important");
+          runner.style.setProperty("width", "auto", "important");
+          runner.style.setProperty("height", "30px", "important");
+          runner.style.setProperty("z-index", "12040", "important");
+          runner.style.setProperty("transform", "none", "important");
+        }
+        document.querySelectorAll(".MuiDrawer-paper, .MuiDrawer-paperAnchorTemporary").forEach(function (p) {
+          p.style.setProperty("top", "78px", "important");
+          p.style.setProperty("height", "calc(100vh - 78px)", "important");
+          p.style.setProperty("max-height", "calc(100vh - 78px)", "important");
+        });
         return;
       }
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
@@ -5005,11 +5196,17 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         /* fixed viewport column; pin chrome (header, dashboard, runner, elbow) */
         paper.style.setProperty("overflow-x", "hidden", "important");
         paper.style.setProperty("overflow-y", "auto", "important");
-        paper.style.setProperty("height", "100vh", "important");
-        paper.style.setProperty("max-height", "100vh", "important");
         paper.style.setProperty("position", "fixed", "important");
-        paper.style.setProperty("top", "0", "important");
         paper.style.setProperty("left", "0", "important");
+        if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+          paper.style.setProperty("top", "78px", "important");
+          paper.style.setProperty("height", "calc(100vh - 78px)", "important");
+          paper.style.setProperty("max-height", "calc(100vh - 78px)", "important");
+        } else {
+          paper.style.setProperty("top", "0", "important");
+          paper.style.setProperty("height", "100vh", "important");
+          paper.style.setProperty("max-height", "100vh", "important");
+        }
       }
       var dock = document.querySelector(".dashboardDocument .MuiDrawer-docked, .dashboardDocument .MuiDrawer-root.MuiDrawer-docked");
       if (dock) {
@@ -5309,7 +5506,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.23-custom-spin",
+    version: "2.20.28-mobile-curve-content",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
