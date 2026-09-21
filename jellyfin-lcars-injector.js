@@ -3147,6 +3147,67 @@ html.jf-lcars-active .MuiToolbar-root {
   --lcars-tb-gap: 8px;
 }
 
+
+
+/* Secondary library toolbar (Episodes / Play All / filters) — clear fixed LCARS top bar */
+html.jf-lcars-active:not(.dashboardDocument) main,
+body:not(.dashboardDocument).jf-lcars-active main {
+  padding-top: calc(48px + var(--lcars-bar-h, 25px) + 12px) !important;
+  box-sizing: border-box !important;
+}
+html.jf-lcars-active .MuiToolbar-root.padded-left.padded-right,
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
+html.jf-lcars-active main .MuiToolbar-root.MuiToolbar-dense {
+  position: relative !important;
+  z-index: 2 !important;
+  margin-top: 0.35rem !important;
+  flex-wrap: wrap !important;
+}
+/* Do not apply the page-toolbar rules to the top AppBar toolbar */
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root,
+html.jf-lcars-active header .MuiToolbar-root {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Keep top nav clear of left LCARS vertical bar */
+html.jf-lcars-active .MuiAppBar-root,
+html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
+html.jf-lcars-active .MuiToolbar-root {
+  padding-left: 0 !important;
+}
+html.jf-lcars-active .MuiAppBar-root,
+html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root {
+  left: var(--lcars-sidebar, 56px) !important;
+  width: auto !important;
+  right: 0 !important;
+  margin-left: 0 !important;
+}
+/* When app bar is full-bleed width:100%, push content with padding instead */
+html.jf-lcars-active .MuiAppBar-root.MuiAppBar-positionFixed,
+html.jf-lcars-active .MuiAppBar-positionSticky {
+  left: var(--lcars-sidebar, 56px) !important;
+  width: calc(100% - var(--lcars-sidebar, 56px)) !important;
+  max-width: calc(100% - var(--lcars-sidebar, 56px)) !important;
+  box-sizing: border-box !important;
+}
+html.jf-lcars-active .MuiToolbar-root {
+  margin-left: 0 !important;
+  padding-left: 8px !important;
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root {
+  margin-left: 0 !important;
+}
+/* Emby skin header already uses left: sidebar; reinforce padding */
+html.jf-lcars-active .skinHeader {
+  left: var(--lcars-sidebar, 56px) !important;
+  width: auto !important;
+  right: 0 !important;
+  box-sizing: border-box !important;
+}
+
 /* Text nav links */
 html.jf-lcars-active .MuiToolbar-root a.MuiButton-root,
 html.jf-lcars-active .MuiToolbar-root a.MuiButton-text,
@@ -3212,6 +3273,103 @@ html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-chil
 html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(5) {
   border-left-color: var(--orange-red) !important;
   background-color: var(--primary-gray) !important;
+}
+
+/* First toolbar button = true square, home icon only */
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type {
+  width: var(--lcars-tb-h) !important;
+  min-width: var(--lcars-tb-h) !important;
+  max-width: var(--lcars-tb-h) !important;
+  height: var(--lcars-tb-h) !important;
+  min-height: var(--lcars-tb-h) !important;
+  max-height: var(--lcars-tb-h) !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  justify-content: center !important;
+  align-items: center !important;
+  /* no left cap — keeps outer box a true square */
+  border-left: none !important;
+  background-color: var(--light-gray) !important;
+  overflow: hidden !important;
+  aspect-ratio: 1 / 1 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child::before,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type::before {
+  display: none !important;
+  content: none !important;
+  width: 0 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon {
+  margin: 0 !important;
+  font-size: 1.25rem !important;
+  line-height: 1 !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon img,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon img,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon svg,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon svg {
+  display: none !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon::before,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon::before {
+  content: "home" !important;
+  font-family: "Material Icons", "Material Icons Outlined", "material-icons" !important;
+  font-size: 1.35rem !important;
+  line-height: 1 !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-block !important;
+}
+
+/* Second toolbar button = heart icon only (Favorites), no label text */
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
+  width: var(--lcars-tb-h) !important;
+  min-width: var(--lcars-tb-h) !important;
+  max-width: var(--lcars-tb-h) !important;
+  height: var(--lcars-tb-h) !important;
+  min-height: var(--lcars-tb-h) !important;
+  max-height: var(--lcars-tb-h) !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  justify-content: center !important;
+  align-items: center !important;
+  border-left: none !important;
+  background-color: var(--ghost-gray) !important;
+  overflow: hidden !important;
+  aspect-ratio: 1 / 1 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2)::before {
+  display: none !important;
+  content: none !important;
+  width: 0 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiButton-startIcon {
+  margin: 0 !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiSvgIcon-root,
+html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiButton-startIcon svg {
+  display: inline-flex !important;
+  width: 1.35rem !important;
+  height: 1.35rem !important;
+  color: #000 !important;
+  fill: #000 !important;
+  font-size: 1.35rem !important;
 }
 
 html.jf-lcars-active .MuiToolbar-root a.MuiButton-root:hover {
@@ -4737,9 +4895,9 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         if (!narrow && r.bottom > h) h = Math.ceil(r.bottom);
       }
       if (!narrow) {
-        var runner = document.getElementById(RUNNER_ID);
-        if (runner && runner.style.display !== "none" && getComputedStyle(runner).display !== "none") {
-          var rr = runner.getBoundingClientRect();
+        var hdrRunner = document.getElementById(RUNNER_ID);
+        if (hdrRunner && hdrRunner.style.display !== "none" && getComputedStyle(hdrRunner).display !== "none") {
+          var rr = hdrRunner.getBoundingClientRect();
           if (rr.height > 0 && rr.bottom > h) h = Math.ceil(rr.bottom);
         }
         var tabs =
@@ -5006,19 +5164,34 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             "width:40px!important;height:40px!important;background:#000!important;" +
             "border-radius:40px 0 0 0!important;z-index:1091!important;pointer-events:none!important;";
         }
-        var runner = document.getElementById(RUNNER_ID);
-        if (runner) {
-          runner.style.setProperty("display", "flex", "important");
-          runner.style.setProperty("visibility", "visible", "important");
-          runner.style.setProperty("opacity", "1", "important");
-          runner.style.setProperty("position", "fixed", "important");
-          runner.style.setProperty("top", "48px", "important");
-          runner.style.setProperty("left", "96px", "important");
-          runner.style.setProperty("right", "0", "important");
-          runner.style.setProperty("width", "auto", "important");
-          runner.style.setProperty("height", "30px", "important");
-          runner.style.setProperty("z-index", "12040", "important");
-          runner.style.setProperty("transform", "none", "important");
+        var mobileRunner = document.getElementById(RUNNER_ID);
+        if (!mobileRunner && document.body) {
+          mobileRunner = document.createElement("div");
+          mobileRunner.id = RUNNER_ID;
+          mobileRunner.className = "jf-lcars-top-runner";
+          mobileRunner.setAttribute("aria-hidden", "true");
+          var mrow = document.createElement("div");
+          mrow.className = "jf-lcars-bar-row";
+          ["a", "b", "c", "d", "e"].forEach(function (k) {
+            var seg = document.createElement("div");
+            seg.className = "jf-lcars-seg jf-lcars-seg-" + k;
+            mrow.appendChild(seg);
+          });
+          mobileRunner.appendChild(mrow);
+          document.body.appendChild(mobileRunner);
+        }
+        if (mobileRunner) {
+          mobileRunner.style.setProperty("display", "flex", "important");
+          mobileRunner.style.setProperty("visibility", "visible", "important");
+          mobileRunner.style.setProperty("opacity", "1", "important");
+          mobileRunner.style.setProperty("position", "fixed", "important");
+          mobileRunner.style.setProperty("top", "48px", "important");
+          mobileRunner.style.setProperty("left", "96px", "important");
+          mobileRunner.style.setProperty("right", "0", "important");
+          mobileRunner.style.setProperty("width", "auto", "important");
+          mobileRunner.style.setProperty("height", "30px", "important");
+          mobileRunner.style.setProperty("z-index", "12040", "important");
+          mobileRunner.style.setProperty("transform", "none", "important");
         }
         document.querySelectorAll(".MuiDrawer-paper, .MuiDrawer-paperAnchorTemporary").forEach(function (p) {
           p.style.setProperty("top", "78px", "important");
@@ -5134,18 +5307,18 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         }
       }
 
-      var runner = document.getElementById(RUNNER_ID);
-      if (runner) {
-        runner.style.setProperty("position", "fixed", "important");
-        runner.style.setProperty("top", stickyTop + "px", "important");
-        runner.style.setProperty("left", drawerW + 96 + "px", "important");
-        runner.style.setProperty("right", "0", "important");
-        runner.style.setProperty("height", "30px", "important");
-        runner.style.setProperty("z-index", "12045", "important");
-        runner.style.setProperty("opacity", "1", "important");
-        runner.style.setProperty("visibility", "visible", "important");
-        runner.style.setProperty("display", "flex", "important");
-        var sega = runner.querySelector(".jf-lcars-seg-a");
+      var deskRunner = document.getElementById(RUNNER_ID);
+      if (deskRunner) {
+        deskRunner.style.setProperty("position", "fixed", "important");
+        deskRunner.style.setProperty("top", stickyTop + "px", "important");
+        deskRunner.style.setProperty("left", drawerW + 96 + "px", "important");
+        deskRunner.style.setProperty("right", "0", "important");
+        deskRunner.style.setProperty("height", "30px", "important");
+        deskRunner.style.setProperty("z-index", "12045", "important");
+        deskRunner.style.setProperty("opacity", "1", "important");
+        deskRunner.style.setProperty("visibility", "visible", "important");
+        deskRunner.style.setProperty("display", "flex", "important");
+        var sega = deskRunner.querySelector(".jf-lcars-seg-a");
         if (sega) {
           sega.style.setProperty("background", fill, "important");
           sega.style.setProperty("background-color", fill, "important");
@@ -5506,7 +5679,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.28-mobile-curve-content",
+    version: "2.20.39-subtoolbar-top",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
