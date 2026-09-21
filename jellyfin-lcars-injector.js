@@ -3152,7 +3152,7 @@ html.jf-lcars-active .MuiToolbar-root {
 /* Secondary library toolbar (Episodes / Play All / filters) — clear fixed LCARS top bar */
 html.jf-lcars-active:not(.dashboardDocument) main,
 body:not(.dashboardDocument).jf-lcars-active main {
-  padding-top: calc(48px + var(--lcars-bar-h, 25px) + 12px) !important;
+  padding-top: calc(48px + var(--lcars-bar-h, 25px) + 36px) !important;
   box-sizing: border-box !important;
 }
 html.jf-lcars-active .MuiToolbar-root.padded-left.padded-right,
@@ -3160,7 +3160,7 @@ html.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
 html.jf-lcars-active main .MuiToolbar-root.MuiToolbar-dense {
   position: relative !important;
   z-index: 2 !important;
-  margin-top: 0.35rem !important;
+  margin-top: 1.25rem !important;
   flex-wrap: wrap !important;
 }
 /* Do not apply the page-toolbar rules to the top AppBar toolbar */
@@ -5679,7 +5679,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.39-subtoolbar-top",
+    version: "2.20.40-subtoolbar-gap",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
