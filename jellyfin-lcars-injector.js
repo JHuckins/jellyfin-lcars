@@ -4294,6 +4294,102 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     opacity: 1 !important;
   }
 }
+
+
+/* Spin button itself — full height, flush right, red background */
+.dashboardDocument input[type="number"]::-webkit-outer-spin-button,
+.dashboardDocument input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button !important;
+  appearance: auto !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 2rem !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  cursor: pointer !important;
+  background-color: var(--lcars-alert-soft, #ff6753) !important;
+  background: var(--lcars-alert-soft, #ff6753) !important;
+  box-shadow: inset 0 0 0 100vw var(--lcars-alert-soft, #ff6753) !important;
+  filter: none !important;
+}
+.dashboardDocument input[type="number"]:hover::-webkit-inner-spin-button,
+.dashboardDocument input[type="number"]:focus::-webkit-inner-spin-button,
+.dashboardDocument input[type="number"]:active::-webkit-inner-spin-button {
+  opacity: 1 !important;
+  background-color: var(--lcars-alert-soft, #ff6753) !important;
+  background: var(--lcars-alert-soft, #ff6753) !important;
+}
+
+/* Number inputs — hide native spinner; custom LCARS column via JS */
+.dashboardDocument input[type="number"]::-webkit-outer-spin-button,
+.dashboardDocument input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  margin: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.dashboardDocument input[type="number"] {
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
+}
+.dashboardDocument .MuiInputBase-root:has(> input[type="number"]),
+.dashboardDocument .MuiFilledInput-root:has(> input[type="number"]) {
+  position: relative !important;
+  padding-right: 0 !important;
+}
+.dashboardDocument .MuiInputBase-root > input[type="number"],
+.dashboardDocument .MuiFilledInput-root > input[type="number"] {
+  padding-right: 2rem !important;
+  box-sizing: border-box !important;
+}
+.jf-lcars-spin {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 3 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  background: var(--lcars-alert-soft, #ff6753) !important;
+  background-color: var(--lcars-alert-soft, #ff6753) !important;
+  pointer-events: auto !important;
+}
+.jf-lcars-spin-btn {
+  flex: 1 1 50% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(    --lcars-bg, #000) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.65rem !important;
+  line-height: 1 !important;
+  min-height: 0 !important;
+  box-shadow: none !important;
+}
+.jf-lcars-spin-btn:hover {
+  background: var(--starlight) !important;
+  color: var(--primary-gray, #6d748c) !important;
+}
+.jf-lcars-spin-btn:active {
+  background: var(--starlight) !important;
+}
 `;
   function injectCss() {
     var el = document.getElementById(STYLE_ID);
@@ -5127,6 +5223,70 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }, { passive: true });
   }
 
+  
+  function ensureNumberSpinners() {
+    try {
+      if (!document.querySelector(".dashboardDocument")) return;
+      var inputs = document.querySelectorAll(
+        '.dashboardDocument input[type="number"]:not([data-jf-lcars-spin])'
+      );
+      inputs.forEach(function (input) {
+        var root = input.closest(".MuiInputBase-root, .MuiFilledInput-root, .MuiOutlinedInput-root");
+        if (!root) return;
+        if (root.querySelector(".jf-lcars-spin")) {
+          input.setAttribute("data-jf-lcars-spin", "1");
+          return;
+        }
+        root.style.position = "relative";
+        var col = document.createElement("div");
+        col.className = "jf-lcars-spin";
+        col.setAttribute("aria-hidden", "true");
+        function step(dir) {
+          try {
+            var stepVal = parseFloat(input.step);
+            if (!stepVal || isNaN(stepVal)) stepVal = 1;
+            var min = input.min !== "" ? parseFloat(input.min) : null;
+            var max = input.max !== "" ? parseFloat(input.max) : null;
+            var cur = parseFloat(input.value);
+            if (isNaN(cur)) cur = 0;
+            var next = cur + dir * stepVal;
+            if (min !== null && !isNaN(min) && next < min) next = min;
+            if (max !== null && !isNaN(max) && next > max) next = max;
+            /* respect step precision */
+            var dec = (String(stepVal).split(".")[1] || "").length;
+            input.value = dec ? next.toFixed(dec) : String(next);
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+          } catch (e) {}
+        }
+        var up = document.createElement("button");
+        up.type = "button";
+        up.className = "jf-lcars-spin-btn jf-lcars-spin-up";
+        up.tabIndex = -1;
+        up.textContent = "▲";
+        up.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          step(1);
+        });
+        var down = document.createElement("button");
+        down.type = "button";
+        down.className = "jf-lcars-spin-btn jf-lcars-spin-down";
+        down.tabIndex = -1;
+        down.textContent = "▼";
+        down.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          step(-1);
+        });
+        col.appendChild(up);
+        col.appendChild(down);
+        root.appendChild(col);
+        input.setAttribute("data-jf-lcars-spin", "1");
+      });
+    } catch (e) {}
+  }
+
   function run() {
     try {
       injectCss();
@@ -5143,12 +5303,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureSubmenuBars();
       syncTopBtn();
       pruneEmptyTableColumns();
+      ensureNumberSpinners();
     } catch (e) {
       console.warn("[JellyfinLCARS]", e);
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.19-mobile-bar",
+    version: "2.20.23-custom-spin",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
