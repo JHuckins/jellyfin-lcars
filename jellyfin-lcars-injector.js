@@ -3176,11 +3176,25 @@ html.jf-lcars-active .MuiToolbar-root {
 }
 html.jf-lcars-active .MuiAppBar-root,
 html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 40px !important;
   left: var(--lcars-sidebar, 56px) !important;
   width: auto !important;
   right: 0 !important;
   margin-left: 0 !important;
 }
+
+/* AppBar stacks primary + secondary strips (all widths) */
+html.jf-lcars-active .MuiAppBar-root,
+html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
+html.jf-lcars-active header.MuiAppBar-root {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 40px !important;
+  align-items: stretch !important;
+}
+
 /* When app bar is full-bleed width:100%, push content with padding instead */
 html.jf-lcars-active .MuiAppBar-root.MuiAppBar-positionFixed,
 html.jf-lcars-active .MuiAppBar-positionSticky {
@@ -5677,7 +5691,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.42-secondary-has",
+    version: "2.20.45-appbar-column",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
