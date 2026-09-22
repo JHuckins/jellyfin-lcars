@@ -3149,23 +3149,21 @@ html.jf-lcars-active .MuiToolbar-root {
 
 
 
-/* Secondary library toolbar (Episodes / Play All / filters) — clear fixed LCARS top bar */
-html.jf-lcars-active:not(.dashboardDocument) main,
-body:not(.dashboardDocument).jf-lcars-active main {
-  padding-top: calc(48px + var(--lcars-bar-h, 25px) + 36px) !important;
-  box-sizing: border-box !important;
-}
-html.jf-lcars-active .MuiToolbar-root.padded-left.padded-right,
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
-html.jf-lcars-active main .MuiToolbar-root.MuiToolbar-dense {
+/*
+ * Secondary nav strip ONLY (Episodes / Play All / filters).
+ * Match the toolbar that contains the library-view-menu control — not AppBar nav.
+ */
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) {
   position: relative !important;
   z-index: 2 !important;
-  margin-top: 1.25rem !important;
+  margin-top: calc(48px + var(--lcars-bar-h, 25px) + 16px) !important;
   flex-wrap: wrap !important;
 }
-/* Do not apply the page-toolbar rules to the top AppBar toolbar */
+/* Primary top nav — never inherit secondary spacing */
 html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root,
-html.jf-lcars-active header .MuiToolbar-root {
+html.jf-lcars-active header.MuiAppBar-root .MuiToolbar-root,
+html.jf-lcars-active header .MuiToolbar-root,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root.MuiToolbar-dense {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
@@ -5679,7 +5677,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.40-subtoolbar-gap",
+    version: "2.20.42-secondary-has",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
