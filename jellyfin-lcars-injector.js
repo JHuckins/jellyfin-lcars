@@ -3129,13 +3129,13 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
  */
 html.jf-lcars-active .MuiToolbar-root,
 html.jf-lcars-active .MuiToolbar-root.MuiToolbar-dense {
-  gap: 0.45rem !important;
+  gap: 0.30rem !important;
   min-height: 3rem !important;
   align-items: center !important;
 }
 
 html.jf-lcars-active .MuiToolbar-root .MuiStack-root {
-  gap: 0.45rem !important;
+  gap: 0.30rem !important;
   align-items: center !important;
   flex-wrap: wrap !important;
 }
@@ -3153,6 +3153,253 @@ html.jf-lcars-active .MuiToolbar-root {
  * Secondary nav strip ONLY (Episodes / Play All / filters).
  * Match the toolbar that contains the library-view-menu control — not AppBar nav.
  */
+
+/* Library view menu button label (Collections / Episodes / etc.) */
+html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"],
+html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
+html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2 {
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  font-family: var(--lcars-font) !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+/* Secondary strip icon actions: [red bar][gap][square body] */
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Filter"],
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Sort"],
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="View settings"],
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Previous"],
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Next"] {
+  --lcars-tb-cap: 6px;
+  --lcars-tb-gap: 6px;
+  box-sizing: border-box !important;
+  height: var(--lcars-tb-h, 2.6rem) !important;
+  min-height: var(--lcars-tb-h, 2.6rem) !important;
+  max-height: var(--lcars-tb-h, 2.6rem) !important;
+  width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h, 2.6rem)) !important;
+  min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h, 2.6rem)) !important;
+  max-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h, 2.6rem)) !important;
+  padding: 0 !important;
+  padding-left: var(--lcars-tb-gap) !important;
+  margin: 0 0.30rem !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-left: var(--lcars-tb-cap) solid var(--orange-red) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Filter"]::before,
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Sort"]::before,
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="View settings"]::before,
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Previous"]::before,
+html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Next"]::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: var(--lcars-tb-gap) !important;
+  height: 100% !important;
+  background: #000 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+
+
+/* Filter popover — LCARS readout panels (black + orange-red frame) */
+html.jf-lcars-active .MuiPopover-paper:has([id*="filters"]),
+html.jf-lcars-active .MuiPopover-paper:has([aria-controls*="filters"]),
+html.jf-lcars-active .MuiPopover-paper:has(.MuiAccordion-root) {
+  background: #000 !important;
+  background-color: #000 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 8px !important;
+  gap: 0 !important;
+}
+html.jf-lcars-active .MuiPopover-paper .MuiAccordion-root,
+html.jf-lcars-active .MuiPopover-paper .MuiAccordion-root.MuiPaper-root {
+  background: #000 !important;
+  background-color: #000 !important;
+  border: 2px solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 0 10px 0 !important;
+  overflow: hidden !important;
+}
+html.jf-lcars-active .MuiPopover-paper .MuiAccordion-root:last-of-type {
+  margin-bottom: 10px !important;
+}
+html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-root,
+html.jf-lcars-active .MuiPopover-paper button.MuiAccordionSummary-root {
+  background: #000 !important;
+  background-color: #000 !important;
+  color: var(--orange-red, #e7442a) !important;
+  min-height: 2.75rem !important;
+  padding: 0.5rem 0.85rem !important;
+  border-radius: 0 !important;
+  flex-direction: row !important;
+}
+html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-root:hover {
+  background: #0a0a0a !important;
+  filter: brightness(1.08);
+}
+html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-content,
+html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-content .MuiTypography-root {
+  color: var(--orange-red, #e7442a) !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+  width: 100% !important;
+  text-align: right !important;
+  justify-content: flex-end !important;
+}
+html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-expandIconWrapper,
+html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root {
+  color: var(--orange-red, #e7442a) !important;
+  fill: var(--orange-red, #e7442a) !important;
+}
+html.jf-lcars-active .MuiPopover-paper .MuiAccordion-region,
+html.jf-lcars-active .MuiPopover-paper .MuiAccordionDetails-root {
+  background: #000 !important;
+  color: var(--ghost-gray, #d2d5df) !important;
+  border-top: 1px solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 !important;
+}
+/* Reset filters control in same popover */
+html.jf-lcars-active .MuiPopover-paper button[title="Reset filters"] {
+  border: 2px solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 !important;
+  background: #000 !important;
+  color: var(--orange-red, #e7442a) !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  margin-top: 4px !important;
+}
+html.jf-lcars-active .MuiPopover-paper button[title="Reset filters"] .MuiSvgIcon-root {
+  color: var(--orange-red, #e7442a) !important;
+  fill: var(--orange-red, #e7442a) !important;
+}
+
+/* New Collection — one red bar + gap, then true square (+ only) */
+html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]),
+html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]),
+html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"]) {
+  --lcars-tb-cap: 6px;
+  --lcars-tb-gap: 6px;
+  --lcars-tb-side: var(--lcars-tb-h, 2.6rem);
+  box-sizing: border-box !important;
+  width: var(--lcars-tb-side) !important;
+  min-width: var(--lcars-tb-side) !important;
+  max-width: var(--lcars-tb-side) !important;
+  height: var(--lcars-tb-side) !important;
+  min-height: var(--lcars-tb-side) !important;
+  max-height: var(--lcars-tb-side) !important;
+  aspect-ratio: 1 / 1 !important;
+  padding: 0 !important;
+  margin: 0 0.30rem 0 calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + 0.30rem) !important;
+  border: 0 none transparent !important;
+  border-left: 0 none transparent !important;
+  border-right: 0 none transparent !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-color: var(--primary-gray) !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  overflow: visible !important;
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+/* Kill any extra bar from generic button rules */
+html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"])::before,
+html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::before,
+html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::before {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+/* Single strip: red bar + black gap (one pseudo only) */
+html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"])::after,
+html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::after,
+html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: calc(-1 * (var(--lcars-tb-cap) + var(--lcars-tb-gap))) !important;
+  width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap)) !important;
+  height: 100% !important;
+  background: linear-gradient(
+    to right,
+    var(--orange-red) 0,
+    var(--orange-red) var(--lcars-tb-cap),
+    #000 var(--lcars-tb-cap),
+    #000 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon,
+html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiButton-startIcon {
+  margin: 0 !important;
+  font-size: 1.35rem !important;
+  line-height: 1 !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]) .MuiSvgIcon-root,
+html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiSvgIcon-root {
+  font-size: 1.35rem !important;
+  width: 1.35rem !important;
+  height: 1.35rem !important;
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+/* Red bar spacing matches User Menu IconButton (cap 6px + gap 6px) */
+html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] {
+  --lcars-tb-cap: 6px;
+  --lcars-tb-gap: 6px;
+  border-left: var(--lcars-tb-cap) solid var(--orange-red) !important;
+  padding-left: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + 0.55rem) !important;
+  position: relative !important;
+}
+html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: var(--lcars-tb-gap) !important;
+  height: 100% !important;
+  background-color: #000 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
 html.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) {
   position: relative !important;
   z-index: 2 !important;
@@ -3407,18 +3654,27 @@ html.jf-lcars-active .MuiToolbar-root a.MuiButton-root img {
 }
 
 /* Icon-only toolbar buttons — square body, icon centered */
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root,
-html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root {
+/* AppBar header icons: [red bar][black gap][perfect square body] */
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > a.MuiIconButton-root,
+html.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"],
+html.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"] {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
   box-sizing: border-box !important;
+  /* total width = bar + gap + square body; body content box is square */
   height: var(--lcars-tb-h) !important;
+  min-height: var(--lcars-tb-h) !important;
+  max-height: var(--lcars-tb-h) !important;
   width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
   min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
-  min-height: var(--lcars-tb-h) !important;
+  max-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
   padding: 0 !important;
-  padding-left: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap)) !important;
-  margin: 0 0.2rem !important;
+  padding-left: var(--lcars-tb-gap) !important;
+  margin: 0 0.30rem !important;
   border-radius: 0 !important;
   border: none !important;
   border-left: var(--lcars-tb-cap) solid var(--orange-red) !important;
@@ -3430,8 +3686,14 @@ html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root {
   align-items: center !important;
   justify-content: center !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root::before,
-html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root::before {
+/* Black gap strip between red bar and square body */
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root::before,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root::before,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root::before,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root::before,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > a.MuiIconButton-root::before,
+html.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"]::before,
+html.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"]::before {
   content: "" !important;
   position: absolute !important;
   left: 0 !important;
@@ -3442,11 +3704,19 @@ html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root::before {
   pointer-events: none !important;
   z-index: 0 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root:nth-of-type(2) {
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root > *,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root > *,
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root > *,
+html.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"] > * {
+  position: relative !important;
+  z-index: 1 !important;
+  margin-left: 0 !important;
+}
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiIconButton-root:nth-of-type(2) {
   border-left-color: var(--medium-dark-gray) !important;
   background-color: var(--light-gray) !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root:nth-of-type(3),
+html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiIconButton-root:nth-of-type(3),
 html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root[aria-label="Search"] {
   border-left-color: var(--orange-red) !important;
   background-color: var(--ghost-gray) !important;
@@ -5691,7 +5961,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.45-appbar-column",
+    version: "2.20.56-add-one-bar",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
