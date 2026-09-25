@@ -3210,6 +3210,304 @@ html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButt
 
 
 
+/* ========== LCARS form dialogs — text-bar header + bar footer ========== */
+/*
+ * Top: thelcars.com/text-bar.php
+ *   [RED■][gap][mid][ BLACK TITLE BLACK ][mid][gap][RED■]  — square ends
+ * Bottom: thelcars.com/html-elements.php .lcars-bar
+ *   bar height matches submit button height; breaks at the button
+ */
+html.jf-lcars-active .dialogContainer {
+  background: rgba(0, 0, 0, 0.88) !important;
+}
+
+html.jf-lcars-active .dialog.formDialog,
+html.jf-lcars-active .focuscontainer.dialog.formDialog,
+html.jf-lcars-active .dialog.formDialog.opened,
+html.jf-lcars-active .dialog-fixedSize.formDialog,
+html.jf-lcars-active .dialog-small.formDialog,
+html.jf-lcars-active div.formDialog {
+  --tb-h: 44px;
+  --tb-end: 40px;
+  --tb-gap: 12px;
+  --tb-mid: var(--primary-gray, #6d748c);
+  --tb-end-color: var(--orange-red, #e7442a);
+  --tb-text: var(--starlight, #f3f4f7);
+  --btn-h: 44px;
+
+  position: relative !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* much larger than dialog-small default */
+  width: min(860px, 92vw) !important;
+  max-width: min(860px, 92vw) !important;
+  min-width: min(640px, 92vw) !important;
+  height: auto !important;
+  min-height: min(520px, 80vh) !important;
+  max-height: 90vh !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: #000 !important;
+  color: var(--starlight, #f3f4f7) !important;
+  font-family: var(--lcars-font) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  overflow: hidden !important;
+}
+html.jf-lcars-active .dialog.formDialog::before,
+html.jf-lcars-active .dialog.formDialog::after,
+html.jf-lcars-active div.formDialog::before,
+html.jf-lcars-active div.formDialog::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---- TEXT-BAR HEADER ---- */
+html.jf-lcars-active .formDialogHeader,
+html.jf-lcars-active .dialog.formDialog .formDialogHeader {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  width: auto !important;
+  max-width: none !important;
+  height: var(--tb-h) !important;
+  min-height: var(--tb-h) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  background-color: var(--tb-mid) !important;
+  border-left: var(--tb-end) solid var(--tb-end-color) !important;
+  border-right: var(--tb-end) solid var(--tb-end-color) !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  z-index: 2 !important;
+}
+html.jf-lcars-active .formDialogHeader::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: var(--tb-gap) !important;
+  height: 100% !important;
+  background: #000 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+html.jf-lcars-active .formDialogHeader::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: var(--tb-gap) !important;
+  height: 100% !important;
+  background: #000 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+html.jf-lcars-active .formDialogHeader .btnCancel,
+html.jf-lcars-active .formDialogHeader .paper-icon-button-light {
+  order: -1 !important;
+  flex-shrink: 0 !important;
+  width: var(--tb-h) !important;
+  height: var(--tb-h) !important;
+  min-width: var(--tb-h) !important;
+  min-height: var(--tb-h) !important;
+  margin: 0 0 0 var(--tb-gap) !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: var(--ghost-gray, #d2d5df) !important;
+  color: #000 !important;
+  box-shadow: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+html.jf-lcars-active .formDialogHeader .btnCancel::before,
+html.jf-lcars-active .formDialogHeader .btnCancel::after,
+html.jf-lcars-active .formDialogHeader .paper-icon-button-light::before,
+html.jf-lcars-active .formDialogHeader .paper-icon-button-light::after {
+  content: none !important;
+  display: none !important;
+}
+html.jf-lcars-active .formDialogHeader .btnCancel .material-icons {
+  color: #000 !important;
+  font-size: 1.3rem !important;
+  margin: 0 !important;
+}
+
+html.jf-lcars-active .formDialogHeaderTitle {
+  flex: 0 1 auto !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  background: #000 !important;
+  color: var(--tb-text) !important;
+  -webkit-text-fill-color: var(--tb-text) !important;
+  font-family: var(--lcars-font) !important;
+  font-size: 1.55rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  line-height: var(--tb-h) !important;
+  height: var(--tb-h) !important;
+  white-space: nowrap !important;
+  border: none !important;
+  border-radius: 0 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* ---- CONTENT (fills extra height) ---- */
+html.jf-lcars-active .formDialogContent {
+  position: relative !important;
+  z-index: 1 !important;
+  flex: 1 1 auto !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 1rem 1.5rem calc(var(--btn-h, 44px) + 1.25rem) !important;
+  background: #000 !important;
+  color: var(--ghost-gray, #d2d5df) !important;
+  font-family: var(--lcars-font) !important;
+  border: none !important;
+  overflow: auto !important;
+  min-height: 0 !important;
+}
+html.jf-lcars-active .formDialogContent::before,
+html.jf-lcars-active .formDialogContent::after {
+  content: none !important;
+  display: none !important;
+}
+html.jf-lcars-active .dialogContentInner {
+  background: transparent !important;
+  padding: 0 !important;
+  max-width: 36rem !important;
+  margin: 0 auto !important;
+}
+html.jf-lcars-active .formDialogContent .dialog-content-centered > div:first-child {
+  color: var(--light-gray, #9ea5ba) !important;
+  font-size: 0.95rem !important;
+  margin-bottom: 1.1rem !important;
+  border: none !important;
+  padding: 0 !important;
+}
+html.jf-lcars-active .formDialog .inputLabel,
+html.jf-lcars-active .formDialog .selectLabel,
+html.jf-lcars-active .formDialog .checkboxLabel {
+  color: var(--orange-red, #e7442a) !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.75rem !important;
+}
+html.jf-lcars-active .formDialog .emby-input,
+html.jf-lcars-active .formDialog .emby-select,
+html.jf-lcars-active .formDialog input.emby-input,
+html.jf-lcars-active .formDialog select.emby-select {
+  background: #000 !important;
+  color: var(--starlight, #f3f4f7) !important;
+  border: 2px solid var(--primary-gray, #6d748c) !important;
+  border-left: 8px solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 !important;
+  font-family: var(--lcars-font) !important;
+  padding: 0.65rem 0.75rem !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+html.jf-lcars-active .formDialog .emby-input:focus,
+html.jf-lcars-active .formDialog .emby-select:focus {
+  border-color: var(--bright-blue, #41c4f7) !important;
+  border-left-color: var(--orange-red, #e7442a) !important;
+  outline: none !important;
+}
+html.jf-lcars-active .formDialog .fieldDescription {
+  color: var(--starlight, #f3f4f7) !important;
+  font-size: 0.7rem !important;
+  text-transform: uppercase !important;
+}
+html.jf-lcars-active .formDialog .checkboxOutline {
+  border-radius: 0 !important;
+  border-color: var(--primary-gray, #6d748c) !important;
+  background: #000 !important;
+}
+
+/* ---- FOOTER: absolute bottom, bar takes most width ---- */
+html.jf-lcars-active .formDialogFooter,
+html.jf-lcars-active .dialog.formDialog .formDialogFooter {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  /* hard-pin to dialog bottom edge */
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: var(--btn-h) !important;
+  min-height: var(--btn-h) !important;
+  z-index: 5 !important;
+}
+/* bar grows — majority of the width */
+html.jf-lcars-active .formDialogFooter::before {
+  content: "" !important;
+  flex: 1 1 auto !important;
+  height: var(--btn-h) !important;
+  min-height: var(--btn-h) !important;
+  box-sizing: border-box !important;
+  background: var(--tb-mid) !important;
+  border-left: var(--btn-h) solid var(--tb-end-color) !important;
+  border-right: 12px solid #000 !important;
+  border-radius: 0 !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+html.jf-lcars-active .formDialogFooter::after {
+  content: none !important;
+  display: none !important;
+}
+/* button stays compact on the right — does NOT expand */
+html.jf-lcars-active .formDialogFooter .button-submit,
+html.jf-lcars-active .formDialogFooter .btnSubmit,
+html.jf-lcars-active .formDialogFooter .raised.emby-button,
+html.jf-lcars-active .formDialogFooter .formDialogFooterItem {
+  flex: 0 0 auto !important;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  width: auto !important;
+  min-width: 5.5rem !important;
+  max-width: 9rem !important;
+  height: var(--btn-h) !important;
+  min-height: var(--btn-h) !important;
+  margin: 0 !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+  position: relative !important;
+  z-index: 2 !important;
+  box-sizing: border-box !important;
+  border-radius: 0 !important;
+}
+
 /* Filter popover — LCARS readout panels (black + orange-red frame) */
 html.jf-lcars-active .MuiPopover-paper:has([id*="filters"]),
 html.jf-lcars-active .MuiPopover-paper:has([aria-controls*="filters"]),
@@ -3398,6 +3696,58 @@ html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::b
   background-color: #000 !important;
   pointer-events: none !important;
   z-index: 1 !important;
+}
+
+/* <900px: library-view button → square icon only (collections) */
+@media (max-width: 899px) {
+  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] {
+    --lcars-tb-h: 2.6rem;
+    box-sizing: border-box !important;
+    width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
+    min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
+    max-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
+    height: var(--lcars-tb-h) !important;
+    min-height: var(--lcars-tb-h) !important;
+    max-height: var(--lcars-tb-h) !important;
+    padding: 0 0 0 calc(var(--lcars-tb-cap) + var(--lcars-tb-gap)) !important;
+    margin: 0 0.3rem 0 0 !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: hidden !important;
+  }
+  /* hide label text */
+  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
+  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2,
+  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiButton-endIcon {
+    display: none !important;
+    font-size: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* collections icon in the square body */
+  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::after {
+    content: "collections" !important;
+    font-family: "Material Icons", "MaterialIcons", sans-serif !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-size: 1.35rem !important;
+    line-height: 1 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: var(--lcars-tb-h) !important;
+    height: var(--lcars-tb-h) !important;
+    color: inherit !important;
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
 }
 
 html.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) {
@@ -5961,7 +6311,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.56-add-one-bar",
+    version: "2.20.83-lib-view-icon",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
