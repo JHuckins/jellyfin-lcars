@@ -17,10 +17,9 @@
   var DASH_CUT_ID = "jf-lcars-dash-elbow-cut";
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var THEME_CSS = `/*
- * Jellyfin LCARS — Picard theme v2.3.0
- * Full styles restored + frame matching thelcars.com/themes/picard.html
+ * Jellyfin LCARS
  *
- * Frame model (from picard.css markup):
+ * Frame model:
  *   left column (primary-gray) full height
  *   thin horizontal bar-runner under header (--bar-height)
  *   elbow at junction: large radius on content-side corner
@@ -404,7 +403,7 @@ body.jf-lcars-active::after {
     0 0 0 var(--lcars-well-gap) #000,
     0 0 0 calc(var(--lcars-well-gap) + 2px) var(--light-gray) !important;
 
-  margin-top: 9rem !important;
+  margin-top: 8rem !important;
   margin-right: 4% !important;
   margin-left: 40px !important;
   margin-bottom: 2rem !important;
@@ -2047,7 +2046,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .card[data-collectiontype] .cardScalable {
   position: relative !important;
   border-radius: 0 !important;
-  margin-left: 19px !important;
+  margin-left: 22px !important;
   width: calc(100% - 22px) !important;
   overflow: hidden !important;
   background: var(--dark-gray) !important;
@@ -2280,6 +2279,56 @@ html.jf-lcars-video .mainAnimatedPages {
   background: #e7442a !important;
   height: 100% !important;
 }
+/* Universal: image column width matches year bar; no rounded corners */
+.jf-lcars-active .card .cardBox,
+.jf-lcars-active .card .cardScalable,
+.jf-lcars-active .card .cardContent,
+.jf-lcars-active .card .cardImageContainer,
+.jf-lcars-active .card .cardPadder,
+.jf-lcars-active .card .coveredImage,
+.jf-lcars-active .card .cardOverlayContainer,
+.jf-lcars-active .card img {
+  border-radius: 0 !important;
+}
+.jf-lcars-active .card .cardScalable {
+  margin-left: 22px !important;
+  width: calc(100% - 22px) !important;
+  max-width: calc(100% - 22px) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+.jf-lcars-active .card .cardImageContainer,
+.jf-lcars-active .card .cardImageContainer img,
+.jf-lcars-active .card .cardContent img {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 0 !important;
+  object-fit: cover !important;
+}
+.jf-lcars-active .card .cardText-secondary {
+  margin-left: 22px !important;
+  margin-right: 0 !important;
+  width: calc(100% - 22px) !important;
+  max-width: calc(100% - 22px) !important;
+  box-sizing: border-box !important;
+  border-radius: 0 !important;
+}
+/* BoxSet / collection portrait tiles get same treatment */
+.card[data-type="BoxSet"] .cardBox,
+.card[data-type="BoxSet"] .cardScalable,
+.card .cardPadder-portrait {
+  border-radius: 0 !important;
+}
+.card[data-type="BoxSet"] .cardScalable {
+  margin-left: 22px !important;
+  width: calc(100% - 22px) !important;
+}
+.card[data-type="BoxSet"] .cardText-secondary {
+  margin-left: 22px !important;
+  width: calc(100% - 22px) !important;
+  max-width: calc(100% - 22px) !important;
+}
+
 /* ========== Centered PLAY only ========== */
 /* Portrait FAB play button (cardOverlayFab-primary) */
 .card .cardOverlayFab-primary,
@@ -6422,7 +6471,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.21.2-no-pad-top",
+    version: "2.21.3-card-img-align",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
