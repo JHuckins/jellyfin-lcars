@@ -838,13 +838,68 @@ textarea,
 
 
 
-@media screen and (width <= 1350px) {
-  /* Stack wide dashboard columns without Emotion hashes */
-  body.dashboardDocument .content-primary > .MuiGrid-root > .MuiGrid-item.MuiGrid-grid-md-7,
-  body.dashboardDocument .content-primary > .MuiGrid-root > .MuiGrid-item.MuiGrid-grid-lg-7,
-  body.dashboardDocument .content-primary > .MuiGrid-root > .MuiGrid-item.MuiGrid-grid-xl-6 {
-    flex-basis: 100% !important;
+/* Dashboard home grid — fill available width
+ * Parent must be 100% so flex children can grow into the well.
+ * Items use flex-grow ratios (not % of auto) so they consume free space.
+ */
+.dashboardDocument .content-primary {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .content-primary > .MuiGrid-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+/* Single column at 1300px and below */
+@media (max-width: 1300px) {
+  .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item {
+    flex: 1 1 100% !important;
     max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* xl: Server : Activity : Paths = 2 : 1 : 1 */
+@media (min-width: 1536px) {
+  .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item.MuiGrid-grid-xl-6 {
+    flex: 2 1 0 !important;
+    max-width: none !important;
+    width: auto !important;
+  }
+  .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item.MuiGrid-grid-xl-3 {
+    flex: 1 1 0 !important;
+    max-width: none !important;
+    width: auto !important;
+  }
+}
+
+/* 1301–1535: lg proportions (7+5, then full-width third) */
+@media (min-width: 1301px) and (max-width: 1535.98px) {
+  .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item.MuiGrid-grid-lg-7 {
+    flex: 7 1 0 !important;
+    max-width: none !important;
+    width: auto !important;
+  }
+  .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item.MuiGrid-grid-lg-5 {
+    flex: 5 1 0 !important;
+    max-width: none !important;
+    width: auto !important;
+  }
+  .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item.MuiGrid-grid-lg-12 {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
 }
 
@@ -913,7 +968,7 @@ body.dashboardDocument,
  * Accent mapping only — avoid global background/paper overrides that break
  * home header and clip dashboard content layout.
  */
-html.jf-lcars-active {
+.jf-lcars-active {
   --jf-palette-primary-main: var(--orange-red);
   --jf-palette-primary-mainChannel: 231 68 42;
   --jf-palette-primary-contrastText: #000000;
@@ -924,8 +979,8 @@ html.jf-lcars-active {
   --jf-palette-info-main: var(--bright-blue);
 }
 
-html.jf-lcars-active body.dashboardDocument,
-html.jf-lcars-active.dashboardDocument,
+.jf-lcars-active.dashboardDocument,
+.jf-lcars-active.dashboardDocument,
 body.dashboardDocument {
   --jf-palette-primary-main: var(--orange-red) !important;
   --jf-palette-primary-mainChannel: 231 68 42 !important;
@@ -1758,6 +1813,32 @@ body.dashboardDocument {
   background: var(--blue) !important;
   color: #000 !important;
 }
+
+/* Activity list rows: space between avatar and text */
+.dashboardDocument .content-primary a.MuiListItemButton-root,
+.dashboardDocument .content-primary .MuiListItemButton-root {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+  column-gap: 0.75rem !important;
+}
+.dashboardDocument .content-primary .MuiListItemAvatar-root {
+  margin-right: 0 !important; /* gap on parent handles spacing */
+  margin-top: 0.15rem !important;
+  min-width: 0 !important;
+  flex-shrink: 0 !important;
+}
+.dashboardDocument .content-primary .MuiListItemText-root {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+.dashboardDocument .content-primary .MuiListItemText-root .MuiStack-root {
+  margin-top: 0.2rem !important;
+  gap: 0.1rem !important;
+}
+
 
 /* ========== VIDEO PLAYBACK — full-bleed, hide LCARS chrome ========== */
 /*
@@ -3127,21 +3208,21 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
  * Endcap + black gap + body (picard.css .buttons button).
  * Body after the gap is at least square; icons centered in that body.
  */
-html.jf-lcars-active .MuiToolbar-root,
-html.jf-lcars-active .MuiToolbar-root.MuiToolbar-dense {
+.jf-lcars-active .MuiToolbar-root,
+.jf-lcars-active .MuiToolbar-root.MuiToolbar-dense {
   gap: 0.30rem !important;
   min-height: 3rem !important;
   align-items: center !important;
 }
 
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root {
   gap: 0.30rem !important;
   align-items: center !important;
   flex-wrap: wrap !important;
 }
 
 /* Shared tile metrics */
-html.jf-lcars-active .MuiToolbar-root {
+.jf-lcars-active .MuiToolbar-root {
   --lcars-tb-h: 2.6rem;
   --lcars-tb-cap: 10px;
   --lcars-tb-gap: 8px;
@@ -3155,9 +3236,9 @@ html.jf-lcars-active .MuiToolbar-root {
  */
 
 /* Library view menu button label (Collections / Episodes / etc.) */
-html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"],
-html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
-html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2 {
+.jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"],
+.jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
+.jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2 {
   font-size: 0.8rem !important;
   font-weight: 800 !important;
   font-family: var(--lcars-font) !important;
@@ -3166,11 +3247,7 @@ html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .M
 }
 
 /* Secondary strip icon actions: [red bar][gap][square body] */
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Filter"],
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Sort"],
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="View settings"],
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Previous"],
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Next"] {
+.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root:is([title="Filter"],[title="Sort"],[title="View settings"],[title="Previous"],[title="Next"]) {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
   box-sizing: border-box !important;
@@ -3192,11 +3269,7 @@ html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButt
   align-items: center !important;
   justify-content: center !important;
 }
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Filter"]::before,
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Sort"]::before,
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="View settings"]::before,
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Previous"]::before,
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Next"]::before {
+.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root:is([title="Filter"],[title="Sort"],[title="View settings"],[title="Previous"],[title="Next"])::before {
   content: "" !important;
   position: absolute !important;
   left: 0 !important;
@@ -3217,16 +3290,12 @@ html.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButt
  * Bottom: thelcars.com/html-elements.php .lcars-bar
  *   bar height matches submit button height; breaks at the button
  */
-html.jf-lcars-active .dialogContainer {
+.jf-lcars-active .dialogContainer {
   background: rgba(0, 0, 0, 0.88) !important;
 }
 
-html.jf-lcars-active .dialog.formDialog,
-html.jf-lcars-active .focuscontainer.dialog.formDialog,
-html.jf-lcars-active .dialog.formDialog.opened,
-html.jf-lcars-active .dialog-fixedSize.formDialog,
-html.jf-lcars-active .dialog-small.formDialog,
-html.jf-lcars-active div.formDialog {
+.jf-lcars-active .formDialog,
+.jf-lcars-active .dialog.formDialog {
   --tb-h: 44px;
   --tb-end: 40px;
   --tb-gap: 12px;
@@ -3257,17 +3326,16 @@ html.jf-lcars-active div.formDialog {
   outline: none !important;
   overflow: hidden !important;
 }
-html.jf-lcars-active .dialog.formDialog::before,
-html.jf-lcars-active .dialog.formDialog::after,
-html.jf-lcars-active div.formDialog::before,
-html.jf-lcars-active div.formDialog::after {
+.jf-lcars-active .dialog.formDialog::before,
+.jf-lcars-active .dialog.formDialog::after,
+.jf-lcars-active .formDialog::before,
+.jf-lcars-active .formDialog::after {
   content: none !important;
   display: none !important;
 }
 
 /* ---- TEXT-BAR HEADER ---- */
-html.jf-lcars-active .formDialogHeader,
-html.jf-lcars-active .dialog.formDialog .formDialogHeader {
+.jf-lcars-active .formDialogHeader {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -3290,7 +3358,7 @@ html.jf-lcars-active .dialog.formDialog .formDialogHeader {
   overflow: visible !important;
   z-index: 2 !important;
 }
-html.jf-lcars-active .formDialogHeader::before {
+.jf-lcars-active .formDialogHeader::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
@@ -3302,7 +3370,7 @@ html.jf-lcars-active .formDialogHeader::before {
   z-index: 1 !important;
   pointer-events: none !important;
 }
-html.jf-lcars-active .formDialogHeader::after {
+.jf-lcars-active .formDialogHeader::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
@@ -3315,8 +3383,8 @@ html.jf-lcars-active .formDialogHeader::after {
   pointer-events: none !important;
 }
 
-html.jf-lcars-active .formDialogHeader .btnCancel,
-html.jf-lcars-active .formDialogHeader .paper-icon-button-light {
+.jf-lcars-active .formDialogHeader .btnCancel,
+.jf-lcars-active .formDialogHeader .paper-icon-button-light {
   order: -1 !important;
   flex-shrink: 0 !important;
   width: var(--tb-h) !important;
@@ -3336,20 +3404,20 @@ html.jf-lcars-active .formDialogHeader .paper-icon-button-light {
   position: relative !important;
   z-index: 2 !important;
 }
-html.jf-lcars-active .formDialogHeader .btnCancel::before,
-html.jf-lcars-active .formDialogHeader .btnCancel::after,
-html.jf-lcars-active .formDialogHeader .paper-icon-button-light::before,
-html.jf-lcars-active .formDialogHeader .paper-icon-button-light::after {
+.jf-lcars-active .formDialogHeader .btnCancel::before,
+.jf-lcars-active .formDialogHeader .btnCancel::after,
+.jf-lcars-active .formDialogHeader .paper-icon-button-light::before,
+.jf-lcars-active .formDialogHeader .paper-icon-button-light::after {
   content: none !important;
   display: none !important;
 }
-html.jf-lcars-active .formDialogHeader .btnCancel .material-icons {
+.jf-lcars-active .formDialogHeader .btnCancel .material-icons {
   color: #000 !important;
   font-size: 1.3rem !important;
   margin: 0 !important;
 }
 
-html.jf-lcars-active .formDialogHeaderTitle {
+.jf-lcars-active .formDialogHeaderTitle {
   flex: 0 1 auto !important;
   margin: 0 !important;
   padding: 0 16px !important;
@@ -3371,7 +3439,7 @@ html.jf-lcars-active .formDialogHeaderTitle {
 }
 
 /* ---- CONTENT (fills extra height) ---- */
-html.jf-lcars-active .formDialogContent {
+.jf-lcars-active .formDialogContent {
   position: relative !important;
   z-index: 1 !important;
   flex: 1 1 auto !important;
@@ -3385,27 +3453,27 @@ html.jf-lcars-active .formDialogContent {
   overflow: auto !important;
   min-height: 0 !important;
 }
-html.jf-lcars-active .formDialogContent::before,
-html.jf-lcars-active .formDialogContent::after {
+.jf-lcars-active .formDialogContent::before,
+.jf-lcars-active .formDialogContent::after {
   content: none !important;
   display: none !important;
 }
-html.jf-lcars-active .dialogContentInner {
+.jf-lcars-active .dialogContentInner {
   background: transparent !important;
   padding: 0 !important;
   max-width: 36rem !important;
   margin: 0 auto !important;
 }
-html.jf-lcars-active .formDialogContent .dialog-content-centered > div:first-child {
+.jf-lcars-active .formDialogContent .dialog-content-centered > div:first-child {
   color: var(--light-gray, #9ea5ba) !important;
   font-size: 0.95rem !important;
   margin-bottom: 1.1rem !important;
   border: none !important;
   padding: 0 !important;
 }
-html.jf-lcars-active .formDialog .inputLabel,
-html.jf-lcars-active .formDialog .selectLabel,
-html.jf-lcars-active .formDialog .checkboxLabel {
+.jf-lcars-active .formDialog .inputLabel,
+.jf-lcars-active .formDialog .selectLabel,
+.jf-lcars-active .formDialog .checkboxLabel {
   color: var(--orange-red, #e7442a) !important;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
@@ -3413,10 +3481,10 @@ html.jf-lcars-active .formDialog .checkboxLabel {
   letter-spacing: 0.08em !important;
   font-size: 0.75rem !important;
 }
-html.jf-lcars-active .formDialog .emby-input,
-html.jf-lcars-active .formDialog .emby-select,
-html.jf-lcars-active .formDialog input.emby-input,
-html.jf-lcars-active .formDialog select.emby-select {
+.jf-lcars-active .formDialog .emby-input,
+.jf-lcars-active .formDialog .emby-select,
+.jf-lcars-active .formDialog input.emby-input,
+.jf-lcars-active .formDialog select.emby-select {
   background: #000 !important;
   color: var(--starlight, #f3f4f7) !important;
   border: 2px solid var(--primary-gray, #6d748c) !important;
@@ -3428,26 +3496,26 @@ html.jf-lcars-active .formDialog select.emby-select {
   width: 100% !important;
   box-sizing: border-box !important;
 }
-html.jf-lcars-active .formDialog .emby-input:focus,
-html.jf-lcars-active .formDialog .emby-select:focus {
+.jf-lcars-active .formDialog .emby-input:focus,
+.jf-lcars-active .formDialog .emby-select:focus {
   border-color: var(--bright-blue, #41c4f7) !important;
   border-left-color: var(--orange-red, #e7442a) !important;
   outline: none !important;
 }
-html.jf-lcars-active .formDialog .fieldDescription {
+.jf-lcars-active .formDialog .fieldDescription {
   color: var(--starlight, #f3f4f7) !important;
   font-size: 0.7rem !important;
   text-transform: uppercase !important;
 }
-html.jf-lcars-active .formDialog .checkboxOutline {
+.jf-lcars-active .formDialog .checkboxOutline {
   border-radius: 0 !important;
   border-color: var(--primary-gray, #6d748c) !important;
   background: #000 !important;
 }
 
 /* ---- FOOTER: absolute bottom, bar takes most width ---- */
-html.jf-lcars-active .formDialogFooter,
-html.jf-lcars-active .dialog.formDialog .formDialogFooter {
+.jf-lcars-active .formDialogFooter,
+.jf-lcars-active .dialog.formDialog .formDialogFooter {
   display: flex !important;
   flex-direction: row !important;
   align-items: stretch !important;
@@ -3469,7 +3537,7 @@ html.jf-lcars-active .dialog.formDialog .formDialogFooter {
   z-index: 5 !important;
 }
 /* bar grows — majority of the width */
-html.jf-lcars-active .formDialogFooter::before {
+.jf-lcars-active .formDialogFooter::before {
   content: "" !important;
   flex: 1 1 auto !important;
   height: var(--btn-h) !important;
@@ -3482,15 +3550,15 @@ html.jf-lcars-active .formDialogFooter::before {
   min-width: 0 !important;
   width: auto !important;
 }
-html.jf-lcars-active .formDialogFooter::after {
+.jf-lcars-active .formDialogFooter::after {
   content: none !important;
   display: none !important;
 }
 /* button stays compact on the right — does NOT expand */
-html.jf-lcars-active .formDialogFooter .button-submit,
-html.jf-lcars-active .formDialogFooter .btnSubmit,
-html.jf-lcars-active .formDialogFooter .raised.emby-button,
-html.jf-lcars-active .formDialogFooter .formDialogFooterItem {
+.jf-lcars-active .formDialogFooter .button-submit,
+.jf-lcars-active .formDialogFooter .btnSubmit,
+.jf-lcars-active .formDialogFooter .raised.emby-button,
+.jf-lcars-active .formDialogFooter .formDialogFooterItem {
   flex: 0 0 auto !important;
   flex-grow: 0 !important;
   flex-shrink: 0 !important;
@@ -3509,9 +3577,9 @@ html.jf-lcars-active .formDialogFooter .formDialogFooterItem {
 }
 
 /* Filter popover — LCARS readout panels (black + orange-red frame) */
-html.jf-lcars-active .MuiPopover-paper:has([id*="filters"]),
-html.jf-lcars-active .MuiPopover-paper:has([aria-controls*="filters"]),
-html.jf-lcars-active .MuiPopover-paper:has(.MuiAccordion-root) {
+.jf-lcars-active .MuiPopover-paper:has([id*="filters"]),
+.jf-lcars-active .MuiPopover-paper:has([aria-controls*="filters"]),
+.jf-lcars-active .MuiPopover-paper:has(.MuiAccordion-root) {
   background: #000 !important;
   background-color: #000 !important;
   border: none !important;
@@ -3520,8 +3588,8 @@ html.jf-lcars-active .MuiPopover-paper:has(.MuiAccordion-root) {
   padding: 8px !important;
   gap: 0 !important;
 }
-html.jf-lcars-active .MuiPopover-paper .MuiAccordion-root,
-html.jf-lcars-active .MuiPopover-paper .MuiAccordion-root.MuiPaper-root {
+.jf-lcars-active .MuiPopover-paper .MuiAccordion-root,
+.jf-lcars-active .MuiPopover-paper .MuiAccordion-root.MuiPaper-root {
   background: #000 !important;
   background-color: #000 !important;
   border: 2px solid var(--orange-red, #e7442a) !important;
@@ -3530,11 +3598,11 @@ html.jf-lcars-active .MuiPopover-paper .MuiAccordion-root.MuiPaper-root {
   margin: 0 0 10px 0 !important;
   overflow: hidden !important;
 }
-html.jf-lcars-active .MuiPopover-paper .MuiAccordion-root:last-of-type {
+.jf-lcars-active .MuiPopover-paper .MuiAccordion-root:last-of-type {
   margin-bottom: 10px !important;
 }
-html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-root,
-html.jf-lcars-active .MuiPopover-paper button.MuiAccordionSummary-root {
+.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-root,
+.jf-lcars-active .MuiPopover-paper button.MuiAccordionSummary-root {
   background: #000 !important;
   background-color: #000 !important;
   color: var(--orange-red, #e7442a) !important;
@@ -3543,12 +3611,12 @@ html.jf-lcars-active .MuiPopover-paper button.MuiAccordionSummary-root {
   border-radius: 0 !important;
   flex-direction: row !important;
 }
-html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-root:hover {
+.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-root:hover {
   background: #0a0a0a !important;
   filter: brightness(1.08);
 }
-html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-content,
-html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-content .MuiTypography-root {
+.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-content,
+.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-content .MuiTypography-root {
   color: var(--orange-red, #e7442a) !important;
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
@@ -3560,20 +3628,20 @@ html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-content .MuiTypograp
   text-align: right !important;
   justify-content: flex-end !important;
 }
-html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-expandIconWrapper,
-html.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root {
+.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-expandIconWrapper,
+.jf-lcars-active .MuiPopover-paper .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root {
   color: var(--orange-red, #e7442a) !important;
   fill: var(--orange-red, #e7442a) !important;
 }
-html.jf-lcars-active .MuiPopover-paper .MuiAccordion-region,
-html.jf-lcars-active .MuiPopover-paper .MuiAccordionDetails-root {
+.jf-lcars-active .MuiPopover-paper .MuiAccordion-region,
+.jf-lcars-active .MuiPopover-paper .MuiAccordionDetails-root {
   background: #000 !important;
   color: var(--ghost-gray, #d2d5df) !important;
   border-top: 1px solid var(--orange-red, #e7442a) !important;
   border-radius: 0 !important;
 }
 /* Reset filters control in same popover */
-html.jf-lcars-active .MuiPopover-paper button[title="Reset filters"] {
+.jf-lcars-active .MuiPopover-paper button[title="Reset filters"] {
   border: 2px solid var(--orange-red, #e7442a) !important;
   border-radius: 0 !important;
   background: #000 !important;
@@ -3584,15 +3652,15 @@ html.jf-lcars-active .MuiPopover-paper button[title="Reset filters"] {
   letter-spacing: 0.06em !important;
   margin-top: 4px !important;
 }
-html.jf-lcars-active .MuiPopover-paper button[title="Reset filters"] .MuiSvgIcon-root {
+.jf-lcars-active .MuiPopover-paper button[title="Reset filters"] .MuiSvgIcon-root {
   color: var(--orange-red, #e7442a) !important;
   fill: var(--orange-red, #e7442a) !important;
 }
 
 /* New Collection — one red bar + gap, then true square (+ only) */
-html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]),
-html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]),
-html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"]) {
+.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]),
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]),
+.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"]) {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
   --lcars-tb-side: var(--lcars-tb-h, 2.6rem);
@@ -3625,9 +3693,9 @@ html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid
   justify-content: center !important;
 }
 /* Kill any extra bar from generic button rules */
-html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"])::before,
-html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::before,
-html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::before {
+.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"])::before,
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::before,
+.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::before {
   content: none !important;
   display: none !important;
   width: 0 !important;
@@ -3635,9 +3703,9 @@ html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid
   border: none !important;
 }
 /* Single strip: red bar + black gap (one pseudo only) */
-html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"])::after,
-html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::after,
-html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::after {
+.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"])::after,
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::after,
+.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
@@ -3658,8 +3726,8 @@ html.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid
   border: none !important;
   box-shadow: none !important;
 }
-html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon,
-html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiButton-startIcon {
+.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon,
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiButton-startIcon {
   margin: 0 !important;
   font-size: 1.35rem !important;
   line-height: 1 !important;
@@ -3668,8 +3736,8 @@ html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon
   position: relative !important;
   z-index: 1 !important;
 }
-html.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]) .MuiSvgIcon-root,
-html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiSvgIcon-root {
+.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]) .MuiSvgIcon-root,
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiSvgIcon-root {
   font-size: 1.35rem !important;
   width: 1.35rem !important;
   height: 1.35rem !important;
@@ -3678,14 +3746,14 @@ html.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon
 }
 
 /* Red bar spacing matches User Menu IconButton (cap 6px + gap 6px) */
-html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] {
+.jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
   border-left: var(--lcars-tb-cap) solid var(--orange-red) !important;
   padding-left: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + 0.55rem) !important;
   position: relative !important;
 }
-html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::before {
+.jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"]::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
@@ -3700,7 +3768,7 @@ html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::b
 
 /* <900px: library-view button → square icon only (collections) */
 @media (max-width: 899px) {
-  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] {
+  .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] {
     --lcars-tb-h: 2.6rem;
     box-sizing: border-box !important;
     width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
@@ -3716,9 +3784,9 @@ html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::b
     overflow: hidden !important;
   }
   /* hide label text */
-  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
-  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2,
-  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"] .MuiButton-endIcon {
+  .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
+  .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2,
+  .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiButton-endIcon {
     display: none !important;
     font-size: 0 !important;
     width: 0 !important;
@@ -3728,7 +3796,7 @@ html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::b
     margin: 0 !important;
   }
   /* collections icon in the square body */
-  html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::after {
+  .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"]::after {
     content: "collections" !important;
     font-family: "Material Icons", "MaterialIcons", sans-serif !important;
     font-weight: normal !important;
@@ -3750,29 +3818,29 @@ html.jf-lcars-active button.MuiButton-root[aria-controls="library-view-menu"]::b
   }
 }
 
-html.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) {
+.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) {
   position: relative !important;
   z-index: 2 !important;
   margin-top: calc(48px + var(--lcars-bar-h, 25px) + 16px) !important;
   flex-wrap: wrap !important;
 }
 /* Primary top nav — never inherit secondary spacing */
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root,
-html.jf-lcars-active header.MuiAppBar-root .MuiToolbar-root,
-html.jf-lcars-active header .MuiToolbar-root,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root.MuiToolbar-dense {
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root,
+.jf-lcars-active header.MuiAppBar-root .MuiToolbar-root,
+.jf-lcars-active header .MuiToolbar-root,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root.MuiToolbar-dense {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
 /* Keep top nav clear of left LCARS vertical bar */
-html.jf-lcars-active .MuiAppBar-root,
-html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
-html.jf-lcars-active .MuiToolbar-root {
+.jf-lcars-active .MuiAppBar-root,
+.jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
+.jf-lcars-active .MuiToolbar-root {
   padding-left: 0 !important;
 }
-html.jf-lcars-active .MuiAppBar-root,
-html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root {
+.jf-lcars-active .MuiAppBar-root,
+.jf-lcars-active header.MuiPaper-root.MuiAppBar-root {
   display: flex !important;
   flex-direction: column !important;
   gap: 40px !important;
@@ -3783,9 +3851,9 @@ html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root {
 }
 
 /* AppBar stacks primary + secondary strips (all widths) */
-html.jf-lcars-active .MuiAppBar-root,
-html.jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
-html.jf-lcars-active header.MuiAppBar-root {
+.jf-lcars-active .MuiAppBar-root,
+.jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
+.jf-lcars-active header.MuiAppBar-root {
   display: flex !important;
   flex-direction: column !important;
   gap: 40px !important;
@@ -3793,24 +3861,24 @@ html.jf-lcars-active header.MuiAppBar-root {
 }
 
 /* When app bar is full-bleed width:100%, push content with padding instead */
-html.jf-lcars-active .MuiAppBar-root.MuiAppBar-positionFixed,
-html.jf-lcars-active .MuiAppBar-positionSticky {
+.jf-lcars-active .MuiAppBar-root.MuiAppBar-positionFixed,
+.jf-lcars-active .MuiAppBar-positionSticky {
   left: var(--lcars-sidebar, 56px) !important;
   width: calc(100% - var(--lcars-sidebar, 56px)) !important;
   max-width: calc(100% - var(--lcars-sidebar, 56px)) !important;
   box-sizing: border-box !important;
 }
-html.jf-lcars-active .MuiToolbar-root {
+.jf-lcars-active .MuiToolbar-root {
   margin-left: 0 !important;
   padding-left: 8px !important;
   box-sizing: border-box !important;
   max-width: 100% !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root {
   margin-left: 0 !important;
 }
 /* Emby skin header already uses left: sidebar; reinforce padding */
-html.jf-lcars-active .skinHeader {
+.jf-lcars-active .skinHeader {
   left: var(--lcars-sidebar, 56px) !important;
   width: auto !important;
   right: 0 !important;
@@ -3818,9 +3886,9 @@ html.jf-lcars-active .skinHeader {
 }
 
 /* Text nav links */
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-root,
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-text,
-html.jf-lcars-active .MuiToolbar-root .MuiButton-textInherit {
+.jf-lcars-active .MuiToolbar-root a.MuiButton-root,
+.jf-lcars-active .MuiToolbar-root a.MuiButton-text,
+.jf-lcars-active .MuiToolbar-root .MuiButton-textInherit {
   position: relative !important;
   display: inline-flex !important;
   justify-content: center !important;
@@ -3852,8 +3920,8 @@ html.jf-lcars-active .MuiToolbar-root .MuiButton-textInherit {
   overflow: hidden !important;
 }
 
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-root::before,
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-text::before {
+.jf-lcars-active .MuiToolbar-root a.MuiButton-root::before,
+.jf-lcars-active .MuiToolbar-root a.MuiButton-text::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
@@ -3867,26 +3935,26 @@ html.jf-lcars-active .MuiToolbar-root a.MuiButton-text::before {
 }
 
 /* Color mix */
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
   border-left-color: var(--primary-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(3) {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(3) {
   border-left-color: var(--orange-red) !important;
   background-color: var(--light-gray) !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(4) {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(4) {
   border-left-color: var(--medium-dark-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(5) {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(5) {
   border-left-color: var(--orange-red) !important;
   background-color: var(--primary-gray) !important;
 }
 
 /* First toolbar button = true square, home icon only */
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type {
   width: var(--lcars-tb-h) !important;
   min-width: var(--lcars-tb-h) !important;
   max-width: var(--lcars-tb-h) !important;
@@ -3906,28 +3974,28 @@ html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of
   overflow: hidden !important;
   aspect-ratio: 1 / 1 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child::before,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type::before {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child::before,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type::before {
   display: none !important;
   content: none !important;
   width: 0 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon {
   margin: 0 !important;
   font-size: 1.25rem !important;
   line-height: 1 !important;
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon img,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon img,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon svg,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon svg {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon img,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon img,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon svg,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon svg {
   display: none !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon::before,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon::before {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child .MuiButton-startIcon::before,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type .MuiButton-startIcon::before {
   content: "home" !important;
   font-family: "Material Icons", "Material Icons Outlined", "material-icons" !important;
   font-size: 1.35rem !important;
@@ -3942,7 +4010,7 @@ html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of
 }
 
 /* Second toolbar button = heart icon only (Favorites), no label text */
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
   width: var(--lcars-tb-h) !important;
   min-width: var(--lcars-tb-h) !important;
   max-width: var(--lcars-tb-h) !important;
@@ -3961,18 +4029,18 @@ html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-chil
   overflow: hidden !important;
   aspect-ratio: 1 / 1 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2)::before {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2)::before {
   display: none !important;
   content: none !important;
   width: 0 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiButton-startIcon {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiButton-startIcon {
   margin: 0 !important;
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiSvgIcon-root,
-html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiButton-startIcon svg {
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiSvgIcon-root,
+.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) .MuiButton-startIcon svg {
   display: inline-flex !important;
   width: 1.35rem !important;
   height: 1.35rem !important;
@@ -3981,37 +4049,37 @@ html.jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-chil
   font-size: 1.35rem !important;
 }
 
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-root:hover {
+.jf-lcars-active .MuiToolbar-root a.MuiButton-root:hover {
   filter: brightness(1.15) !important;
   color: #000 !important;
 }
 
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-root .MuiButton-startIcon {
+.jf-lcars-active .MuiToolbar-root a.MuiButton-root .MuiButton-startIcon {
   margin: 0 0.35rem 0 0 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   color: #000 !important;
 }
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-root .MuiSvgIcon-root {
+.jf-lcars-active .MuiToolbar-root a.MuiButton-root .MuiSvgIcon-root {
   color: #000 !important;
   fill: #000 !important;
   font-size: 1.15rem !important;
 }
-html.jf-lcars-active .MuiToolbar-root a.MuiButton-root img {
+.jf-lcars-active .MuiToolbar-root a.MuiButton-root img {
   filter: brightness(0) !important;
   max-height: 1.15em !important;
 }
 
 /* Icon-only toolbar buttons — square body, icon centered */
 /* AppBar header icons: [red bar][black gap][perfect square body] */
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > a.MuiIconButton-root,
-html.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"],
-html.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"] {
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > a.MuiIconButton-root,
+.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"],
+.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"] {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
   box-sizing: border-box !important;
@@ -4037,13 +4105,13 @@ html.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"] {
   justify-content: center !important;
 }
 /* Black gap strip between red bar and square body */
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root::before,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root::before,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root::before,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root::before,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > a.MuiIconButton-root::before,
-html.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"]::before,
-html.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"]::before {
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root::before,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root::before,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root::before,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root::before,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > a.MuiIconButton-root::before,
+.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"]::before,
+.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"]::before {
   content: "" !important;
   position: absolute !important;
   left: 0 !important;
@@ -4054,52 +4122,52 @@ html.jf-lcars-active .MuiAppBar-root a.MuiIconButton-root[aria-label="Search"]::
   pointer-events: none !important;
   z-index: 0 !important;
 }
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root > *,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root > *,
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root > *,
-html.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"] > * {
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root > *,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root > *,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiStack-root > .MuiIconButton-root > *,
+.jf-lcars-active .MuiAppBar-root button.MuiIconButton-root[aria-label="User Menu"] > * {
   position: relative !important;
   z-index: 1 !important;
   margin-left: 0 !important;
 }
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiIconButton-root:nth-of-type(2) {
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiIconButton-root:nth-of-type(2) {
   border-left-color: var(--medium-dark-gray) !important;
   background-color: var(--light-gray) !important;
 }
-html.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiIconButton-root:nth-of-type(3),
-html.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root[aria-label="Search"] {
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiIconButton-root:nth-of-type(3),
+.jf-lcars-active .MuiToolbar-root a.MuiIconButton-root[aria-label="Search"] {
   border-left-color: var(--orange-red) !important;
   background-color: var(--ghost-gray) !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root:hover {
+.jf-lcars-active .MuiToolbar-root .MuiIconButton-root:hover {
   filter: brightness(1.15) !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiSvgIcon-root,
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiBadge-root {
+.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiSvgIcon-root,
+.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiBadge-root {
   position: relative !important;
   z-index: 1 !important;
   color: #000 !important;
   fill: #000 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiSvgIcon-root {
+.jf-lcars-active .MuiToolbar-root .MuiIconButton-root .MuiSvgIcon-root {
   font-size: 1.3rem !important;
   margin: 0 !important;
 }
 
 /* User menu — square orange plate */
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] {
+.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] {
   border-left-color: var(--pale-orange-red) !important;
   background-color: var(--orange-red) !important;
   width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
   height: var(--lcars-tb-h) !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] .MuiAvatar-root {
+.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] .MuiAvatar-root {
   background: transparent !important;
   width: 1.5rem !important;
   height: 1.5rem !important;
   margin: 0 !important;
 }
-html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] .MuiSvgIcon-root {
+.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] .MuiSvgIcon-root {
   color: #000 !important;
   fill: #000 !important;
 }
@@ -4118,7 +4186,7 @@ html.jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"
 .dashboardDocument .MuiLoadingButton-root,
 .dashboardDocument .MuiToggleButton-root,
 .dashboardDocument .MuiFab-root,
-html.jf-lcars-active .MuiButton-root {
+.jf-lcars-active .MuiButton-root {
   font-family: var(--lcars-font) !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
@@ -4150,7 +4218,7 @@ html.jf-lcars-active .MuiButton-root {
 .dashboardDocument .MuiButton-colorError.MuiButton-contained,
 .dashboardDocument main .MuiButton-contained,
 .dashboardDocument main .MuiButton-containedPrimary,
-html.jf-lcars-active .MuiButton-contained {
+.jf-lcars-active .MuiButton-contained {
   --lcars-btn-cap: 6px;
   --lcars-btn-gap: 8px;
   color: #000 !important;
@@ -4176,7 +4244,7 @@ html.jf-lcars-active .MuiButton-contained {
 }
 .dashboardDocument .MuiButton-contained:hover,
 .dashboardDocument main .MuiButton-contained:hover,
-html.jf-lcars-active .MuiButton-contained:hover {
+.jf-lcars-active .MuiButton-contained:hover {
   background-color: #000 !important;
   background-image:
     linear-gradient(var(--orange-red), var(--orange-red)),
@@ -4204,6 +4272,41 @@ html.jf-lcars-active .MuiButton-contained:hover {
     linear-gradient(var(--pale-orange-red), var(--pale-orange-red)),
     linear-gradient(var(--light-orange-red), var(--light-orange-red)) !important;
 }
+/* Dashboard action row: Scan All / Restart / Shutdown — spaced, aligned */
+.dashboardDocument .content-primary .MuiStack-root:has(> .MuiButton-contained) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: stretch !important;
+  gap: 0.55rem !important;
+  row-gap: 0.55rem !important;
+  column-gap: 0.55rem !important;
+  margin-top: 0.35rem !important;
+  margin-bottom: 0.35rem !important;
+}
+.dashboardDocument .content-primary .MuiStack-root:has(> .MuiButton-contained) > .MuiButton-root {
+  margin: 0 !important;
+  flex: 0 1 auto !important;
+  align-self: stretch !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  /* keep LCARS endcap + gap readable with icon + label */
+  padding-left: calc(var(--lcars-btn-cap, 6px) + var(--lcars-btn-gap, 8px) + 0.65rem) !important;
+  padding-right: 0.85rem !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .content-primary .MuiStack-root:has(> .MuiButton-contained) > .MuiButton-root .MuiButton-startIcon {
+  margin-right: 0.35rem !important;
+  margin-left: 0 !important;
+  flex-shrink: 0 !important;
+}
+.dashboardDocument .content-primary .MuiStack-root:has(> .MuiButton-contained) > .MuiButton-root .MuiSvgIcon-root {
+  font-size: 1.15rem !important;
+}
+
 
 /* Secondary filled */
 .dashboardDocument .MuiButton-containedSecondary {
@@ -4218,7 +4321,7 @@ html.jf-lcars-active .MuiButton-contained:hover {
 .dashboardDocument .MuiButton-outlinedPrimary,
 .dashboardDocument .MuiButton-outlinedSecondary,
 .dashboardDocument main .MuiButton-outlined,
-html.jf-lcars-active .MuiButton-outlined {
+.jf-lcars-active .MuiButton-outlined {
   background: #000 !important;
   color: var(--ghost-gray) !important;
   border: 2px solid var(--light-gray) !important;
@@ -4359,12 +4462,12 @@ html.jf-lcars-active .MuiButton-outlined {
 }
 
 /* Legacy Emby raised / submit — filled MORE THEMES style */
-html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):not(.emby-button-outline),
-html.jf-lcars-active button.raised,
-html.jf-lcars-active .raised.emby-button,
-html.jf-lcars-active .fab.emby-button,
-html.jf-lcars-active .btnSubmit,
-html.jf-lcars-active .button-submit {
+.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):not(.emby-button-outline),
+.jf-lcars-active button.raised,
+.jf-lcars-active .raised.emby-button,
+.jf-lcars-active .fab.emby-button,
+.jf-lcars-active .btnSubmit,
+.jf-lcars-active .button-submit {
   --lcars-btn-cap: 6px;
   --lcars-btn-gap: 8px;
   font-family: var(--lcars-font) !important;
@@ -4394,24 +4497,24 @@ html.jf-lcars-active .button-submit {
   background-repeat: no-repeat !important;
   padding: 0.5rem 1.15rem 0.5rem calc(var(--lcars-btn-cap) + var(--lcars-btn-gap) + 0.75rem) !important;
 }
-html.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):hover,
-html.jf-lcars-active button.raised:hover {
+.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):hover,
+.jf-lcars-active button.raised:hover {
   background-image:
     linear-gradient(var(--orange-red), var(--orange-red)),
     linear-gradient(var(--ghost-gray), var(--ghost-gray)) !important;
   color: #000 !important;
 }
 
-html.jf-lcars-active .emby-button-outline,
-html.jf-lcars-active button.emby-button.emby-button-outline {
+.jf-lcars-active .emby-button-outline,
+.jf-lcars-active button.emby-button.emby-button-outline {
   background: #000 !important;
   color: var(--ghost-gray) !important;
   border: 2px solid var(--light-gray) !important;
   border-radius: 0 !important;
 }
 
-html.jf-lcars-active .actionSheetMenuItem,
-html.jf-lcars-active .listItem-button {
+.jf-lcars-active .actionSheetMenuItem,
+.jf-lcars-active .listItem-button {
   font-family: var(--lcars-font) !important;
   text-transform: uppercase !important;
   border-radius: 0 !important;
@@ -4922,24 +5025,35 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
 }
 
 /* Main library content clears fixed top LCARS header + runner */
-body.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPage,
-body.jf-lcars-active:not(.dashboardDocument) .page,
-body.jf-lcars-active:not(.dashboardDocument) #mainContent,
-body.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPages,
-html.jf-lcars-active:not(:has(.dashboardDocument)) .mainAnimatedPage,
-html.jf-lcars-active:not(:has(.dashboardDocument)) .page {
-  padding-top: var(--lcars-content-top, 72px) !important;
+.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPage,
+.jf-lcars-active:not(.dashboardDocument) .page,
+.jf-lcars-active:not(.dashboardDocument) #mainContent,
+.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPages,
+.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPage,
+.jf-lcars-active:not(.dashboardDocument) .page {
+  padding-bottom: 50px !important;
   box-sizing: border-box !important;
 }
+/* Ensure bottom gap survives nested scroll / flex shells */
+.jf-lcars-active:not(.dashboardDocument) .padded-bottom-page,
+.jf-lcars-active:not(.dashboardDocument) .sections,
+.jf-lcars-active:not(.dashboardDocument) .homeSectionsContainer,
+.jf-lcars-active:not(.dashboardDocument) .itemsContainer {
+  padding-bottom: 50px !important;
+  box-sizing: border-box !important;
+}
+.jf-lcars-active:not(.dashboardDocument) .mainAnimatedPages {
+  padding-bottom: 50px !important;
+}
 /* When header is fixed, ensure first section isn't under the bar */
-body.jf-lcars-active:not(.dashboardDocument) .skinHeader + .mainAnimatedPages,
-body.jf-lcars-active:not(.dashboardDocument) .mainDrawer-scrollContainer {
+.jf-lcars-active:not(.dashboardDocument) .skinHeader + .mainAnimatedPages,
+.jf-lcars-active:not(.dashboardDocument) .mainDrawer-scrollContainer {
   padding-top: 0 !important;
 }
-body.jf-lcars-active:not(.dashboardDocument) .sections.homeSections,
-body.jf-lcars-active:not(.dashboardDocument) .homeSectionsContainer,
-body.jf-lcars-active:not(.dashboardDocument) .padded-top-page,
-body.jf-lcars-active:not(.dashboardDocument) .pageWithAbsoluteTabs .pageTabContent {
+.jf-lcars-active:not(.dashboardDocument) .sections.homeSections,
+.jf-lcars-active:not(.dashboardDocument) .homeSectionsContainer,
+.jf-lcars-active:not(.dashboardDocument) .padded-top-page,
+.jf-lcars-active:not(.dashboardDocument) .pageWithAbsoluteTabs .pageTabContent {
   scroll-margin-top: var(--lcars-content-top, 72px) !important;
 }
 
@@ -4978,9 +5092,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
 /* Library media cards — wider so image titles have horizontal padding */
 .dashboardDocument .MuiGrid-container > .MuiGrid-item:has(.MuiCard-root .MuiCardMedia-root) {
-  min-width: 300px !important;
-  flex-basis: 300px !important;
-  max-width: 320px !important;
   box-sizing: border-box !important;
 }
 .dashboardDocument .MuiGrid-item:has(.MuiCardMedia-root) .MuiCard-root {
@@ -6311,7 +6422,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.20.83-lib-view-icon",
+    version: "2.21.2-no-pad-top",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
