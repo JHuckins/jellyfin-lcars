@@ -17,9 +17,10 @@
   var DASH_CUT_ID = "jf-lcars-dash-elbow-cut";
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var THEME_CSS = `/*
- * Jellyfin LCARS
+ * Jellyfin LCARS — Picard theme v2.3.0
+ * Full styles restored + frame matching thelcars.com/themes/picard.html
  *
- * Frame model:
+ * Frame model (from picard.css markup):
  *   left column (primary-gray) full height
  *   thin horizontal bar-runner under header (--bar-height)
  *   elbow at junction: large radius on content-side corner
@@ -4476,13 +4477,38 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   border-left: 4px solid var(--orange-red) !important;
 }
 
-/* Inputs */
+/* Inputs — avoid label/value overlap; modest spacing between rows */
 .dashboardDocument .MuiInputBase-root,
-.dashboardDocument .MuiOutlinedInput-root {
+.dashboardDocument .MuiOutlinedInput-root,
+.dashboardDocument .MuiFilledInput-root {
   border-radius: 0 !important;
   font-family: var(--lcars-font) !important;
   color: var(--starlight) !important;
   background: #000 !important;
+  box-sizing: border-box !important;
+}
+/* Filled: room for floating label above value */
+.dashboardDocument .MuiFilledInput-root {
+  min-height: 3.75rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.dashboardDocument .MuiFilledInput-input {
+  padding-top: 1.65rem !important;
+  padding-bottom: 0.55rem !important;
+  padding-left: 0.75rem !important;
+  line-height: 1.3 !important;
+  font-size: 1rem !important;
+  box-sizing: border-box !important;
+}
+/* Outlined / standard */
+.dashboardDocument .MuiOutlinedInput-input,
+.dashboardDocument .MuiInputBase-input:not(.MuiFilledInput-input) {
+  padding-top: 0.65rem !important;
+  padding-bottom: 0.65rem !important;
+  line-height: 1.3 !important;
+  font-size: 1rem !important;
+  box-sizing: border-box !important;
 }
 .dashboardDocument .MuiOutlinedInput-notchedOutline {
   border-color: var(--medium-dark-gray) !important;
@@ -4499,6 +4525,38 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   font-family: var(--lcars-font) !important;
   color: var(--ghost-gray) !important;
   text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+/* Shrunk label sits in the top band of filled fields */
+.dashboardDocument .MuiInputLabel-root.MuiInputLabel-shrink,
+.dashboardDocument .MuiInputLabel-filled.MuiInputLabel-shrink {
+  transform: translate(12px, 8px) scale(0.75) !important;
+  transform-origin: top left !important;
+  max-width: calc(100% - 48px) !important;
+}
+.dashboardDocument .MuiFormControl-root,
+.dashboardDocument .MuiTextField-root {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.5rem !important;
+}
+.dashboardDocument .MuiFormHelperText-root {
+  margin-top: 0.4rem !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.4 !important;
+}
+.dashboardDocument .MuiFormControlLabel-root {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+/* Select underline fields (algorithm / range) */
+.dashboardDocument .MuiInput-root,
+.dashboardDocument .MuiInput-underline {
+  margin-top: 0.5rem !important;
+  min-height: 2.5rem !important;
+}
+.dashboardDocument .MuiInput-input {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.35rem !important;
 }
 
 /* Alerts */
@@ -5417,14 +5475,31 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   -moz-appearance: textfield !important;
   appearance: textfield !important;
 }
+/* Number fields: full width, fixed height, spinner flush to right */
+.dashboardDocument .MuiFormControl-root:has(input[type="number"]),
+.dashboardDocument .MuiTextField-root:has(input[type="number"]) {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+}
 .dashboardDocument .MuiInputBase-root:has(> input[type="number"]),
 .dashboardDocument .MuiFilledInput-root:has(> input[type="number"]) {
   position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 3.75rem !important;
+  height: 3.75rem !important;
   padding-right: 0 !important;
+  display: flex !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
 }
 .dashboardDocument .MuiInputBase-root > input[type="number"],
 .dashboardDocument .MuiFilledInput-root > input[type="number"] {
-  padding-right: 2rem !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding-right: 2.25rem !important;
   box-sizing: border-box !important;
 }
 .jf-lcars-spin {
@@ -5433,6 +5508,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   right: 0 !important;
   bottom: 0 !important;
   width: 2rem !important;
+  height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
   z-index: 3 !important;
@@ -5451,7 +5527,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   border-radius: 0 !important;
   background: transparent !important;
   background-color: transparent !important;
-  color: var(    --lcars-bg, #000) !important;
+  color: var(--lcars-bg, #000) !important;
   cursor: pointer !important;
   display: flex !important;
   align-items: center !important;
@@ -5459,6 +5535,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   font-size: 0.65rem !important;
   line-height: 1 !important;
   min-height: 0 !important;
+  height: 50% !important;
   box-shadow: none !important;
 }
 .jf-lcars-spin-btn:hover {
@@ -6471,7 +6548,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.21.3-card-img-align",
+    version: "2.21.7-input-taller",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
