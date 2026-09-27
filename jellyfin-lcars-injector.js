@@ -4283,14 +4283,30 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     calc(100% - var(--lcars-btn-cap) - var(--lcars-btn-gap)) 100% !important;
   background-position: left center, right center !important;
   background-repeat: no-repeat !important;
-  padding: 0.5rem 1.15rem 0.5rem calc(var(--lcars-btn-cap) + var(--lcars-btn-gap) + 0.75rem) !important;
+  padding: 0.45rem 1.15rem 0.45rem calc(var(--lcars-btn-cap) + var(--lcars-btn-gap) + 0.75rem) !important;
   font-size: 0.95rem !important;
   line-height: 1.15 !important;
   letter-spacing: 0.1em !important;
   text-align: right !important;
   justify-content: flex-end !important;
-  min-height: 2.6rem !important;
+  align-items: center !important;
+  /* prevent stretch next to multi-line form rows */
+  min-height: 2.5rem !important;
+  height: 2.5rem !important;
+  max-height: 2.5rem !important;
   min-width: 7.5rem !important;
+  align-self: flex-start !important;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+/* SAVE / submit actions in settings stacks */
+.dashboardDocument button.MuiButton-containedPrimary,
+.dashboardDocument button[type="submit"].MuiButton-contained,
+.jf-lcars-active button.MuiButton-containedPrimary {
+  height: 2.5rem !important;
+  max-height: 2.5rem !important;
+  align-self: flex-start !important;
 }
 .dashboardDocument .MuiButton-contained:hover,
 .dashboardDocument main .MuiButton-contained:hover,
@@ -4457,9 +4473,8 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   border-left: 6px solid var(--orange-red) !important;
 }
 
-/* Tabs / chips */
-.dashboardDocument .MuiTab-root,
-.dashboardDocument .MuiChip-root {
+/* Tabs */
+.dashboardDocument .MuiTab-root {
   font-family: var(--lcars-font) !important;
   text-transform: uppercase !important;
   border-radius: 0 !important;
@@ -4470,11 +4485,83 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   background: var(--orange-red) !important;
   color: #000 !important;
 }
-.dashboardDocument .MuiChip-filled {
-  background: var(--light-gray) !important;
-  color: #000 !important;
+
+/* Chips → LCARS pill row (picard pill-buttons); wrap, no horizontal scroll
+ * Color cycle: light-gray | light-orange-red | medium-dark-gray | medium-dark-blue
+ */
+.dashboardDocument .MuiChip-root,
+.jf-lcars-active .MuiChip-root {
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  border-radius: 100vmax !important;
   border: none !important;
-  border-left: 4px solid var(--orange-red) !important;
+  box-shadow: none !important;
+  height: 2.35rem !important;
+  min-height: 2.35rem !important;
+  padding: 0 1.1rem !important;
+  margin: 0.2rem 0.35rem 0.2rem 0 !important;
+  box-sizing: border-box !important;
+  color: #000 !important;
+  background: var(--light-gray, #9ea5ba) !important;
+  background-color: var(--light-gray, #9ea5ba) !important;
+}
+.dashboardDocument .MuiChip-label,
+.jf-lcars-active .MuiChip-label {
+  padding: 0 0.35rem !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  overflow: visible !important;
+}
+/* Pill color cycle */
+.dashboardDocument .MuiChip-root:nth-child(4n+1),
+.jf-lcars-active .MuiChip-root:nth-child(4n+1) {
+  background: var(--light-gray, #9ea5ba) !important;
+  background-color: var(--light-gray, #9ea5ba) !important;
+  color: #000 !important;
+}
+.dashboardDocument .MuiChip-root:nth-child(4n+2),
+.jf-lcars-active .MuiChip-root:nth-child(4n+2) {
+  background: var(--light-orange-red, #ff6753) !important;
+  background-color: var(--light-orange-red, #ff6753) !important;
+  color: #000 !important;
+}
+.dashboardDocument .MuiChip-root:nth-child(4n+3),
+.jf-lcars-active .MuiChip-root:nth-child(4n+3) {
+  background: var(--medium-dark-gray, #52596e) !important;
+  background-color: var(--medium-dark-gray, #52596e) !important;
+  color: var(--starlight, #f3f4f7) !important;
+}
+.dashboardDocument .MuiChip-root:nth-child(4n),
+.jf-lcars-active .MuiChip-root:nth-child(4n) {
+  background: var(--medium-dark-blue, #2a7193) !important;
+  background-color: var(--medium-dark-blue, #2a7193) !important;
+  color: var(--starlight, #f3f4f7) !important;
+}
+.dashboardDocument .MuiChip-root:hover,
+.jf-lcars-active .MuiChip-root:hover {
+  filter: brightness(1.12) !important;
+}
+.dashboardDocument .MuiChip-root.Mui-focusVisible,
+.jf-lcars-active .MuiChip-root.Mui-focusVisible {
+  outline: 2px solid var(--blue, #37a6d1) !important;
+  outline-offset: 2px !important;
+}
+/* Chip containers wrap instead of scrolling */
+.dashboardDocument .MuiStack-root:has(> .MuiChip-root),
+.dashboardDocument .MuiBox-root:has(> .MuiChip-root),
+.dashboardDocument [class*="Chip"]:has(.MuiChip-root),
+.jf-lcars-active .MuiStack-root:has(> .MuiChip-root),
+.jf-lcars-active .MuiBox-root:has(> .MuiChip-root) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  max-width: 100% !important;
+  row-gap: 0.35rem !important;
+  column-gap: 0.15rem !important;
+  align-items: center !important;
 }
 
 /* Inputs — avoid label/value overlap; modest spacing between rows */
@@ -4496,10 +4583,27 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
 .dashboardDocument .MuiFilledInput-input {
   padding-top: 1.65rem !important;
   padding-bottom: 0.55rem !important;
-  padding-left: 0.75rem !important;
+  padding-left: 1rem !important;
+  padding-right: 0.85rem !important;
   line-height: 1.3 !important;
   font-size: 1rem !important;
   box-sizing: border-box !important;
+}
+/* Multiline textareas (Login Disclaimer, Custom CSS, etc.) */
+.dashboardDocument .MuiFilledInput-root.MuiInputBase-multiline,
+.dashboardDocument .MuiInputBase-root.MuiInputBase-multiline {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.dashboardDocument .MuiFilledInput-inputMultiline,
+.dashboardDocument textarea.MuiFilledInput-input,
+.dashboardDocument textarea.MuiInputBase-input {
+  padding-top: 1.75rem !important;
+  padding-bottom: 0.85rem !important;
+  padding-left: 1.15rem !important;
+  padding-right: 1rem !important;
+  box-sizing: border-box !important;
+  line-height: 1.45 !important;
 }
 /* Outlined / standard */
 .dashboardDocument .MuiOutlinedInput-input,
@@ -5542,6 +5646,189 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   background: var(--starlight) !important;
   color: var(--primary-gray, #6d748c) !important;
 }
+
+/* ========== infoBanner — go-center on black (thelcars html-elements) ========== */
+.jf-lcars-active .infoBanner,
+.dashboardDocument .infoBanner {
+  background: #000 !important;
+  background-color: #000 !important;
+  color: var(--light-gray, #9ea5ba) !important;
+  text-align: center !important;
+  font-family: var(--lcars-font) !important;
+  font-size: 1.05rem !important;
+  font-weight: 400 !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0.02em !important;
+  padding: 1.1rem 1.5rem !important;
+  margin-bottom: 1.5em !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.jf-lcars-active .infoBanner a,
+.dashboardDocument .infoBanner a {
+  color: var(--blue, #37a6d1) !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 0.2rem !important;
+}
+
+/* ========== Path / directory rows — flatside color cycle (picard sample) ==========
+ * Pattern repeats every 3 rows:
+ *   1) blue stripe + light-gray body
+ *   2) orange-red stripe + light-gray body
+ *   3) orange-red stripe + medium-dark-gray body
+ */
+.jf-lcars-active .directoryPicker .listItem,
+.jf-lcars-active .directoryEditor .listItem,
+.jf-lcars-active .pathEditor .listItem,
+.dashboardDocument .directoryPicker .listItem,
+.dashboardDocument .directoryEditor .listItem,
+.jf-lcars-active button.listItem.listItem-border,
+.dashboardDocument button.listItem.listItem-border,
+.jf-lcars-active .listItem.listItem-border.lnkPath,
+.jf-lcars-active a.listItem.listItem-border {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  position: relative !important;
+  width: 100% !important;
+  min-height: 3.25rem !important;
+  height: auto !important;
+  margin: 0 0 0.55rem 0 !important;
+  padding: 0.55rem 1rem 0.55rem 1.35rem !important;
+  box-sizing: border-box !important;
+  border: none !important;
+  border-left: 12px solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 100vmax 100vmax 0 !important;
+  box-shadow: none !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.04em !important;
+  text-align: left !important;
+  overflow: hidden !important;
+  color: #000 !important;
+  /* default = pattern 2 (orange + light-gray) */
+  background: var(--light-gray, #9ea5ba) !important;
+  background-color: var(--light-gray, #9ea5ba) !important;
+}
+/* Black gap between stripe and body */
+.jf-lcars-active .directoryPicker .listItem::before,
+.jf-lcars-active .directoryEditor .listItem::before,
+.dashboardDocument .directoryPicker .listItem::before,
+.dashboardDocument .directoryEditor .listItem::before,
+.jf-lcars-active button.listItem.listItem-border::before,
+.dashboardDocument button.listItem.listItem-border::before,
+.jf-lcars-active .listItem.listItem-border.lnkPath::before,
+.jf-lcars-active a.listItem.listItem-border::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 8px !important;
+  height: 100% !important;
+  background: #000 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+/* Cycle: 1 = blue + light-gray */
+.jf-lcars-active .directoryPicker .listItem:nth-child(3n+1),
+.jf-lcars-active .directoryEditor .listItem:nth-child(3n+1),
+.dashboardDocument .directoryPicker .listItem:nth-child(3n+1),
+.dashboardDocument .directoryEditor .listItem:nth-child(3n+1),
+.jf-lcars-active button.listItem.listItem-border:nth-child(3n+1),
+.dashboardDocument button.listItem.listItem-border:nth-child(3n+1),
+.jf-lcars-active .listItem.listItem-border.lnkPath:nth-child(3n+1),
+.jf-lcars-active a.listItem.listItem-border:nth-child(3n+1) {
+  border-left-color: var(--blue, #37a6d1) !important;
+  background: var(--light-gray, #9ea5ba) !important;
+  background-color: var(--light-gray, #9ea5ba) !important;
+}
+/* Cycle: 2 = orange-red + light-gray */
+.jf-lcars-active .directoryPicker .listItem:nth-child(3n+2),
+.jf-lcars-active .directoryEditor .listItem:nth-child(3n+2),
+.dashboardDocument .directoryPicker .listItem:nth-child(3n+2),
+.dashboardDocument .directoryEditor .listItem:nth-child(3n+2),
+.jf-lcars-active button.listItem.listItem-border:nth-child(3n+2),
+.dashboardDocument button.listItem.listItem-border:nth-child(3n+2),
+.jf-lcars-active .listItem.listItem-border.lnkPath:nth-child(3n+2),
+.jf-lcars-active a.listItem.listItem-border:nth-child(3n+2) {
+  border-left-color: var(--orange-red, #e7442a) !important;
+  background: var(--light-gray, #9ea5ba) !important;
+  background-color: var(--light-gray, #9ea5ba) !important;
+}
+/* Cycle: 3 = orange-red + medium-dark-gray */
+.jf-lcars-active .directoryPicker .listItem:nth-child(3n),
+.jf-lcars-active .directoryEditor .listItem:nth-child(3n),
+.dashboardDocument .directoryPicker .listItem:nth-child(3n),
+.dashboardDocument .directoryEditor .listItem:nth-child(3n),
+.jf-lcars-active button.listItem.listItem-border:nth-child(3n),
+.dashboardDocument button.listItem.listItem-border:nth-child(3n),
+.jf-lcars-active .listItem.listItem-border.lnkPath:nth-child(3n),
+.jf-lcars-active a.listItem.listItem-border:nth-child(3n) {
+  border-left-color: var(--orange-red, #e7442a) !important;
+  background: var(--medium-dark-gray, #52596e) !important;
+  background-color: var(--medium-dark-gray, #52596e) !important;
+  color: var(--starlight, #f3f4f7) !important;
+}
+.jf-lcars-active .directoryPicker .listItem:nth-child(3n) .listItemBody,
+.jf-lcars-active .directoryEditor .listItem:nth-child(3n) .listItemBody,
+.jf-lcars-active button.listItem.listItem-border:nth-child(3n) .listItemBody,
+.dashboardDocument button.listItem.listItem-border:nth-child(3n) .listItemBody,
+.jf-lcars-active .directoryPicker .listItem:nth-child(3n) .material-icons,
+.jf-lcars-active .directoryEditor .listItem:nth-child(3n) .material-icons,
+.jf-lcars-active button.listItem.listItem-border:nth-child(3n) .material-icons {
+  color: var(--starlight, #f3f4f7) !important;
+}
+.jf-lcars-active .directoryPicker .listItem:hover,
+.jf-lcars-active .directoryEditor .listItem:hover,
+.dashboardDocument .directoryPicker .listItem:hover,
+.jf-lcars-active button.listItem.listItem-border:hover,
+.dashboardDocument button.listItem.listItem-border:hover {
+  filter: brightness(1.12) !important;
+}
+.jf-lcars-active .directoryPicker .listItem .listItemBody,
+.jf-lcars-active .directoryEditor .listItem .listItemBody,
+.jf-lcars-active button.listItem.listItem-border .listItemBody,
+.dashboardDocument button.listItem.listItem-border .listItemBody {
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+.jf-lcars-active .directoryPicker .listItem .material-icons,
+.jf-lcars-active .directoryEditor .listItem .material-icons,
+.jf-lcars-active button.listItem.listItem-border .material-icons,
+.dashboardDocument button.listItem.listItem-border .material-icons {
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+}
+.jf-lcars-active .directoryPicker .listItem:not(:nth-child(3n)) .listItemBody,
+.jf-lcars-active .directoryEditor .listItem:not(:nth-child(3n)) .listItemBody,
+.jf-lcars-active button.listItem.listItem-border:not(:nth-child(3n)) .listItemBody,
+.jf-lcars-active .directoryPicker .listItem:not(:nth-child(3n)) .material-icons,
+.jf-lcars-active .directoryEditor .listItem:not(:nth-child(3n)) .material-icons,
+.jf-lcars-active button.listItem.listItem-border:not(:nth-child(3n)) .material-icons {
+  color: #000 !important;
+}
+/* Wrapper gap like flatside-button-wrapper */
+.jf-lcars-active .directoryPicker,
+.jf-lcars-active .directoryEditor,
+.dashboardDocument .directoryPicker,
+.dashboardDocument .directoryEditor {
+  display: flex !important;
+  flex-direction: column !important;
+  row-gap: 0.55rem !important;
+  background: #000 !important;
+  padding: 0.35rem 0 !important;
+}
+
 .jf-lcars-spin-btn:active {
   background: var(--starlight) !important;
 }
@@ -6548,7 +6835,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.21.7-input-taller",
+    version: "2.21.12-chip-pills",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
