@@ -3707,87 +3707,98 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   fill: var(--orange-red, #e7442a) !important;
 }
 
-/* New Collection — one red bar + gap, then true square (+ only) */
+/* Add* actions — [red 6px][black gap 6px][perfect square body + icon] (in-box, not clipped) */
 .jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]),
+.jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"]),
+.jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]),
+.jf-lcars-active .MuiButton-containedPrimary:has([data-testid="AddIcon"]),
+.jf-lcars-active a.MuiButton-containedPrimary:has([data-testid="AddIcon"]),
 .jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]),
+.dashboardDocument .MuiButton-root:has([data-testid="AddIcon"]),
+.dashboardDocument a.MuiButton-root:has([data-testid="AddIcon"]),
+.dashboardDocument button.MuiButton-containedPrimary:has([data-testid="AddIcon"]),
 .jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"]) {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
-  --lcars-tb-side: var(--lcars-tb-h, 2.6rem);
+  --lcars-tb-side: 2.6rem;
   box-sizing: border-box !important;
-  width: var(--lcars-tb-side) !important;
-  min-width: var(--lcars-tb-side) !important;
-  max-width: var(--lcars-tb-side) !important;
+  /* total width = bar + gap + square */
+  width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-side)) !important;
+  min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-side)) !important;
+  max-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-side)) !important;
   height: var(--lcars-tb-side) !important;
   min-height: var(--lcars-tb-side) !important;
   max-height: var(--lcars-tb-side) !important;
-  aspect-ratio: 1 / 1 !important;
-  padding: 0 !important;
-  margin: 0 0.30rem 0 calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + 0.30rem) !important;
-  border: 0 none transparent !important;
-  border-left: 0 none transparent !important;
-  border-right: 0 none transparent !important;
+  padding: 0 0 0 calc(var(--lcars-tb-cap) + var(--lcars-tb-gap)) !important;
+  margin: 0 0.35rem 0 0 !important;
+  border: none !important;
   border-radius: 0 !important;
   outline: none !important;
   box-shadow: none !important;
-  background-image: none !important;
-  background-color: var(--primary-gray) !important;
-  font-size: 0 !important;
-  line-height: 0 !important;
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
-  overflow: visible !important;
+  overflow: hidden !important;
   position: relative !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  align-self: flex-start !important;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  letter-spacing: 0 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  background-color: #000 !important;
+  background-image:
+    linear-gradient(var(--orange-red, #e7442a), var(--orange-red, #e7442a)),
+    linear-gradient(#000, #000),
+    linear-gradient(var(--primary-gray, #6d748c), var(--primary-gray, #6d748c)) !important;
+  background-size:
+    var(--lcars-tb-cap) 100%,
+    var(--lcars-tb-gap) 100%,
+    var(--lcars-tb-side) 100% !important;
+  background-position:
+    left center,
+    var(--lcars-tb-cap) center,
+    right center !important;
+  background-repeat: no-repeat !important;
 }
-/* Kill any extra bar from generic button rules */
 .jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"])::before,
+.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"])::after,
+.jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"])::before,
+.jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"])::after,
 .jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::before,
-.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::before {
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::after,
+.dashboardDocument .MuiButton-root:has([data-testid="AddIcon"])::before,
+.dashboardDocument .MuiButton-root:has([data-testid="AddIcon"])::after {
   content: none !important;
   display: none !important;
-  width: 0 !important;
-  background: transparent !important;
-  border: none !important;
 }
-/* Single strip: red bar + black gap (one pseudo only) */
-.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"])::after,
-.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"])::after,
-.jf-lcars-active .MuiButtonGroup-root button.MuiButton-root:has([data-testid="AddIcon"])::after {
-  content: "" !important;
-  display: block !important;
+.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon,
+.jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon,
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiButton-startIcon,
+.dashboardDocument .MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon {
+  /* Center icon strictly inside the gray square (right of bar+gap) */
   position: absolute !important;
   top: 0 !important;
   bottom: 0 !important;
-  left: calc(-1 * (var(--lcars-tb-cap) + var(--lcars-tb-gap))) !important;
-  width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap)) !important;
-  height: 100% !important;
-  background: linear-gradient(
-    to right,
-    var(--orange-red) 0,
-    var(--orange-red) var(--lcars-tb-cap),
-    #000 var(--lcars-tb-cap),
-    #000 100%
-  ) !important;
-  pointer-events: none !important;
-  z-index: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-.jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon,
-.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiButton-startIcon {
+  left: calc(var(--lcars-tb-cap, 6px) + var(--lcars-tb-gap, 6px)) !important;
+  width: var(--lcars-tb-side, 2.6rem) !important;
   margin: 0 !important;
-  font-size: 1.35rem !important;
-  line-height: 1 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
-  position: relative !important;
   z-index: 1 !important;
+  pointer-events: none !important;
 }
 .jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]) .MuiSvgIcon-root,
-.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiSvgIcon-root {
+.jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"]) .MuiSvgIcon-root,
+.jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiSvgIcon-root,
+.dashboardDocument .MuiButton-root:has([data-testid="AddIcon"]) .MuiSvgIcon-root {
   font-size: 1.35rem !important;
   width: 1.35rem !important;
   height: 1.35rem !important;
@@ -6835,7 +6846,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.21.12-chip-pills",
+    version: "2.21.18-add-icon-center",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
