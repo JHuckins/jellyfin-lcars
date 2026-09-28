@@ -3707,6 +3707,59 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   fill: var(--orange-red, #e7442a) !important;
 }
 
+/* Live TV sections: h2 + Add side-by-side; Add Provider + Refresh side-by-side
+ * Sections stack vertically via full-width breaks (MuiBox / empty grids).
+ */
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2):has(.MuiButton-root),
+.dashboardDocument .MuiStack-root:has(> h2.MuiTypography-root):has(.MuiButton-root) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  column-gap: 0.75rem !important;
+  row-gap: 0.85rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > .MuiTypography-h2,
+.dashboardDocument .MuiStack-root:has(> h2.MuiTypography-root) > h2 {
+  align-self: center !important;
+  text-align: left !important;
+  margin: 0 !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+}
+/* Full-width break between Tuner block and Providers block */
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > .MuiBox-root,
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > .MuiGrid-root {
+  flex: 1 0 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > .MuiButton-root,
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > a.MuiButton-root {
+  flex: 0 0 auto !important;
+  align-self: center !important;
+  margin-left: 0 !important;
+}
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > .MuiStack-root {
+  flex: 0 0 auto !important;
+  align-self: center !important;
+  margin-left: 0 !important;
+}
+/* Add Provider + Refresh Guide Data on one row */
+.dashboardDocument .MuiStack-root:has(> .MuiButton-root:has([data-testid="AddIcon"])):has(> .MuiButton-outlined),
+.dashboardDocument .MuiStack-root:has(> button.MuiButton-containedPrimary:has([data-testid="AddIcon"])):has(> .MuiButton-outlined) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.55rem !important;
+  width: auto !important;
+}
+
 /* Add* actions — [red 6px][black gap 6px][perfect square body + icon] (in-box, not clipped) */
 .jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]),
 .jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"]),
@@ -6846,7 +6899,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.21.18-add-icon-center",
+    version: "2.21.20-livetv-row",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
