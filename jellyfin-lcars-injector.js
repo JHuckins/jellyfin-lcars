@@ -594,6 +594,253 @@ button.button-submit:hover,
   color: #000 !important;
   filter: brightness(var(--lcars-hover-brighten));
 }
+/* Library left nav (non-dashboard) — same LCARS button language as admin drawer */
+#jf-lcars-library-nav {
+  display: none;
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: var(--lcars-admin-drawer, 240px) !important;
+  height: 100vh !important;
+  z-index: 1100 !important;
+  box-sizing: border-box !important;
+  /* Top pad matches AppBar strip so Home sits like Dashboard under the header line */
+  padding: var(--lcars-lib-row-top, 48px) 0 56px 0 !important;
+  margin: 0 !important;
+  background: #000 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+  border-right: none !important;
+}
+#jf-lcars-library-nav::-webkit-scrollbar { display: none !important; width: 0 !important; }
+html.jf-lcars-library #jf-lcars-library-nav {
+  display: flex !important;
+  flex-direction: column !important;
+  /* Dashboard drawer uses 3px between items, not flex gap */
+  gap: 0 !important;
+  align-items: stretch !important;
+}
+html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
+  display: none !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-btn {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  gap: 0.45rem !important;
+  width: 100% !important;
+  min-height: 2.4rem !important;
+  height: auto !important;
+  padding: 0.45rem 0.65rem !important;
+  margin: 0 0 3px 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  text-decoration: none !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  text-align: right !important;
+  color: #000 !important;
+  background: var(--primary-gray, #6d748c) !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-btn:nth-child(4n+2) { background: var(--medium-dark-gray, #52596e) !important; color: var(--starlight, #f3f4f7) !important; }
+#jf-lcars-library-nav .jf-lcars-lib-btn:nth-child(4n+3) { background: var(--light-gray, #9ea5ba) !important; color: #000 !important; }
+#jf-lcars-library-nav .jf-lcars-lib-btn:nth-child(4n+4) { background: var(--orange-red, #e7442a) !important; color: #000 !important; }
+#jf-lcars-library-nav .jf-lcars-lib-btn:nth-child(4n+5) { background: var(--primary-gray, #6d748c) !important; color: #000 !important; }
+/* First item = Home — same geometry as Dashboard list item + elbow */
+#jf-lcars-library-nav .jf-lcars-lib-btn:first-child,
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home {
+  --lcars-dash-fill: var(--primary-gray, #6d748c);
+  --lcars-dash-arm: 30px;
+  --lcars-dash-arm-len: 192px;
+  --lcars-dash-curve: 60px;
+  min-height: 10.8rem !important;
+  height: 10.8rem !important;
+  max-height: none !important;
+  padding: 0.75rem 0.65rem !important;
+  font-size: 0.95rem !important;
+  background: var(--primary-gray, #6d748c) !important;
+  color: #000 !important;
+  margin: 0 0 3px 0 !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  position: relative !important;
+  z-index: 20 !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home > * {
+  position: relative !important;
+  z-index: 2 !important;
+}
+/* Concave elbow (same mask as Dashboard ::after) */
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::after {
+  content: "" !important;
+  display: block !important;
+  position: fixed !important;
+  left: var(--lcars-lib-curve-left, var(--lcars-admin-drawer, 240px)) !important;
+  top: var(--lcars-lib-row-top, 48px) !important;
+  width: var(--lcars-dash-curve, 60px) !important;
+  height: var(--lcars-dash-curve, 60px) !important;
+  box-sizing: border-box !important;
+  background: var(--lcars-dash-fill, var(--primary-gray)) !important;
+  z-index: 12042 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  pointer-events: none !important;
+  -webkit-mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px)),
+    #000 calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px) + 1px)
+  ) !important;
+  mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent 0,
+    transparent calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px)),
+    #000 calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px) + 1px)
+  ) !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+}
+/* Horizontal arm (same as Dashboard ::before) */
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::before {
+  content: "" !important;
+  display: block !important;
+  position: fixed !important;
+  left: var(--lcars-lib-arm-left, var(--lcars-admin-drawer, 240px)) !important;
+  top: var(--lcars-lib-row-top, 48px) !important;
+  width: var(--lcars-dash-arm-len, 192px) !important;
+  height: var(--lcars-dash-arm, 30px) !important;
+  background: var(--lcars-dash-fill, var(--primary-gray)) !important;
+  z-index: 12043 !important;
+  pointer-events: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+/* Keep top AppBar strip visible; only inset content, not remove the bar */
+html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root,
+html.jf-lcars-library:not(.jf-lcars-video) .skinHeader {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 48px !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-btn:hover {
+  filter: brightness(1.12) !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-btn.is-active {
+  outline-offset: -2px !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-btn svg,
+#jf-lcars-library-nav .jf-lcars-lib-btn img {
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+  flex-shrink: 0 !important;
+}
+/*
+ * Library left nav replaces the thin rail — drive all content offsets
+ * through --lcars-sidebar so existing margin-left rules follow.
+ */
+html.jf-lcars-library:not(.jf-lcars-video) {
+  --lcars-sidebar: var(--lcars-admin-drawer, 240px);
+}
+html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPages,
+html.jf-lcars-library:not(.jf-lcars-video) .backgroundContainer,
+html.jf-lcars-library:not(.jf-lcars-video) .skinBody,
+html.jf-lcars-library:not(.jf-lcars-video) #mainContent,
+html.jf-lcars-library:not(.jf-lcars-video) main,
+html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPage,
+html.jf-lcars-library:not(.jf-lcars-video) .page {
+  margin-left: var(--lcars-admin-drawer, 240px) !important;
+  width: calc(100% - var(--lcars-admin-drawer, 240px)) !important;
+  max-width: calc(100% - var(--lcars-admin-drawer, 240px)) !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  left: 0 !important;
+}
+@media screen and (max-width: 1099px) {
+  #jf-lcars-library-nav { display: none !important; }
+  html.jf-lcars-library:not(.jf-lcars-video) {
+    --lcars-sidebar: 56px;
+  }
+  html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPages,
+  html.jf-lcars-library:not(.jf-lcars-video) .backgroundContainer,
+  html.jf-lcars-library:not(.jf-lcars-video) .skinBody,
+  html.jf-lcars-library:not(.jf-lcars-video) #mainContent,
+  html.jf-lcars-library:not(.jf-lcars-video) main,
+  html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPage,
+  html.jf-lcars-library:not(.jf-lcars-video) .page {
+    margin-left: var(--lcars-sidebar, 56px) !important;
+    width: calc(100% - var(--lcars-sidebar, 56px)) !important;
+    max-width: calc(100% - var(--lcars-sidebar, 56px)) !important;
+  }
+}
+/* Hide admin dash chrome + thin left rail when library menu owns the left column */
+html.jf-lcars-library #jf-lcars-dash-panel,
+html.jf-lcars-library #jf-lcars-dash-elbow,
+html.jf-lcars-library #jf-lcars-dash-bridge,
+html.jf-lcars-library #jf-lcars-elbow-chrome,
+html.jf-lcars-library .dashboardDocument .MuiDrawer-root,
+html.jf-lcars-library .jf-lcars-frame,
+html.jf-lcars-library #jf-lcars-frame,
+html.jf-lcars-library .jf-lcars-elbow,
+html.jf-lcars-library #jf-lcars-elbow,
+html.jf-lcars-library .jf-lcars-elbow-cut,
+html.jf-lcars-library #jf-lcars-elbow-cut {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+/* Top runner spans from library nav edge (same as admin drawer) */
+html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-top-runner,
+html.jf-lcars-library:not(.jf-lcars-video) .jf-lcars-top-runner {
+  left: calc(var(--lcars-admin-drawer, 240px) + var(--lcars-dash-arm-len, 192px)) !important;
+  top: var(--lcars-lib-row-top, 48px) !important;
+  height: var(--lcars-dash-arm, 30px) !important;
+}
+html.jf-lcars-library:not(.jf-lcars-video) .skinHeader,
+html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root {
+  left: var(--lcars-admin-drawer, 240px) !important;
+  right: 0 !important;
+  width: auto !important;
+  margin-left: 0 !important;
+  padding-left: 0.5rem !important;
+  box-sizing: border-box !important;
+  position: fixed !important;
+  top: 0 !important;
+  z-index: 1105 !important;
+}
+/*
+ * Top toolbar library links live in the left nav now.
+ * Hide that stack only when the left library menu is visible (≥1100px).
+ */
+@media screen and (min-width: 1100px) {
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="collectionType"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/boxsets"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/movies"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/tv"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root.jf-lcars-lib-source,
+  html.jf-lcars-library:not(.jf-lcars-video) header .MuiToolbar-root .MuiStack-root.jf-lcars-lib-source {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
 /* Drawer — black field; items are outlined keypad-style buttons */
 .mainDrawer {
   background: #000 !important;
@@ -6452,8 +6699,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         if (p) p.style.display = "none";
         return;
       }
-      var isDash = !!(document.querySelector(".dashboardDocument") ||
-        (document.body && document.body.classList.contains("dashboardDocument")));
+      var isDash = (typeof isDashboardView === "function") ? isDashboardView() : !!(
+        document.querySelector(".dashboardDocument") ||
+        (document.body && document.body.classList.contains("dashboardDocument"))
+      );
       var panel = document.getElementById(DASH_PANEL_ID);
       if (!isDash) {
         if (panel) panel.style.display = "none";
@@ -7121,6 +7370,202 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
+
+  function isDashboardView() {
+    try {
+      if (document.body && document.body.classList.contains("dashboardDocument")) return true;
+      if (document.querySelector(".dashboardDocument")) return true;
+      var h = (location.hash || "").toLowerCase();
+      return h.indexOf("/dashboard") !== -1;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function isLibraryView() {
+    try {
+      if (isDashboardView()) return false;
+      if (document.documentElement.classList.contains("jf-lcars-video")) return false;
+      var h = (location.hash || "").toLowerCase();
+      if (!h || h === "#" || h === "#/") return true;
+      if (h.indexOf("/home") !== -1) return true;
+      if (h.indexOf("/details") !== -1) return true;
+      if (h.indexOf("/list") !== -1) return true;
+      if (h.indexOf("/search") !== -1) return true;
+      if (h.indexOf("/metadata") !== -1) return true;
+      /* default non-dashboard client routes */
+      if (h.indexOf("/dashboard") === -1 && h.indexOf("/login") === -1) return true;
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function collectLibraryNavItems() {
+    var items = [];
+    var seen = {};
+    function add(href, label, iconHtml) {
+      if (!href) return;
+      var key = href.split("&")[0];
+      if (seen[key]) return;
+      seen[key] = true;
+      items.push({ href: href, label: label || "ITEM", iconHtml: iconHtml || "" });
+    }
+    /*
+     * Only the primary library stack in the app toolbar:
+     * Home (server), Favorites, Collections, Movies, Shows
+     * Markup: .MuiToolbar-root .MuiStack-root > a.MuiButton-root
+     */
+    var stack = null;
+    var stacks = document.querySelectorAll(
+      ".MuiAppBar-root .MuiToolbar-root .MuiStack-root, header .MuiToolbar-root .MuiStack-root"
+    );
+    for (var s = 0; s < stacks.length; s++) {
+      var cand = stacks[s];
+      var anchors = cand.querySelectorAll(":scope > a.MuiButton-root[href^='#/']");
+      if (anchors.length < 2) continue;
+      var hrefs = [];
+      for (var ai = 0; ai < anchors.length; ai++) {
+        hrefs.push((anchors[ai].getAttribute("href") || "").toLowerCase());
+      }
+      var joined = hrefs.join(" ");
+      /* Require favorites and/or library section links — not random page lists */
+      if (
+        joined.indexOf("home?tab=") !== -1 ||
+        joined.indexOf("collectiontype=") !== -1 ||
+        joined.indexOf("/movies") !== -1 ||
+        joined.indexOf("/tv") !== -1 ||
+        joined.indexOf("/boxsets") !== -1
+      ) {
+        stack = cand;
+        break;
+      }
+    }
+    if (stack) {
+      try {
+        document.querySelectorAll(".jf-lcars-lib-source").forEach(function (el) {
+          el.classList.remove("jf-lcars-lib-source");
+        });
+        stack.classList.add("jf-lcars-lib-source");
+      } catch (e) {}
+      var links = stack.querySelectorAll(":scope > a.MuiButton-root[href^='#/']");
+      for (var i = 0; i < links.length; i++) {
+        var a = links[i];
+        var href = a.getAttribute("href") || "";
+        if (!href || href.toLowerCase().indexOf("/dashboard") !== -1) continue;
+        var label = (a.textContent || a.getAttribute("aria-label") || "")
+          .replace(/\s+/g, " ")
+          .trim();
+        if (!label) continue;
+        var icon = a.querySelector(".MuiButton-startIcon svg, .MuiButton-startIcon img, svg, img");
+        /* First item is often the server id — show as Home */
+        if (i === 0 && (href === "#/" || href === "#/home" || href.indexOf("#/home?") === 0)) {
+          if (!/home|favorite|movie|show|collection/i.test(label)) label = "Home";
+        }
+        add(href, label, icon ? icon.outerHTML : "");
+      }
+    }
+    if (!items.length) {
+      add("#/", "Home", "");
+      add("#/home?tab=1", "Favorites", "");
+    }
+    return items;
+  }
+
+  function syncLibraryNav() {
+    try {
+      var lib = isLibraryView();
+      document.documentElement.classList.toggle("jf-lcars-library", !!lib);
+      if (document.body) document.body.classList.toggle("jf-lcars-library", !!lib);
+
+      var nav = document.getElementById("jf-lcars-library-nav");
+      if (!lib) {
+        if (nav) nav.style.display = "none";
+        var le = document.getElementById("jf-lcars-lib-elbow");
+        if (le) le.style.setProperty("display", "none", "important");
+        /* Do not touch dashboard top runner / elbow — admin chrome owns those */
+        return;
+      }
+      if (window.matchMedia && window.matchMedia("(max-width: 1099px)").matches) {
+        if (nav) nav.style.display = "none";
+        return;
+      }
+
+      if (!nav && document.body) {
+        nav = document.createElement("nav");
+        nav.id = "jf-lcars-library-nav";
+        nav.setAttribute("aria-label", "Library");
+        document.body.appendChild(nav);
+      }
+      if (!nav) return;
+
+      var items = collectLibraryNavItems();
+      var hash = location.hash || "#/home";
+      nav.innerHTML = "";
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        var a = document.createElement("a");
+        a.className = "jf-lcars-lib-btn" + (i === 0 ? " jf-lcars-lib-home" : "");
+        a.href = it.href;
+        var pathKey = (it.href || "").split("?")[0];
+        if (hash === it.href || hash.indexOf(pathKey) === 0 || (pathKey === "#/" && (hash === "#" || hash === "#/" || hash.indexOf("#/home") === 0))) {
+          a.classList.add("is-active");
+        }
+        if (it.iconHtml) {
+          var wrap = document.createElement("span");
+          wrap.className = "jf-lcars-lib-icon";
+          wrap.innerHTML = it.iconHtml;
+          while (wrap.firstChild) a.appendChild(wrap.firstChild);
+        }
+        var t = document.createElement("span");
+        t.className = "jf-lcars-lib-label";
+        t.textContent = it.label;
+        a.appendChild(t);
+        nav.appendChild(a);
+      }
+      nav.style.display = "flex";
+
+      /* Hide thin left rail + admin chrome — library nav replaces them */
+      ["jf-lcars-dash-panel", "jf-lcars-dash-elbow", "jf-lcars-dash-bridge", "jf-lcars-elbow-chrome",
+       "jf-lcars-frame", "jf-lcars-elbow", "jf-lcars-elbow-cut"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.style.setProperty("display", "none", "important");
+          el.style.setProperty("visibility", "hidden", "important");
+        }
+      });
+      /* Match dashboard: arm/curve anchored to top of Home + drawer edge */
+      var drawerW = 240;
+      try {
+        var dw = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-admin-drawer"), 10);
+        if (dw > 80) drawerW = dw;
+      } catch (e) {}
+      var rowTop = 48;
+      try {
+        var hdr = document.querySelector(".MuiAppBar-root, .skinHeader");
+        if (hdr) {
+          var hr = hdr.getBoundingClientRect();
+          if (hr.bottom > 20) rowTop = Math.round(hr.bottom);
+        }
+      } catch (e2) {}
+      document.documentElement.style.setProperty("--lcars-lib-row-top", rowTop + "px");
+      document.documentElement.style.setProperty("--lcars-lib-arm-left", drawerW + "px");
+      document.documentElement.style.setProperty("--lcars-lib-curve-left", drawerW + "px");
+      document.documentElement.style.setProperty("--lcars-admin-drawer", drawerW + "px");
+      var runner = document.getElementById("jf-lcars-top-runner");
+      if (runner) {
+        runner.style.setProperty("left", (drawerW + 192) + "px", "important");
+        runner.style.setProperty("top", rowTop + "px", "important");
+        runner.style.setProperty("height", "30px", "important");
+      }
+      var le = document.getElementById("jf-lcars-lib-elbow");
+      if (le) le.style.setProperty("display", "none", "important");
+    } catch (e) {
+      console.warn("[JellyfinLCARS] syncLibraryNav", e);
+    }
+  }
+
+
   function run() {
     try {
       injectCss();
@@ -7138,18 +7583,25 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       syncTopBtn();
       pruneEmptyTableColumns();
       ensureNumberSpinners();
+      syncLibraryNav();
+      /* Ensure admin permanent drawer never paints over library home */
+      if (typeof isLibraryView === "function" && isLibraryView()) {
+        document.querySelectorAll(".MuiDrawer-root, .MuiDrawer-docked").forEach(function (d) {
+          d.style.setProperty("display", "none", "important");
+        });
+      }
     } catch (e) {
       console.warn("[JellyfinLCARS]", e);
     }
   }
   window.JellyfinLCARS = {
-    version: "2.21.31-logs-right-margin",
+    version: "2.22.7-lib-spacing",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
       var _rail = document.getElementById("jf-lcars-user-rail");
       if (_rail) _rail.remove();
-      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID, HEADER_MASK_ID].forEach(function (id) {
+      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID, HEADER_MASK_ID, "jf-lcars-lib-elbow", "jf-lcars-library-nav"].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.remove();
       });
