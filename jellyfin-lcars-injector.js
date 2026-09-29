@@ -660,7 +660,7 @@ html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home {
   --lcars-dash-fill: var(--primary-gray, #6d748c);
   --lcars-dash-arm: 30px;
-  --lcars-dash-arm-len: 192px;
+  --lcars-dash-arm-len: 96px;
   --lcars-dash-curve: 60px;
   min-height: 10.8rem !important;
   height: 10.8rem !important;
@@ -747,41 +747,63 @@ html.jf-lcars-library:not(.jf-lcars-video) .skinHeader {
   flex-shrink: 0 !important;
 }
 /*
- * Library left nav replaces the thin rail — drive all content offsets
- * through --lcars-sidebar so existing margin-left rules follow.
+ * Library content offset — NEW APPROACH
+ * Fixed nav is out of flow. Push ALL in-flow content with body padding-left.
+ * Zero every margin-left that the base theme applies via --lcars-sidebar.
+ * Inset = nav width (240) + 20px.
  */
 html.jf-lcars-library:not(.jf-lcars-video) {
-  --lcars-sidebar: var(--lcars-admin-drawer, 240px);
+  --lcars-sidebar: 0px;
+  --lcars-lib-content-inset: calc(var(--lcars-admin-drawer, 240px) + 20px);
 }
-html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPages,
+/* Library home/client pages only — never dashboardDocument */
+html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) body,
+html.jf-lcars-library:not(.jf-lcars-video) body:not(.dashboardDocument) {
+  padding-left: var(--lcars-lib-content-inset) !important;
+  box-sizing: border-box !important;
+}
+html.dashboardDocument body,
+body.dashboardDocument,
+html.jf-lcars-library.dashboardDocument body {
+  padding-left: 0 !important;
+}
+/* Library main content — 60px top clearance under header/runner */
+html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) .mainAnimatedPages,
+html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) .mainAnimatedPage,
+html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) .page,
+html.jf-lcars-library:not(.jf-lcars-video) body:not(.dashboardDocument) .mainAnimatedPages {
+  margin-top: 60px !important;
+  padding-top: 0 !important;
+  box-sizing: border-box !important;
+}
 html.jf-lcars-library:not(.jf-lcars-video) .backgroundContainer,
+html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPages,
 html.jf-lcars-library:not(.jf-lcars-video) .skinBody,
 html.jf-lcars-library:not(.jf-lcars-video) #mainContent,
 html.jf-lcars-library:not(.jf-lcars-video) main,
+html.jf-lcars-library:not(.jf-lcars-video) main.MuiBox-root,
 html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPage,
 html.jf-lcars-library:not(.jf-lcars-video) .page {
-  margin-left: var(--lcars-admin-drawer, 240px) !important;
-  width: calc(100% - var(--lcars-admin-drawer, 240px)) !important;
-  max-width: calc(100% - var(--lcars-admin-drawer, 240px)) !important;
-  box-sizing: border-box !important;
-  position: relative !important;
+  margin-left: 0 !important;
   left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+/* Fixed chrome stays viewport-anchored (not shifted by body padding) */
+html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
+  left: 0 !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 @media screen and (max-width: 1099px) {
   #jf-lcars-library-nav { display: none !important; }
   html.jf-lcars-library:not(.jf-lcars-video) {
     --lcars-sidebar: 56px;
+    --lcars-lib-content-inset: 76px;
   }
-  html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPages,
-  html.jf-lcars-library:not(.jf-lcars-video) .backgroundContainer,
-  html.jf-lcars-library:not(.jf-lcars-video) .skinBody,
-  html.jf-lcars-library:not(.jf-lcars-video) #mainContent,
-  html.jf-lcars-library:not(.jf-lcars-video) main,
-  html.jf-lcars-library:not(.jf-lcars-video) .mainAnimatedPage,
-  html.jf-lcars-library:not(.jf-lcars-video) .page {
-    margin-left: var(--lcars-sidebar, 56px) !important;
-    width: calc(100% - var(--lcars-sidebar, 56px)) !important;
-    max-width: calc(100% - var(--lcars-sidebar, 56px)) !important;
+  html.jf-lcars-library:not(.jf-lcars-video) body {
+    padding-left: var(--lcars-lib-content-inset) !important;
   }
 }
 /* Hide admin dash chrome + thin left rail when library menu owns the left column */
@@ -804,7 +826,7 @@ html.jf-lcars-library #jf-lcars-elbow-cut {
 /* Top runner spans from library nav edge (same as admin drawer) */
 html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-top-runner,
 html.jf-lcars-library:not(.jf-lcars-video) .jf-lcars-top-runner {
-  left: calc(var(--lcars-admin-drawer, 240px) + var(--lcars-dash-arm-len, 192px)) !important;
+  left: calc(var(--lcars-admin-drawer, 240px) + var(--lcars-dash-arm-len, 96px)) !important;
   top: var(--lcars-lib-row-top, 48px) !important;
   height: var(--lcars-dash-arm, 30px) !important;
 }
@@ -7472,6 +7494,54 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     return items;
   }
 
+
+  function applyLibraryContentInset() {
+    try {
+      var isDash = !!(document.querySelector(".dashboardDocument") ||
+        (document.body && document.body.classList.contains("dashboardDocument")) ||
+        (location.hash || "").toLowerCase().indexOf("/dashboard") !== -1);
+      var lib = document.documentElement.classList.contains("jf-lcars-library") &&
+        !document.documentElement.classList.contains("jf-lcars-video") &&
+        !isDash;
+      var narrow = window.matchMedia && window.matchMedia("(max-width: 1099px)").matches;
+      var nav = document.getElementById("jf-lcars-library-nav");
+      if (!lib) {
+        if (document.body) {
+          document.body.style.removeProperty("padding-left");
+        }
+        document.documentElement.style.removeProperty("--lcars-lib-content-inset");
+        /* Restore sidebar token for dashboard chrome */
+        if (isDash) {
+          document.documentElement.style.removeProperty("--lcars-sidebar");
+        }
+        return;
+      }
+      var navW = 240;
+      if (!narrow && nav) {
+        var rw = nav.offsetWidth || 0;
+        if (rw > 80) navW = Math.round(rw);
+      }
+      if (narrow) navW = 56;
+      var inset = navW + 20;
+      document.documentElement.style.setProperty("--lcars-admin-drawer", navW + "px");
+      document.documentElement.style.setProperty("--lcars-lib-content-inset", inset + "px");
+      document.documentElement.style.setProperty("--lcars-sidebar", "0px");
+      if (document.body) {
+        document.body.style.setProperty("padding-left", inset + "px", "important");
+        document.body.style.setProperty("box-sizing", "border-box", "important");
+      }
+      /* Strip any leftover inline margins from earlier approaches */
+      var shells = document.querySelectorAll(
+        ".mainAnimatedPages, .backgroundContainer, .skinBody, #mainContent, main, main.MuiBox-root, .page, .mainAnimatedPage"
+      );
+      for (var i = 0; i < shells.length; i++) {
+        shells[i].style.setProperty("margin-left", "0px", "important");
+        shells[i].style.removeProperty("width");
+        shells[i].style.removeProperty("max-width");
+      }
+    } catch (e) {}
+  }
+
   function syncLibraryNav() {
     try {
       var lib = isLibraryView();
@@ -7481,13 +7551,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var nav = document.getElementById("jf-lcars-library-nav");
       if (!lib) {
         if (nav) nav.style.display = "none";
-        var le = document.getElementById("jf-lcars-lib-elbow");
-        if (le) le.style.setProperty("display", "none", "important");
-        /* Do not touch dashboard top runner / elbow — admin chrome owns those */
+        /* Clear library-only body inset so dashboard / other pages are unaffected */
+        applyLibraryContentInset();
         return;
       }
       if (window.matchMedia && window.matchMedia("(max-width: 1099px)").matches) {
         if (nav) nav.style.display = "none";
+        applyLibraryContentInset();
         return;
       }
 
@@ -7524,6 +7594,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         nav.appendChild(a);
       }
       nav.style.display = "flex";
+      applyLibraryContentInset();
 
       /* Hide thin left rail + admin chrome — library nav replaces them */
       ["jf-lcars-dash-panel", "jf-lcars-dash-elbow", "jf-lcars-dash-bridge", "jf-lcars-elbow-chrome",
@@ -7554,12 +7625,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       document.documentElement.style.setProperty("--lcars-admin-drawer", drawerW + "px");
       var runner = document.getElementById("jf-lcars-top-runner");
       if (runner) {
-        runner.style.setProperty("left", (drawerW + 192) + "px", "important");
+        runner.style.setProperty("left", (drawerW + 96) + "px", "important");
         runner.style.setProperty("top", rowTop + "px", "important");
         runner.style.setProperty("height", "30px", "important");
       }
-      var le = document.getElementById("jf-lcars-lib-elbow");
-      if (le) le.style.setProperty("display", "none", "important");
     } catch (e) {
       console.warn("[JellyfinLCARS] syncLibraryNav", e);
     }
@@ -7595,13 +7664,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.7-lib-spacing",
+    version: "2.22.17-lib-top-60",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
       var _rail = document.getElementById("jf-lcars-user-rail");
       if (_rail) _rail.remove();
-      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID, HEADER_MASK_ID, "jf-lcars-lib-elbow", "jf-lcars-library-nav"].forEach(function (id) {
+      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID, HEADER_MASK_ID, "jf-lcars-library-nav"].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.remove();
       });
