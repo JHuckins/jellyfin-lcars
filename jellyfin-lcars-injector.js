@@ -405,7 +405,7 @@ body.jf-lcars-active::after {
     0 0 0 calc(var(--lcars-well-gap) + 2px) var(--light-gray) !important;
 
   margin-top: 8rem !important;
-  margin-right: 4% !important;
+  margin-right: max(4%, 28px) !important;
   margin-left: 40px !important;
   margin-bottom: 2rem !important;
   overflow: visible !important;
@@ -447,6 +447,42 @@ body.jf-lcars-active::after {
   background: var(--orange-red) !important;
   pointer-events: none !important;
   z-index: 1 !important;
+}
+
+/* Below 750px: strip content well frame; 50px top margin */
+@media screen and (max-width: 750px) {
+  .jf-lcars-active.dashboardDocument .content-primary,
+  .dashboardDocument .content-primary,
+  .dashboardDocument .content-primary.MuiBox-root,
+  .content-primary.MuiBox-root,
+  .dashboardDocument .skinBody .content-primary,
+  .dashboardDocument main .content-primary {
+    --lcars-well-left: 0px;
+    --lcars-well-right: 0px;
+    --lcars-well-tb: 0px;
+    --lcars-well-gap: 0px;
+    --lcars-well-inset: 0.5rem;
+    border: none !important;
+    border-width: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-top: 50px !important;
+    margin-left: 0.5rem !important;
+    margin-right: 20px !important;
+    margin-bottom: 1rem !important;
+    padding: 0.5rem !important;
+    width: auto !important;
+    max-width: calc(100% - 20px) !important;
+    background: transparent !important;
+  }
+  .dashboardDocument .content-primary::before,
+  .dashboardDocument .content-primary::after {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: none !important;
+  }
 }
 
 /* ========== Dashboard plugin cards (MUI) — LCARS primary-nav style ========== */
@@ -835,8 +871,126 @@ textarea,
   }
 }
 
-
-
+/* ========== Narrow viewports (<750px) — prevent overlap / overflow ========== */
+@media screen and (max-width: 750px) {
+  html.jf-lcars-active,
+  html.jf-lcars-active body,
+  .jf-lcars-active.dashboardDocument {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+  .dashboardDocument main,
+  .dashboardDocument main.MuiBox-root,
+  .dashboardDocument .mainAnimatedPage,
+  .dashboardDocument .mainAnimatedPages {
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    padding-left: 0 !important;
+    padding-right: 0.5rem !important;
+  }
+  .jf-lcars-active.dashboardDocument .content-primary,
+  .dashboardDocument .content-primary,
+  .dashboardDocument .content-primary.MuiBox-root,
+  .content-primary.MuiBox-root,
+  .dashboardDocument .skinBody .content-primary,
+  .dashboardDocument main .content-primary {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 20px !important;
+    padding-left: 0.35rem !important;
+    padding-right: 0.35rem !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+  /* Papers / cards stay inside well */
+  .dashboardDocument .content-primary .MuiPaper-root,
+  .dashboardDocument .content-primary .MuiCard-root,
+  .dashboardDocument .content-primary .MuiBox-root {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  /* Typography: wrap normally, no forced narrow columns */
+  .dashboardDocument .content-primary .MuiTypography-root,
+  .dashboardDocument .content-primary h1,
+  .dashboardDocument .content-primary h2,
+  .dashboardDocument .content-primary h3,
+  .dashboardDocument .content-primary p {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    white-space: normal !important;
+  }
+  /* Activity / list rows: horizontal layout, text can wrap as sentences */
+  .dashboardDocument .content-primary a.MuiListItemButton-root,
+  .dashboardDocument .content-primary .MuiListItem-root,
+  .dashboardDocument .content-primary .MuiListItemButton-root {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  .dashboardDocument .content-primary .MuiListItemText-root,
+  .dashboardDocument .content-primary .MuiListItemText-root .MuiTypography-root,
+  .dashboardDocument .content-primary .MuiListItemText-secondary,
+  .dashboardDocument .content-primary .MuiListItemText-secondary .MuiTypography-root {
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  .dashboardDocument .content-primary .MuiListItemText-root {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+  .dashboardDocument .content-primary .MuiListItemAvatar-root,
+  .dashboardDocument .content-primary .MuiListItemIcon-root {
+    flex-shrink: 0 !important;
+  }
+  /* Stacks / grids: allow shrink, wrap */
+  .dashboardDocument .content-primary .MuiStack-root,
+  .dashboardDocument .content-primary .MuiGrid-container,
+  .dashboardDocument .content-primary .MuiGrid-item {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  /* Live TV heading rows wrap cleanly */
+  .dashboardDocument .MuiStack-root:has(> .MuiTypography-h2):has(.MuiButton-root) {
+    flex-wrap: wrap !important;
+    column-gap: 0.5rem !important;
+    row-gap: 0.5rem !important;
+    max-width: 100% !important;
+  }
+  /* Buttons don't force overflow */
+  .dashboardDocument .content-primary .MuiButton-root {
+    max-width: 100% !important;
+  }
+  /* Hide decorative right LCARS rails that steal width if present */
+  .dashboardDocument .content-primary::before,
+  .dashboardDocument .content-primary::after {
+    display: none !important;
+  }
+  /* Segmented bars inside papers: scale down */
+  .dashboardDocument .content-primary .MuiPaper-root:not(.MuiCard-root)::before {
+    max-width: 100% !important;
+  }
+}
 
 /* Dashboard home grid — fill available width
  * Parent must be 100% so flex children can grow into the well.
@@ -1665,17 +1819,37 @@ body.dashboardDocument {
   ) !important;
 }
 
+/* Server logs / read-only lists — right margin so content clears the well edge */
+.dashboardDocument .serverLogs,
+.dashboardDocument .readOnlyContent,
+.dashboardDocument .serverLogs.readOnlyContent,
+.dashboardDocument .content-primary .serverLogs,
+.dashboardDocument .content-primary .readOnlyContent {
+  margin-right: 1.5rem !important;
+  padding-right: 1rem !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .serverLogs .MuiList-root,
+.dashboardDocument .readOnlyContent .MuiList-root {
+  margin-right: 0 !important;
+  padding-right: 1rem !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 /* Content lists (Activity, Paths) — left rail + bottom curve, NOT drawer lists */
 .dashboardDocument main .MuiList-root,
 .dashboardDocument .content-primary .MuiList-root {
   position: relative !important;
-  margin: 0 0 1rem 0 !important;
-  padding: 10px 10px 10px 18px !important;
+  margin: 0 1.25rem 1rem 0 !important;
+  padding: 10px 1rem 10px 18px !important;
   background: #000 !important;
   border-left: 12px solid var(--primary-gray) !important;
   border-bottom: 8px solid var(--primary-gray) !important;
   border-bottom-left-radius: 24px !important;
   box-sizing: border-box !important;
+  max-width: 100% !important;
 }
 
 .dashboardDocument main .MuiList-root::after {
@@ -4712,6 +4886,76 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   margin-bottom: 0.25rem !important;
   line-height: 1.4 !important;
 }
+/* Transcoding / settings forms: keep text clear of the right edge */
+.dashboardDocument form,
+.dashboardDocument form .MuiStack-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  padding-right: 1.25rem !important;
+}
+.dashboardDocument form .MuiFormControl-root,
+.dashboardDocument form .MuiTextField-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  padding-right: 0.25rem !important;
+}
+.dashboardDocument form .MuiFormHelperText-root,
+.dashboardDocument form .MuiFormHelperText-root a,
+.dashboardDocument form .MuiFormControl-root > p {
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-right: 1rem !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+/* Extra right inset on settings content so form copy isn't flush to the viewport */
+.dashboardDocument .content-primary:has(form),
+.dashboardDocument .content-primary:has(.MuiFormControl-root) {
+  padding-right: 1.5rem !important;
+  box-sizing: border-box !important;
+}
+/* Select: room for dropdown arrow so it doesn't cover the value */
+.dashboardDocument form .MuiSelect-select,
+.dashboardDocument form .MuiSelect-filled,
+.dashboardDocument form .MuiInputBase-input.MuiSelect-select,
+.dashboardDocument .MuiSelect-select,
+.dashboardDocument .MuiSelect-filled {
+  padding-right: 2.5rem !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.dashboardDocument form .MuiSelect-icon,
+.dashboardDocument .MuiSelect-icon,
+.dashboardDocument form .MuiSelect-iconFilled,
+.dashboardDocument .MuiSelect-iconFilled {
+  position: absolute !important;
+  right: 0.65rem !important;
+  left: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.dashboardDocument form .MuiInputBase-root.MuiSelect-root,
+.dashboardDocument form .MuiFilledInput-root.MuiSelect-root,
+.dashboardDocument .MuiInputBase-root.MuiSelect-root {
+  position: relative !important;
+  padding-right: 0 !important;
+}
 .dashboardDocument .MuiFormControlLabel-root {
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
@@ -6899,7 +7143,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.21.20-livetv-row",
+    version: "2.21.31-logs-right-margin",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
