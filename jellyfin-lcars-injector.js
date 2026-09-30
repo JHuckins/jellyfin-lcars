@@ -17,7 +17,14 @@
   var DASH_CUT_ID = "jf-lcars-dash-elbow-cut";
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var THEME_CSS = `/*
- * Jellyfin LCARS
+ * Jellyfin LCARS — Picard theme v2.3.0
+ * Full styles restored + frame matching thelcars.com/themes/picard.html
+ *
+ * Frame model (from picard.css markup):
+ *   left column (primary-gray) full height
+ *   thin horizontal bar-runner under header (--bar-height)
+ *   elbow at junction: large radius on content-side corner
+ *   content well starts after sidebar with matching inner curve
  * License: MIT
  */
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap');
@@ -3717,9 +3724,76 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
 
 
 /*
- * Secondary nav strip ONLY (Episodes / Play All / filters).
- * Match the toolbar that contains the library-view-menu control — not AppBar nav.
+ * Secondary nav strip — push ALL items (title, count, actions) to the right.
  */
+.jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
+.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]),
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root:nth-child(2) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0.5rem !important;
+  padding-right: 1.25rem !important;
+  margin-right: 0.5rem !important;
+  gap: 0.35rem !important;
+}
+.jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar > *,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) > *,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) > *,
+.jf-lcars-active .MuiAppBar-root .MuiToolbar-root:nth-child(2) > * {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  flex-shrink: 0 !important;
+  order: 0 !important;
+}
+.jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiStack-root,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiStack-root,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiStack-root {
+  display: flex !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-inline-start: 0 !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 0.30rem !important;
+  flex: 0 0 auto !important;
+}
+.jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiBox-root,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiBox-root {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  flex: 0 0 auto !important;
+}
+.jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-root,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-root {
+  margin: 0 0.25rem !important;
+  background: var(--bright-blue, #41c4f7) !important;
+  background-color: var(--bright-blue, #41c4f7) !important;
+  color: #000 !important;
+  border-radius: 100vmax !important;
+  border: none !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+.jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-label,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-label,
+.jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-label {
+  color: #000 !important;
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  padding: 0 0.65rem !important;
+}
 
 /* Library view menu button label (Collections / Episodes / etc.) */
 .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"],
@@ -7535,6 +7609,35 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
+
+  function alignSecondaryToolbar() {
+    try {
+      var bars = document.querySelectorAll(".MuiToolbar-root");
+      for (var i = 0; i < bars.length; i++) {
+        var bar = bars[i];
+        var hasViewMenu = !!bar.querySelector(
+          '[aria-controls="library-view-menu"], [aria-controls*="view-menu"]'
+        );
+        if (!hasViewMenu) continue;
+        bar.classList.add("jf-lcars-sec-toolbar");
+        bar.style.setProperty("display", "flex", "important");
+        bar.style.setProperty("flex-direction", "row", "important");
+        bar.style.setProperty("justify-content", "flex-end", "important");
+        bar.style.setProperty("align-items", "center", "important");
+        bar.style.setProperty("width", "100%", "important");
+        bar.style.setProperty("gap", "0.35rem", "important");
+        bar.style.setProperty("padding-right", "1.25rem", "important");
+        bar.style.setProperty("margin-right", "0.5rem", "important");
+        var kids = bar.children;
+        for (var k = 0; k < kids.length; k++) {
+          kids[k].style.setProperty("margin-left", "0", "important");
+          kids[k].style.setProperty("margin-right", "0", "important");
+          kids[k].style.setProperty("flex-shrink", "0", "important");
+        }
+      }
+    } catch (e) {}
+  }
+
   function syncLibraryNav() {
     try {
       var lib = isLibraryView();
@@ -7646,6 +7749,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       pruneEmptyTableColumns();
       ensureNumberSpinners();
       syncLibraryNav();
+      alignSecondaryToolbar();
       /* Ensure admin permanent drawer never paints over library home */
       if (typeof isLibraryView === "function" && isLibraryView()) {
         document.querySelectorAll(".MuiDrawer-root, .MuiDrawer-docked").forEach(function (d) {
@@ -7657,7 +7761,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.17-lib-top-60",
+    version: "2.22.20-sec-pill-blue",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
