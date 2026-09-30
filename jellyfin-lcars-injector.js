@@ -18,13 +18,6 @@
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var THEME_CSS = `/*
  * Jellyfin LCARS — Picard theme v2.3.0
- * Full styles restored + frame matching thelcars.com/themes/picard.html
- *
- * Frame model (from picard.css markup):
- *   left column (primary-gray) full height
- *   thin horizontal bar-runner under header (--bar-height)
- *   elbow at junction: large radius on content-side corner
- *   content well starts after sidebar with matching inner curve
  * License: MIT
  */
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap');
