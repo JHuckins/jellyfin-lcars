@@ -660,7 +660,8 @@ html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home {
   --lcars-dash-fill: var(--primary-gray, #6d748c);
   --lcars-dash-arm: 30px;
-  --lcars-dash-arm-len: 96px;
+  /* Short horizontal arm; curve sits near menu edge (not deep into content) */
+  --lcars-dash-arm-len: 36px;
   --lcars-dash-curve: 60px;
   min-height: 10.8rem !important;
   height: 10.8rem !important;
@@ -686,7 +687,8 @@ html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
   content: "" !important;
   display: block !important;
   position: fixed !important;
-  left: var(--lcars-lib-curve-left, var(--lcars-admin-drawer, 240px)) !important;
+  /* Pull curve left so bend is at menu edge, not out in content */
+  left: calc(var(--lcars-lib-curve-left, var(--lcars-admin-drawer, 240px)) - 30px) !important;
   top: var(--lcars-lib-row-top, 48px) !important;
   width: var(--lcars-dash-curve, 60px) !important;
   height: var(--lcars-dash-curve, 60px) !important;
@@ -716,15 +718,55 @@ html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
   content: "" !important;
   display: block !important;
   position: fixed !important;
-  left: var(--lcars-lib-arm-left, var(--lcars-admin-drawer, 240px)) !important;
+  left: calc(var(--lcars-lib-arm-left, var(--lcars-admin-drawer, 240px)) - 30px) !important;
   top: var(--lcars-lib-row-top, 48px) !important;
-  width: var(--lcars-dash-arm-len, 192px) !important;
+  width: var(--lcars-dash-arm-len, 36px) !important;
   height: var(--lcars-dash-arm, 30px) !important;
   background: var(--lcars-dash-fill, var(--primary-gray)) !important;
   z-index: 12043 !important;
-  pointer-events: none !important;
+  /* Allow hover on arm so curve+button light together (like Dashboard) */
+  pointer-events: auto !important;
+  cursor: pointer !important;
   border: none !important;
   border-radius: 0 !important;
+}
+/* Curve plate also receives pointer events for shared hover */
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::after {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+/*
+ * Home + arm + curve share hover/active fill (dashboard pattern).
+ * ghost-gray on hover / selected; primary-gray idle.
+ */
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home:hover,
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home.is-active,
+html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home {
+  --lcars-dash-fill: var(--ghost-gray) !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+  filter: none !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home:hover::before,
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home:hover::after,
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home.is-active::before,
+#jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home.is-active::after,
+html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::before,
+html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::after {
+  --lcars-dash-fill: var(--ghost-gray) !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+}
+/* Hit strip over arm+curve (fixed) — mirrors ensureDashArmHit */
+#jf-lcars-lib-arm-hit {
+  position: fixed !important;
+  z-index: 12050 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  background: transparent !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 /* Keep top AppBar strip visible; only inset content, not remove the bar */
 html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root,
@@ -826,7 +868,7 @@ html.jf-lcars-library #jf-lcars-elbow-cut {
 /* Top runner spans from library nav edge (same as admin drawer) */
 html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-top-runner,
 html.jf-lcars-library:not(.jf-lcars-video) .jf-lcars-top-runner {
-  left: calc(var(--lcars-admin-drawer, 240px) + var(--lcars-dash-arm-len, 96px)) !important;
+  left: calc(var(--lcars-admin-drawer, 240px) + 6px) !important;
   top: var(--lcars-lib-row-top, 48px) !important;
   height: var(--lcars-dash-arm, 30px) !important;
 }
@@ -7316,6 +7358,62 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   
   var TOP_BTN_ID = "jf-lcars-topBtn";
   
+
+  function ensureLibArmHit() {
+    try {
+      var lib = document.documentElement.classList.contains("jf-lcars-library") &&
+        !document.documentElement.classList.contains("jf-lcars-video");
+      var hit = document.getElementById("jf-lcars-lib-arm-hit");
+      if (!lib) {
+        document.documentElement.classList.remove("jf-lcars-lib-home-hot");
+        if (hit) hit.style.display = "none";
+        return;
+      }
+      var home = document.querySelector("#jf-lcars-library-nav .jf-lcars-lib-home, #jf-lcars-library-nav .jf-lcars-lib-btn:first-child");
+      if (!home) {
+        if (hit) hit.style.display = "none";
+        return;
+      }
+      if (!hit) {
+        hit = document.createElement("a");
+        hit.id = "jf-lcars-lib-arm-hit";
+        hit.setAttribute("aria-label", "Home");
+        hit.addEventListener("mouseenter", function () {
+          document.documentElement.classList.add("jf-lcars-lib-home-hot");
+        });
+        hit.addEventListener("mouseleave", function () {
+          document.documentElement.classList.remove("jf-lcars-lib-home-hot");
+        });
+        hit.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (home && home.href) {
+            location.hash = home.getAttribute("href") || "#/";
+          }
+        });
+        document.body.appendChild(hit);
+      }
+      hit.href = home.getAttribute("href") || "#/";
+      var drawerW = 240;
+      try {
+        var dw = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-admin-drawer"), 10);
+        if (dw > 80) drawerW = dw;
+      } catch (e) {}
+      var rowTop = 48;
+      try {
+        var rt = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-lib-row-top"), 10);
+        if (rt > 20) rowTop = rt;
+      } catch (e2) {}
+      /* Cover arm + curve region (offset -30, arm 36, curve 60) */
+      var left = drawerW - 30;
+      var width = 36 + 60;
+      hit.style.setProperty("display", "block", "important");
+      hit.style.setProperty("left", left + "px", "important");
+      hit.style.setProperty("top", rowTop + "px", "important");
+      hit.style.setProperty("width", width + "px", "important");
+      hit.style.setProperty("height", "60px", "important");
+    } catch (e) {}
+  }
+
   function ensureDashArmHit() {
     try {
       var link = queryDashLink();
@@ -7691,6 +7789,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }
       nav.style.display = "flex";
       applyLibraryContentInset();
+      ensureLibArmHit();
 
       /* Hide thin left rail + admin chrome — library nav replaces them */
       ["jf-lcars-dash-panel", "jf-lcars-dash-elbow", "jf-lcars-dash-bridge", "jf-lcars-elbow-chrome",
@@ -7721,7 +7820,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       document.documentElement.style.setProperty("--lcars-admin-drawer", drawerW + "px");
       var runner = document.getElementById("jf-lcars-top-runner");
       if (runner) {
-        runner.style.setProperty("left", (drawerW + 96) + "px", "important");
+        runner.style.setProperty("left", (drawerW + 6) + "px", "important");
         runner.style.setProperty("top", rowTop + "px", "important");
         runner.style.setProperty("height", "30px", "important");
       }
@@ -7744,6 +7843,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       syncVideoMode();
       bindDrawerScroll();
       ensureDashArmHit();
+      ensureLibArmHit();
       ensureSubmenuBars();
       syncTopBtn();
       pruneEmptyTableColumns();
@@ -7761,13 +7861,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.20-sec-pill-blue",
+    version: "2.22.26-lib-home-hover",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
       var _rail = document.getElementById("jf-lcars-user-rail");
       if (_rail) _rail.remove();
-      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID, HEADER_MASK_ID, "jf-lcars-library-nav"].forEach(function (id) {
+      [STYLE_ID, FRAME_ID, RUNNER_ID, ELBOW_ID, CUT_ID, DASH_ELBOW_ID, DASH_CUT_ID, DASH_BRIDGE_ID, HEADER_MASK_ID, "jf-lcars-library-nav", "jf-lcars-lib-arm-hit"].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.remove();
       });
