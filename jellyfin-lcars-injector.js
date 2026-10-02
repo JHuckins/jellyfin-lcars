@@ -18,6 +18,13 @@
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var THEME_CSS = `/*
  * Jellyfin LCARS — Picard theme v2.3.0
+ * Full styles restored + frame matching thelcars.com/themes/picard.html
+ *
+ * Frame model (from picard.css markup):
+ *   left column (primary-gray) full height
+ *   thin horizontal bar-runner under header (--bar-height)
+ *   elbow at junction: large radius on content-side corner
+ *   content well starts after sidebar with matching inner curve
  * License: MIT
  */
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap');
@@ -799,7 +806,15 @@ html.jf-lcars-library #jf-lcars-dash-panel,
 html.jf-lcars-library #jf-lcars-dash-elbow,
 html.jf-lcars-library #jf-lcars-dash-bridge,
 html.jf-lcars-library #jf-lcars-elbow-chrome,
-html.jf-lcars-library .dashboardDocument .MuiDrawer-root,
+/* Hide permanent admin drawer only on desktop library layout */
+@media (min-width: 1100px) {
+  html.jf-lcars-library .dashboardDocument .MuiDrawer-root,
+  html.jf-lcars-library .dashboardDocument .MuiDrawer-docked {
+    display: none !important;
+    width: 0 !important;
+    visibility: hidden !important;
+  }
+}
 html.jf-lcars-library .jf-lcars-frame,
 html.jf-lcars-library #jf-lcars-frame,
 html.jf-lcars-library .jf-lcars-elbow,
@@ -1442,49 +1457,265 @@ body.dashboardDocument {
   box-shadow: none !important;
   border-radius: 0 !important;
   color: #000 !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  height: 100vh !important;
-  max-height: 100vh !important;
-  min-height: 0 !important;
-  width: var(--lcars-admin-drawer) !important;
-  max-width: var(--lcars-admin-drawer) !important;
-  padding: 0 0 56px 0 !important;
   box-sizing: border-box !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
+/* Permanent fixed drawer geometry — desktop only (mobile uses MUI temporary drawer) */
+@media (min-width: 900px) {
+  .dashboardDocument .MuiDrawer-paper,
+  .dashboardDocument .MuiDrawer-paperAnchorLeft,
+  .dashboardDocument .MuiDrawer-paperAnchorDockedLeft {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    min-height: 0 !important;
+    width: var(--lcars-admin-drawer) !important;
+    max-width: var(--lcars-admin-drawer) !important;
+    padding: 0 0 56px 0 !important;
+  }
+}
+/* Mobile temporary drawer — let MUI control transform/open; only paint surface */
+@media (max-width: 899px) {
+  .dashboardDocument .MuiDrawer-paper,
+  .MuiDrawer-paperAnchorTemporary,
+  .MuiDrawer-root .MuiDrawer-paper {
+    background: #000 !important;
+    background-color: #000 !important;
+    width: min(280px, 85vw) !important;
+    max-width: min(280px, 85vw) !important;
+    padding: 0 8px 56px 8px !important;
+    /* never force visibility/transform — MUI slides the temporary drawer */
+  }
+}
+/* ===== Mobile temporary drawer — LCARS flatside buttons (library + dashboard) ===== */
+@media (max-width: 899px) {
+  .MuiDrawer-paperAnchorTemporary,
+  .MuiDrawer-root .MuiDrawer-paper,
+  .MuiModal-root .MuiDrawer-paper {
+    background: #000 !important;
+    background-color: #000 !important;
+    color: #000 !important;
+    padding: 0.35rem 0.5rem 2rem 0.5rem !important;
+    box-sizing: border-box !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiList-root,
+  .MuiModal-root .MuiDrawer-paper .MuiList-root {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListSubheader-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListSubheader-root {
+    font-family: var(--lcars-font) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: var(--ghost-gray) !important;
+    background: transparent !important;
+    line-height: 1.2 !important;
+    margin: 0.5rem 0 0.25rem 0 !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root {
+    padding: 0 !important;
+    margin: 0 0 3px 0 !important;
+    background: transparent !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root,
+  .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper a.MuiListItemButton-root {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0.55rem 0.75rem !important;
+    min-height: 2.6rem !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: var(--primary-gray) !important;
+    background-color: var(--primary-gray) !important;
+    color: #000 !important;
+    font-family: var(--lcars-font) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    text-align: right !important;
+  }
+  /* Color cycle for mobile drawer rows */
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root {
+    background: var(--primary-gray) !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-child(6n+2) > .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-child(6n+2) > .MuiListItemButton-root {
+    background: var(--ghost-gray) !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-child(6n+3) > .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-child(6n+3) > .MuiListItemButton-root {
+    background: var(--medium-dark-gray) !important;
+    color: var(--starlight) !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-child(6n+4) > .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-child(6n+4) > .MuiListItemButton-root {
+    background: var(--blue) !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-child(6n+5) > .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-child(6n+5) > .MuiListItemButton-root {
+    background: var(--pale-orange-red) !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-child(6n+6) > .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-child(6n+6) > .MuiListItemButton-root {
+    background: var(--light-gray) !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root.Mui-selected,
+  .MuiModal-root .MuiDrawer-paper .MuiListItemButton-root.Mui-selected {
+    background: var(--orange-red) !important;
+    background-color: var(--orange-red) !important;
+    color: #000 !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root:hover,
+  .MuiModal-root .MuiDrawer-paper .MuiListItemButton-root:hover {
+    filter: brightness(1.12);
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root .MuiTypography-root,
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root .MuiListItemText-primary,
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root .MuiListItemIcon-root,
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root .MuiSvgIcon-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItemButton-root .MuiTypography-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItemButton-root .MuiListItemText-primary,
+  .MuiModal-root .MuiDrawer-paper .MuiListItemButton-root .MuiSvgIcon-root {
+    color: inherit !important;
+    fill: currentColor !important;
+    font-family: var(--lcars-font) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+  }
+  .MuiDrawer-paperAnchorTemporary .MuiListItemButton-root .MuiListItemText-secondary,
+  .MuiModal-root .MuiDrawer-paper .MuiListItemButton-root .MuiListItemText-secondary {
+    color: var(--dark-gray) !important;
+    text-transform: none !important;
+    font-weight: 400 !important;
+  }
+  /* Hide server/logo header row in mobile drawer (library + dashboard) */
+  .MuiDrawer-paperAnchorTemporary .MuiList-root:first-child > .MuiListItem-root:first-child,
+  .MuiDrawer-paperAnchorTemporary .MuiList-root:first-of-type > .MuiListItem-root:first-child,
+  .MuiModal-root .MuiDrawer-paper .MuiList-root:first-child > .MuiListItem-root:first-child,
+  .MuiDrawer-paperAnchorTemporary li.MuiListItem-root:has(.MuiListItemText-multiline),
+  .MuiDrawer-paperAnchorTemporary li.MuiListItem-root:has(img),
+  .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root:has(img),
+  .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root:has(.MuiListItemText-secondary),
+  .MuiModal-root .MuiDrawer-paper li.MuiListItem-root:has(.MuiListItemText-multiline),
+  .MuiModal-root .MuiDrawer-paper a.MuiListItemButton-root:has(img),
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+    display: none !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    border: none !important;
+  }
+  /* HOME — 2× height */
+  .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root[href="#/"],
+  .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root[href="#/home"],
+  .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root[href^="#/home?"],
+  .MuiModal-root .MuiDrawer-paper a.MuiListItemButton-root[href="#/"],
+  .MuiModal-root .MuiDrawer-paper a.MuiListItemButton-root[href="#/home"],
+  .MuiModal-root .MuiDrawer-paper a.MuiListItemButton-root[href^="#/home?"] {
+    min-height: 5.2rem !important;
+    height: 5.2rem !important;
+    align-items: flex-end !important;
+    padding-bottom: 0.65rem !important;
+  }
+  /* Second-to-last button — 1.5× (Movies when Shows is last) */
+  .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-last-child(2) > .MuiListItemButton-root,
+  .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-last-child(2) > .MuiListItemButton-root {
+    min-height: 3.9rem !important;
+    height: auto !important;
+    padding-top: 0.7rem !important;
+    padding-bottom: 0.7rem !important;
+  }
+  /* Mobile curve: flush to left edge only (under hamburger rail) */
+  #jf-lcars-elbow,
+  .jf-lcars-elbow {
+    left: 0 !important;
+    top: 48px !important;
+    width: 48px !important;
+    height: 28px !important;
+  }
+  #jf-lcars-elbow-cut,
+  .jf-lcars-elbow-cut {
+    left: 24px !important;
+    top: 48px !important;
+    width: 28px !important;
+    height: 28px !important;
+  }
+  #jf-lcars-top-runner,
+  .jf-lcars-top-runner {
+    left: 48px !important;
+    top: 48px !important;
+    height: 16px !important;
+  }
+  .jf-lcars-frame {
+    left: 0 !important;
+    width: 24px !important;
+  }
+  /* While mobile drawer is open, hide floating runner/curve so they don't sit over the menu */
+  body:has(.MuiDrawer-root.MuiDrawer-open) #jf-lcars-top-runner,
+  body:has(.MuiDrawer-root.MuiDrawer-open) .jf-lcars-top-runner,
+  body:has(.MuiDrawer-root.MuiDrawer-open) #jf-lcars-elbow,
+  body:has(.MuiDrawer-root.MuiDrawer-open) #jf-lcars-elbow-cut,
+  body:has(.MuiModal-root:not([aria-hidden="true"]) .MuiDrawer-paper) #jf-lcars-top-runner,
+  body:has(.MuiModal-root:not([aria-hidden="true"]) .MuiDrawer-paper) #jf-lcars-elbow,
+  body:has(.MuiModal-root:not([aria-hidden="true"]) .MuiDrawer-paper) #jf-lcars-elbow-cut {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
 .dashboardDocument .MuiDrawer-paper::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
 }
 
-/* Server header list — pinned at top of drawer */
-.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 20 !important;
-  background: #000 !important;
-  margin: 0 !important;
-}
-
-/* Dashboard control — sticky under server header; does not scroll away */
-.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
-.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
-  position: sticky !important;
-  top: var(--lcars-nav-sticky-top, 52px) !important;
-  z-index: 19 !important;
-}
-.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
-.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
-  position: sticky !important;
-  top: var(--lcars-nav-sticky-top, 52px) !important;
-  z-index: 19 !important;
-  background: #000 !important;
+/* Server header + Dashboard sticky — desktop only */
+@media (min-width: 900px) {
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 20 !important;
+    background: #000 !important;
+    margin: 0 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+    position: sticky !important;
+    top: var(--lcars-nav-sticky-top, 52px) !important;
+    z-index: 19 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+    position: sticky !important;
+    top: var(--lcars-nav-sticky-top, 52px) !important;
+    z-index: 19 !important;
+    background: #000 !important;
+  }
 }
 
 .dashboardDocument .MuiDrawer-paper > .MuiList-root {
@@ -1793,10 +2024,30 @@ body.dashboardDocument {
   filter: none !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiTypography-root,
-.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiSvgIcon-root {
-  color: inherit !important;
-  fill: currentColor !important;
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiSvgIcon-root,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiListItemText-root,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root .MuiListItemIcon-root,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root * {
+  color: var(--ghost-gray, #d2d5df) !important;
+  fill: var(--ghost-gray, #d2d5df) !important;
+  -webkit-text-fill-color: var(--ghost-gray, #d2d5df) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
   text-align: right !important;
+  font-size: 0.85rem !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root.Mui-selected .MuiTypography-root,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root.Mui-selected *,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root.Mui-selected * {
+  color: var(--pale-orange-red, #ff977b) !important;
+  fill: var(--pale-orange-red, #ff977b) !important;
+  -webkit-text-fill-color: var(--pale-orange-red, #ff977b) !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root:hover .MuiTypography-root,
+.dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root:hover * {
+  color: var(--starlight, #f3f4f7) !important;
+  fill: var(--starlight, #f3f4f7) !important;
+  -webkit-text-fill-color: var(--starlight, #f3f4f7) !important;
 }
 
 
@@ -5969,12 +6220,299 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   #jf-lcars-dash-elbow-cut,
   #jf-lcars-dash-bridge,
   .jf-lcars-dash-arm-hit,
-  .jf-lcars-dash-curve-hit {
+  .jf-lcars-dash-curve-hit,
+  #jf-lcars-lib-elbow-chrome,
+  #jf-lcars-lib-unified-hit {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
   }
+  /* Dashboard — always tall flatside button on mobile (no empty spacer above) */
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 5.5rem !important;
+    min-height: 5.5rem !important;
+    max-height: 5.5rem !important;
+    margin: 0 0 3px 0 !important;
+    padding: 0.55rem 0.75rem !important;
+    background: var(--primary-gray) !important;
+    background-color: var(--primary-gray) !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    z-index: auto !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: flex-end !important;
+    box-sizing: border-box !important;
+    border-radius: 0 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] *,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] * {
+    color: #000 !important;
+    fill: #000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .MuiListItemText-root,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .MuiListItemText-root,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .MuiTypography-root,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .MuiTypography-root {
+    text-align: right !important;
+    font-family: var(--lcars-font) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+  }
+  /* Parent list item: only as tall as the button — no leftover desktop spacer */
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+    position: relative !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+  /* Align all other mobile drawer rows consistently */
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root {
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  /* Junction curve stays simple under header */
+  #jf-lcars-elbow {
+    top: 48px !important;
+    left: 0 !important;
+    width: 96px !important;
+    height: 40px !important;
+    background: var(--primary-gray) !important;
+  }
+  #jf-lcars-elbow-cut {
+    top: 48px !important;
+    left: 56px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  /* Kill leftover spacer / empty gap under server header */
+  #jf-lcars-nav-header-spacer {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+    margin-bottom: 3px !important;
+  }
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child + *,
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child + .MuiList-root {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  /* Submenu text visible on mobile */
+  .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root,
+  .dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root {
+    color: var(--ghost-gray) !important;
+    -webkit-text-fill-color: var(--ghost-gray) !important;
+    background: #000 !important;
+    border: 2px solid var(--ghost-gray) !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root *,
+  .dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root * {
+    color: var(--ghost-gray) !important;
+    fill: var(--ghost-gray) !important;
+    -webkit-text-fill-color: var(--ghost-gray) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root.Mui-selected,
+  .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root.Mui-selected * {
+    color: var(--pale-orange-red) !important;
+    fill: var(--pale-orange-red) !important;
+    -webkit-text-fill-color: var(--pale-orange-red) !important;
+  }
+  /* === Mobile drawer: kill desktop sticky/fixed/elbow, clean stack === */
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child,
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: auto !important;
+    background: transparent !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root,
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+    z-index: auto !important;
+    background: transparent !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root,
+  .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 2.6rem !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
+    z-index: auto !important;
+    transform: none !important;
+    float: none !important;
+  }
+  /* Dashboard always the tall first control — overrides desktop 10.8rem + selected */
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].jf-lcars-has-arm,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].jf-lcars-has-arm {
+    height: 5.5rem !important;
+    min-height: 5.5rem !important;
+    max-height: 5.5rem !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    margin: 0 0 3px 0 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+  .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]),
+  .dashboardDocument .MuiDrawer-paper li:has(> a[href="#/dashboard"]) {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  /* Remove any injected spacer nodes */
+  #jf-lcars-nav-header-spacer,
+  .dashboardDocument .MuiDrawer-paper > #jf-lcars-nav-header-spacer {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: none !important;
+  }
+  /* Server header list: no extra bottom space */
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child .MuiListItem-root {
+    margin: 0 !important;
+    min-height: 0 !important;
+  }
+  /* No desktop elbow pseudos on mobile */
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::before,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::before,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::after,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::after {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+  }
+  /* Drawer paper: flush left, full height under header */
+  .dashboardDocument .MuiDrawer-paper,
+  .MuiDrawer-paperAnchorLeft,
+  .MuiDrawer-paperAnchorTemporary,
+  .MuiDrawer-root .MuiDrawer-paper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+    margin-left: 0 !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    border-radius: 0 !important;
+    /* do NOT force transform:none — MUI uses translateX to hide closed temporary drawer */
+  }
+  .dashboardDocument .MuiDrawer-root,
+  .MuiDrawer-root.MuiDrawer-modal,
+  .MuiModal-root .MuiDrawer-root {
+    left: 0 !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .MuiList-root {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  /* Dashboard hover: color only — never move (no transform/margin/top change) */
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected:hover,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected:hover {
+    background: var(--ghost-gray, #d2d5df) !important;
+    background-color: var(--ghost-gray, #d2d5df) !important;
+    filter: none !important;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 0 3px 0 !important;
+    position: relative !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover *,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover * {
+    color: #000 !important;
+    fill: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+  /* Idle dashboard button always primary-gray (selected too) so hover is visible */
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected {
+    background: var(--primary-gray, #6d748c) !important;
+    background-color: var(--primary-gray, #6d748c) !important;
+    transform: none !important;
+  }
+
   /* Left vertical rail */
   .dashboardDocument .jf-lcars-frame,
   #jf-lcars-frame,
@@ -6910,11 +7448,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function pinLcarsTopChrome() {
     try {
-      /* Mobile / narrow: no fixed L-curve chrome */
+      /* Mobile / narrow: no fixed L-curve chrome; restore in-flow Dashboard button */
       if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
         var hideIds = [
           DASH_PANEL_ID, ELBOW_CHROME_ID,
-          "jf-lcars-dash-elbow", "jf-lcars-dash-elbow-cut", "jf-lcars-dash-bridge"
+          "jf-lcars-dash-elbow", "jf-lcars-dash-elbow-cut", "jf-lcars-dash-bridge",
+          "jf-lcars-lib-elbow-chrome", "jf-lcars-lib-unified-hit"
         ];
         hideIds.forEach(function (id) {
           var el = document.getElementById(id);
@@ -6927,6 +7466,77 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         document.querySelectorAll(".jf-lcars-dash-arm-hit, .jf-lcars-dash-curve-hit").forEach(function (el) {
           el.style.setProperty("display", "none", "important");
         });
+        var sp = document.getElementById("jf-lcars-nav-header-spacer");
+        if (sp) {
+          sp.style.setProperty("display", "none", "important");
+          sp.style.setProperty("height", "0", "important");
+          sp.style.setProperty("min-height", "0", "important");
+        }
+        /* Undo desktop fixed Dashboard button so mobile drawer items work */
+        try {
+          var mDash = queryDashLink();
+          if (mDash) {
+            mDash.classList.remove("jf-lcars-has-arm");
+            [
+              "position","top","left","width","max-width",
+              "z-index","opacity","filter","border","border-radius","box-shadow",
+              "-webkit-text-fill-color","transform"
+            ].forEach(function (p) { mDash.style.removeProperty(p); });
+            /* Always tall on mobile */
+            mDash.style.setProperty("position", "relative", "important");
+            mDash.style.setProperty("height", "5.5rem", "important");
+            mDash.style.setProperty("min-height", "5.5rem", "important");
+            mDash.style.setProperty("max-height", "5.5rem", "important");
+            mDash.style.setProperty("width", "100%", "important");
+            mDash.style.setProperty("background", "#6d748c", "important");
+            mDash.style.setProperty("background-color", "#6d748c", "important");
+            mDash.style.setProperty("color", "#000", "important");
+            mDash.style.setProperty("-webkit-text-fill-color", "#000", "important");
+            mDash.style.setProperty("display", "flex", "important");
+            mDash.style.setProperty("align-items", "flex-end", "important");
+            mDash.style.setProperty("justify-content", "flex-end", "important");
+            mDash.style.setProperty("margin", "0 0 3px 0", "important");
+            mDash.style.setProperty("padding", "0.55rem 0.75rem", "important");
+            mDash.style.setProperty("box-sizing", "border-box", "important");
+            mDash.style.setProperty("overflow", "hidden", "important");
+            mDash.querySelectorAll("*").forEach(function (kid) {
+              kid.style.setProperty("color", "#000", "important");
+              kid.style.setProperty("fill", "#000", "important");
+              kid.style.setProperty("opacity", "1", "important");
+              kid.style.setProperty("visibility", "visible", "important");
+              kid.style.setProperty("-webkit-text-fill-color", "#000", "important");
+            });
+            var mParent = mDash.closest(".MuiListItem-root");
+            if (mParent) {
+              [
+                "min-height","height","max-height","background","background-color",
+                "overflow","position","z-index","top","left"
+              ].forEach(function (p) { mParent.style.removeProperty(p); });
+              mParent.style.setProperty("margin", "0 0 3px 0", "important");
+              mParent.style.setProperty("padding", "0", "important");
+              mParent.style.setProperty("height", "auto", "important");
+              mParent.style.setProperty("min-height", "0", "important");
+              mParent.style.setProperty("max-height", "none", "important");
+              try {
+                var nextM = (mParent && mParent.nextElementSibling) ? mParent.nextElementSibling : null;
+                if (nextM && nextM.style) {
+                  nextM.style.removeProperty("margin-top");
+                  nextM.style.removeProperty("position");
+                  nextM.style.removeProperty("z-index");
+                }
+              } catch (eNextM) {}
+            }
+            /* Remove spacer node entirely on mobile */
+            var sp2 = document.getElementById("jf-lcars-nav-header-spacer");
+            if (sp2 && sp2.parentNode) sp2.parentNode.removeChild(sp2);
+          }
+          /* Clear fixed first list (server header) pin */
+          document.querySelectorAll(".dashboardDocument .MuiDrawer-paper > .MuiList-root").forEach(function (fl) {
+            [
+              "position","top","left","width","max-width","margin","padding","z-index","background"
+            ].forEach(function (p) { fl.style.removeProperty(p); });
+          });
+        } catch (eM) {}
         var frame = document.getElementById(FRAME_ID);
         if (frame) {
           frame.style.setProperty("display", "block", "important");
@@ -6943,14 +7553,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           elbow.style.cssText =
             "display:block!important;visibility:visible!important;opacity:1!important;" +
             "position:fixed!important;left:0!important;top:48px!important;" +
-            "width:96px!important;height:40px!important;background:#6d748c!important;" +
+            "width:64px!important;height:40px!important;background:#6d748c!important;" +
             "z-index:1090!important;pointer-events:none!important;border-radius:0!important;";
         }
         var cut = document.getElementById(CUT_ID);
         if (cut) {
           cut.style.cssText =
             "display:block!important;visibility:visible!important;opacity:1!important;" +
-            "position:fixed!important;left:56px!important;top:48px!important;" +
+            "position:fixed!important;left:32px!important;top:48px!important;" +
             "width:40px!important;height:40px!important;background:#000!important;" +
             "border-radius:40px 0 0 0!important;z-index:1091!important;pointer-events:none!important;";
         }
@@ -6984,10 +7594,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           mobileRunner.style.setProperty("transform", "none", "important");
         }
         document.querySelectorAll(".MuiDrawer-paper, .MuiDrawer-paperAnchorTemporary").forEach(function (p) {
-          p.style.setProperty("top", "78px", "important");
-          p.style.setProperty("height", "calc(100vh - 78px)", "important");
-          p.style.setProperty("max-height", "calc(100vh - 78px)", "important");
+          p.style.setProperty("margin", "0", "important");
+          p.style.setProperty("margin-left", "0", "important");
+          /* leave top/transform/visibility to MUI temporary drawer */
+          p.style.removeProperty("visibility");
+          p.style.removeProperty("transform");
         });
+        fixMobileDrawerLayout();
+      ensureMobileDrawerObserver();
         return;
       }
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
@@ -7040,6 +7654,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           }
         }
       }
+      if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+        pinLcarsTopChrome();
+        return;
+      }
       if (dashBtn) {
         dashBtn.style.setProperty("position", "fixed", "important");
         dashBtn.style.setProperty("top", stickyTop + "px", "important");
@@ -7084,21 +7702,25 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           parent.style.setProperty("overflow", "visible", "important");
           parent.style.setProperty("position", "relative", "important");
           parent.style.setProperty("z-index", "0", "important");
-          var next = parent.nextElementSibling;
-          if (next) {
-            next.style.setProperty("position", "relative", "important");
-            next.style.setProperty("z-index", "1", "important");
-            next.style.setProperty("margin-top", "7px", "important");
-            next.style.setProperty("opacity", "1", "important");
-            next.style.setProperty("visibility", "visible", "important");
-            var nextBtn = next.querySelector(".MuiListItemButton-root, a.MuiListItemButton-root");
-            if (nextBtn) {
-              nextBtn.style.setProperty("opacity", "1", "important");
-              nextBtn.style.setProperty("visibility", "visible", "important");
-              nextBtn.style.setProperty("position", "relative", "important");
-              nextBtn.style.setProperty("z-index", "1", "important");
+          try {
+            var next = (parent && parent.nextElementSibling) ? parent.nextElementSibling : null;
+            if (next && next.style) {
+              next.style.setProperty("position", "relative", "important");
+              next.style.setProperty("z-index", "1", "important");
+              next.style.setProperty("margin-top", "7px", "important");
+              next.style.setProperty("opacity", "1", "important");
+              next.style.setProperty("visibility", "visible", "important");
+              var nextBtn = next.querySelector
+                ? next.querySelector(".MuiListItemButton-root, a.MuiListItemButton-root")
+                : null;
+              if (nextBtn && nextBtn.style) {
+                nextBtn.style.setProperty("opacity", "1", "important");
+                nextBtn.style.setProperty("visibility", "visible", "important");
+                nextBtn.style.setProperty("position", "relative", "important");
+                nextBtn.style.setProperty("z-index", "1", "important");
+              }
             }
-          }
+          } catch (eNext) {}
         }
       }
 
@@ -7133,6 +7755,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function ensureNavHeaderSpacer() {
     try {
+      if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+        var spM = document.getElementById("jf-lcars-nav-header-spacer");
+        if (spM) {
+          spM.style.setProperty("display", "none", "important");
+          spM.style.setProperty("height", "0", "important");
+        }
+        return;
+      }
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
       if (!paper) return;
       var first = paper.querySelector(":scope > .MuiList-root");
@@ -7457,6 +8087,78 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function ensureLibArmHit() {
     bindLibHomeHover();
+  }
+
+
+  function fixMobileDrawerLayout() {
+    try {
+      if (!(window.matchMedia && window.matchMedia("(max-width: 899px)").matches)) return;
+      document.querySelectorAll(".MuiDrawer-root, .MuiDrawer-paper, .MuiDrawer-docked").forEach(function (el) {
+        if (el.style && el.style.display === "none") {
+          el.style.removeProperty("display");
+        }
+      });
+      var papers = document.querySelectorAll(".MuiDrawer-paper, .MuiDrawer-paperAnchorTemporary");
+      papers.forEach(function (paper) {
+        var root = paper.closest(".MuiDrawer-root");
+        var open = root && root.classList.contains("MuiDrawer-open");
+        var modal = paper.closest(".MuiModal-root");
+        if (modal && modal.getAttribute("aria-hidden") === "true") open = false;
+        if (open) {
+          paper.style.removeProperty("display");
+          paper.style.setProperty("visibility", "visible", "important");
+          paper.style.setProperty("opacity", "1", "important");
+          paper.style.setProperty("background", "#000", "important");
+          paper.style.setProperty("z-index", "14000", "important");
+          if (modal) modal.style.setProperty("z-index", "14000", "important");
+          if (root) root.style.setProperty("z-index", "14000", "important");
+          /* Hide server id / logo header row */
+          paper.querySelectorAll(".MuiListItem-root").forEach(function (li) {
+            var hasLogo = !!li.querySelector("img");
+            var hasSecondary = !!li.querySelector(".MuiListItemText-secondary, .MuiListItemText-multiline");
+            var href = "";
+            var a = li.querySelector("a.MuiListItemButton-root, a[href]");
+            if (a) href = a.getAttribute("href") || "";
+            if (hasLogo || (hasSecondary && (href === "#/" || href === "#" || href === ""))) {
+              li.style.setProperty("display", "none", "important");
+              li.style.setProperty("height", "0", "important");
+              li.style.setProperty("margin", "0", "important");
+              li.style.setProperty("padding", "0", "important");
+              li.style.setProperty("overflow", "hidden", "important");
+            }
+          });
+          /* Also hide first list if it only contains the server row */
+          var firstList = paper.querySelector(":scope > .MuiList-root, :scope > ul");
+          if (firstList && firstList.querySelectorAll(".MuiListItem-root").length <= 1) {
+            var only = firstList.querySelector(".MuiListItem-root");
+            if (only && only.querySelector("img, .MuiListItemText-secondary")) {
+              firstList.style.setProperty("display", "none", "important");
+            }
+          }
+        }
+      });
+    } catch (e) {}
+  }
+
+  function ensureMobileDrawerObserver() {
+    try {
+      if (window.__jfLcarsDrawerObs) return;
+      window.__jfLcarsDrawerObs = new MutationObserver(function () {
+        try {
+          if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+            fixMobileDrawerLayout();
+          }
+        } catch (e2) {}
+      });
+      if (document.body) {
+        window.__jfLcarsDrawerObs.observe(document.body, {
+          subtree: true,
+          childList: true,
+          attributes: true,
+          attributeFilter: ["class", "style", "aria-hidden"]
+        });
+      }
+    } catch (e) {}
   }
 
   function ensureDashArmHit() {
@@ -7841,10 +8543,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         /* Keep existing nodes so hover bindings stay alive; only refresh active class */
         var existing = nav.querySelectorAll(".jf-lcars-lib-btn");
         for (var ei = 0; ei < existing.length; ei++) {
-          var eh = existing[ei].getAttribute("href") || "";
-          var pathKey = eh.split("?")[0];
-          var on = hash === eh || hash.indexOf(pathKey) === 0 ||
-            (pathKey === "#/" && (hash === "#" || hash === "#/" || hash.indexOf("#/home") === 0));
+          var eh = existing[ei].getAttribute("href");
+          if (eh == null) eh = "";
+          eh = "" + eh;
+          var qPos = eh.indexOf("?");
+          var pathOnly = qPos === -1 ? eh : eh.substring(0, qPos);
+          var on = hash === eh || (pathOnly && hash.indexOf(pathOnly) === 0) ||
+            (pathOnly === "#/" && (hash === "#" || hash === "#/" || hash.indexOf("#/home") === 0));
           existing[ei].classList.toggle("is-active", on);
         }
         applyLibraryContentInset();
@@ -7855,22 +8560,26 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       nav.innerHTML = "";
       for (var i = 0; i < items.length; i++) {
         var it = items[i];
+        if (!it || typeof it !== "object") continue;
+        var hrefStr = "";
+        try { hrefStr = it.href == null ? "" : ("" + it.href); } catch (eH) { hrefStr = ""; }
         var a = document.createElement("a");
         a.className = "jf-lcars-lib-btn" + (i === 0 ? " jf-lcars-lib-home" : "");
-        a.href = it.href;
-        var pathKey = (it.href || "").split("?")[0];
-        if (hash === it.href || hash.indexOf(pathKey) === 0 || (pathKey === "#/" && (hash === "#" || hash === "#/" || hash.indexOf("#/home") === 0))) {
+        a.setAttribute("href", hrefStr || "#/");
+        var qPos2 = hrefStr.indexOf("?");
+        var pathOnly2 = qPos2 === -1 ? hrefStr : hrefStr.substring(0, qPos2);
+        if (hash === hrefStr || (pathOnly2 && hash.indexOf(pathOnly2) === 0) || (pathOnly2 === "#/" && (hash === "#" || hash === "#/" || hash.indexOf("#/home") === 0))) {
           a.classList.add("is-active");
         }
         if (it.iconHtml) {
           var wrap = document.createElement("span");
           wrap.className = "jf-lcars-lib-icon";
-          wrap.innerHTML = it.iconHtml;
+          try { wrap.innerHTML = String(it.iconHtml); } catch (eIcon) {}
           while (wrap.firstChild) a.appendChild(wrap.firstChild);
         }
         var t = document.createElement("span");
         t.className = "jf-lcars-lib-label";
-        t.textContent = it.label;
+        t.textContent = it.label != null ? String(it.label) : "";
         a.appendChild(t);
         nav.appendChild(a);
       }
@@ -7931,24 +8640,33 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       bindDrawerScroll();
       ensureDashArmHit();
       ensureLibArmHit();
+      fixMobileDrawerLayout();
       ensureSubmenuBars();
       syncTopBtn();
       pruneEmptyTableColumns();
       ensureNumberSpinners();
       syncLibraryNav();
       alignSecondaryToolbar();
-      /* Ensure admin permanent drawer never paints over library home */
-      if (typeof isLibraryView === "function" && isLibraryView()) {
-        document.querySelectorAll(".MuiDrawer-root, .MuiDrawer-docked").forEach(function (d) {
-          d.style.setProperty("display", "none", "important");
-        });
-      }
+      /* Desktop library only: hide permanent admin drawer. Never touch mobile temporary drawer. */
+      try {
+        var narrowHide = window.matchMedia && window.matchMedia("(max-width: 1099px)").matches;
+        if (typeof isLibraryView === "function" && isLibraryView() && !narrowHide) {
+          document.querySelectorAll(".dashboardDocument .MuiDrawer-root.MuiDrawer-docked, .MuiDrawer-docked").forEach(function (d) {
+            d.style.setProperty("display", "none", "important");
+          });
+        } else {
+          /* Clear any leftover inline hide so mobile/dashboard drawers can show */
+          document.querySelectorAll(".MuiDrawer-root, .MuiDrawer-docked, .MuiDrawer-paper").forEach(function (d) {
+            if (d.style.display === "none") d.style.removeProperty("display");
+          });
+        }
+      } catch (eHide) {}
     } catch (e) {
       console.warn("[JellyfinLCARS]", e);
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.33-lib-unified-hit",
+    version: "2.22.49-hide-server-curve",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
