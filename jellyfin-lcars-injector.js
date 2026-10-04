@@ -16,6 +16,7 @@
   var DASH_ELBOW_ID = "jf-lcars-dash-elbow";
   var DASH_CUT_ID = "jf-lcars-dash-elbow-cut";
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
+  var __lcarsLibNavCache = null;
   var THEME_CSS = `/*
  * Jellyfin LCARS — Picard theme v2.3.0
  * Full styles restored + frame matching thelcars.com/themes/picard.html
@@ -74,10 +75,118 @@
   --lcars-hover-brighten: 1.12;
   --lcars-admin-drawer: 240px;
 }
+
+/* Narrow: hide admin/desktop chrome — library mobile curve is positioned in JS */
+html.jf-lcars-narrow #jf-lcars-elbow-chrome,
+html.jf-lcars-narrow #jf-lcars-dash-panel,
+html.jf-lcars-narrow #jf-lcars-dash-elbow,
+html.jf-lcars-narrow #jf-lcars-dash-bridge,
+html.jf-lcars-narrow #jf-lcars-dash-elbow-cut,
+html.jf-lcars-narrow .jf-lcars-dash-arm-hit,
+html.jf-lcars-narrow .jf-lcars-dash-curve-hit,
+html.jf-lcars-narrow:not(.jf-lcars-library) #jf-lcars-elbow,
+html.jf-lcars-narrow:not(.jf-lcars-library) #jf-lcars-elbow-cut,
+html.jf-lcars-narrow:not(.jf-lcars-library) #jf-lcars-top-runner,
+html.jf-lcars-narrow:not(.jf-lcars-library) #jf-lcars-frame,
+html.jf-lcars-narrow:not(.jf-lcars-library) .jf-lcars-elbow,
+html.jf-lcars-narrow:not(.jf-lcars-library) .jf-lcars-elbow-cut,
+html.jf-lcars-narrow:not(.jf-lcars-library) .jf-lcars-top-runner,
+html.jf-lcars-narrow:not(.jf-lcars-library) .jf-lcars-frame {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* Mobile library: dedicated #jf-lcars-mobile-elbow owns the L-curve (JS-positioned) */
+html.jf-lcars-narrow.jf-lcars-library #jf-lcars-elbow,
+html.jf-lcars-narrow.jf-lcars-library #jf-lcars-elbow-cut,
+html.jf-lcars-narrow.jf-lcars-library #jf-lcars-top-runner,
+html.jf-lcars-narrow.jf-lcars-library #jf-lcars-frame,
+html.jf-lcars-narrow.jf-lcars-library .jf-lcars-elbow,
+html.jf-lcars-narrow.jf-lcars-library .jf-lcars-elbow-cut,
+html.jf-lcars-narrow.jf-lcars-library .jf-lcars-top-runner,
+html.jf-lcars-narrow.jf-lcars-library .jf-lcars-frame {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+#jf-lcars-mobile-elbow {
+  display: none;
+  pointer-events: none !important;
+}
+html.jf-lcars-narrow.jf-lcars-library #jf-lcars-mobile-elbow {
+  display: block !important;
+}
+
+/* Mobile library: gray L frame; single curve = content top-left at the rail */
+html.jf-lcars-narrow.jf-lcars-library #jf-lcars-mobile-elbow {
+  display: block !important;
+}
+html.jf-lcars-narrow.jf-lcars-library .page,
+html.jf-lcars-narrow.jf-lcars-library .mainAnimatedPage,
+html.jf-lcars-narrow.jf-lcars-library .skinBody > .page,
+html.jf-lcars-narrow.jf-lcars-library #mainContent,
+html.jf-lcars-narrow.jf-lcars-library .mainAnimatedPages {
+  border-top-left-radius: var(--lcars-mobile-curve-r, 48px) !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  background: #000 !important;
+  position: relative !important;
+  z-index: 1100 !important;
+  /* Align curve to rail edge; tuck 5px up under the gray bar */
+  margin-left: 56px !important;
+  margin-top: -5px !important;
+  padding-top: calc(var(--lcars-mobile-bar-h, 22px) + 3px) !important;
+  width: auto !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+/* AppBar already offset by rail; avoid double-indent on body */
+html.jf-lcars-narrow.jf-lcars-library body {
+  padding-left: 0 !important;
+}
+html.jf-lcars-narrow.jf-lcars-library {
+  --lcars-lib-content-inset: 56px;
+}
+/* Secondary toolbar: no extra curve */
+html.jf-lcars-narrow.jf-lcars-library .MuiToolbar-root.padded-left,
+html.jf-lcars-narrow.jf-lcars-library .MuiToolbar-root {
+  border-radius: 0 !important;
+  background: transparent !important;
+  margin-left: 0 !important;
+}
+
+
+
 html, body {
   background: #000 !important;
   color: var(--light-gray) !important;
   font-family: var(--lcars-font) !important;
+}
+/* Material Icons / MUI font icons must NOT inherit Antonio */
+.material-icons,
+.material-icons:not([class*="outlined"]),
+span.material-icons,
+.material-icons.cardOverlayButtonIcon,
+.sectionTitleButton .material-icons,
+.emby-button .material-icons,
+.paper-icon-button-light .material-icons,
+button .material-icons,
+.listItemIcon.material-icons,
+[class*="material-icons"] {
+  font-family: "Material Icons" !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  speak: never;
+  font-feature-settings: "liga" !important;
+  -webkit-font-feature-settings: "liga" !important;
+}
+.MuiSvgIcon-root {
+  font-family: inherit !important;
 }
 /* ========== FRAME ========== */
 /* Solid left column full height */
@@ -735,6 +844,13 @@ html.jf-lcars-library:not(.jf-lcars-video) .skinHeader {
 #jf-lcars-library-nav .jf-lcars-lib-btn.is-active {
   outline-offset: -2px !important;
 }
+#jf-lcars-library-nav .jf-lcars-lib-icon-fallback {
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  line-height: 1 !important;
+  color: inherit !important;
+}
 #jf-lcars-library-nav .jf-lcars-lib-btn svg,
 #jf-lcars-library-nav .jf-lcars-lib-btn img {
   width: 1.15rem !important;
@@ -791,21 +907,104 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
   margin-left: 0 !important;
   padding-left: 0 !important;
 }
-@media screen and (max-width: 1099px) {
-  #jf-lcars-library-nav { display: none !important; }
+/* ≥900px: full-width LCARS library nav (existing styles) */
+@media screen and (min-width: 900px) {
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
+    display: flex !important;
+    width: var(--lcars-admin-drawer, 240px) !important;
+  }
+}
+/* <900px: thin left rail — square icon-only buttons */
+@media screen and (max-width: 899px) {
   html.jf-lcars-library:not(.jf-lcars-video) {
     --lcars-sidebar: 56px;
-    --lcars-lib-content-inset: 76px;
+    --lcars-admin-drawer: 56px;
+    --lcars-lib-content-inset: 72px;
   }
   html.jf-lcars-library:not(.jf-lcars-video) body {
     padding-left: var(--lcars-lib-content-inset) !important;
+  }
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 56px !important;
+    max-width: 56px !important;
+    min-width: 56px !important;
+    /* header (~48px) + 100px gap before first icon */
+    padding: 148px 0 24px 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+    background: #000 !important;
+    z-index: 1100 !important;
+    gap: 3px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    max-height: 56px !important;
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+  }
+  /* Icon only — hide text labels */
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-label {
+    display: none !important;
+  }
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn svg,
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn img {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    max-width: 1.5rem !important;
+    max-height: 1.5rem !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+  /* First (Home) still square, not tall panel */
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home,
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn:first-child {
+    height: 56px !important;
+    min-height: 56px !important;
+    max-height: 56px !important;
+  }
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::before,
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::after {
+    display: none !important;
+    content: none !important;
+  }
+  /* Hide top toolbar library links — they live in the left icon rail now */
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root.jf-lcars-lib-source,
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="collectionType"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/movies"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/tv"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="home?tab"]),
+  html.jf-lcars-library:not(.jf-lcars-video) header .MuiToolbar-root .MuiStack-root.jf-lcars-lib-source {
+    display: none !important;
+  }
+  /* Header starts after icon rail */
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root,
+  html.jf-lcars-library:not(.jf-lcars-video) .skinHeader {
+    left: 56px !important;
   }
 }
 /* Hide admin dash chrome + thin left rail when library menu owns the left column */
 html.jf-lcars-library #jf-lcars-dash-panel,
 html.jf-lcars-library #jf-lcars-dash-elbow,
 html.jf-lcars-library #jf-lcars-dash-bridge,
-html.jf-lcars-library #jf-lcars-elbow-chrome,
+html.jf-lcars-library #jf-lcars-elbow-chrome {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 /* Hide permanent admin drawer only on desktop library layout */
 @media (min-width: 1100px) {
   html.jf-lcars-library .dashboardDocument .MuiDrawer-root,
@@ -815,17 +1014,22 @@ html.jf-lcars-library #jf-lcars-elbow-chrome,
     visibility: hidden !important;
   }
 }
-html.jf-lcars-library .jf-lcars-frame,
-html.jf-lcars-library #jf-lcars-frame,
-html.jf-lcars-library .jf-lcars-elbow,
-html.jf-lcars-library #jf-lcars-elbow,
-html.jf-lcars-library .jf-lcars-elbow-cut,
-html.jf-lcars-library #jf-lcars-elbow-cut {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  visibility: hidden !important;
+/* Desktop library: hide default admin frame elbows (lib nav owns the column) */
+@media (min-width: 900px) {
+  html.jf-lcars-library .jf-lcars-frame,
+  html.jf-lcars-library #jf-lcars-frame,
+  html.jf-lcars-library .jf-lcars-elbow,
+  html.jf-lcars-library #jf-lcars-elbow,
+  html.jf-lcars-library .jf-lcars-elbow-cut,
+  html.jf-lcars-library #jf-lcars-elbow-cut {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
 }
+/* Mobile library: elbows are shown at the rail edge via .jf-lcars-narrow.jf-lcars-library rules */
+
 /* Top runner spans from library nav edge (same as admin drawer) */
 html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-top-runner,
 html.jf-lcars-library:not(.jf-lcars-video) .jf-lcars-top-runner {
@@ -849,7 +1053,7 @@ html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root {
  * Top toolbar library links live in the left nav now.
  * Hide that stack only when the left library menu is visible (≥1100px).
  */
-@media screen and (min-width: 1100px) {
+@media screen and (min-width: 900px) {
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="collectionType"]),
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/boxsets"]),
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/movies"]),
@@ -1649,44 +1853,9 @@ body.dashboardDocument {
     padding-top: 0.7rem !important;
     padding-bottom: 0.7rem !important;
   }
-  /* Mobile curve: flush to left edge only (under hamburger rail) */
-  #jf-lcars-elbow,
-  .jf-lcars-elbow {
-    left: 0 !important;
-    top: 48px !important;
-    width: 48px !important;
-    height: 28px !important;
-  }
-  #jf-lcars-elbow-cut,
-  .jf-lcars-elbow-cut {
-    left: 24px !important;
-    top: 48px !important;
-    width: 28px !important;
-    height: 28px !important;
-  }
-  #jf-lcars-top-runner,
-  .jf-lcars-top-runner {
-    left: 48px !important;
-    top: 48px !important;
-    height: 16px !important;
-  }
-  .jf-lcars-frame {
-    left: 0 !important;
-    width: 24px !important;
-  }
-  /* While mobile drawer is open, hide floating runner/curve so they don't sit over the menu */
-  body:has(.MuiDrawer-root.MuiDrawer-open) #jf-lcars-top-runner,
-  body:has(.MuiDrawer-root.MuiDrawer-open) .jf-lcars-top-runner,
-  body:has(.MuiDrawer-root.MuiDrawer-open) #jf-lcars-elbow,
-  body:has(.MuiDrawer-root.MuiDrawer-open) #jf-lcars-elbow-cut,
-  body:has(.MuiModal-root:not([aria-hidden="true"]) .MuiDrawer-paper) #jf-lcars-top-runner,
-  body:has(.MuiModal-root:not([aria-hidden="true"]) .MuiDrawer-paper) #jf-lcars-elbow,
-  body:has(.MuiModal-root:not([aria-hidden="true"]) .MuiDrawer-paper) #jf-lcars-elbow-cut {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
+  /* mobile curve geometry owned by html.jf-lcars-narrow.jf-lcars-library rules */
 }
+
 
 .dashboardDocument .MuiDrawer-paper::-webkit-scrollbar {
   display: none !important;
@@ -7183,8 +7352,15 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
 
   function ensureDashElbow() {
+    if (typeof isNarrowViewport === "function" && isNarrowViewport()) {
+      ["jf-lcars-dash-elbow","jf-lcars-dash-bridge","jf-lcars-dash-elbow-cut"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.style.setProperty("display", "none", "important");
+      });
+      return;
+    }
     var isDash = !!(document.querySelector(".dashboardDocument") ||
-      document.body.classList.contains("dashboardDocument") ||
+      (document.body && document.body.classList.contains("dashboardDocument")) ||
       (location.hash && location.hash.indexOf("dashboard") !== -1));
     function ensure(id, className) {
       var el = document.getElementById(id);
@@ -7448,160 +7624,24 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function pinLcarsTopChrome() {
     try {
-      /* Mobile / narrow: no fixed L-curve chrome; restore in-flow Dashboard button */
-      if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
-        var hideIds = [
-          DASH_PANEL_ID, ELBOW_CHROME_ID,
-          "jf-lcars-dash-elbow", "jf-lcars-dash-elbow-cut", "jf-lcars-dash-bridge",
-          "jf-lcars-lib-elbow-chrome", "jf-lcars-lib-unified-hit"
-        ];
-        hideIds.forEach(function (id) {
-          var el = document.getElementById(id);
-          if (el) {
-            el.style.setProperty("display", "none", "important");
-            el.style.setProperty("visibility", "hidden", "important");
-            el.style.setProperty("opacity", "0", "important");
-          }
-        });
-        document.querySelectorAll(".jf-lcars-dash-arm-hit, .jf-lcars-dash-curve-hit").forEach(function (el) {
-          el.style.setProperty("display", "none", "important");
-        });
-        var sp = document.getElementById("jf-lcars-nav-header-spacer");
-        if (sp) {
-          sp.style.setProperty("display", "none", "important");
-          sp.style.setProperty("height", "0", "important");
-          sp.style.setProperty("min-height", "0", "important");
-        }
-        /* Undo desktop fixed Dashboard button so mobile drawer items work */
+      /* Mobile: hide chrome only — no elbows/runners, no fixed dash button */
+      if (isNarrowViewport()) {
+        syncChromeForViewport();
         try {
           var mDash = queryDashLink();
           if (mDash) {
             mDash.classList.remove("jf-lcars-has-arm");
-            [
-              "position","top","left","width","max-width",
-              "z-index","opacity","filter","border","border-radius","box-shadow",
-              "-webkit-text-fill-color","transform"
-            ].forEach(function (p) { mDash.style.removeProperty(p); });
-            /* Always tall on mobile */
+            ["position","top","left","width","max-width","z-index","transform",
+             "-webkit-text-fill-color"].forEach(function (p) { mDash.style.removeProperty(p); });
             mDash.style.setProperty("position", "relative", "important");
             mDash.style.setProperty("height", "5.5rem", "important");
             mDash.style.setProperty("min-height", "5.5rem", "important");
-            mDash.style.setProperty("max-height", "5.5rem", "important");
             mDash.style.setProperty("width", "100%", "important");
             mDash.style.setProperty("background", "#6d748c", "important");
-            mDash.style.setProperty("background-color", "#6d748c", "important");
             mDash.style.setProperty("color", "#000", "important");
-            mDash.style.setProperty("-webkit-text-fill-color", "#000", "important");
-            mDash.style.setProperty("display", "flex", "important");
-            mDash.style.setProperty("align-items", "flex-end", "important");
-            mDash.style.setProperty("justify-content", "flex-end", "important");
-            mDash.style.setProperty("margin", "0 0 3px 0", "important");
-            mDash.style.setProperty("padding", "0.55rem 0.75rem", "important");
-            mDash.style.setProperty("box-sizing", "border-box", "important");
-            mDash.style.setProperty("overflow", "hidden", "important");
-            mDash.querySelectorAll("*").forEach(function (kid) {
-              kid.style.setProperty("color", "#000", "important");
-              kid.style.setProperty("fill", "#000", "important");
-              kid.style.setProperty("opacity", "1", "important");
-              kid.style.setProperty("visibility", "visible", "important");
-              kid.style.setProperty("-webkit-text-fill-color", "#000", "important");
-            });
-            var mParent = mDash.closest(".MuiListItem-root");
-            if (mParent) {
-              [
-                "min-height","height","max-height","background","background-color",
-                "overflow","position","z-index","top","left"
-              ].forEach(function (p) { mParent.style.removeProperty(p); });
-              mParent.style.setProperty("margin", "0 0 3px 0", "important");
-              mParent.style.setProperty("padding", "0", "important");
-              mParent.style.setProperty("height", "auto", "important");
-              mParent.style.setProperty("min-height", "0", "important");
-              mParent.style.setProperty("max-height", "none", "important");
-              try {
-                var nextM = (mParent && mParent.nextElementSibling) ? mParent.nextElementSibling : null;
-                if (nextM && nextM.style) {
-                  nextM.style.removeProperty("margin-top");
-                  nextM.style.removeProperty("position");
-                  nextM.style.removeProperty("z-index");
-                }
-              } catch (eNextM) {}
-            }
-            /* Remove spacer node entirely on mobile */
-            var sp2 = document.getElementById("jf-lcars-nav-header-spacer");
-            if (sp2 && sp2.parentNode) sp2.parentNode.removeChild(sp2);
           }
-          /* Clear fixed first list (server header) pin */
-          document.querySelectorAll(".dashboardDocument .MuiDrawer-paper > .MuiList-root").forEach(function (fl) {
-            [
-              "position","top","left","width","max-width","margin","padding","z-index","background"
-            ].forEach(function (p) { fl.style.removeProperty(p); });
-          });
         } catch (eM) {}
-        var frame = document.getElementById(FRAME_ID);
-        if (frame) {
-          frame.style.setProperty("display", "block", "important");
-          frame.style.setProperty("visibility", "visible", "important");
-          frame.style.setProperty("opacity", "1", "important");
-          frame.style.setProperty("width", "56px", "important");
-          frame.style.setProperty("left", "0", "important");
-          frame.style.setProperty("top", "0", "important");
-          frame.style.setProperty("bottom", "0", "important");
-        }
-        /* Junction elbow visible */
-        var elbow = document.getElementById(ELBOW_ID);
-        if (elbow) {
-          elbow.style.cssText =
-            "display:block!important;visibility:visible!important;opacity:1!important;" +
-            "position:fixed!important;left:0!important;top:48px!important;" +
-            "width:64px!important;height:40px!important;background:#6d748c!important;" +
-            "z-index:1090!important;pointer-events:none!important;border-radius:0!important;";
-        }
-        var cut = document.getElementById(CUT_ID);
-        if (cut) {
-          cut.style.cssText =
-            "display:block!important;visibility:visible!important;opacity:1!important;" +
-            "position:fixed!important;left:32px!important;top:48px!important;" +
-            "width:40px!important;height:40px!important;background:#000!important;" +
-            "border-radius:40px 0 0 0!important;z-index:1091!important;pointer-events:none!important;";
-        }
-        var mobileRunner = document.getElementById(RUNNER_ID);
-        if (!mobileRunner && document.body) {
-          mobileRunner = document.createElement("div");
-          mobileRunner.id = RUNNER_ID;
-          mobileRunner.className = "jf-lcars-top-runner";
-          mobileRunner.setAttribute("aria-hidden", "true");
-          var mrow = document.createElement("div");
-          mrow.className = "jf-lcars-bar-row";
-          ["a", "b", "c", "d", "e"].forEach(function (k) {
-            var seg = document.createElement("div");
-            seg.className = "jf-lcars-seg jf-lcars-seg-" + k;
-            mrow.appendChild(seg);
-          });
-          mobileRunner.appendChild(mrow);
-          document.body.appendChild(mobileRunner);
-        }
-        if (mobileRunner) {
-          mobileRunner.style.setProperty("display", "flex", "important");
-          mobileRunner.style.setProperty("visibility", "visible", "important");
-          mobileRunner.style.setProperty("opacity", "1", "important");
-          mobileRunner.style.setProperty("position", "fixed", "important");
-          mobileRunner.style.setProperty("top", "48px", "important");
-          mobileRunner.style.setProperty("left", "96px", "important");
-          mobileRunner.style.setProperty("right", "0", "important");
-          mobileRunner.style.setProperty("width", "auto", "important");
-          mobileRunner.style.setProperty("height", "30px", "important");
-          mobileRunner.style.setProperty("z-index", "12040", "important");
-          mobileRunner.style.setProperty("transform", "none", "important");
-        }
-        document.querySelectorAll(".MuiDrawer-paper, .MuiDrawer-paperAnchorTemporary").forEach(function (p) {
-          p.style.setProperty("margin", "0", "important");
-          p.style.setProperty("margin-left", "0", "important");
-          /* leave top/transform/visibility to MUI temporary drawer */
-          p.style.removeProperty("visibility");
-          p.style.removeProperty("transform");
-        });
         fixMobileDrawerLayout();
-      ensureMobileDrawerObserver();
         return;
       }
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
@@ -7654,7 +7694,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           }
         }
       }
-      if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
+      if (isNarrowViewport()) {
+        syncChromeForViewport();
         pinLcarsTopChrome();
         return;
       }
@@ -8090,75 +8131,218 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   }
 
 
-  function fixMobileDrawerLayout() {
+  function isNarrowViewport() {
     try {
-      if (!(window.matchMedia && window.matchMedia("(max-width: 899px)").matches)) return;
-      document.querySelectorAll(".MuiDrawer-root, .MuiDrawer-paper, .MuiDrawer-docked").forEach(function (el) {
-        if (el.style && el.style.display === "none") {
+      return window.innerWidth < 900;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function setNarrowClass() {
+    var narrow = isNarrowViewport();
+    document.documentElement.classList.toggle("jf-lcars-narrow", narrow);
+    if (document.body) document.body.classList.toggle("jf-lcars-narrow", narrow);
+    return narrow;
+  }
+
+  /** Mobile: hide fixed LCARS chrome. Desktop: clear hide overrides only. */
+  function syncChromeForViewport() {
+    try {
+      var narrow = setNarrowClass();
+      var isLib = document.documentElement.classList.contains("jf-lcars-library") &&
+        !document.documentElement.classList.contains("jf-lcars-video");
+      var adminIds = [
+        "jf-lcars-elbow-chrome", "jf-lcars-dash-panel",
+        "jf-lcars-dash-elbow", "jf-lcars-dash-elbow-cut", "jf-lcars-dash-bridge",
+        "jf-lcars-lib-elbow-chrome", "jf-lcars-lib-unified-hit", "jf-lcars-lib-arm-hit"
+      ];
+      adminIds.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (narrow) {
+          el.style.setProperty("display", "none", "important");
+          el.style.setProperty("visibility", "hidden", "important");
+          el.style.setProperty("opacity", "0", "important");
+        } else {
           el.style.removeProperty("display");
+          el.style.removeProperty("visibility");
+          el.style.removeProperty("opacity");
         }
       });
-      var papers = document.querySelectorAll(".MuiDrawer-paper, .MuiDrawer-paperAnchorTemporary");
+      document.querySelectorAll(".jf-lcars-dash-arm-hit, .jf-lcars-dash-curve-hit").forEach(function (el) {
+        if (narrow) el.style.setProperty("display", "none", "important");
+        else el.style.removeProperty("display");
+      });
+
+      var elbow = document.getElementById("jf-lcars-elbow");
+      var cut = document.getElementById("jf-lcars-elbow-cut");
+      var runner = document.getElementById("jf-lcars-top-runner");
+      var frame = document.getElementById("jf-lcars-frame");
+      var headerH = 48;
+      try {
+        var hdr = document.querySelector(".MuiAppBar-root, .skinHeader, header");
+        if (hdr) {
+          var hr = hdr.getBoundingClientRect();
+          if (hr.height > 20 && hr.height < 120) headerH = Math.round(hr.height);
+        }
+      } catch (eH) {}
+
+      if (narrow && isLib) {
+        /* Hide default chrome */
+        [elbow, cut, runner, frame].forEach(function (el) {
+          if (!el) return;
+          el.style.setProperty("display", "none", "important");
+          el.style.setProperty("visibility", "hidden", "important");
+          el.style.setProperty("opacity", "0", "important");
+        });
+        var barH = 22;
+        var railW = 56;
+        var curveR = 48;
+        var elbowTop = Math.max(0, headerH - 5);
+        document.documentElement.style.setProperty("--lcars-mobile-bar-h", barH + "px");
+        document.documentElement.style.setProperty("--lcars-mobile-curve-r", curveR + "px");
+        document.documentElement.style.setProperty("--lcars-mobile-elbow-top", elbowTop + "px");
+        document.documentElement.classList.add("jf-lcars-library", "jf-lcars-narrow");
+        if (document.body) document.body.classList.add("jf-lcars-library", "jf-lcars-narrow");
+
+        var me = document.getElementById("jf-lcars-mobile-elbow");
+        if (!me && document.body) {
+          me = document.createElement("div");
+          me.id = "jf-lcars-mobile-elbow";
+          me.setAttribute("aria-hidden", "true");
+          var vert = document.createElement("div");
+          vert.className = "jf-lcars-me-vert";
+          var bar = document.createElement("div");
+          bar.className = "jf-lcars-me-bar";
+          me.appendChild(vert);
+          me.appendChild(bar);
+          document.body.appendChild(me);
+        }
+        if (me) {
+          me.querySelectorAll(".jf-lcars-me-plate, .jf-lcars-me-scoop, .jf-lcars-me-mask").forEach(function (n) {
+            if (n.parentNode) n.parentNode.removeChild(n);
+          });
+          me.style.cssText =
+            "display:block!important;position:fixed!important;left:0!important;top:" + elbowTop +
+            "px!important;width:100%!important;height:" + (barH + curveR) + "px!important;" +
+            "z-index:1090!important;pointer-events:none!important;overflow:visible!important;";
+          var vertEl = me.querySelector(".jf-lcars-me-vert");
+          var barEl = me.querySelector(".jf-lcars-me-bar");
+          if (vertEl) {
+            vertEl.style.cssText =
+              "position:absolute!important;left:0!important;top:0!important;" +
+              "width:" + railW + "px!important;height:" + (barH + curveR) + "px!important;" +
+              "background:#6d748c!important;";
+          }
+          if (barEl) {
+            barEl.style.cssText =
+              "position:absolute!important;left:" + railW + "px!important;right:0!important;" +
+              "top:0!important;height:" + barH + "px!important;background:#6d748c!important;" +
+              "border-radius:0!important;";
+          }
+        }
+        /* Inline-apply content curve — CSS selectors often miss MUI page shells */
+        var contentNodes = document.querySelectorAll(
+          ".mainAnimatedPage, .page, .mainAnimatedPages, #mainContent, " +
+          ".skinBody, main.MuiBox-root, main, .content-primary"
+        );
+        for (var ci = 0; ci < contentNodes.length; ci++) {
+          var cn = contentNodes[ci];
+          if (!cn || !cn.style) continue;
+          cn.style.setProperty("border-top-left-radius", curveR + "px", "important");
+          cn.style.setProperty("border-top-right-radius", "0", "important");
+          cn.style.setProperty("background-color", "#000", "important");
+          cn.style.setProperty("margin-left", railW + "px", "important");
+          cn.style.setProperty("margin-top", "-5px", "important");
+          cn.style.setProperty("position", "relative", "important");
+          cn.style.setProperty("z-index", "1100", "important");
+          cn.style.setProperty("box-sizing", "border-box", "important");
+        }
+        /* Secondary toolbars: kill competing radii */
+        document.querySelectorAll(".MuiToolbar-root, .headerTabs, .sectionTabs").forEach(function (tb) {
+          if (!tb || !tb.style) return;
+          tb.style.setProperty("border-radius", "0", "important");
+          tb.style.setProperty("background", "transparent", "important");
+        });
+            } else if (narrow) {
+        [elbow, cut, runner, frame].forEach(function (el) {
+          if (!el) return;
+          el.style.setProperty("display", "none", "important");
+          el.style.setProperty("visibility", "hidden", "important");
+          el.style.setProperty("opacity", "0", "important");
+        });
+        var meHide1 = document.getElementById("jf-lcars-mobile-elbow");
+        if (meHide1) meHide1.style.setProperty("display", "none", "important");
+      } else {
+        [elbow, cut, runner, frame].forEach(function (el) {
+          if (!el) return;
+          el.style.removeProperty("display");
+          el.style.removeProperty("visibility");
+          el.style.removeProperty("opacity");
+          el.style.removeProperty("left");
+          el.style.removeProperty("top");
+          el.style.removeProperty("width");
+          el.style.removeProperty("height");
+        });
+        var meHide2 = document.getElementById("jf-lcars-mobile-elbow");
+        if (meHide2) meHide2.style.setProperty("display", "none", "important");
+      }
+
+      if (!narrow) {
+        document.querySelectorAll(
+          ".MuiDrawer-paper .MuiListItem-root, .MuiDrawer-paper a.MuiListItemButton-root"
+        ).forEach(function (el) {
+          if (!el.style) return;
+          ["display","height","min-height","max-height","opacity","visibility"].forEach(function (p) {
+            el.style.removeProperty(p);
+          });
+        });
+        var dash = document.querySelector(
+          'a.MuiListItemButton-root[href="#/dashboard"], a.MuiListItemButton-root[href="#/dashboard/"]'
+        );
+        if (dash) {
+          ["position","top","left","width","height","min-height","max-height",
+           "transform","background","background-color","-webkit-text-fill-color"].forEach(function (p) {
+            dash.style.removeProperty(p);
+          });
+          dash.classList.remove("jf-lcars-has-arm");
+          dash.querySelectorAll("*").forEach(function (kid) {
+            ["color","fill","opacity","visibility","-webkit-text-fill-color"].forEach(function (p) {
+              kid.style.removeProperty(p);
+            });
+          });
+        }
+      }
+    } catch (e) {}
+  }
+
+  function fixMobileDrawerLayout() {
+    try {
+      if (!isNarrowViewport()) return;
+      var papers = document.querySelectorAll(".MuiDrawer-paperAnchorTemporary, .MuiModal-root .MuiDrawer-paper");
       papers.forEach(function (paper) {
         var root = paper.closest(".MuiDrawer-root");
         var open = root && root.classList.contains("MuiDrawer-open");
-        var modal = paper.closest(".MuiModal-root");
-        if (modal && modal.getAttribute("aria-hidden") === "true") open = false;
-        if (open) {
-          paper.style.removeProperty("display");
-          paper.style.setProperty("visibility", "visible", "important");
-          paper.style.setProperty("opacity", "1", "important");
-          paper.style.setProperty("background", "#000", "important");
-          paper.style.setProperty("z-index", "14000", "important");
-          if (modal) modal.style.setProperty("z-index", "14000", "important");
-          if (root) root.style.setProperty("z-index", "14000", "important");
-          /* Hide server id / logo header row */
-          paper.querySelectorAll(".MuiListItem-root").forEach(function (li) {
-            var hasLogo = !!li.querySelector("img");
-            var hasSecondary = !!li.querySelector(".MuiListItemText-secondary, .MuiListItemText-multiline");
-            var href = "";
-            var a = li.querySelector("a.MuiListItemButton-root, a[href]");
-            if (a) href = a.getAttribute("href") || "";
-            if (hasLogo || (hasSecondary && (href === "#/" || href === "#" || href === ""))) {
-              li.style.setProperty("display", "none", "important");
-              li.style.setProperty("height", "0", "important");
-              li.style.setProperty("margin", "0", "important");
-              li.style.setProperty("padding", "0", "important");
-              li.style.setProperty("overflow", "hidden", "important");
-            }
-          });
-          /* Also hide first list if it only contains the server row */
-          var firstList = paper.querySelector(":scope > .MuiList-root, :scope > ul");
-          if (firstList && firstList.querySelectorAll(".MuiListItem-root").length <= 1) {
-            var only = firstList.querySelector(".MuiListItem-root");
-            if (only && only.querySelector("img, .MuiListItemText-secondary")) {
-              firstList.style.setProperty("display", "none", "important");
+        if (!open) return;
+        /* Hide server logo row only while open */
+        paper.querySelectorAll(".MuiListItem-root").forEach(function (li) {
+          if (li.querySelector("img") || li.querySelector(".MuiListItemText-secondary")) {
+            var a = li.querySelector("a[href]");
+            var href = a ? (a.getAttribute("href") || "") : "";
+            if (!href || href === "#" || href === "#/" || href.indexOf("#/home") === 0) {
+              if (li.querySelector("img")) {
+                li.style.setProperty("display", "none", "important");
+              }
             }
           }
-        }
+        });
       });
     } catch (e) {}
   }
 
   function ensureMobileDrawerObserver() {
-    try {
-      if (window.__jfLcarsDrawerObs) return;
-      window.__jfLcarsDrawerObs = new MutationObserver(function () {
-        try {
-          if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
-            fixMobileDrawerLayout();
-          }
-        } catch (e2) {}
-      });
-      if (document.body) {
-        window.__jfLcarsDrawerObs.observe(document.body, {
-          subtree: true,
-          childList: true,
-          attributes: true,
-          attributeFilter: ["class", "style", "aria-hidden"]
-        });
-      }
-    } catch (e) {}
+    /* disabled — was fighting MUI open/close and viewport sync */
   }
 
   function ensureDashArmHit() {
@@ -8355,77 +8539,196 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
 
+  function defaultLibIcon(label, href) {
+    var l = (label || "").toLowerCase();
+    var h = (href || "").toLowerCase();
+    /* Minimal Material-style path icons (24x24) — check specific tabs BEFORE generic /home */
+    if (l.indexOf("fav") !== -1 || h.indexOf("tab=1") !== -1) {
+      return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>';
+    }
+    if (l.indexOf("collection") !== -1 || h.indexOf("tab=2") !== -1 || h.indexOf("boxset") !== -1) {
+      return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/></svg>';
+    }
+    if (l === "home" || (l.indexOf("home") !== -1 && l.indexOf("fav") === -1) || h === "#/" || h === "#/home") {
+      return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>';
+    }
+    if (l.indexOf("movie") !== -1 || h.indexOf("/movies") !== -1 || h.indexOf("collectiontype=movies") !== -1) {
+      return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4z"/></svg>';
+    }
+    if (l.indexOf("show") !== -1 || l.indexOf("tv") !== -1 || h.indexOf("/tv") !== -1 || h.indexOf("collectiontype=tv") !== -1) {
+      return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>';
+    }
+    if (l.indexOf("collection") !== -1 || h.indexOf("boxset") !== -1) {
+      return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/></svg>';
+    }
+    return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+  }
+
   function collectLibraryNavItems() {
     var items = [];
     var seen = {};
+    function normKey(href) {
+      var h = String(href || "").toLowerCase();
+      /* Keep tab query so Home and Favorites are distinct */
+      if (h === "#/" || h === "#/home") return "#/home";
+      if (h.indexOf("tab=1") !== -1) return "#/home?tab=1";
+      if (h.indexOf("tab=2") !== -1) return "#/home?tab=2";
+      return h.split("&")[0].split("?")[0];
+    }
+    function looksLikeServerId(label) {
+      var t = String(label || "").replace(/\s+/g, "");
+      /* server ids / host hashes — skip as nav items */
+      if (t.length >= 8 && /^[a-f0-9]+$/i.test(t)) return true;
+      if (/^\d+\.\d+/.test(t)) return true; /* version like 12.0 */
+      return false;
+    }
     function add(href, label, iconHtml) {
       if (!href) return;
-      var key = href.split("&")[0];
+      var key = normKey(href);
       if (seen[key]) return;
       seen[key] = true;
-      items.push({ href: href, label: label || "ITEM", iconHtml: iconHtml || "" });
+      var lab = (label || "").replace(/\s+/g, " ").trim() || "ITEM";
+      if (looksLikeServerId(lab)) return;
+      /* Always use canonical SVG icons — toolbar clones are unreliable on mobile */
+      var ic = defaultLibIcon(lab, href);
+      items.push({ href: href, label: lab, iconHtml: ic });
     }
-    /*
-     * Only the primary library stack in the app toolbar:
-     * Home (server), Favorites, Collections, Movies, Shows
-     * Markup: .MuiToolbar-root .MuiStack-root > a.MuiButton-root
-     */
-    var stack = null;
+    function seedDefaults() {
+      add("#/", "Home", "");
+      add("#/home?tab=1", "Favorites", "");
+      add("#/home?tab=2", "Collections", "");
+      /* Movies/Shows hrefs filled from cache/toolbar when available */
+      add("#/movies", "Movies", "");
+      add("#/tv", "Shows", "");
+    }
     var stacks = document.querySelectorAll(
-      ".MuiAppBar-root .MuiToolbar-root .MuiStack-root, header .MuiToolbar-root .MuiStack-root"
+      ".MuiAppBar-root .MuiToolbar-root .MuiStack-root, header .MuiToolbar-root .MuiStack-root, .MuiStack-root.jf-lcars-lib-source"
     );
     for (var s = 0; s < stacks.length; s++) {
       var cand = stacks[s];
-      var anchors = cand.querySelectorAll(":scope > a.MuiButton-root[href^='#/']");
+      var anchors = cand.querySelectorAll(
+        ":scope > a.MuiButton-root[href^='#/'], :scope > a.MuiIconButton-root[href^='#/'], :scope > a[href^='#/']"
+      );
       if (anchors.length < 2) continue;
       var hrefs = [];
       for (var ai = 0; ai < anchors.length; ai++) {
         hrefs.push((anchors[ai].getAttribute("href") || "").toLowerCase());
       }
       var joined = hrefs.join(" ");
-      /* Require favorites and/or library section links — not random page lists */
       if (
-        joined.indexOf("home?tab=") !== -1 ||
-        joined.indexOf("collectiontype=") !== -1 ||
-        joined.indexOf("/movies") !== -1 ||
-        joined.indexOf("/tv") !== -1 ||
-        joined.indexOf("/boxsets") !== -1
+        joined.indexOf("home?tab=") === -1 &&
+        joined.indexOf("collectiontype=") === -1 &&
+        joined.indexOf("/movies") === -1 &&
+        joined.indexOf("/tv") === -1 &&
+        joined.indexOf("/boxsets") === -1
       ) {
-        stack = cand;
-        break;
+        continue;
       }
-    }
-    if (stack) {
       try {
         document.querySelectorAll(".jf-lcars-lib-source").forEach(function (el) {
           el.classList.remove("jf-lcars-lib-source");
         });
-        stack.classList.add("jf-lcars-lib-source");
+        cand.classList.add("jf-lcars-lib-source");
       } catch (e) {}
-      var links = stack.querySelectorAll(":scope > a.MuiButton-root[href^='#/']");
-      for (var i = 0; i < links.length; i++) {
-        var a = links[i];
+      for (var i = 0; i < anchors.length; i++) {
+        var a = anchors[i];
         var href = a.getAttribute("href") || "";
         if (!href || href.toLowerCase().indexOf("/dashboard") !== -1) continue;
-        var label = (a.textContent || a.getAttribute("aria-label") || "")
+        var label = (a.textContent || a.getAttribute("aria-label") || a.getAttribute("title") || "")
           .replace(/\s+/g, " ")
           .trim();
-        if (!label) continue;
-        var icon = a.querySelector(".MuiButton-startIcon svg, .MuiButton-startIcon img, svg, img");
-        /* First item is often the server id — show as Home */
+        if (looksLikeServerId(label)) continue;
         if (i === 0 && (href === "#/" || href === "#/home" || href.indexOf("#/home?") === 0)) {
-          if (!/home|favorite|movie|show|collection/i.test(label)) label = "Home";
+          if (!label || !/home|favorite|movie|show|collection/i.test(label)) label = "Home";
         }
-        add(href, label, icon ? icon.outerHTML : "");
+        if (!label) {
+          if (href.indexOf("tab=1") !== -1) label = "Favorites";
+          else if (href.indexOf("/movies") !== -1) label = "Movies";
+          else if (href.indexOf("/tv") !== -1) label = "Shows";
+          else if (href.indexOf("boxset") !== -1 || href.indexOf("collection") !== -1) label = "Collections";
+          else if (href === "#/" || href.indexOf("#/home") === 0) label = "Home";
+          else continue;
+        }
+        add(href, label, "");
+      }
+      if (items.length >= 2) break;
+    }
+    /* Prefer a stable full cache once captured — invalidate if Home or Favorites missing */
+    function cacheHasHomeAndFav(list) {
+      var hasH = false, hasF = false;
+      for (var i = 0; i < list.length; i++) {
+        var L = (list[i].label || "").toLowerCase();
+        var H = (list[i].href || "").toLowerCase();
+        if (L.indexOf("fav") !== -1 || H.indexOf("tab=1") !== -1) hasF = true;
+        else if (L.indexOf("home") !== -1 || H === "#/" || H === "#/home") hasH = true;
+      }
+      return hasH && hasF;
+    }
+    if (items.length >= 3 && cacheHasHomeAndFav(items)) {
+      __lcarsLibNavCache = items.slice();
+    } else if (__lcarsLibNavCache && __lcarsLibNavCache.length >= 3 && cacheHasHomeAndFav(__lcarsLibNavCache)) {
+      items = __lcarsLibNavCache.slice();
+      seen = {};
+      for (var c = 0; c < items.length; c++) seen[normKey(items[c].href)] = true;
+    } else {
+      __lcarsLibNavCache = null;
+    }
+    /* Never show a 1–2 item rail — seed full defaults and merge real hrefs */
+    if (items.length < 3) {
+      var prior = items.slice();
+      items = [];
+      seen = {};
+      seedDefaults();
+      /* Overlay real hrefs from partial scan */
+      for (var p = 0; p < prior.length; p++) {
+        var pk = normKey(prior[p].href);
+        for (var q = 0; q < items.length; q++) {
+          if (normKey(items[q].href) === pk || items[q].label === prior[p].label) {
+            items[q].href = prior[p].href;
+            items[q].iconHtml = defaultLibIcon(items[q].label, items[q].href);
+            break;
+          }
+        }
       }
     }
-    if (!items.length) {
-      add("#/", "Home", "");
-      add("#/home?tab=1", "Favorites", "");
+    /* Canonical icons always */
+    for (var j = 0; j < items.length; j++) {
+      items[j].iconHtml = defaultLibIcon(items[j].label, items[j].href);
+    }
+    /* Stable order: Home, Favorites, Collections, Movies, Shows, then others */
+    function rank(it) {
+      var l = (it.label || "").toLowerCase();
+      var h = (it.href || "").toLowerCase();
+      if (l.indexOf("fav") !== -1 || h.indexOf("tab=1") !== -1) return 1;
+      if (l.indexOf("collection") !== -1 || h.indexOf("boxset") !== -1 || h.indexOf("tab=2") !== -1) return 2;
+      if (l.indexOf("movie") !== -1 || h.indexOf("/movies") !== -1) return 3;
+      if (l.indexOf("show") !== -1 || l.indexOf("tv") !== -1 || h.indexOf("/tv") !== -1) return 4;
+      if (l === "home" || l.indexOf("home") !== -1 || h === "#/" || h === "#/home") return 0;
+      return 50;
+    }
+    items.sort(function (a, b) { return rank(a) - rank(b); });
+    /* Always ensure Home is first */
+    var hasHome = false;
+    for (var hi = 0; hi < items.length; hi++) {
+      var hl = (items[hi].label || "").toLowerCase();
+      var hh = (items[hi].href || "").toLowerCase();
+      if (
+        (hl === "home" || (hl.indexOf("home") !== -1 && hl.indexOf("fav") === -1)) &&
+        hh.indexOf("tab=") === -1
+      ) {
+        hasHome = true;
+        break;
+      }
+    }
+    if (!hasHome) {
+      items.unshift({
+        href: "#/",
+        label: "Home",
+        iconHtml: defaultLibIcon("Home", "#/")
+      });
     }
     return items;
   }
-
 
   function applyLibraryContentInset() {
     try {
@@ -8435,7 +8738,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var lib = document.documentElement.classList.contains("jf-lcars-library") &&
         !document.documentElement.classList.contains("jf-lcars-video") &&
         !isDash;
-      var narrow = window.matchMedia && window.matchMedia("(max-width: 1099px)").matches;
+      var narrow = window.innerWidth < 900;
       var nav = document.getElementById("jf-lcars-library-nav");
       if (!lib) {
         if (document.body) {
@@ -8521,7 +8824,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         applyLibraryContentInset();
         return;
       }
-      if (window.matchMedia && window.matchMedia("(max-width: 1099px)").matches) {
+      /* Always build/show left library nav on library views (CSS switches full vs icon rail) */
+      if (false) {
         if (nav) nav.style.display = "none";
         applyLibraryContentInset();
         return;
@@ -8576,6 +8880,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           wrap.className = "jf-lcars-lib-icon";
           try { wrap.innerHTML = String(it.iconHtml); } catch (eIcon) {}
           while (wrap.firstChild) a.appendChild(wrap.firstChild);
+        } else {
+          var fallback = document.createElement("span");
+          fallback.className = "jf-lcars-lib-icon-fallback";
+          fallback.textContent = (it.label || "?").charAt(0).toUpperCase();
+          fallback.setAttribute("aria-hidden", "true");
+          a.appendChild(fallback);
         }
         var t = document.createElement("span");
         t.className = "jf-lcars-lib-label";
@@ -8634,6 +8944,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureFrame();
       measureHeader();
       measureAdminDrawer();
+      syncChromeForViewport();
       ensureDashElbow();
       scheduleUserActionRail();
       syncVideoMode();
@@ -8666,7 +8977,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.49-hide-server-curve",
+    version: "2.22.71-home-material-icons",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -8685,10 +8996,33 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   } else {
     run();
   }
-  window.addEventListener("resize", function () { measureHeader(); measureAdminDrawer(); scheduleUserActionRail(); });
+  window.addEventListener("resize", function () {
+    if (window.__jfLcarsResizeT) clearTimeout(window.__jfLcarsResizeT);
+    window.__jfLcarsResizeT = setTimeout(function () {
+      syncChromeForViewport();
+      measureHeader();
+      if (!isNarrowViewport()) {
+        measureAdminDrawer();
+        ensureFrame();
+      }
+      syncLibraryNav();
+      scheduleUserActionRail();
+    }, 120);
+  });
   try {
     var lcarsMq899 = window.matchMedia("(max-width: 899px)");
-    var mqHandler = function () { setTimeout(run, 40); };
+    var mqHandler = function () {
+      syncChromeForViewport();
+      setTimeout(function () {
+        measureHeader();
+        if (!isNarrowViewport()) {
+          measureAdminDrawer();
+          ensureFrame();
+        }
+        syncLibraryNav();
+        run();
+      }, 50);
+    };
     if (lcarsMq899.addEventListener) lcarsMq899.addEventListener("change", mqHandler);
     else if (lcarsMq899.addListener) lcarsMq899.addListener(mqHandler);
   } catch (e) {}
