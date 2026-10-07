@@ -930,8 +930,8 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     width: 56px !important;
     max-width: 56px !important;
     min-width: 56px !important;
-    /* header (~48px) + 100px gap before first icon */
-    padding: 148px 0 24px 0 !important;
+    /* Sit just under the mobile LCARS curve (header + curve) */
+    padding: 102px 0 24px 0 !important;
     left: 0 !important;
     top: 0 !important;
     background: #000 !important;
@@ -954,6 +954,8 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     padding: 0 !important;
     border-radius: 0 !important;
     box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 5 !important;
   }
   /* Icon only — hide text labels */
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-label {
@@ -8020,36 +8022,106 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         document.body.appendChild(chrome);
       }
       if (!chrome) return;
+      var narrow = window.innerWidth < 900;
       var drawerW = 240;
       try {
-        var dw = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-admin-drawer"), 10);
-        if (dw > 80) drawerW = dw;
+        var navEl = document.getElementById("jf-lcars-library-nav");
+        if (navEl) {
+          var nr = navEl.getBoundingClientRect();
+          if (nr.width > 40) drawerW = Math.round(nr.width);
+        } else {
+          var dw = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-admin-drawer"), 10);
+          if (dw > 80) drawerW = dw;
+        }
       } catch (e) {}
       var rowTop = 48;
       try {
         var rt = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-lib-row-top"), 10);
         if (rt > 20) rowTop = rt;
       } catch (e2) {}
-      var left = drawerW - 30;
+      /* Desktop: 10px up, 10px left from nav edge. Mobile: near left rail, same height. */
+      var left;
+      var topY = Math.max(0, narrow ? (rowTop - 5 + 12) : (rowTop - 5)); /* mobile +12px down */
+      if (narrow) {
+        left = 23; /* mobile curve left */
+      } else {
+        left = Math.max(0, drawerW - 36 - 5);
+      }
       chrome.style.cssText =
-        "position:fixed!important;top:" + rowTop + "px!important;left:" + left +
-        "px!important;z-index:12046!important;opacity:1!important;visibility:visible!important;" +
+        "position:fixed!important;top:" + topY + "px!important;left:" + left +
+        "px!important;z-index:12060!important;opacity:1!important;visibility:visible!important;" +
         "pointer-events:none!important;margin:0!important;padding:0!important;border:none!important;" +
         "background:transparent!important;display:block!important;";
+      /* Prefer lib-elbow-chrome; hide legacy mobile elbow to avoid double curves */
+      var meOld = document.getElementById("jf-lcars-mobile-elbow");
+      if (meOld) {
+        meOld.style.setProperty("display", "none", "important");
+        meOld.style.setProperty("visibility", "hidden", "important");
+      }
       var armEl = chrome.querySelector(".jf-lcars-lib-elbow-arm");
       var curveEl = chrome.querySelector(".jf-lcars-lib-elbow-curve");
       if (armEl) {
-        armEl.style.cssText =
-          "position:absolute!important;left:0!important;top:0!important;width:36px!important;height:30px!important;" +
-          "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;";
+        if (narrow) {
+          /* Mobile: fill black gaps left of curve and under top bar; stop above home icon */
+          var barH = 24;
+          var armLeft = -left; /* pull to viewport left */
+          var armW = left + 88; /* further past curve right edge */
+          armEl.style.cssText =
+            "position:absolute!important;left:" + armLeft + "px!important;top:4px!important;" +
+            "width:" + armW + "px!important;height:" + barH + "px!important;" +
+            "background:" + fill + "!important;background-color:" + fill + "!important;" +
+            "border:none!important;border-radius:0!important;" +
+            "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;";
+          /* Vertical fill bridges top strip → top of home icon (icons z-index higher) */
+          var vfill = chrome.querySelector(".jf-lcars-lib-elbow-vfill");
+          if (!vfill) {
+            vfill = document.createElement("div");
+            vfill.className = "jf-lcars-lib-elbow-vfill";
+            chrome.appendChild(vfill);
+          }
+          /* Distance from chrome top to menu padding-top (~102px) minus a few px */
+          var vH = Math.max(36, 102 - topY - 4);
+          vfill.style.cssText =
+            "position:absolute!important;left:" + armLeft + "px!important;top:4px!important;" +
+            "width:56px!important;height:" + vH + "px!important;" +
+            "background:" + fill + "!important;background-color:" + fill + "!important;" +
+            "border:none!important;z-index:1!important;display:block!important;opacity:1!important;" +
+            "pointer-events:none!important;";
+        } else {
+          var barH = 18;
+          var bridgeW = 56;
+          armEl.style.cssText =
+            "position:absolute!important;left:0!important;top:5px!important;" +
+            "width:" + bridgeW + "px!important;height:" + barH + "px!important;" +
+            "background:" + fill + "!important;background-color:" + fill + "!important;" +
+            "border:none!important;border-radius:0!important;" +
+            "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;";
+          var vfillOff = chrome.querySelector(".jf-lcars-lib-elbow-vfill");
+          if (vfillOff) vfillOff.style.display = "none";
+        }
       }
       if (curveEl) {
-        curveEl.style.cssText =
-          "position:absolute!important;left:0!important;top:0!important;width:60px!important;height:60px!important;" +
-          "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
-          "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 30px,#000 31px)!important;" +
-          "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 30px,#000 31px)!important;" +
-          "-webkit-mask-repeat:no-repeat!important;mask-repeat:no-repeat!important;";
+        if (narrow) {
+          curveEl.style.cssText =
+            "position:absolute!important;left:0!important;top:0!important;width:64px!important;height:56px!important;" +
+            "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
+            "z-index:2!important;display:block!important;opacity:1!important;" +
+            "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 28px,#000 29px)!important;" +
+            "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 28px,#000 29px)!important;" +
+            "-webkit-mask-repeat:no-repeat!important;mask-repeat:no-repeat!important;" +
+            "-webkit-mask-size:100% 100%!important;mask-size:100% 100%!important;" +
+            "clip-path:inset(4px 0 0 0)!important;";
+        } else {
+          curveEl.style.cssText =
+            "position:absolute!important;left:6px!important;top:0!important;width:72px!important;height:72px!important;" +
+            "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
+            "z-index:2!important;display:block!important;opacity:1!important;" +
+            "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 36px,#000 37px)!important;" +
+            "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 36px,#000 37px)!important;" +
+            "-webkit-mask-repeat:no-repeat!important;mask-repeat:no-repeat!important;" +
+            "-webkit-mask-size:100% 100%!important;mask-size:100% 100%!important;" +
+            "clip-path:inset(8px 0 0 0)!important;";
+        }
       }
 
       /* One transparent hit covering Home panel + arm + curve */
@@ -8921,8 +8993,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         }
       } catch (e2) {}
       document.documentElement.style.setProperty("--lcars-lib-row-top", rowTop + "px");
-      document.documentElement.style.setProperty("--lcars-lib-arm-left", drawerW + "px");
-      document.documentElement.style.setProperty("--lcars-lib-curve-left", drawerW + "px");
+      var narrowV = window.innerWidth < 900;
+      var curveLeftV = narrowV ? 23 : Math.max(0, drawerW - 41);
+      document.documentElement.style.setProperty("--lcars-lib-arm-left", curveLeftV + "px");
+      document.documentElement.style.setProperty("--lcars-lib-curve-left", curveLeftV + "px");
       document.documentElement.style.setProperty("--lcars-admin-drawer", drawerW + "px");
       var runner = document.getElementById("jf-lcars-top-runner");
       if (runner) {
@@ -8977,7 +9051,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.71-home-material-icons",
+    version: "2.22.99-strip-lower-curve-left",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
