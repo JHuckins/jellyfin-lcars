@@ -18,7 +18,14 @@
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var __lcarsLibNavCache = null;
   var THEME_CSS = `/*
- * Jellyfin LCARS
+ * Jellyfin LCARS — Picard theme v2.3.0
+ * Full styles restored + frame matching thelcars.com/themes/picard.html
+ *
+ * Frame model (from picard.css markup):
+ *   left column (primary-gray) full height
+ *   thin horizontal bar-runner under header (--bar-height)
+ *   elbow at junction: large radius on content-side corner
+ *   content well starts after sidebar with matching inner curve
  * License: MIT
  */
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap');
@@ -799,7 +806,8 @@ html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-
   filter: none !important;
 }
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-arm,
-html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-curve {
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-curve,
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-vfill {
   background: #d2d5df !important;
   background-color: #d2d5df !important;
 }
@@ -949,6 +957,25 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     box-sizing: border-box !important;
     position: relative !important;
     z-index: 5 !important;
+  }
+  /* Home expands upward so curve/strips are part of the real <a> hit box */
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home,
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child {
+    overflow: visible !important;
+    z-index: 12080 !important;
+    height: 116px !important;
+    min-height: 116px !important;
+    max-height: 116px !important;
+    margin-top: -60px !important;
+    padding-top: 60px !important;
+    box-sizing: border-box !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+  }
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home > *,
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child > * {
+    position: relative !important;
+    z-index: 1 !important;
   }
   /* Icon only — hide text labels */
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-label {
@@ -8034,9 +8061,9 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       } catch (e2) {}
       /* Desktop: 10px up, 10px left from nav edge. Mobile: near left rail, same height. */
       var left;
-      var topY = Math.max(0, narrow ? (rowTop - 5 + 12) : (rowTop - 5)); /* mobile +12px down */
+      var topY = Math.max(0, narrow ? (rowTop - 5 + 13) : (rowTop - 5)); /* mobile +13px down */
       if (narrow) {
-        left = 23; /* mobile curve left */
+        left = 21; /* mobile curve left */
       } else {
         left = Math.max(0, drawerW - 36 - 5);
       }
@@ -8055,24 +8082,23 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var curveEl = chrome.querySelector(".jf-lcars-lib-elbow-curve");
       if (armEl) {
         if (narrow) {
-          /* Mobile: fill black gaps left of curve and under top bar; stop above home icon */
-          var barH = 24;
-          var armLeft = -left; /* pull to viewport left */
-          var armW = left + 88; /* further past curve right edge */
+          /* Mobile: fill black gaps; pointer-events none so unified hit receives hover/click */
+          var barHMob = 24;
+          var armLeft = -left;
+          var armW = left + 88;
           armEl.style.cssText =
             "position:absolute!important;left:" + armLeft + "px!important;top:4px!important;" +
-            "width:" + armW + "px!important;height:" + barH + "px!important;" +
+            "width:" + armW + "px!important;height:" + barHMob + "px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;" +
             "border:none!important;border-radius:0!important;" +
-            "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;";
-          /* Vertical fill bridges top strip → top of home icon (icons z-index higher) */
+            "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;" +
+            "pointer-events:none!important;";
           var vfill = chrome.querySelector(".jf-lcars-lib-elbow-vfill");
           if (!vfill) {
             vfill = document.createElement("div");
             vfill.className = "jf-lcars-lib-elbow-vfill";
             chrome.appendChild(vfill);
           }
-          /* Distance from chrome top to menu padding-top (~102px) minus a few px */
           var vH = Math.max(36, 102 - topY - 4);
           vfill.style.cssText =
             "position:absolute!important;left:" + armLeft + "px!important;top:4px!important;" +
@@ -8081,14 +8107,15 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             "border:none!important;z-index:1!important;display:block!important;opacity:1!important;" +
             "pointer-events:none!important;";
         } else {
-          var barH = 18;
+          var barHDesk = 18;
           var bridgeW = 56;
           armEl.style.cssText =
             "position:absolute!important;left:0!important;top:5px!important;" +
-            "width:" + bridgeW + "px!important;height:" + barH + "px!important;" +
+            "width:" + bridgeW + "px!important;height:" + barHDesk + "px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;" +
             "border:none!important;border-radius:0!important;" +
-            "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;";
+            "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;" +
+            "pointer-events:none!important;";
           var vfillOff = chrome.querySelector(".jf-lcars-lib-elbow-vfill");
           if (vfillOff) vfillOff.style.display = "none";
         }
@@ -8098,7 +8125,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           curveEl.style.cssText =
             "position:absolute!important;left:0!important;top:0!important;width:64px!important;height:56px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
-            "z-index:2!important;display:block!important;opacity:1!important;" +
+            "z-index:2!important;display:block!important;opacity:1!important;pointer-events:none!important;" +
             "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 28px,#000 29px)!important;" +
             "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 28px,#000 29px)!important;" +
             "-webkit-mask-repeat:no-repeat!important;mask-repeat:no-repeat!important;" +
@@ -8108,7 +8135,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           curveEl.style.cssText =
             "position:absolute!important;left:6px!important;top:0!important;width:72px!important;height:72px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
-            "z-index:2!important;display:block!important;opacity:1!important;" +
+            "z-index:2!important;display:block!important;opacity:1!important;pointer-events:none!important;" +
             "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 36px,#000 37px)!important;" +
             "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 36px,#000 37px)!important;" +
             "-webkit-mask-repeat:no-repeat!important;mask-repeat:no-repeat!important;" +
@@ -8117,7 +8144,41 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         }
       }
 
-      /* One transparent hit covering Home panel + arm + curve */
+      /* Transparent hit over curve chrome — lives inside chrome, receives events */
+      var cHit = chrome.querySelector(".jf-lcars-lib-chrome-hit");
+      if (!cHit) {
+        cHit = document.createElement("a");
+        cHit.className = "jf-lcars-lib-chrome-hit";
+        cHit.setAttribute("aria-label", "Home");
+        cHit.addEventListener("pointerenter", function () { setLibHomeHot(true); });
+        cHit.addEventListener("pointerleave", function () { setLibHomeHot(false); });
+        cHit.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var h = queryLibHomeLink();
+          location.hash = (h && h.getAttribute("href")) || "#/";
+        });
+        chrome.appendChild(cHit);
+      }
+      var href = (home && home.getAttribute("href")) || "#/";
+      cHit.href = href;
+      if (narrow) {
+        chrome.style.setProperty("pointer-events", "auto", "important");
+        cHit.style.cssText =
+          "position:absolute!important;left:" + (-left) + "px!important;top:0!important;" +
+          "width:" + (left + 100) + "px!important;height:80px!important;" +
+          "background:transparent!important;cursor:pointer!important;" +
+          "pointer-events:auto!important;z-index:20!important;display:block!important;" +
+          "margin:0!important;padding:0!important;border:none!important;";
+      } else {
+        chrome.style.setProperty("pointer-events", "none", "important");
+        cHit.style.cssText =
+          "position:absolute!important;left:0!important;top:0!important;" +
+          "width:100px!important;height:80px!important;" +
+          "background:transparent!important;cursor:pointer!important;" +
+          "pointer-events:auto!important;z-index:20!important;display:block!important;";
+      }
+      /* Body-level unified hit also covers home+curve */
       var hit = document.getElementById("jf-lcars-lib-unified-hit");
       if (!hit && document.body) {
         hit = document.createElement("a");
@@ -8133,22 +8194,27 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         document.body.appendChild(hit);
       }
       if (hit) {
-        var href = (home && home.getAttribute("href")) || "#/";
         hit.href = href;
-        var homeH = 10.8 * 16;
+        var homeTop = topY;
+        var homeBottom = topY + 120;
         if (home) {
           var br = home.getBoundingClientRect();
-          if (br.height > 40) homeH = br.height;
-          if (br.top > 0) rowTop = Math.round(br.top);
+          if (br.top > 0) homeTop = Math.min(topY, Math.round(br.top));
+          if (br.bottom > 0) homeBottom = Math.round(br.bottom);
         }
-        /* full nav column width + curve protrusion */
-        var hitW = drawerW + 42;
+        var hitTop = Math.max(0, homeTop - 2);
+        var hitH = Math.max(homeBottom - hitTop + 4, 90);
+        var hitW = narrow ? Math.max(120, left + 100) : (drawerW + 48);
         hit.style.cssText =
-          "position:fixed!important;left:0!important;top:" + rowTop +
-          "px!important;width:" + hitW + "px!important;height:" + Math.round(homeH) +
-          "px!important;z-index:12055!important;display:block!important;" +
+          "position:fixed!important;left:0!important;top:" + hitTop +
+          "px!important;width:" + hitW + "px!important;height:" + Math.round(hitH) +
+          "px!important;z-index:12070!important;display:block!important;" +
           "background:transparent!important;cursor:pointer!important;pointer-events:auto!important;" +
           "margin:0!important;padding:0!important;border:none!important;";
+        if (home) {
+          home.style.setProperty("position", "relative", "important");
+          home.style.setProperty("z-index", "12080", "important");
+        }
       }
     } catch (e) {}
   }
@@ -8987,7 +9053,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       } catch (e2) {}
       document.documentElement.style.setProperty("--lcars-lib-row-top", rowTop + "px");
       var narrowV = window.innerWidth < 900;
-      var curveLeftV = narrowV ? 23 : Math.max(0, drawerW - 41);
+      var curveLeftV = narrowV ? 21 : Math.max(0, drawerW - 41);
       document.documentElement.style.setProperty("--lcars-lib-arm-left", curveLeftV + "px");
       document.documentElement.style.setProperty("--lcars-lib-curve-left", curveLeftV + "px");
       document.documentElement.style.setProperty("--lcars-admin-drawer", drawerW + "px");
@@ -9044,7 +9110,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.99-strip-lower-curve-left",
+    version: "2.22.104-home-real-hit",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
