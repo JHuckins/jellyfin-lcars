@@ -100,17 +100,61 @@ html.jf-lcars-narrow:not(.jf-lcars-library) .jf-lcars-frame {
 /* Mobile library: dedicated #jf-lcars-mobile-elbow owns the L-curve (JS-positioned) */
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-elbow,
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-elbow-cut,
-html.jf-lcars-narrow.jf-lcars-library #jf-lcars-top-runner,
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-frame,
 html.jf-lcars-narrow.jf-lcars-library .jf-lcars-elbow,
 html.jf-lcars-narrow.jf-lcars-library .jf-lcars-elbow-cut,
-html.jf-lcars-narrow.jf-lcars-library .jf-lcars-top-runner,
 html.jf-lcars-narrow.jf-lcars-library .jf-lcars-frame {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
+/* Desktop runner stays hidden on mobile library; dedicated mobile bar instead */
+html.jf-lcars-narrow.jf-lcars-library #jf-lcars-top-runner,
+html.jf-lcars-narrow.jf-lcars-library .jf-lcars-top-runner {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+#jf-lcars-mobile-top-bar {
+  display: none;
+  pointer-events: none !important;
+}
+html.jf-lcars-narrow.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-mobile-top-bar {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  left: 56px !important;
+  right: 0 !important;
+  top: var(--lcars-lib-row-top, 48px) !important;
+  height: 24px !important;
+  z-index: 1092 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+}
+#jf-lcars-mobile-top-bar .jf-lcars-bar-row {
+  display: flex !important;
+  width: 100% !important;
+  height: 24px !important;
+}
+#jf-lcars-mobile-top-bar .jf-lcars-seg {
+  height: 24px !important;
+  border-right: 8px solid #000 !important;
+  border-radius: 0 !important;
+}
+#jf-lcars-mobile-top-bar .jf-lcars-seg:last-child {
+  border-right: none !important;
+}
+#jf-lcars-mobile-top-bar .jf-lcars-seg-a { flex: 0 0 72px !important; background: var(--ghost-gray, #d2d5df) !important; }
+#jf-lcars-mobile-top-bar .jf-lcars-seg-b { flex: 0 0 48px !important; background: var(--medium-dark-gray, #52596e) !important; }
+#jf-lcars-mobile-top-bar .jf-lcars-seg-c { flex: 1 1 auto !important; background: var(--light-gray, #9ea5ba) !important; }
+#jf-lcars-mobile-top-bar .jf-lcars-seg-d { flex: 0 0 40px !important; background: var(--medium-dark-gray, #52596e) !important; }
+#jf-lcars-mobile-top-bar .jf-lcars-seg-e { display: none !important; }
 #jf-lcars-mobile-elbow {
   display: none;
   pointer-events: none !important;
@@ -807,7 +851,8 @@ html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-
 }
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-arm,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-curve,
-html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-vfill {
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-vfill,
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-gap {
   background: #d2d5df !important;
   background-color: #d2d5df !important;
 }
@@ -932,7 +977,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     max-width: 56px !important;
     min-width: 56px !important;
     /* Sit just under the mobile LCARS curve (header + curve) */
-    padding: 102px 0 24px 0 !important;
+    padding: 107px 0 24px 0 !important;
     left: 0 !important;
     top: 0 !important;
     background: #000 !important;
@@ -940,6 +985,40 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     gap: 3px !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
+  }
+  /* Hide top hamburger on library only — dashboard keeps it for the drawer */
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="Open navigation"],
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="Open drawer"],
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="Menu"],
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="menu"],
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiToolbar-root button.MuiIconButton-edgeStart:not([aria-label="Back"]):not([aria-label="back"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .headerMainDrawerButton,
+  html.jf-lcars-library:not(.jf-lcars-video) .mainDrawerButton,
+  html.jf-lcars-library:not(.jf-lcars-video) button.barsMenuButton,
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root:has([data-testid="MenuIcon"]),
+  html.jf-lcars-library:not(.jf-lcars-video) .MuiToolbar-root button.MuiIconButton-root:has([data-testid="MenuIcon"]) {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+  /* Dashboard: ensure hamburger stays visible */
+  html.jf-lcars-active.dashboardDocument .MuiAppBar-root button.MuiIconButton-root[aria-label="Open navigation"],
+  html.jf-lcars-active.dashboardDocument .MuiAppBar-root button.MuiIconButton-root:has([data-testid="MenuIcon"]),
+  html.jf-lcars-active.dashboardDocument .MuiToolbar-root button.MuiIconButton-edgeStart:not([aria-label="Back"]),
+  .dashboardDocument .MuiIconButton-edgeStart {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    pointer-events: auto !important;
   }
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn {
     display: flex !important;
@@ -8093,6 +8172,19 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             "border:none!important;border-radius:0!important;" +
             "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;" +
             "pointer-events:none!important;";
+          /* Fill black notch where vertical rail meets horizontal arm/curve */
+          var gapStrip = chrome.querySelector(".jf-lcars-lib-elbow-gap");
+          if (!gapStrip) {
+            gapStrip = document.createElement("div");
+            gapStrip.className = "jf-lcars-lib-elbow-gap";
+            chrome.appendChild(gapStrip);
+          }
+          gapStrip.style.cssText =
+            "position:absolute!important;left:" + (armLeft + 16) + "px!important;top:-9px!important;" +
+            "width:" + (left + 72) + "px!important;height:32px!important;" +
+            "background:" + fill + "!important;background-color:" + fill + "!important;" +
+            "border:none!important;z-index:5!important;display:block!important;opacity:1!important;" +
+            "pointer-events:none!important;";
           var vfill = chrome.querySelector(".jf-lcars-lib-elbow-vfill");
           if (!vfill) {
             vfill = document.createElement("div");
@@ -8118,6 +8210,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             "pointer-events:none!important;";
           var vfillOff = chrome.querySelector(".jf-lcars-lib-elbow-vfill");
           if (vfillOff) vfillOff.style.display = "none";
+          var gapOff = chrome.querySelector(".jf-lcars-lib-elbow-gap");
+          if (gapOff) gapOff.style.display = "none";
         }
       }
       if (curveEl) {
@@ -8281,8 +8375,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   function syncChromeForViewport() {
     try {
       var narrow = setNarrowClass();
-      var isLib = document.documentElement.classList.contains("jf-lcars-library") &&
-        !document.documentElement.classList.contains("jf-lcars-video");
+      var isLib = false;
+      try {
+        isLib = typeof isLibraryView === "function" && isLibraryView() &&
+          !document.documentElement.classList.contains("jf-lcars-video");
+      } catch (eLib) {
+        isLib = document.documentElement.classList.contains("jf-lcars-library") &&
+          !document.documentElement.classList.contains("jf-lcars-video");
+      }
       var adminIds = [
         "jf-lcars-elbow-chrome", "jf-lcars-dash-panel",
         "jf-lcars-dash-elbow", "jf-lcars-dash-elbow-cut", "jf-lcars-dash-bridge",
@@ -8320,22 +8420,55 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       } catch (eH) {}
 
       if (narrow && isLib) {
-        /* Hide default chrome */
+        /* Hide default chrome (desktop runner untouched via CSS hide only) */
         [elbow, cut, runner, frame].forEach(function (el) {
           if (!el) return;
           el.style.setProperty("display", "none", "important");
           el.style.setProperty("visibility", "hidden", "important");
           el.style.setProperty("opacity", "0", "important");
         });
-        var barH = 22;
+        var barH = 24;
         var railW = 56;
         var curveR = 48;
         var elbowTop = Math.max(0, headerH - 5);
         document.documentElement.style.setProperty("--lcars-mobile-bar-h", barH + "px");
         document.documentElement.style.setProperty("--lcars-mobile-curve-r", curveR + "px");
         document.documentElement.style.setProperty("--lcars-mobile-elbow-top", elbowTop + "px");
+        document.documentElement.style.setProperty("--lcars-lib-row-top", headerH + "px");
         document.documentElement.classList.add("jf-lcars-library", "jf-lcars-narrow");
         if (document.body) document.body.classList.add("jf-lcars-library", "jf-lcars-narrow");
+        /* Dedicated mobile segmented bar — does not share state with desktop runner */
+        var mtb = document.getElementById("jf-lcars-mobile-top-bar");
+        if (!mtb && document.body) {
+          mtb = document.createElement("div");
+          mtb.id = "jf-lcars-mobile-top-bar";
+          mtb.setAttribute("aria-hidden", "true");
+          var mrow = document.createElement("div");
+          mrow.className = "jf-lcars-bar-row";
+          ["a", "b", "c", "d", "e"].forEach(function (k) {
+            var s = document.createElement("div");
+            s.className = "jf-lcars-seg jf-lcars-seg-" + k;
+            mrow.appendChild(s);
+          });
+          mtb.appendChild(mrow);
+          document.body.appendChild(mtb);
+        }
+        if (mtb) {
+          mtb.style.cssText =
+            "display:flex!important;visibility:visible!important;opacity:1!important;" +
+            "position:fixed!important;left:56px!important;right:0!important;" +
+            "top:" + headerH + "px!important;height:" + barH + "px!important;" +
+            "z-index:12050!important;pointer-events:none!important;margin:0!important;padding:0!important;" +
+            "border:none!important;background:transparent!important;box-sizing:border-box!important;";
+          var mrowEl = mtb.querySelector(".jf-lcars-bar-row");
+          if (mrowEl) {
+            mrowEl.style.cssText = "display:flex!important;width:100%!important;height:" + barH + "px!important;";
+          }
+          mtb.querySelectorAll(".jf-lcars-seg").forEach(function (seg) {
+            seg.style.setProperty("height", barH + "px", "important");
+            seg.style.setProperty("display", "block", "important");
+          });
+        }
 
         var me = document.getElementById("jf-lcars-mobile-elbow");
         if (!me && document.body) {
@@ -8405,7 +8538,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         });
         var meHide1 = document.getElementById("jf-lcars-mobile-elbow");
         if (meHide1) meHide1.style.setProperty("display", "none", "important");
+        var mtbHide1 = document.getElementById("jf-lcars-mobile-top-bar");
+        if (mtbHide1) mtbHide1.style.setProperty("display", "none", "important");
       } else {
+        var mtbHide2 = document.getElementById("jf-lcars-mobile-top-bar");
+        if (mtbHide2) mtbHide2.style.setProperty("display", "none", "important");
         [elbow, cut, runner, frame].forEach(function (el) {
           if (!el) return;
           el.style.removeProperty("display");
@@ -9110,7 +9247,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.104-home-real-hit",
+    version: "2.22.119-mobile-bar-fix",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
