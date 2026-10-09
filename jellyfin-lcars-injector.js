@@ -18,14 +18,7 @@
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var __lcarsLibNavCache = null;
   var THEME_CSS = `/*
- * Jellyfin LCARS — Picard theme v2.3.0
- * Full styles restored + frame matching thelcars.com/themes/picard.html
- *
- * Frame model (from picard.css markup):
- *   left column (primary-gray) full height
- *   thin horizontal bar-runner under header (--bar-height)
- *   elbow at junction: large radius on content-side corner
- *   content well starts after sidebar with matching inner curve
+ * Jellyfin LCARS
  * License: MIT
  */
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap');
@@ -126,10 +119,11 @@ html.jf-lcars-narrow.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-mobile-top-
   visibility: visible !important;
   opacity: 1 !important;
   position: fixed !important;
-  left: 56px !important;
+  /* 56 rail + ~48 curve arm + 10px black gap (desktop-like) */
+  left: 117px !important;
   right: 0 !important;
   top: var(--lcars-lib-row-top, 48px) !important;
-  height: 24px !important;
+  height: 36px !important;
   z-index: 1092 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -140,10 +134,10 @@ html.jf-lcars-narrow.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-mobile-top-
 #jf-lcars-mobile-top-bar .jf-lcars-bar-row {
   display: flex !important;
   width: 100% !important;
-  height: 24px !important;
+  height: 36px !important;
 }
 #jf-lcars-mobile-top-bar .jf-lcars-seg {
-  height: 24px !important;
+  height: 36px !important;
   border-right: 8px solid #000 !important;
   border-radius: 0 !important;
 }
@@ -1037,7 +1031,13 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     position: relative !important;
     z-index: 5 !important;
   }
+  /* Spacing home → favorites (12 - 10 = 2px) */
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home,
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child {
+    margin-bottom: 2px !important;
+  }
   /* Home expands upward so curve/strips are part of the real <a> hit box */
+  /* Tall continuous stem for curve hit; icon centered in the bottom 56px band */
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home,
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child {
     overflow: visible !important;
@@ -1047,14 +1047,17 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     max-height: 116px !important;
     margin-top: -60px !important;
     padding-top: 60px !important;
+    padding-bottom: 0 !important;
     box-sizing: border-box !important;
-    align-items: flex-end !important;
+    align-items: center !important;
     justify-content: center !important;
   }
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home > *,
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child > * {
     position: relative !important;
     z-index: 1 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
   }
   /* Icon only — hide text labels */
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-label {
@@ -8427,7 +8430,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           el.style.setProperty("visibility", "hidden", "important");
           el.style.setProperty("opacity", "0", "important");
         });
-        var barH = 24;
+        var barH = 36;
         var railW = 56;
         var curveR = 48;
         var elbowTop = Math.max(0, headerH - 5);
@@ -8456,7 +8459,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         if (mtb) {
           mtb.style.cssText =
             "display:flex!important;visibility:visible!important;opacity:1!important;" +
-            "position:fixed!important;left:56px!important;right:0!important;" +
+            "position:fixed!important;left:117px!important;right:0!important;" +
             "top:" + headerH + "px!important;height:" + barH + "px!important;" +
             "z-index:12050!important;pointer-events:none!important;margin:0!important;padding:0!important;" +
             "border:none!important;background:transparent!important;box-sizing:border-box!important;";
@@ -9247,7 +9250,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.119-mobile-bar-fix",
+    version: "2.22.130-home-icon-center",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
