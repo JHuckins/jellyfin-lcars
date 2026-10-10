@@ -870,13 +870,21 @@ body > a#jf-lcars-lib-arm-hit { display: none !important; }
 #jf-lcars-library-nav .jf-lcars-lib-curve-hit {
   display: none !important;
 }
-/* Keep top AppBar strip visible; only inset content, not remove the bar */
+/* Keep top AppBar strip visible; black full-width strip behind buttons */
 html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root,
 html.jf-lcars-library:not(.jf-lcars-video) .skinHeader {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   min-height: 48px !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  background-image: none !important;
+}
+html.jf-lcars-library:not(.jf-lcars-video) .MuiToolbar-root,
+html.jf-lcars-library:not(.jf-lcars-video) .headerTop {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 #jf-lcars-library-nav .jf-lcars-lib-btn:hover {
   filter: brightness(1.12) !important;
@@ -9250,7 +9258,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.130-home-icon-center",
+    version: "2.22.132-header-black",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
