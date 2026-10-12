@@ -749,7 +749,8 @@ button.button-submit:hover,
   top: 0 !important;
   width: var(--lcars-admin-drawer, 240px) !important;
   height: 100vh !important;
-  z-index: 1100 !important;
+  /* Above elbow chrome (12060) so Home square/icon paints in front */
+  z-index: 12070 !important;
   box-sizing: border-box !important;
   /* Top pad matches AppBar strip so Home sits like Dashboard under the header line */
   padding: var(--lcars-lib-row-top, 48px) 0 56px 0 !important;
@@ -846,7 +847,8 @@ html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-arm,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-curve,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-vfill,
-html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-gap {
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-gap,
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-tlcap {
   background: #d2d5df !important;
   background-color: #d2d5df !important;
 }
@@ -856,6 +858,7 @@ html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-gap {
 #jf-lcars-lib-elbow-chrome {
   pointer-events: none !important;
 }
+/* (seam box-shadow removed — was global and interacted poorly with desktop runner) */
 /* Unified hit over Home panel + arm + curve (see #jf-lcars-lib-unified-hit) */
 #jf-lcars-lib-unified-hit {
   position: fixed !important;
@@ -983,7 +986,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     left: 0 !important;
     top: 0 !important;
     background: #000 !important;
-    z-index: 1100 !important;
+    z-index: 12070 !important;
     gap: 3px !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
@@ -1063,7 +1066,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home > *,
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child > * {
     position: relative !important;
-    z-index: 1 !important;
+    z-index: 2 !important;
     margin: 0 !important;
     line-height: 1 !important;
   }
@@ -7526,6 +7529,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var offset = h + 8;
       document.documentElement.style.setProperty("--lcars-header-height", h + "px");
       document.documentElement.style.setProperty("--lcars-content-top", offset + "px");
+      /* Do NOT set --lcars-lib-row-top here — syncLibraryNav owns AppBar bottom only.
+         measureHeader's h can include runner/tabs bottom and pushes the menu down. */
       if (narrow) {
         document.documentElement.style.setProperty("--lcars-dash-row-top", h + "px");
       }
@@ -8151,7 +8156,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       } catch (e2) {}
       /* Desktop: 10px up, 10px left from nav edge. Mobile: near left rail, same height. */
       var left;
-      var topY = Math.max(0, narrow ? (rowTop - 5 + 13) : (rowTop - 5)); /* mobile +13px down */
+      var topY = Math.max(0, narrow ? rowTop : (rowTop - 5)); /* mobile bar-aligned; desktop unchanged */
       if (narrow) {
         left = 21; /* mobile curve left */
       } else {
@@ -8172,18 +8177,18 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var curveEl = chrome.querySelector(".jf-lcars-lib-elbow-curve");
       if (armEl) {
         if (narrow) {
-          /* Mobile: fill black gaps; pointer-events none so unified hit receives hover/click */
-          var barHMob = 24;
+          /* Mobile: arm matches segmented bar; gap fills notch within arm band only */
+          var barHMob = 36;
           var armLeft = -left;
           var armW = left + 88;
           armEl.style.cssText =
-            "position:absolute!important;left:" + armLeft + "px!important;top:4px!important;" +
+            "position:absolute!important;left:" + armLeft + "px!important;top:0!important;" +
             "width:" + armW + "px!important;height:" + barHMob + "px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;" +
             "border:none!important;border-radius:0!important;" +
             "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;" +
             "pointer-events:none!important;";
-          /* Fill black notch where vertical rail meets horizontal arm/curve */
+          /* Notch fill — same rect as arm (never extends above top:0) */
           var gapStrip = chrome.querySelector(".jf-lcars-lib-elbow-gap");
           if (!gapStrip) {
             gapStrip = document.createElement("div");
@@ -8191,20 +8196,22 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             chrome.appendChild(gapStrip);
           }
           gapStrip.style.cssText =
-            "position:absolute!important;left:" + (armLeft + 16) + "px!important;top:-9px!important;" +
-            "width:" + (left + 72) + "px!important;height:32px!important;" +
+            "position:absolute!important;left:" + armLeft + "px!important;top:0!important;" +
+            "width:" + armW + "px!important;height:" + barHMob + "px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;" +
             "border:none!important;z-index:5!important;display:block!important;opacity:1!important;" +
             "pointer-events:none!important;";
+          var tlCap = chrome.querySelector(".jf-lcars-lib-elbow-tlcap");
+          if (tlCap) tlCap.style.setProperty("display", "none", "important");
           var vfill = chrome.querySelector(".jf-lcars-lib-elbow-vfill");
           if (!vfill) {
             vfill = document.createElement("div");
             vfill.className = "jf-lcars-lib-elbow-vfill";
             chrome.appendChild(vfill);
           }
-          var vH = Math.max(36, 102 - topY - 4);
+          var vH = Math.max(56, 130 - topY);
           vfill.style.cssText =
-            "position:absolute!important;left:" + armLeft + "px!important;top:4px!important;" +
+            "position:absolute!important;left:" + armLeft + "px!important;top:0!important;" +
             "width:56px!important;height:" + vH + "px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;" +
             "border:none!important;z-index:1!important;display:block!important;opacity:1!important;" +
@@ -8223,19 +8230,21 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           if (vfillOff) vfillOff.style.display = "none";
           var gapOff = chrome.querySelector(".jf-lcars-lib-elbow-gap");
           if (gapOff) gapOff.style.display = "none";
+          var tlOff = chrome.querySelector(".jf-lcars-lib-elbow-tlcap");
+          if (tlOff) tlOff.style.display = "none";
         }
       }
       if (curveEl) {
         if (narrow) {
+          /* No clip-path inset — that cut a 4px notch off the top of the curve */
           curveEl.style.cssText =
-            "position:absolute!important;left:0!important;top:0!important;width:64px!important;height:56px!important;" +
+            "position:absolute!important;left:0!important;top:0!important;width:72px!important;height:72px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
             "z-index:2!important;display:block!important;opacity:1!important;pointer-events:none!important;" +
-            "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 28px,#000 29px)!important;" +
-            "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 28px,#000 29px)!important;" +
+            "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 36px,#000 37px)!important;" +
+            "mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 36px,#000 37px)!important;" +
             "-webkit-mask-repeat:no-repeat!important;mask-repeat:no-repeat!important;" +
-            "-webkit-mask-size:100% 100%!important;mask-size:100% 100%!important;" +
-            "clip-path:inset(4px 0 0 0)!important;";
+            "-webkit-mask-size:100% 100%!important;mask-size:100% 100%!important;";
         } else {
           curveEl.style.cssText =
             "position:absolute!important;left:6px!important;top:0!important;width:72px!important;height:72px!important;" +
@@ -8364,6 +8373,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function ensureLibArmHit() {
     bindLibHomeHover();
+    try {
+      if (typeof paintLibHomeChrome === "function") {
+        var hot = document.documentElement.classList.contains("jf-lcars-lib-home-hot");
+        paintLibHomeChrome(!!hot);
+      }
+    } catch (ePaint) {}
   }
 
 
@@ -9258,7 +9273,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.132-header-black",
+    version: "2.22.140-home-in-front",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
