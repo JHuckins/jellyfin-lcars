@@ -3219,6 +3219,35 @@ html.jf-lcars-video .mainAnimatedPages {
   font-size: 0.8rem !important;
   text-align: left !important;
 }
+
+/* Below 550px: portrait cards at 50% width (2-column grid) */
+@media (max-width: 549.98px) {
+  .itemsContainer .card.portraitCard,
+  .itemsContainer .card.overflowPortraitCard,
+  .itemsContainer .card[data-type="Movie"],
+  .itemsContainer .card[data-type="Episode"],
+  .itemsContainer .card[data-type="Series"],
+  .itemsContainer .card[data-type="Video"],
+  .vertical-wrap .card.portraitCard,
+  .vertical-wrap .card.overflowPortraitCard,
+  .vertical-wrap .card[data-type="Movie"] {
+    width: 50% !important;
+    max-width: 50% !important;
+    min-width: 50% !important;
+    flex: 0 0 50% !important;
+    flex-basis: 50% !important;
+    box-sizing: border-box !important;
+  }
+  .itemsContainer .card.portraitCard .cardBox,
+  .itemsContainer .card.overflowPortraitCard .cardBox,
+  .itemsContainer .card[data-type="Movie"] .cardBox,
+  .vertical-wrap .card.portraitCard .cardBox,
+  .vertical-wrap .card.overflowPortraitCard .cardBox {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
 .card.overflowPortraitCard .cardScalable .innerCardFooter,
 .card[data-type="Movie"] .cardScalable .innerCardFooter,
 .card.overflowPortraitCard .cardScalable .cardFooter {
@@ -8238,7 +8267,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         if (narrow) {
           /* No clip-path inset — that cut a 4px notch off the top of the curve */
           curveEl.style.cssText =
-            "position:absolute!important;left:0!important;top:0!important;width:72px!important;height:72px!important;" +
+            "position:absolute!important;left:0!important;top:0!important;width:72px!important;height:73px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
             "z-index:2!important;display:block!important;opacity:1!important;pointer-events:none!important;" +
             "-webkit-mask-image:radial-gradient(circle at 100% 100%,transparent 0,transparent 36px,#000 37px)!important;" +
@@ -9273,7 +9302,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.140-home-in-front",
+    version: "2.22.151-portrait-50pct",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
