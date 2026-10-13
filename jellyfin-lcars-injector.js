@@ -122,7 +122,7 @@ html.jf-lcars-narrow.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-mobile-top-
   /* 56 rail + ~48 curve arm + 10px black gap (desktop-like) */
   left: 117px !important;
   right: 0 !important;
-  top: var(--lcars-lib-row-top, 48px) !important;
+  top: calc(var(--lcars-lib-row-top, 48px) - 1px) !important;
   height: 36px !important;
   z-index: 1092 !important;
   margin: 0 !important;
@@ -8185,7 +8185,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       } catch (e2) {}
       /* Desktop: 10px up, 10px left from nav edge. Mobile: near left rail, same height. */
       var left;
-      var topY = Math.max(0, narrow ? rowTop : (rowTop - 5)); /* mobile bar-aligned; desktop unchanged */
+      var topY = Math.max(0, narrow ? (rowTop - 1) : (rowTop - 5)); /* mobile: 47 when rowTop=48; desktop unchanged */
       if (narrow) {
         left = 21; /* mobile curve left */
       } else {
@@ -8512,7 +8512,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           mtb.style.cssText =
             "display:flex!important;visibility:visible!important;opacity:1!important;" +
             "position:fixed!important;left:117px!important;right:0!important;" +
-            "top:" + headerH + "px!important;height:" + barH + "px!important;" +
+            "top:" + Math.max(0, headerH - 1) + "px!important;height:" + barH + "px!important;" +
             "z-index:12050!important;pointer-events:none!important;margin:0!important;padding:0!important;" +
             "border:none!important;background:transparent!important;box-sizing:border-box!important;";
           var mrowEl = mtb.querySelector(".jf-lcars-bar-row");
@@ -9302,7 +9302,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.151-portrait-50pct",
+    version: "2.22.153-bar-top-47",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
