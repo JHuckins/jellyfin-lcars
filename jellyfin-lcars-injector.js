@@ -10210,7 +10210,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.195-reset-filters-mobile",
+    version: "2.22.195",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
