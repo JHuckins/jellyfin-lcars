@@ -614,12 +614,13 @@ body.jf-lcars-active::after {
     border-radius: 0 !important;
     box-shadow: none !important;
     margin-top: 50px !important;
-    margin-left: 0.5rem !important;
-    margin-right: 20px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     margin-bottom: 1rem !important;
-    padding: 0.5rem !important;
-    width: auto !important;
-    max-width: calc(100% - 20px) !important;
+    padding: 0.5rem 17px !important; /* equal L/R inset (+5px) so content doesn't clip */
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
     background: transparent !important;
   }
   .dashboardDocument .content-primary::before,
@@ -1466,37 +1467,93 @@ textarea,
 @media screen and (max-width: 750px) {
   html.jf-lcars-active,
   html.jf-lcars-active body,
-  .jf-lcars-active.dashboardDocument {
+  .jf-lcars-active.dashboardDocument,
+  html.dashboardDocument,
+  body.dashboardDocument {
     overflow-x: hidden !important;
-    max-width: 100vw !important;
+    /* NEVER 100vw here — with a docked drawer that overshoots the right edge */
+    max-width: 100% !important;
   }
+  /*
+   * Equal left/right inset. Prefer content-primary padding (always present on
+   * Plugins / dashboard pages) rather than main — MUI drawer layout may not
+   * put our padding on the flex main column reliably.
+   */
   .dashboardDocument main,
   .dashboardDocument main.MuiBox-root,
   .dashboardDocument .mainAnimatedPage,
-  .dashboardDocument .mainAnimatedPages {
-    width: 100% !important;
-    max-width: 100vw !important;
+  .dashboardDocument .mainAnimatedPages,
+  .dashboardDocument .MuiBox-root.mainAnimatedPage,
+  .dashboardDocument .page.mainAnimatedPage,
+  .dashboardDocument #pluginsPage {
+    width: auto !important;
+    max-width: 100% !important;
     min-width: 0 !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
-    padding-left: 0 !important;
-    padding-right: 0.5rem !important;
   }
   .jf-lcars-active.dashboardDocument .content-primary,
   .dashboardDocument .content-primary,
   .dashboardDocument .content-primary.MuiBox-root,
   .content-primary.MuiBox-root,
   .dashboardDocument .skinBody .content-primary,
-  .dashboardDocument main .content-primary {
+  .dashboardDocument main .content-primary,
+  .dashboardDocument #pluginsPage .content-primary {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
-    margin-left: 0.5rem !important;
-    margin-right: 20px !important;
-    padding-left: 0.35rem !important;
-    padding-right: 0.35rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    /* Equal side inset — this is what creates the visible right gap (+5px) */
+    padding-left: 17px !important;
+    padding-right: 17px !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
+  }
+  /* Plugin category chip row uses negative margins in Jellyfin — cancel under 750 */
+  .dashboardDocument .content-primary .MuiStack-root:has(> .MuiChip-root) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  /* Legacy MUI Grid negative margins eat into side padding — kill them */
+  .dashboardDocument .content-primary .MuiGrid-container,
+  .dashboardDocument #pluginsPage .MuiGrid-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .dashboardDocument .content-primary .MuiGrid-item,
+  .dashboardDocument #pluginsPage .MuiGrid-item {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
+  /* Header: wrap title + Manage Repositories so the button isn't clipped */
+  .dashboardDocument .content-primary .MuiStack-root:has(> .MuiButton-outlined),
+  .dashboardDocument .content-primary .MuiStack-root:has(input[placeholder*="Search" i]),
+  .dashboardDocument .content-primary .MuiStack-root:has(> .MuiTypography-h1),
+  .dashboardDocument #pluginsPage .MuiStack-root:has(> .MuiButton-outlined) {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+    row-gap: 0.5rem !important;
+    column-gap: 0.5rem !important;
+  }
+  .dashboardDocument .content-primary .MuiStack-root > .MuiButton-outlined,
+  .dashboardDocument #pluginsPage .MuiStack-root > .MuiButton-outlined {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+    flex: 0 1 auto !important;
   }
   /* Papers / cards stay inside well */
   .dashboardDocument .content-primary .MuiPaper-root,
@@ -1798,16 +1855,17 @@ body.dashboardDocument {
     padding: 0 0 56px 0 !important;
   }
 }
-/* Mobile temporary drawer — let MUI control transform/open; only paint surface */
+/* Mobile temporary drawer — width + surface; LCARS U-frame is in the narrow block below */
 @media (max-width: 899px) {
   .dashboardDocument .MuiDrawer-paper,
   .MuiDrawer-paperAnchorTemporary,
-  .MuiDrawer-root .MuiDrawer-paper {
+  .MuiDrawer-root .MuiDrawer-paper,
+  .MuiModal-root .MuiDrawer-paper {
     background: #000 !important;
     background-color: #000 !important;
-    width: min(280px, 85vw) !important;
-    max-width: min(280px, 85vw) !important;
-    padding: 0 8px 56px 8px !important;
+    /* extra width for the right LCARS bar */
+    width: min(294px, 88vw) !important;
+    max-width: min(294px, 88vw) !important;
     /* never force visibility/transform — MUI slides the temporary drawer */
   }
 }
@@ -6456,15 +6514,15 @@ html.jf-lcars-active .alphaPickerButton.selected {
   background: #000 !important;
   box-sizing: border-box !important;
 }
-/* Filled: room for floating label above value */
+/* Filled: room for floating label above value; clear of top/bottom borders */
 .dashboardDocument .MuiFilledInput-root {
-  min-height: 3.75rem !important;
+  min-height: 4.1rem !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 .dashboardDocument .MuiFilledInput-input {
-  padding-top: 1.65rem !important;
-  padding-bottom: 0.55rem !important;
+  padding-top: calc(1.85rem + 7px) !important; /* space under shrunk label (+2px then +5px) */
+  padding-bottom: 0.9rem !important; /* space above bottom border */
   padding-left: 1rem !important;
   padding-right: 0.85rem !important;
   line-height: 1.3 !important;
@@ -6513,10 +6571,10 @@ html.jf-lcars-active .alphaPickerButton.selected {
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
 }
-/* Shrunk label sits in the top band of filled fields */
+/* Shrunk label sits in the top band of filled fields — gap under top border */
 .dashboardDocument .MuiInputLabel-root.MuiInputLabel-shrink,
 .dashboardDocument .MuiInputLabel-filled.MuiInputLabel-shrink {
-  transform: translate(12px, 8px) scale(0.75) !important;
+  transform: translate(12px, 14px) scale(0.75) !important;
   transform-origin: top left !important;
   max-width: calc(100% - 48px) !important;
 }
@@ -6524,6 +6582,119 @@ html.jf-lcars-active .alphaPickerButton.selected {
 .dashboardDocument .MuiTextField-root {
   margin-top: 0.75rem !important;
   margin-bottom: 0.5rem !important;
+}
+/*
+ * Plugins / dashboard header Search field —
+ * match adjacent outlined button (MANAGE REPOSITORIES) size + LCARS type.
+ */
+.dashboardDocument .MuiOutlinedInput-root:has(input[placeholder*="Search" i]),
+.dashboardDocument .MuiOutlinedInput-root:has(input[type="search"]),
+.dashboardDocument .MuiInputBase-root:has(input[placeholder*="Search" i]),
+.dashboardDocument .MuiInputBase-root:has(input[type="search"]),
+.dashboardDocument .MuiTextField-root:has(input[placeholder*="Search" i]) .MuiOutlinedInput-root,
+.dashboardDocument .MuiTextField-root:has(input[type="search"]) .MuiOutlinedInput-root {
+  min-height: 2.6rem !important;
+  height: 2.6rem !important;
+  max-height: 2.6rem !important;
+  border-radius: 0 !important;
+  background: #000 !important;
+  box-sizing: border-box !important;
+  align-items: center !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.dashboardDocument .MuiOutlinedInput-root:has(input[placeholder*="Search" i]) .MuiOutlinedInput-notchedOutline,
+.dashboardDocument .MuiOutlinedInput-root:has(input[type="search"]) .MuiOutlinedInput-notchedOutline,
+.dashboardDocument .MuiTextField-root:has(input[placeholder*="Search" i]) .MuiOutlinedInput-notchedOutline,
+.dashboardDocument .MuiTextField-root:has(input[type="search"]) .MuiOutlinedInput-notchedOutline {
+  border: 2px solid var(--light-gray) !important;
+  border-radius: 0 !important;
+}
+.dashboardDocument .MuiOutlinedInput-root:has(input[placeholder*="Search" i]):hover .MuiOutlinedInput-notchedOutline,
+.dashboardDocument .MuiOutlinedInput-root:has(input[type="search"]):hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--ghost-gray) !important;
+}
+.dashboardDocument input[placeholder*="Search" i],
+.dashboardDocument input[type="search"],
+.dashboardDocument .MuiOutlinedInput-root:has(input[placeholder*="Search" i]) input,
+.dashboardDocument .MuiOutlinedInput-root:has(input[type="search"]) input,
+.dashboardDocument .MuiInputBase-input[placeholder*="Search" i] {
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--ghost-gray) !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument input[placeholder*="Search" i]::placeholder,
+.dashboardDocument input[type="search"]::placeholder,
+.dashboardDocument .MuiInputBase-input[placeholder*="Search" i]::placeholder {
+  font-family: var(--lcars-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--ghost-gray) !important;
+  opacity: 1 !important;
+}
+/* Header row: Search TextField shouldn't add form vertical margins */
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h1) .MuiTextField-root:has(input[placeholder*="Search" i]),
+.dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) .MuiTextField-root:has(input[placeholder*="Search" i]),
+.dashboardDocument .MuiStack-root:has(> .MuiButton-outlined) .MuiTextField-root:has(input[placeholder*="Search" i]),
+.dashboardDocument .MuiStack-root:has(> .MuiButton-outlined) .MuiTextField-root:has(input[type="search"]),
+.dashboardDocument .MuiBox-root:has(> .MuiButton-outlined) .MuiTextField-root:has(input[placeholder*="Search" i]) {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  align-self: center !important;
+}
+/*
+ * Below 750px: Plugins SearchInput (custom SearchContainer + InputBase, not TextField)
+ * drops to its own full-width row. Jellyfin only does this at MUI xs (<600);
+ * override the sm+ auto width / nowrap up through 750px.
+ */
+@media (max-width: 749.98px) {
+  /* Header Stack: Plugins title + Manage Repositories + Search */
+  .dashboardDocument .MuiStack-root:has(> .MuiButton-outlined):has(input[placeholder*="Search" i]),
+  .dashboardDocument .MuiStack-root:has(> .MuiTypography-h1):has(input[placeholder*="Search" i]),
+  .dashboardDocument .MuiStack-root:has(> .MuiTypography-root):has(input[placeholder*="Search" i]) {
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    row-gap: 0.5rem !important;
+  }
+  /* Box that wraps SearchInput — force full width row */
+  .dashboardDocument .MuiStack-root:has(> .MuiButton-outlined) > .MuiBox-root:has(input[placeholder*="Search" i]),
+  .dashboardDocument .MuiStack-root:has(> .MuiTypography-h1) > .MuiBox-root:has(input[placeholder*="Search" i]),
+  .dashboardDocument .MuiStack-root:has(> .MuiTypography-root) > .MuiBox-root:has(input[placeholder*="Search" i]),
+  .dashboardDocument .MuiStack-root > .MuiBox-root:has(.MuiInputBase-root input[placeholder*="Search" i]) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    flex: 1 1 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0.5rem !important;
+    justify-content: stretch !important;
+    display: flex !important;
+    box-sizing: border-box !important;
+  }
+  /* SearchContainer styled div (direct parent of InputBase) */
+  .dashboardDocument .MuiStack-root > .MuiBox-root:has(input[placeholder*="Search" i]) > div,
+  .dashboardDocument .MuiBox-root:has(input[placeholder*="Search" i]) > div:has(> .MuiInputBase-root) {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    box-sizing: border-box !important;
+  }
+  .dashboardDocument .MuiStack-root > .MuiBox-root:has(input[placeholder*="Search" i]) .MuiInputBase-root,
+  .dashboardDocument .MuiStack-root > .MuiBox-root:has(input[placeholder*="Search" i]) .MuiInputBase-input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 }
 .dashboardDocument .MuiFormHelperText-root {
   margin-top: 0.4rem !important;
@@ -7682,21 +7853,146 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   .backgroundContainer {
     margin-left: var(--lcars-sidebar, 56px) !important;
   }
-  /* Drawer below header+runner; desktop-like solid bars */
+  /*
+   * Drawer below header — Picard LCARS U-frame:
+   * thick bars on top / right / bottom with large right-side curves;
+   * left edge flush to the viewport (no bar).
+   * Height hugs menu content so the bottom bar wraps the last item.
+   */
   .dashboardDocument .MuiDrawer-paper,
   .MuiDrawer-paperAnchorLeft,
   .MuiDrawer-paperAnchorTemporary,
-  .MuiDrawer-root .MuiDrawer-paper {
-    top: 78px !important;
-    height: calc(100vh - 78px) !important;
-    max-height: calc(100vh - 78px) !important;
+  .MuiDrawer-root .MuiDrawer-paper,
+  .MuiModal-root .MuiDrawer-paper {
+    --lcars-drawer-bar: 70px; /* 5× previous 14px stroke */
+    --lcars-drawer-curve: 120px; /* radius scales with thicker bar */
+    --lcars-drawer-inner-curve: calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar)); /* 50px */
+    top: 56px !important; /* was 46px; +10px */
+    height: auto !important;
+    max-height: calc(100vh - 56px) !important;
     background: #000 !important;
     background-color: #000 !important;
-    padding: 8px 10px 24px !important;
+    /* inner clearance so nav rows sit inside the frame */
+    padding: calc(var(--lcars-drawer-bar) + 6px) calc(var(--lcars-drawer-bar) + 8px) calc(var(--lcars-drawer-bar) + 8px) 0 !important;
     box-sizing: border-box !important;
-    border-right: none !important;
+    border: none !important;
+    border-radius: 0 var(--lcars-drawer-curve) var(--lcars-drawer-curve) 0 !important;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
     z-index: 13000 !important;
+    position: fixed !important;
+    left: 0 !important;
+  }
+  /*
+   * Segmented LCARS U-frame (Picard): colored blocks with black gaps,
+   * thick bars on top / right / bottom, large right-side curves.
+   * ::before = full frame geometry via layered gradients
+   * ::after  = top-right orange-red endcap curve
+   */
+  .dashboardDocument .MuiDrawer-paper::before,
+  .MuiDrawer-paperAnchorLeft::before,
+  .MuiDrawer-paperAnchorTemporary::before,
+  .MuiDrawer-root .MuiDrawer-paper::before,
+  .MuiModal-root .MuiDrawer-paper::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    box-sizing: border-box !important;
+    border: none !important;
+    border-radius: 0 var(--lcars-drawer-curve) var(--lcars-drawer-curve) 0 !important;
+    pointer-events: none !important;
+    z-index: 50 !important;
+    /* Segment colors + black gaps; corner elbow is one solid color */
+    --seg-a: var(--primary-gray, #6d748c);
+    --seg-b: var(--ghost-gray, #d2d5df);
+    --seg-c: var(--medium-dark-gray, #52596e);
+    --seg-d: var(--light-gray, #9ea5ba);
+    --seg-corner: var(--primary-gray, #6d748c); /* entire top-right curve = one color */
+    --seg-gap: 8px;
+    /* Gap between straight bars and the bottom-right curve */
+    --seg-curve-gap: 10px;
+    background:
+      /* TOP bar — segments stop before curve; last bit merges into corner color */
+      linear-gradient(
+        to right,
+        var(--seg-a) 0 22%,
+        transparent 22% calc(22% + var(--seg-gap)),
+        var(--seg-b) calc(22% + var(--seg-gap)) 48%,
+        transparent 48% calc(48% + var(--seg-gap)),
+        var(--seg-c) calc(48% + var(--seg-gap)) 72%,
+        transparent 72% calc(72% + var(--seg-gap)),
+        var(--seg-corner) calc(72% + var(--seg-gap)) 100%
+      ) no-repeat top left / calc(100% - var(--lcars-drawer-curve)) var(--lcars-drawer-bar),
+      /* TOP-RIGHT curve — solid corner color (no multi-tone) */
+      radial-gradient(
+        circle at left bottom,
+        transparent 0,
+        transparent calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar) - 0.5px),
+        var(--seg-corner) calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar))
+      ) no-repeat top right / var(--lcars-drawer-curve) var(--lcars-drawer-curve),
+      /*
+       * RIGHT bar — segments with visible gaps; height leaves --seg-curve-gap
+       * above the bottom-right curve (arrow target).
+       */
+      linear-gradient(
+        to bottom,
+        var(--seg-corner) 0 20%,
+        transparent 20% calc(20% + var(--seg-gap)),
+        var(--seg-c) calc(20% + var(--seg-gap)) 40%,
+        transparent 40% calc(40% + var(--seg-gap)),
+        var(--seg-b) calc(40% + var(--seg-gap)) 60%,
+        transparent 60% calc(60% + var(--seg-gap)),
+        var(--seg-d) calc(60% + var(--seg-gap)) 80%,
+        transparent 80% calc(80% + var(--seg-gap)),
+        var(--seg-a) calc(80% + var(--seg-gap)) 100%
+      ) no-repeat right var(--lcars-drawer-curve) / var(--lcars-drawer-bar) calc(100% - 2 * var(--lcars-drawer-curve) - var(--seg-curve-gap)),
+      /* BOTTOM-RIGHT curve */
+      radial-gradient(
+        circle at left top,
+        transparent 0,
+        transparent calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar) - 0.5px),
+        var(--seg-a) calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar))
+      ) no-repeat bottom right / var(--lcars-drawer-curve) var(--lcars-drawer-curve),
+      /*
+       * BOTTOM bar — segments with visible gaps; width leaves --seg-curve-gap
+       * before the bottom-right curve (arrow targets).
+       */
+      linear-gradient(
+        to right,
+        var(--seg-c) 0 18%,
+        transparent 18% calc(18% + var(--seg-gap)),
+        var(--seg-a) calc(18% + var(--seg-gap)) 36%,
+        transparent 36% calc(36% + var(--seg-gap)),
+        var(--seg-b) calc(36% + var(--seg-gap)) 54%,
+        transparent 54% calc(54% + var(--seg-gap)),
+        var(--seg-d) calc(54% + var(--seg-gap)) 72%,
+        transparent 72% calc(72% + var(--seg-gap)),
+        var(--seg-c) calc(72% + var(--seg-gap)) 100%
+      ) no-repeat bottom left / calc(100% - var(--lcars-drawer-curve) - var(--seg-curve-gap)) var(--lcars-drawer-bar);
+  }
+  /* Top-right endcap reinforces solid corner color (same as ::before curve) */
+  .dashboardDocument .MuiDrawer-paper::after,
+  .MuiDrawer-paperAnchorLeft::after,
+  .MuiDrawer-paperAnchorTemporary::after,
+  .MuiDrawer-root .MuiDrawer-paper::after,
+  .MuiModal-root .MuiDrawer-paper::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: var(--lcars-drawer-curve) !important;
+    height: var(--lcars-drawer-curve) !important;
+    background: radial-gradient(
+      circle at left bottom,
+      transparent 0,
+      transparent calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar) - 0.5px),
+      var(--primary-gray, #6d748c) calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar))
+    ) !important;
+    pointer-events: none !important;
+    z-index: 51 !important;
   }
   .dashboardDocument .MuiDrawer-paper .MuiListSubheader-root {
     display: none !important;
@@ -7729,6 +8025,20 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     justify-content: flex-end !important;
     text-align: right !important;
     box-sizing: border-box !important;
+  }
+  /*
+   * Top / bottom menu buttons follow the frame’s inner right curves
+   * (outer curve − bar thickness) so they nest into the LCARS U-frame.
+   */
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
+  .dashboardDocument .MuiDrawer-paper .MuiList-root:not(:has(img)):first-of-type .MuiListItem-root:first-child > .MuiListItemButton-root {
+    border-top-right-radius: var(--lcars-drawer-inner-curve, 50px) !important;
+  }
+  .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/tasks"],
+  .dashboardDocument .MuiDrawer-paper .MuiList-root:last-of-type .MuiListItem-root:last-child > .MuiListItemButton-root,
+  .dashboardDocument .MuiDrawer-paper .MuiList-root:last-of-type > a.MuiListItemButton-root:last-of-type {
+    border-bottom-right-radius: var(--lcars-drawer-inner-curve, 50px) !important;
   }
   .dashboardDocument .MuiDrawer-paper .MuiList-root > .MuiListItem-root:nth-child(3n+1) > .MuiListItemButton-root {
     min-height: 3.4rem !important;
@@ -8740,9 +9050,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         paper.style.setProperty("position", "fixed", "important");
         paper.style.setProperty("left", "0", "important");
         if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
-          paper.style.setProperty("top", "78px", "important");
-          paper.style.setProperty("height", "calc(100vh - 78px)", "important");
-          paper.style.setProperty("max-height", "calc(100vh - 78px)", "important");
+          paper.style.setProperty("top", "56px", "important");
+          /* Hug menu content so bottom LCARS bar wraps last item */
+          paper.style.setProperty("height", "auto", "important");
+          paper.style.setProperty("max-height", "calc(100vh - 56px)", "important");
         } else {
           paper.style.setProperty("top", "0", "important");
           paper.style.setProperty("height", "100vh", "important");
@@ -10019,6 +10330,48 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
+  /* Under 750px: force equal side inset on dashboard content-primary (CSS alone was ignored by Grid/sx). */
+  function fixDashboardSideInset() {
+    try {
+      var under750 = window.innerWidth < 750;
+      var nodes = document.querySelectorAll(
+        ".dashboardDocument .content-primary, .dashboardDocument #pluginsPage .content-primary, .content-primary.MuiBox-root, #pluginsPage .content-primary"
+      );
+      for (var i = 0; i < nodes.length; i++) {
+        var el = nodes[i];
+        if (under750) {
+          el.style.setProperty("padding-left", "17px", "important");
+          el.style.setProperty("padding-right", "17px", "important");
+          el.style.setProperty("box-sizing", "border-box", "important");
+          el.style.setProperty("width", "100%", "important");
+          el.style.setProperty("max-width", "100%", "important");
+          el.style.setProperty("margin-left", "0", "important");
+          el.style.setProperty("margin-right", "0", "important");
+          el.style.setProperty("overflow-x", "hidden", "important");
+        } else {
+          el.style.removeProperty("padding-left");
+          el.style.removeProperty("padding-right");
+          el.style.removeProperty("box-sizing");
+          el.style.removeProperty("width");
+          el.style.removeProperty("max-width");
+          el.style.removeProperty("margin-left");
+          el.style.removeProperty("margin-right");
+          el.style.removeProperty("overflow-x");
+        }
+      }
+      if (under750) {
+        document.querySelectorAll(".dashboardDocument .content-primary .MuiGrid-container, #pluginsPage .MuiGrid-container").forEach(function (g) {
+          g.style.setProperty("width", "100%", "important");
+          g.style.setProperty("max-width", "100%", "important");
+          g.style.setProperty("margin-left", "0", "important");
+          g.style.setProperty("margin-right", "0", "important");
+        });
+      }
+    } catch (e) {
+      console.warn("[JellyfinLCARS] fixDashboardSideInset", e);
+    }
+  }
+
   function alignSecondaryToolbar() {
     try {
       var narrowBar = window.innerWidth < 1200;
@@ -10402,6 +10755,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureNumberSpinners();
       syncLibraryNav();
       alignSecondaryToolbar();
+      fixDashboardSideInset();
       /* Desktop library only: hide permanent admin drawer. Never touch mobile temporary drawer. */
       try {
         var narrowHide = window.matchMedia && window.matchMedia("(max-width: 1099px)").matches;
@@ -10421,7 +10775,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.208-more-btn-mr-10",
+    version: "2.22.230-frame-gaps-visible",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -10451,6 +10805,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }
       syncLibraryNav();
       alignSecondaryToolbar();
+      fixDashboardSideInset();
       scheduleUserActionRail();
     }, 120);
   });
