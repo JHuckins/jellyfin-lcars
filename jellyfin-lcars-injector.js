@@ -4569,6 +4569,14 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   pointer-events: none !important;
   z-index: 0 !important;
 }
+/* ≥1200px: space between Previous and Next arrow buttons */
+@media (min-width: 1200px) {
+  .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Next"],
+  .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Next"],
+  .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Next"] {
+    margin-left: 0.5rem !important;
+  }
+}
 
 /* Shuffle: same [red bar][gap][square] as filter icons; extra left margin from Play All */
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Shuffle"],
@@ -10775,7 +10783,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.230-frame-gaps-visible",
+    version: "2.22.231-prev-next-gap",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
