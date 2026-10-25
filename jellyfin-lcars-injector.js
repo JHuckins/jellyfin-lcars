@@ -510,90 +510,123 @@ body.jf-lcars-active::after {
   width: 0 !important;
 }
 
-/* ========== Content well — outer line + 10px gap + LCARS bars ========== */
+/* ========== Content well — thelcars.com image-frame style (Picard) ========== */
 /*
- * Layers (outside → inside):
- *   1) thin light-gray outline
- *   2) 10px black gap
- *   3) LCARS rails (left 36px, right 72px = 2×, top/bottom 12px)
- *   4) 10px padding to content
+ * Layer model (matches https://www.thelcars.com/image-frame.php):
+ *   1) Parent = solid red with outer TL/BL radius  → the L frame
+ *   2) ::before = black plate inset + inner left radius → rounded inner corners
+ *   3) ::after  = top gray bar + pill endcap + bottom segments only
  */
 .jf-lcars-active.dashboardDocument .content-primary,
 .dashboardDocument .content-primary,
 .dashboardDocument .content-primary.MuiBox-root,
 .content-primary.MuiBox-root {
-  --lcars-well-left: 36px;
-  --lcars-well-right: 72px;
-  --lcars-well-tb: 12px;
-  --lcars-well-gap: 10px;
-  --lcars-well-inset: 16px;
+  --frame-h: 28px;
+  --frame-rail: 36px;
+  --spacers: 0.65rem;
+  --curve-outer: 50px;
+  --curve-inner: 28px;
+  --seg-a: var(--primary-gray, #6d748c);
+  --seg-b: var(--ghost-gray, #d2d5df);
+  --seg-c: var(--medium-dark-gray, #52596e);
+  --seg-d: var(--light-gray, #9ea5ba);
+  --seg-accent: var(--orange-red, #e7442a);
 
   position: relative !important;
   box-sizing: border-box !important;
-  background: #000 !important;
   width: auto !important;
 
-  /* Inner LCARS rails */
-  border-style: solid !important;
-  border-color: var(--primary-gray) !important;
-  border-left-width: var(--lcars-well-left) !important;
-  border-right-width: var(--lcars-well-right) !important;
-  border-top-width: var(--lcars-well-tb) !important;
-  border-bottom-width: var(--lcars-well-tb) !important;
-  border-radius: 1.5rem !important;
+  /* Red L frame (shows in left rail + top bar + bottom bar) */
+  background: var(--seg-accent) !important;
 
-  /* Content inset inside rails — extra left so titles aren't tight on the bar */
-  padding: var(--lcars-well-inset) !important;
-  padding-left: calc(var(--lcars-well-inset) + 4px) !important;
+  border: none !important;
+  border-radius: var(--curve-outer) 0 0 var(--curve-outer) !important;
 
-  /* Outer: 10px gap then 2px light-gray line */
-  box-shadow:
-    0 0 0 var(--lcars-well-gap) #000,
-    0 0 0 calc(var(--lcars-well-gap) + 2px) var(--light-gray) !important;
+  padding: calc(var(--frame-h) + var(--spacers)) var(--spacers) calc(var(--frame-h) + var(--spacers)) calc(var(--frame-rail) + var(--spacers)) !important;
 
   margin-top: 8rem !important;
   margin-right: max(4%, 28px) !important;
   margin-left: 40px !important;
   margin-bottom: 2rem !important;
-  overflow: visible !important;
+  overflow: hidden !important;
 }
 
-/* Segmented right rail (behind action buttons) */
-.dashboardDocument .content-primary::before {
+/*
+ * Black content plate ON TOP of the red frame.
+ * Inset from rail + top/bottom bars; left border-radius = inner corners.
+ */
+.jf-lcars-active.dashboardDocument .content-primary::before,
+.dashboardDocument .content-primary::before,
+.dashboardDocument .content-primary.MuiBox-root::before,
+.content-primary.MuiBox-root::before {
   content: "" !important;
+  display: block !important;
   position: absolute !important;
-  top: var(--lcars-well-tb) !important;
-  right: calc(-1 * var(--lcars-well-right)) !important;
-  bottom: var(--lcars-well-tb) !important;
-  width: var(--lcars-well-right) !important;
-  box-sizing: border-box !important;
-  pointer-events: none !important;
-  z-index: 0 !important;
-  border-radius: 0 0.85rem 0.85rem 0 !important;
-  background: linear-gradient(
-    to bottom,
-    var(--orange-red) 0 10%,
-    var(--primary-gray) 10% 14%,
-    var(--ghost-gray) 14% 22%,
-    var(--primary-gray) 22% 40%,
-    var(--medium-dark-gray) 40% 48%,
-    var(--primary-gray) 48% 72%,
-    var(--light-orange-red) 72% 80%,
-    var(--primary-gray) 80% 100%
-  ) !important;
-}
-
-/* Left rail top orange accent */
-.dashboardDocument .content-primary::after {
-  content: "" !important;
-  position: absolute !important;
-  left: calc(-1 * var(--lcars-well-left)) !important;
-  top: var(--lcars-well-tb) !important;
-  width: var(--lcars-well-left) !important;
-  height: 22% !important;
-  background: var(--orange-red) !important;
+  top: var(--frame-h) !important;
+  right: 0 !important;
+  bottom: var(--frame-h) !important;
+  left: var(--frame-rail) !important;
+  background: #000 !important;
+  border-radius: var(--curve-inner) 0 0 var(--curve-inner) !important;
   pointer-events: none !important;
   z-index: 1 !important;
+}
+
+/*
+ * Decorations only: top gray segment + pill endcap, bottom color blocks.
+ * Left rail / red top / red bottom come from the parent background.
+ */
+.jf-lcars-active.dashboardDocument .content-primary::after,
+.dashboardDocument .content-primary::after,
+.dashboardDocument .content-primary.MuiBox-root::after,
+.content-primary.MuiBox-root::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+  border-radius: inherit !important;
+  background:
+    /*
+     * Top-right pill (first = topmost):
+     * 1) gray circle tip
+     * 2) gray bar ending at circle center
+     * 3) black underlay under the tip so parent red never shows
+     */
+    radial-gradient(circle at center, #d2d5df 0 71%, transparent 72%)
+      no-repeat top right / 28px 28px,
+    linear-gradient(
+      to right,
+      transparent 0 50%,
+      #000 50% calc(50% + 10px),
+      #d2d5df calc(50% + 10px) 100%
+    ) no-repeat top left / calc(100% - 14px) 28px,
+    linear-gradient(#000, #000)
+      no-repeat top right / 28px 28px,
+    /* Bottom segmented blocks (red left block is parent bg) */
+    linear-gradient(
+      to right,
+      transparent 0 16%,
+      #000 16% calc(16% + 6px),
+      #6d748c calc(16% + 6px) 30%,
+      #000 30% calc(30% + 6px),
+      #d2d5df calc(30% + 6px) 42%,
+      #000 42% calc(42% + 10px),
+      #52596e calc(42% + 10px) 58%,
+      #000 58% calc(58% + 6px),
+      #9ea5ba calc(58% + 6px) 78%,
+      #000 78% 100%
+    ) no-repeat bottom left / 100% 28px;
+}
+
+/* Keep page content above the frame chrome */
+.jf-lcars-active.dashboardDocument .content-primary > *,
+.dashboardDocument .content-primary > *,
+.dashboardDocument .content-primary.MuiBox-root > *,
+.content-primary.MuiBox-root > * {
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 /* Below 750px: strip content well frame; 50px top margin */
@@ -7862,25 +7895,29 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     margin-left: var(--lcars-sidebar, 56px) !important;
   }
   /*
-   * Drawer below header — Picard LCARS U-frame:
-   * thick bars on top / right / bottom with large right-side curves;
-   * left edge flush to the viewport (no bar).
-   * Height hugs menu content so the bottom bar wraps the last item.
+   * Mobile drawer — LCARS U-frame (menu only; content-primary uses image-frame separately).
+   * Thick bars top/right/bottom, left flush, segmented with gaps.
    */
   .dashboardDocument .MuiDrawer-paper,
   .MuiDrawer-paperAnchorLeft,
   .MuiDrawer-paperAnchorTemporary,
   .MuiDrawer-root .MuiDrawer-paper,
   .MuiModal-root .MuiDrawer-paper {
-    --lcars-drawer-bar: 70px; /* 5× previous 14px stroke */
-    --lcars-drawer-curve: 120px; /* radius scales with thicker bar */
-    --lcars-drawer-inner-curve: calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar)); /* 50px */
-    top: 56px !important; /* was 46px; +10px */
+    --lcars-drawer-bar: 70px;
+    --lcars-drawer-curve: 120px;
+    --lcars-drawer-inner-curve: calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar));
+    --seg-a: var(--primary-gray, #6d748c);
+    --seg-b: var(--ghost-gray, #d2d5df);
+    --seg-c: var(--medium-dark-gray, #52596e);
+    --seg-d: var(--light-gray, #9ea5ba);
+    --seg-corner: var(--primary-gray, #6d748c);
+    --seg-gap: 8px;
+    --seg-curve-gap: 10px;
+    top: 56px !important;
     height: auto !important;
     max-height: calc(100vh - 56px) !important;
     background: #000 !important;
     background-color: #000 !important;
-    /* inner clearance so nav rows sit inside the frame */
     padding: calc(var(--lcars-drawer-bar) + 6px) calc(var(--lcars-drawer-bar) + 8px) calc(var(--lcars-drawer-bar) + 8px) 0 !important;
     box-sizing: border-box !important;
     border: none !important;
@@ -7891,18 +7928,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     position: fixed !important;
     left: 0 !important;
   }
-  /*
-   * Segmented LCARS U-frame (Picard): colored blocks with black gaps,
-   * thick bars on top / right / bottom, large right-side curves.
-   * ::before = full frame geometry via layered gradients
-   * ::after  = top-right orange-red endcap curve
-   */
+  /* Segmented U-frame — drawer paper only (never content-primary) */
   .dashboardDocument .MuiDrawer-paper::before,
   .MuiDrawer-paperAnchorLeft::before,
   .MuiDrawer-paperAnchorTemporary::before,
   .MuiDrawer-root .MuiDrawer-paper::before,
   .MuiModal-root .MuiDrawer-paper::before {
     content: "" !important;
+    display: block !important;
     position: absolute !important;
     top: 0 !important;
     right: 0 !important;
@@ -7913,17 +7946,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     border-radius: 0 var(--lcars-drawer-curve) var(--lcars-drawer-curve) 0 !important;
     pointer-events: none !important;
     z-index: 50 !important;
-    /* Segment colors + black gaps; corner elbow is one solid color */
-    --seg-a: var(--primary-gray, #6d748c);
-    --seg-b: var(--ghost-gray, #d2d5df);
-    --seg-c: var(--medium-dark-gray, #52596e);
-    --seg-d: var(--light-gray, #9ea5ba);
-    --seg-corner: var(--primary-gray, #6d748c); /* entire top-right curve = one color */
-    --seg-gap: 8px;
-    /* Gap between straight bars and the bottom-right curve */
-    --seg-curve-gap: 10px;
     background:
-      /* TOP bar — segments stop before curve; last bit merges into corner color */
       linear-gradient(
         to right,
         var(--seg-a) 0 22%,
@@ -7934,17 +7957,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         transparent 72% calc(72% + var(--seg-gap)),
         var(--seg-corner) calc(72% + var(--seg-gap)) 100%
       ) no-repeat top left / calc(100% - var(--lcars-drawer-curve)) var(--lcars-drawer-bar),
-      /* TOP-RIGHT curve — solid corner color (no multi-tone) */
       radial-gradient(
         circle at left bottom,
         transparent 0,
         transparent calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar) - 0.5px),
         var(--seg-corner) calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar))
       ) no-repeat top right / var(--lcars-drawer-curve) var(--lcars-drawer-curve),
-      /*
-       * RIGHT bar — segments with visible gaps; height leaves --seg-curve-gap
-       * above the bottom-right curve (arrow target).
-       */
       linear-gradient(
         to bottom,
         var(--seg-corner) 0 20%,
@@ -7957,17 +7975,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         transparent 80% calc(80% + var(--seg-gap)),
         var(--seg-a) calc(80% + var(--seg-gap)) 100%
       ) no-repeat right var(--lcars-drawer-curve) / var(--lcars-drawer-bar) calc(100% - 2 * var(--lcars-drawer-curve) - var(--seg-curve-gap)),
-      /* BOTTOM-RIGHT curve */
       radial-gradient(
         circle at left top,
         transparent 0,
         transparent calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar) - 0.5px),
         var(--seg-a) calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar))
       ) no-repeat bottom right / var(--lcars-drawer-curve) var(--lcars-drawer-curve),
-      /*
-       * BOTTOM bar — segments with visible gaps; width leaves --seg-curve-gap
-       * before the bottom-right curve (arrow targets).
-       */
       linear-gradient(
         to right,
         var(--seg-c) 0 18%,
@@ -7981,13 +7994,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var(--seg-c) calc(72% + var(--seg-gap)) 100%
       ) no-repeat bottom left / calc(100% - var(--lcars-drawer-curve) - var(--seg-curve-gap)) var(--lcars-drawer-bar);
   }
-  /* Top-right endcap reinforces solid corner color (same as ::before curve) */
   .dashboardDocument .MuiDrawer-paper::after,
   .MuiDrawer-paperAnchorLeft::after,
   .MuiDrawer-paperAnchorTemporary::after,
   .MuiDrawer-root .MuiDrawer-paper::after,
   .MuiModal-root .MuiDrawer-paper::after {
     content: "" !important;
+    display: block !important;
     position: absolute !important;
     top: 0 !important;
     right: 0 !important;
@@ -7997,11 +8010,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       circle at left bottom,
       transparent 0,
       transparent calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar) - 0.5px),
-      var(--primary-gray, #6d748c) calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar))
+      var(--seg-corner, #6d748c) calc(var(--lcars-drawer-curve) - var(--lcars-drawer-bar))
     ) !important;
     pointer-events: none !important;
     z-index: 51 !important;
   }
+
   .dashboardDocument .MuiDrawer-paper .MuiListSubheader-root {
     display: none !important;
   }
@@ -10783,7 +10797,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.231-prev-next-gap",
+    version: "2.22.248-true-pill-end",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
