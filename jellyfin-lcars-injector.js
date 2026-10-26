@@ -512,10 +512,10 @@ body.jf-lcars-active::after {
 
 /* ========== Content well — thelcars.com image-frame style (Picard) ========== */
 /*
- * Layer model (matches https://www.thelcars.com/image-frame.php):
- *   1) Parent = solid red with outer TL/BL radius  → the L frame
- *   2) ::before = black plate inset + inner left radius → rounded inner corners
- *   3) ::after  = top gray bar + pill endcap + bottom segments only
+ * Frame chrome is painted as BACKGROUND on the element itself (not absolute
+ * pseudos with inset:0). Backgrounds always track the full border-box height
+ * from in-flow content, so the bottom bar stays under the last table row.
+ * Ref: https://www.thelcars.com/image-frame.php
  */
 .jf-lcars-active.dashboardDocument .content-primary,
 .dashboardDocument .content-primary,
@@ -526,18 +526,18 @@ body.jf-lcars-active::after {
   --spacers: 0.65rem;
   --curve-outer: 50px;
   --curve-inner: 28px;
-  --seg-a: var(--primary-gray, #6d748c);
-  --seg-b: var(--ghost-gray, #d2d5df);
-  --seg-c: var(--medium-dark-gray, #52596e);
-  --seg-d: var(--light-gray, #9ea5ba);
-  --seg-accent: var(--orange-red, #e7442a);
+  --seg-a: #6d748c;
+  --seg-b: #d2d5df;
+  --seg-c: #52596e;
+  --seg-d: #9ea5ba;
+  --seg-accent: #e7442a;
 
   position: relative !important;
   box-sizing: border-box !important;
   width: auto !important;
-
-  /* Red L frame (shows in left rail + top bar + bottom bar) */
-  background: var(--seg-accent) !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
 
   border: none !important;
   border-radius: var(--curve-outer) 0 0 var(--curve-outer) !important;
@@ -548,85 +548,92 @@ body.jf-lcars-active::after {
   margin-right: max(4%, 28px) !important;
   margin-left: 40px !important;
   margin-bottom: 2rem !important;
-  overflow: hidden !important;
-}
 
-/*
- * Black content plate ON TOP of the red frame.
- * Inset from rail + top/bottom bars; left border-radius = inner corners.
- */
-.jf-lcars-active.dashboardDocument .content-primary::before,
-.dashboardDocument .content-primary::before,
-.dashboardDocument .content-primary.MuiBox-root::before,
-.content-primary.MuiBox-root::before {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  top: var(--frame-h) !important;
-  right: 0 !important;
-  bottom: var(--frame-h) !important;
-  left: var(--frame-rail) !important;
-  background: #000 !important;
-  border-radius: var(--curve-inner) 0 0 var(--curve-inner) !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
-
-/*
- * Decorations only: top gray segment + pill endcap, bottom color blocks.
- * Left rail / red top / red bottom come from the parent background.
- */
-.jf-lcars-active.dashboardDocument .content-primary::after,
-.dashboardDocument .content-primary::after,
-.dashboardDocument .content-primary.MuiBox-root::after,
-.content-primary.MuiBox-root::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  inset: 0 !important;
-  pointer-events: none !important;
-  z-index: 2 !important;
-  border-radius: inherit !important;
-  background:
-    /*
-     * Top-right pill (first = topmost):
-     * 1) gray circle tip
-     * 2) gray bar ending at circle center
-     * 3) black underlay under the tip so parent red never shows
-     */
-    radial-gradient(circle at center, #d2d5df 0 71%, transparent 72%)
-      no-repeat top right / 28px 28px,
+  /* Red L base */
+  background-color: var(--seg-accent) !important;
+  /*
+   * Layers (first = topmost):
+   *  1) black content plate (inset from rail + top/bottom bars)
+   *  2) top bar: black gap + gray right half
+   *  3) bottom segmented blocks (after red left from base color)
+   */
+  background-image:
+    linear-gradient(#000, #000),
     linear-gradient(
       to right,
       transparent 0 50%,
       #000 50% calc(50% + 10px),
-      #d2d5df calc(50% + 10px) 100%
-    ) no-repeat top left / calc(100% - 14px) 28px,
-    linear-gradient(#000, #000)
-      no-repeat top right / 28px 28px,
-    /* Bottom segmented blocks (red left block is parent bg) */
+      var(--seg-b) calc(50% + 10px) 100%
+    ),
     linear-gradient(
       to right,
       transparent 0 16%,
       #000 16% calc(16% + 6px),
-      #6d748c calc(16% + 6px) 30%,
+      var(--seg-a) calc(16% + 6px) 30%,
       #000 30% calc(30% + 6px),
-      #d2d5df calc(30% + 6px) 42%,
+      var(--seg-b) calc(30% + 6px) 42%,
       #000 42% calc(42% + 10px),
-      #52596e calc(42% + 10px) 58%,
+      var(--seg-c) calc(42% + 10px) 58%,
       #000 58% calc(58% + 6px),
-      #9ea5ba calc(58% + 6px) 78%,
+      var(--seg-d) calc(58% + 6px) 78%,
       #000 78% 100%
-    ) no-repeat bottom left / 100% 28px;
+    ) !important;
+  background-size:
+    calc(100% - var(--frame-rail)) calc(100% - (2 * var(--frame-h))),
+    100% var(--frame-h),
+    100% var(--frame-h) !important;
+  background-position:
+    left var(--frame-rail) top var(--frame-h),
+    top left,
+    bottom left !important;
+  background-repeat: no-repeat !important;
 }
 
-/* Keep page content above the frame chrome */
+/* Disable old absolute frame pseudos — chrome is on the element background */
+.jf-lcars-active.dashboardDocument .content-primary::before,
+.dashboardDocument .content-primary::before,
+.dashboardDocument .content-primary.MuiBox-root::before,
+.content-primary.MuiBox-root::before,
+.jf-lcars-active.dashboardDocument .content-primary::after,
+.dashboardDocument .content-primary::after,
+.dashboardDocument .content-primary.MuiBox-root::after,
+.content-primary.MuiBox-root::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* Content above any residual chrome */
 .jf-lcars-active.dashboardDocument .content-primary > *,
 .dashboardDocument .content-primary > *,
 .dashboardDocument .content-primary.MuiBox-root > *,
 .content-primary.MuiBox-root > * {
   position: relative !important;
   z-index: 2 !important;
+}
+
+/*
+ * Tables: shrink to frame width; scroll inside the table wrapper only.
+ * Never set overflow on content-primary (keeps frame backgrounds correct).
+ */
+.dashboardDocument main,
+.dashboardDocument main.MuiBox-root,
+.dashboardDocument .mainAnimatedPage {
+  min-width: 0 !important;
+}
+.dashboardDocument .content-primary .MuiTableContainer-root,
+.dashboardDocument .content-primary .MuiPaper-root:has(table) {
+  max-width: 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .content-primary table,
+.dashboardDocument .content-primary .MuiTable-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Below 750px: strip content well frame; 50px top margin */
@@ -5835,14 +5842,14 @@ html.jf-lcars-active .alphaPickerButton.selected {
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root {
     margin: 0 !important;
   }
-  /* Item-count chip ("1-100 OF 309"): 4px smaller than default */
+  /* Item-count chip ("01-200 OF 309"): text 3px smaller under 400px */
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-label,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-label,
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-label {
-    font-size: calc(0.8125rem - 1px) !important; /* MUI Chip medium ~13px → ~12px */
+    font-size: calc(0.8125rem - 3px) !important;
   }
 }
 
@@ -9058,6 +9065,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
+
+
   function measureAdminDrawer() {
     try {
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper, .dashboardDocument .MuiDrawer-docked .MuiDrawer-paper");
@@ -9853,7 +9862,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           paper.__lcarsScrollRAF = 0;
           pinLcarsTopChrome();
           measureAdminDrawer();
-          syncTopBtn();
+                    syncTopBtn();
         });
       }, { passive: true });
   }
@@ -10763,7 +10772,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureFrame();
       measureHeader();
       measureAdminDrawer();
-      syncChromeForViewport();
+            syncChromeForViewport();
       ensureDashElbow();
       scheduleUserActionRail();
       syncVideoMode();
@@ -10797,7 +10806,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.248-true-pill-end",
+    version: "2.22.260-chip-font-3px",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -10823,7 +10832,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       measureHeader();
       if (!isNarrowViewport()) {
         measureAdminDrawer();
-        ensureFrame();
+                ensureFrame();
       }
       syncLibraryNav();
       alignSecondaryToolbar();
@@ -10839,7 +10848,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         measureHeader();
         if (!isNarrowViewport()) {
           measureAdminDrawer();
-          ensureFrame();
+                    ensureFrame();
         }
         syncLibraryNav();
         run();
