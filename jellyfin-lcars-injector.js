@@ -4305,9 +4305,40 @@ table tbody td:nth-child(6n+6) {
   font-family: var(--lcars-font) !important;
   text-transform: uppercase !important;
   background: #000 !important;
+  position: relative !important;
+  bottom: 5px !important;
+  margin-top: 0.5rem !important;
+}
+/* Rows-per-page select: strip the global MuiInput margin-top */
+.MuiTablePagination-root .MuiInputBase-root,
+.MuiTablePagination-root .MuiInput-root,
+.MuiTablePagination-root .MuiInput-underline,
+.MuiTablePagination-root .MuiSelect-root,
+.MuiTablePagination-root .MuiInputBase-root.MuiSelect-root {
+  margin-top: 0 !important;
+}
+
+/* MRT toolbar icon group (filters / columns / density / fullscreen) — 6px gaps */
+.MuiBox-root:has(> .MuiIconButton-root[aria-label="Show/Hide filters"]),
+.MuiBox-root:has(> .MuiIconButton-root[aria-label="Show/Hide columns"]),
+.MuiBox-root:has(> .MuiIconButton-root[aria-label="Toggle density"]),
+.MuiBox-root:has(> .MuiIconButton-root[aria-label="Toggle full screen"]) {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.MuiIconButton-root[aria-label="Show/Hide filters"],
+.MuiIconButton-root[aria-label="Show/Hide columns"],
+.MuiIconButton-root[aria-label="Toggle density"],
+.MuiIconButton-root[aria-label="Toggle full screen"] {
+  margin: 0 !important;
 }
 
 /* Pagination first/prev/next/last — full border + 3px gaps */
+.MuiTablePagination-root {
+  overflow: visible !important;
+  padding-bottom: 4px !important;
+}
 .MuiTablePagination-root .MuiIconButton-root,
 .MuiTablePagination-root button.MuiIconButton-root,
 .MuiTablePagination-root button[aria-label="Go to first page"],
@@ -4315,25 +4346,33 @@ table tbody td:nth-child(6n+6) {
 .MuiTablePagination-root button[aria-label="Go to next page"],
 .MuiTablePagination-root button[aria-label="Go to last page"] {
   box-sizing: border-box !important;
-  border: 1px solid var(--ghost-gray, #d2d5df) !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: var(--ghost-gray, #d2d5df) !important;
+  border-top-color: var(--ghost-gray, #d2d5df) !important;
+  border-right-color: var(--ghost-gray, #d2d5df) !important;
+  border-bottom-color: var(--ghost-gray, #d2d5df) !important;
+  border-left-color: var(--ghost-gray, #d2d5df) !important;
   border-radius: 0 !important;
-  margin: 0 3px !important;
+  /* box-shadow draws bottom edge even if border is clipped */
+  box-shadow: 0 0 0 1px var(--ghost-gray, #d2d5df) !important;
+  outline: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
   background: #000 !important;
   color: var(--ghost-gray, #d2d5df) !important;
-}
-.MuiTablePagination-root .MuiIconButton-root + .MuiIconButton-root,
-.MuiTablePagination-root span + span {
-  margin-left: 0 !important;
 }
 .MuiTablePagination-root .MuiBox-root:has(> span > .MuiIconButton-root),
 .MuiTablePagination-root .MuiBox-root:has(> .MuiIconButton-root) {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 3px !important;
+  gap: 6px !important;
+  overflow: visible !important;
 }
 .MuiTablePagination-root .MuiBox-root:has(> span > .MuiIconButton-root) > span {
   margin: 0 !important;
   display: inline-flex !important;
+  overflow: visible !important;
 }
 .MuiTablePagination-root .MuiBox-root:has(> span > .MuiIconButton-root) > span .MuiIconButton-root {
   margin: 0 !important;
@@ -10860,7 +10899,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.272-pagination-btn-border",
+    version: "2.22.278-pagination-bottom-5px",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
