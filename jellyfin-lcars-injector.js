@@ -630,6 +630,13 @@ body.jf-lcars-active::after {
   box-sizing: border-box !important;
 }
 
+/* Below 900px: lcars-container flush left */
+@media screen and (max-width: 899.98px) {
+  .dashboardDocument .lcars-container {
+    margin-left: 0 !important;
+  }
+}
+
 /* Below 750px: strip content well frame; 50px top margin */
 @media screen and (max-width: 750px) {
   .dashboardDocument .lcars-container {
@@ -7963,8 +7970,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   .dashboardDocument main,
   .dashboardDocument .mainAnimatedPage,
   .dashboardDocument .mainAnimatedPages {
-    margin-left: var(--lcars-sidebar, 56px) !important;
-    max-width: calc(100vw - var(--lcars-sidebar, 56px)) !important;
+    margin-left: 16px !important;
+    max-width: calc(100vw - 16px) !important;
     box-sizing: border-box !important;
   }
   .backgroundContainer {
@@ -10899,7 +10906,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.278-pagination-bottom-5px",
+    version: "2.22.280-main-ml-16px",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
