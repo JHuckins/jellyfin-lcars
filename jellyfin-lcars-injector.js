@@ -510,101 +510,61 @@ body.jf-lcars-active::after {
   width: 0 !important;
 }
 
-/* ========== Content well — thelcars.com image-frame style (Picard) ========== */
+/* ========== LCARS container wraps content-primary (image-frame) ========== */
 /*
- * Layer model (matches https://www.thelcars.com/image-frame.php):
- *   1) Parent = solid red with outer TL/BL radius  → the L frame
- *   2) ::before = black plate inset + inner left radius → rounded inner corners
- *   3) ::after  = top gray bar + pill endcap + bottom segments only
+ * JS injects <div class="lcars-container"> around .content-primary.
+ * .lcars-container = red L + top/bottom bars + outer curves
+ * .content-primary = black plate with inner left curves
  */
-.jf-lcars-active.dashboardDocument .content-primary,
-.dashboardDocument .content-primary,
-.dashboardDocument .content-primary.MuiBox-root,
-.content-primary.MuiBox-root {
+.dashboardDocument .lcars-container {
   --frame-h: 28px;
   --frame-rail: 36px;
   --spacers: 0.65rem;
   --curve-outer: 50px;
   --curve-inner: 28px;
-  --seg-a: var(--primary-gray, #6d748c);
-  --seg-b: var(--ghost-gray, #d2d5df);
-  --seg-c: var(--medium-dark-gray, #52596e);
-  --seg-d: var(--light-gray, #9ea5ba);
-  --seg-accent: var(--orange-red, #e7442a);
+  --seg-a: #6d748c;
+  --seg-b: #d2d5df;
+  --seg-c: #52596e;
+  --seg-d: #9ea5ba;
+  --seg-accent: #e7442a;
 
   position: relative !important;
   box-sizing: border-box !important;
-  width: auto !important;
-
-  /* Red L frame (shows in left rail + top bar + bottom bar) */
-  background: var(--seg-accent) !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
 
   border: none !important;
   border-radius: var(--curve-outer) 0 0 var(--curve-outer) !important;
-
-  padding: calc(var(--frame-h) + var(--spacers)) var(--spacers) calc(var(--frame-h) + var(--spacers)) calc(var(--frame-rail) + var(--spacers)) !important;
 
   margin-top: 8rem !important;
   margin-right: max(4%, 28px) !important;
   margin-left: 40px !important;
   margin-bottom: 2rem !important;
-  overflow: hidden !important;
-}
 
-/*
- * Black content plate ON TOP of the red frame.
- * Inset from rail + top/bottom bars; left border-radius = inner corners.
- */
-.jf-lcars-active.dashboardDocument .content-primary::before,
-.dashboardDocument .content-primary::before,
-.dashboardDocument .content-primary.MuiBox-root::before,
-.content-primary.MuiBox-root::before {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  top: var(--frame-h) !important;
-  right: 0 !important;
-  bottom: var(--frame-h) !important;
-  left: var(--frame-rail) !important;
-  background: #000 !important;
-  border-radius: var(--curve-inner) 0 0 var(--curve-inner) !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
+  /* Padding = rail + top/bottom bars; content-primary fills the rest */
+  padding: var(--frame-h) 0 var(--frame-h) var(--frame-rail) !important;
 
-/*
- * Decorations only: top gray segment + pill endcap, bottom color blocks.
- * Left rail / red top / red bottom come from the parent background.
- */
-.jf-lcars-active.dashboardDocument .content-primary::after,
-.dashboardDocument .content-primary::after,
-.dashboardDocument .content-primary.MuiBox-root::after,
-.content-primary.MuiBox-root::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  inset: 0 !important;
-  pointer-events: none !important;
-  z-index: 2 !important;
-  border-radius: inherit !important;
-  background:
-    /*
-     * Top-right pill (first = topmost):
-     * 1) gray circle tip
-     * 2) gray bar ending at circle center
-     * 3) black underlay under the tip so parent red never shows
-     */
-    radial-gradient(circle at center, #d2d5df 0 71%, transparent 72%)
-      no-repeat top right / 28px 28px,
+  /* Red L base */
+  background-color: var(--seg-accent) !important;
+  /*
+   * Top: black gap + gray bar (stops before pill center)
+   * Black underlay under tip + gray radial pill endcap
+   * Bottom segmented blocks
+   */
+  background-image:
+    /* 1) pill tip (topmost) */
+    radial-gradient(circle at center, #d2d5df 0 70%, transparent 71%),
+    /* 2) gray top bar — ends at circle center so it meets the tip */
     linear-gradient(
       to right,
       transparent 0 50%,
       #000 50% calc(50% + 10px),
       #d2d5df calc(50% + 10px) 100%
-    ) no-repeat top left / calc(100% - 14px) 28px,
-    linear-gradient(#000, #000)
-      no-repeat top right / 28px 28px,
-    /* Bottom segmented blocks (red left block is parent bg) */
+    ),
+    /* 3) black underlay under tip only (below gray, hides parent red) */
+    linear-gradient(#000, #000),
+    /* 4) bottom segments */
     linear-gradient(
       to right,
       transparent 0 16%,
@@ -617,51 +577,96 @@ body.jf-lcars-active::after {
       #000 58% calc(58% + 6px),
       #9ea5ba calc(58% + 6px) 78%,
       #000 78% 100%
-    ) no-repeat bottom left / 100% 28px;
+    ) !important;
+  background-size:
+    var(--frame-h) var(--frame-h),
+    calc(100% - (var(--frame-h) / 2)) var(--frame-h),
+    var(--frame-h) var(--frame-h),
+    100% var(--frame-h) !important;
+  background-position:
+    top right,
+    top left,
+    top right,
+    bottom left !important;
+  background-repeat: no-repeat !important;
 }
 
-/* Keep page content above the frame chrome */
-.jf-lcars-active.dashboardDocument .content-primary > *,
-.dashboardDocument .content-primary > *,
-.dashboardDocument .content-primary.MuiBox-root > *,
-.content-primary.MuiBox-root > * {
+/*
+ * content-primary = black content plate with INNER left curves
+ * (matches image-frame body border-radius)
+ */
+.dashboardDocument .lcars-container > .content-primary,
+.dashboardDocument .lcars-container > .content-primary.MuiBox-root {
   position: relative !important;
   z-index: 2 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 30px !important;
+  background: #000 !important;
+  background-image: none !important;
+  border: none !important;
+  /* Inner TL + BL curves against the red L */
+  border-radius: var(--curve-inner, 28px) 0 0 var(--curve-inner, 28px) !important;
+  overflow: visible !important;
+}
+.dashboardDocument .lcars-container > .content-primary::before,
+.dashboardDocument .lcars-container > .content-primary::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Unwrapped fallback before JS runs */
+.dashboardDocument .content-primary:not(.lcars-container *) {
+  margin-top: 8rem !important;
+  margin-right: max(4%, 28px) !important;
+  margin-left: 40px !important;
+  margin-bottom: 2rem !important;
+  padding: 1rem !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
 /* Below 750px: strip content well frame; 50px top margin */
 @media screen and (max-width: 750px) {
+  .dashboardDocument .lcars-container {
+    border: none !important;
+    border-radius: 0 !important;
+    margin-top: 50px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 1rem !important;
+    padding: 0.5rem 17px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: transparent !important;
+    background-image: none !important;
+  }
   .jf-lcars-active.dashboardDocument .content-primary,
   .dashboardDocument .content-primary,
   .dashboardDocument .content-primary.MuiBox-root,
   .content-primary.MuiBox-root,
   .dashboardDocument .skinBody .content-primary,
   .dashboardDocument main .content-primary {
-    --lcars-well-left: 0px;
-    --lcars-well-right: 0px;
-    --lcars-well-tb: 0px;
-    --lcars-well-gap: 0px;
-    --lcars-well-inset: 0.5rem;
     border: none !important;
-    border-width: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    margin-top: 50px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 1rem !important;
-    padding: 0.5rem 17px !important; /* equal L/R inset (+5px) so content doesn't clip */
+    margin: 0 !important;
+    padding: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
     background: transparent !important;
   }
   .dashboardDocument .content-primary::before,
-  .dashboardDocument .content-primary::after {
+  .dashboardDocument .content-primary::after,
+  .dashboardDocument .lcars-container::before,
+  .dashboardDocument .lcars-container::after {
     content: none !important;
     display: none !important;
-    width: 0 !important;
-    height: 0 !important;
     background: none !important;
   }
 }
@@ -4302,6 +4307,38 @@ table tbody td:nth-child(6n+6) {
   background: #000 !important;
 }
 
+/* Pagination first/prev/next/last — full border + 3px gaps */
+.MuiTablePagination-root .MuiIconButton-root,
+.MuiTablePagination-root button.MuiIconButton-root,
+.MuiTablePagination-root button[aria-label="Go to first page"],
+.MuiTablePagination-root button[aria-label="Go to previous page"],
+.MuiTablePagination-root button[aria-label="Go to next page"],
+.MuiTablePagination-root button[aria-label="Go to last page"] {
+  box-sizing: border-box !important;
+  border: 1px solid var(--ghost-gray, #d2d5df) !important;
+  border-radius: 0 !important;
+  margin: 0 3px !important;
+  background: #000 !important;
+  color: var(--ghost-gray, #d2d5df) !important;
+}
+.MuiTablePagination-root .MuiIconButton-root + .MuiIconButton-root,
+.MuiTablePagination-root span + span {
+  margin-left: 0 !important;
+}
+.MuiTablePagination-root .MuiBox-root:has(> span > .MuiIconButton-root),
+.MuiTablePagination-root .MuiBox-root:has(> .MuiIconButton-root) {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+.MuiTablePagination-root .MuiBox-root:has(> span > .MuiIconButton-root) > span {
+  margin: 0 !important;
+  display: inline-flex !important;
+}
+.MuiTablePagination-root .MuiBox-root:has(> span > .MuiIconButton-root) > span .MuiIconButton-root {
+  margin: 0 !important;
+}
+
 
 
 /* ========== MUI Back / Forward buttons — outlined LCARS tiles ========== */
@@ -5835,14 +5872,14 @@ html.jf-lcars-active .alphaPickerButton.selected {
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root {
     margin: 0 !important;
   }
-  /* Item-count chip ("1-100 OF 309"): 4px smaller than default */
+  /* Item-count chip ("01-200 OF 309"): text 3px smaller under 400px */
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-label,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-label,
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-label {
-    font-size: calc(0.8125rem - 1px) !important; /* MUI Chip medium ~13px → ~12px */
+    font-size: calc(0.8125rem - 3px) !important;
   }
 }
 
@@ -9058,6 +9095,30 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
+
+
+  function wrapContentPrimary() {
+    try {
+      if (!document.body || !document.body.classList.contains("dashboardDocument") &&
+          !document.documentElement.classList.contains("dashboardDocument") &&
+          !document.querySelector(".dashboardDocument")) {
+        /* still try below */
+      }
+      var nodes = document.querySelectorAll(".dashboardDocument .content-primary, .content-primary.MuiBox-root, .content-primary");
+      for (var i = 0; i < nodes.length; i++) {
+        var el = nodes[i];
+        if (!el || !el.parentNode) continue;
+        if (el.parentNode.classList && el.parentNode.classList.contains("lcars-container")) continue;
+        /* only wrap dashboard content-primary */
+        if (!el.closest(".dashboardDocument") && !document.querySelector(".dashboardDocument")) continue;
+        var wrap = document.createElement("div");
+        wrap.className = "lcars-container";
+        el.parentNode.insertBefore(wrap, el);
+        wrap.appendChild(el);
+      }
+    } catch (e) {}
+  }
+
   function measureAdminDrawer() {
     try {
       var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper, .dashboardDocument .MuiDrawer-docked .MuiDrawer-paper");
@@ -9853,7 +9914,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           paper.__lcarsScrollRAF = 0;
           pinLcarsTopChrome();
           measureAdminDrawer();
-          syncTopBtn();
+          wrapContentPrimary();
+                    syncTopBtn();
         });
       }, { passive: true });
   }
@@ -10763,7 +10825,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureFrame();
       measureHeader();
       measureAdminDrawer();
-      syncChromeForViewport();
+      wrapContentPrimary();
+            syncChromeForViewport();
       ensureDashElbow();
       scheduleUserActionRail();
       syncVideoMode();
@@ -10797,7 +10860,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.248-true-pill-end",
+    version: "2.22.272-pagination-btn-border",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -10823,7 +10886,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       measureHeader();
       if (!isNarrowViewport()) {
         measureAdminDrawer();
-        ensureFrame();
+        wrapContentPrimary();
+                ensureFrame();
       }
       syncLibraryNav();
       alignSecondaryToolbar();
@@ -10839,7 +10903,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         measureHeader();
         if (!isNarrowViewport()) {
           measureAdminDrawer();
-          ensureFrame();
+          wrapContentPrimary();
+                    ensureFrame();
         }
         syncLibraryNav();
         run();
@@ -10849,7 +10914,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     else if (lcarsMq899.addListener) lcarsMq899.addListener(mqHandler);
   } catch (e) {}
   setInterval(syncVideoMode, 500);
-  window.addEventListener("scroll", function () { measureAdminDrawer(); syncTopBtn(); }, { passive: true });
+  window.addEventListener("scroll", function () { measureAdminDrawer(); wrapContentPrimary(); syncTopBtn(); }, { passive: true });
   setInterval(function () { bindDrawerScroll(); syncTopBtn(); }, 600);
   setInterval(pruneEmptyTableColumns, 1200);
   document.addEventListener("viewshow", function () { setTimeout(syncVideoMode, 50); setTimeout(scheduleUserActionRail, 80); }, true);
