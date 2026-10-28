@@ -623,7 +623,7 @@ body.jf-lcars-active::after {
   max-width: 100% !important;
   min-width: 100% !important;
   margin: 0 !important;
-  padding: 30px !important;
+  padding: 16px !important;
   background: transparent !important;
   background-image: none !important;
   border: none !important;
@@ -3664,38 +3664,16 @@ html.jf-lcars-video .mainAnimatedPages {
   letter-spacing: 0.1em !important;
   font-weight: 700 !important;
 }
-.dashboardDocument .content-primary #btnAddUser.fab,
-.dashboardDocument .content-primary .sectionTitleButton.fab {
-  background: var(--orange-red) !important;
-  color: #000 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  width: 2.25rem !important;
-  height: 2.25rem !important;
-  min-width: 2.25rem !important;
-  margin-left: 12px !important;
-}
-.dashboardDocument .content-primary #btnAddUser .material-icons {
-  color: #000 !important;
-}
-.localUsers.itemsContainer {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 16px !important;
-  padding: 0.25rem 0.5rem 1rem 0.25rem !important;
-}
+/* legacy users rules superseded by #btnAddUser / localUsers block below */
 .localUsers .card.squareCard,
 .localUsers .card.squareCard-scalable {
   width: 10.5em !important;
   max-width: 10.5em !important;
   margin: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
 }
 .localUsers .cardBox.visualCardBox {
   background: #000 !important;
-  border: 2px solid var(--medium-dark-gray) !important;
+  border: 3px solid var(--orange-red, #e7442a) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   overflow: hidden !important;
@@ -6634,14 +6612,128 @@ html.jf-lcars-active .alphaPickerButton.selected {
   border-left: 6px solid var(--orange-red) !important;
 }
 
-/* FAB / add user (+) — icon centered in tile */
-.dashboardDocument .MuiFab-root,
-.dashboardDocument .MuiIconButton-root[aria-label*="Add" i],
-.dashboardDocument .MuiIconButton-root[aria-label*="add" i],
-.dashboardDocument .MuiButton-root[aria-label*="Add user" i],
-.dashboardDocument h1 + .MuiIconButton-root,
-.dashboardDocument .MuiTypography-h1 + .MuiIconButton-root,
-.dashboardDocument .MuiTypography-h2 + .MuiIconButton-root {
+/* Add User form — constrain width to 90% */
+.dashboardDocument .content-primary:has(.newUserProfileForm),
+.dashboardDocument .content-primary:has(form.newUserProfileForm) {
+  min-width: 90% !important;
+  max-width: 90% !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument form.newUserProfileForm {
+  min-width: 90% !important;
+  max-width: 90% !important;
+  box-sizing: border-box !important;
+}
+
+/* ========== Users page (Jellyfin cards + #btnAddUser) ========== */
+.dashboardDocument .content-primary .verticalSection {
+  margin: 0 0 0.75rem 0 !important;
+  padding: 0 !important;
+}
+.dashboardDocument .content-primary .sectionTitleContainer {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin: 0 0 0.75rem 0 !important;
+  padding: 0 !important;
+}
+.dashboardDocument .content-primary .sectionTitleContainer .sectionTitle,
+.dashboardDocument .content-primary h2.sectionTitle {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Add User (+) — emby fab, icon centered */
+.dashboardDocument #btnAddUser,
+.dashboardDocument .sectionTitleButton.fab,
+.dashboardDocument button.fab.sectionTitleButton.emby-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  min-width: 2rem !important;
+  min-height: 2rem !important;
+  max-width: 2rem !important;
+  max-height: 2rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: var(--orange-red, #e7442a) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #000 !important;
+  line-height: 0 !important;
+  vertical-align: middle !important;
+  overflow: hidden !important;
+}
+.dashboardDocument #btnAddUser .material-icons,
+.dashboardDocument .sectionTitleButton.fab .material-icons,
+.dashboardDocument button.fab.sectionTitleButton .material-icons.add {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+  font-size: 1.15rem !important;
+  line-height: 1.15rem !important;
+  color: #000 !important;
+  position: static !important;
+  transform: none !important;
+}
+
+/* User cards grid — tighter wrap */
+.dashboardDocument .content-primary .localUsers.itemsContainer,
+.dashboardDocument .content-primary .itemsContainer.vertical-wrap.localUsers,
+.dashboardDocument .content-primary .itemsContainer.vertical-wrap {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* User square cards — full perimeter border */
+.dashboardDocument .content-primary .localUsers .card.squareCard,
+.dashboardDocument .content-primary .localUsers .card.scalableCard,
+.dashboardDocument .content-primary .card.jf-lcars-user-selected,
+.dashboardDocument .content-primary .localUsers .cardBox.visualCardBox {
+  border: 3px solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 !important;
+  background: #000 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardBox,
+.dashboardDocument .content-primary .localUsers .card .cardScalable,
+.dashboardDocument .content-primary .localUsers .card .cardContent,
+.dashboardDocument .content-primary .localUsers .card .cardFooter {
+  border: none !important;
+  box-shadow: none !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardFooter {
+  padding: 0.5rem 0.65rem !important;
+  background: #000 !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardText {
+  text-align: left !important;
+  color: var(--light-orange-red, #f2a69a) !important;
+  font-family: var(--lcars-font) !important;
+  text-transform: uppercase !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardText-secondary {
+  color: var(--ghost-gray, #d2d5df) !important;
+  text-transform: uppercase !important;
+  font-size: 0.75rem !important;
+}
+
+/* MUI FAB fallback (other pages) */
+.dashboardDocument .MuiFab-root {
   border-radius: 0 !important;
   background: var(--orange-red, #e7442a) !important;
   color: #000 !important;
@@ -6651,19 +6743,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   align-items: center !important;
   justify-content: center !important;
   padding: 0 !important;
-  line-height: 0 !important;
-  min-width: 2.25rem !important;
-  min-height: 2.25rem !important;
-  width: 2.25rem !important;
-  height: 2.25rem !important;
-}
-.dashboardDocument .MuiFab-root .MuiSvgIcon-root,
-.dashboardDocument .MuiIconButton-root[aria-label*="Add" i] .MuiSvgIcon-root,
-.dashboardDocument h1 + .MuiIconButton-root .MuiSvgIcon-root {
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
-  font-size: 1.35rem !important;
 }
 
 /* Tabs */
@@ -11035,7 +11114,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.287-black-plate-pseudo",
+    version: "2.22.293-add-user-form-90",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
