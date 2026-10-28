@@ -553,18 +553,14 @@ body.jf-lcars-active::after {
    * Bottom segmented blocks
    */
   background-image:
-    /* 1) pill tip (topmost) */
     radial-gradient(circle at center, #d2d5df 0 70%, transparent 71%),
-    /* 2) gray top bar — ends at circle center so it meets the tip */
     linear-gradient(
       to right,
       transparent 0 50%,
       #000 50% calc(50% + 10px),
       #d2d5df calc(50% + 10px) 100%
     ),
-    /* 3) black underlay under tip only (below gray, hides parent red) */
     linear-gradient(#000, #000),
-    /* 4) bottom segments */
     linear-gradient(
       to right,
       transparent 0 16%,
@@ -589,27 +585,49 @@ body.jf-lcars-active::after {
     top right,
     bottom left !important;
   background-repeat: no-repeat !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 /*
- * content-primary = black content plate with INNER left curves
- * (matches image-frame body border-radius)
+ * Absolute black plate on container = full inner field + inner curves.
+ * content-primary is transparent on top so empty areas stay black (not red).
  */
+.dashboardDocument .lcars-container::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: var(--frame-h) !important;
+  right: 0 !important;
+  bottom: var(--frame-h) !important;
+  left: var(--frame-rail) !important;
+  background: #000 !important;
+  border-radius: var(--curve-inner, 28px) 0 0 var(--curve-inner, 28px) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+.dashboardDocument .lcars-container::after {
+  content: none !important;
+  display: none !important;
+}
+
 .dashboardDocument .lcars-container > .content-primary,
 .dashboardDocument .lcars-container > .content-primary.MuiBox-root {
   position: relative !important;
   z-index: 2 !important;
   box-sizing: border-box !important;
+  flex: 1 1 auto !important;
+  align-self: stretch !important;
+  display: block !important;
   width: 100% !important;
   max-width: 100% !important;
-  min-width: 0 !important;
+  min-width: 100% !important;
   margin: 0 !important;
   padding: 30px !important;
-  background: #000 !important;
+  background: transparent !important;
   background-image: none !important;
   border: none !important;
-  /* Inner TL + BL curves against the red L */
-  border-radius: var(--curve-inner, 28px) 0 0 var(--curve-inner, 28px) !important;
+  border-radius: 0 !important;
   overflow: visible !important;
 }
 .dashboardDocument .lcars-container > .content-primary::before,
@@ -690,13 +708,14 @@ body.jf-lcars-active::after {
   border-radius: 0 !important;
   box-shadow: none !important;
   overflow: hidden !important;
+  border: 3px solid var(--orange-red) !important;
   transition: border-color 0.15s ease, filter 0.15s ease !important;
 }
 
 .MuiCard-root:hover,
 .MuiPaper-root.MuiCard-root:hover {
-  border-color: var(--lcars-alert-soft) !important;
-  filter: brightness(var(--lcars-hover-brighten));
+  border-color: var(--lcars-alert-soft, var(--orange-red)) !important;
+  filter: brightness(var(--lcars-hover-brighten, 1.08));
   box-shadow: none !important;
 }
 .MuiCardActionArea-root {
@@ -709,8 +728,25 @@ body.jf-lcars-active::after {
 .MuiCardContent-root {
   background: #000 !important;
   padding: 10px 12px !important;
-  margin-top: 15px;
-  border: 3px solid var(--orange-red) !important;
+  margin-top: 0 !important;
+  border: none !important;
+}
+/* Users page cards: ensure full perimeter border */
+.dashboardDocument .content-primary .MuiCard-root,
+.dashboardDocument .lcars-container .MuiCard-root,
+.dashboardDocument .MuiGrid-item .MuiCard-root {
+  border: 3px solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  background: #000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.dashboardDocument .content-primary .MuiCard-root .MuiCardMedia-root,
+.dashboardDocument .content-primary .MuiCard-root .MuiCardActionArea-root,
+.dashboardDocument .content-primary .MuiCard-root .MuiCardContent-root {
+  border: none !important;
+  margin: 0 !important;
 }
 /* Title + version labels — Picard nav text */
 .MuiCardContent-root .MuiTypography-root,
@@ -4200,11 +4236,34 @@ table thead th:nth-child(6n+6) { background: var(--starlight) !important; color:
   font-weight: 700 !important;
 }
 
+/* Header sort arrows + column ⋮ — always visible, same color rest/hover/active */
 .MuiTableHead-root .MuiTableCell-head .MuiSvgIcon-root,
 .MuiTableHead-root .MuiTableCell-head .MuiIconButton-root,
-.MuiTableHead-root .MuiTableSortLabel-icon {
-  color: inherit !important;
-  opacity: 0.85 !important;
+.MuiTableHead-root .MuiTableCell-head .MuiIconButton-root .MuiSvgIcon-root,
+.MuiTableHead-root .MuiTableSortLabel-root,
+.MuiTableHead-root .MuiTableSortLabel-icon,
+.MuiTableHead-root .MuiTableSortLabel-iconDirectionAsc,
+.MuiTableHead-root .MuiTableSortLabel-iconDirectionDesc,
+.MuiTableHead-root .MuiTableSortLabel-root:not(.Mui-active) .MuiTableSortLabel-icon,
+.MuiTableHead-root .MuiTableSortLabel-root.Mui-active .MuiTableSortLabel-icon,
+.MuiTableHead-root .MuiIconButton-root[aria-label="Column Actions"],
+.MuiTableHead-root .MuiIconButton-root[aria-label="Column Actions"] .MuiSvgIcon-root,
+.MuiTableHead-root .MuiBadge-root,
+.MuiTableHead-root .Mui-TableHeadCell-Content-Actions {
+  color: var(--ghost-gray, #d2d5df) !important;
+  fill: var(--ghost-gray, #d2d5df) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.MuiTableHead-root .MuiTableCell-head .MuiIconButton-root:hover,
+.MuiTableHead-root .MuiTableCell-head .MuiIconButton-root:hover .MuiSvgIcon-root,
+.MuiTableHead-root .MuiTableSortLabel-root:hover,
+.MuiTableHead-root .MuiTableSortLabel-root:hover .MuiTableSortLabel-icon,
+.MuiTableHead-root .MuiIconButton-root[aria-label="Column Actions"]:hover,
+.MuiTableHead-root .MuiIconButton-root[aria-label="Column Actions"]:hover .MuiSvgIcon-root {
+  color: var(--ghost-gray, #d2d5df) !important;
+  fill: var(--ghost-gray, #d2d5df) !important;
+  opacity: 1 !important;
 }
 
 .MuiTableHead-root .MuiTableRow-head,
@@ -4304,6 +4363,54 @@ table tbody td:nth-child(6n+6) {
   align-items: center !important;
   gap: 4px !important;
   vertical-align: middle !important;
+}
+
+/* Activity Level/Severity column — wider so INFORMATION chip is not clipped */
+.dashboardDocument .MuiTable-root,
+.dashboardDocument table.MuiTable-root {
+  --col-Severity-size: 130 !important;
+  --header-Severity-size: 130 !important;
+  --col-User-size: 110 !important;
+  --header-User-size: 110 !important;
+}
+.dashboardDocument .MuiTable-root th[data-index="1"],
+.dashboardDocument .MuiTable-root td[data-index="1"] {
+  width: calc(var(--col-Severity-size, 130) * 1px) !important;
+  min-width: calc(var(--col-Severity-size, 130) * 1px) !important;
+  max-width: none !important;
+}
+.dashboardDocument .MuiTable-root td[data-index="1"] .MuiChip-root,
+.dashboardDocument .MuiTable-root td[data-index="1"] .MuiChip-label {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
+}
+/* User column — wider header label + centered avatar */
+.dashboardDocument .MuiTable-root th[data-index="2"],
+.dashboardDocument .MuiTable-root td[data-index="2"] {
+  width: calc(var(--col-User-size, 110) * 1px) !important;
+  min-width: calc(var(--col-User-size, 110) * 1px) !important;
+  max-width: none !important;
+  text-align: center !important;
+}
+.dashboardDocument .MuiTable-root th[data-index="2"] .Mui-TableHeadCell-Content-Wrapper {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
+}
+.dashboardDocument .MuiTable-root td[data-index="2"] {
+  vertical-align: middle !important;
+}
+.dashboardDocument .MuiTable-root td[data-index="2"] .MuiIconButton-root,
+.dashboardDocument .MuiTable-root td[data-index="2"] .MuiAvatar-root {
+  margin: 0 auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.dashboardDocument .MuiTable-root td[data-index="2"] .MuiIconButton-root {
+  width: 100% !important;
 }
 
 .MuiTablePagination-root,
@@ -6527,14 +6634,36 @@ html.jf-lcars-active .alphaPickerButton.selected {
   border-left: 6px solid var(--orange-red) !important;
 }
 
-/* FAB — filled with left accent */
-.dashboardDocument .MuiFab-root {
+/* FAB / add user (+) — icon centered in tile */
+.dashboardDocument .MuiFab-root,
+.dashboardDocument .MuiIconButton-root[aria-label*="Add" i],
+.dashboardDocument .MuiIconButton-root[aria-label*="add" i],
+.dashboardDocument .MuiButton-root[aria-label*="Add user" i],
+.dashboardDocument h1 + .MuiIconButton-root,
+.dashboardDocument .MuiTypography-h1 + .MuiIconButton-root,
+.dashboardDocument .MuiTypography-h2 + .MuiIconButton-root {
   border-radius: 0 !important;
-  background: var(--light-gray) !important;
+  background: var(--orange-red, #e7442a) !important;
   color: #000 !important;
   box-shadow: none !important;
   border: none !important;
-  border-left: 6px solid var(--orange-red) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  min-width: 2.25rem !important;
+  min-height: 2.25rem !important;
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+}
+.dashboardDocument .MuiFab-root .MuiSvgIcon-root,
+.dashboardDocument .MuiIconButton-root[aria-label*="Add" i] .MuiSvgIcon-root,
+.dashboardDocument h1 + .MuiIconButton-root .MuiSvgIcon-root {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  font-size: 1.35rem !important;
 }
 
 /* Tabs */
@@ -10906,7 +11035,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.280-main-ml-16px",
+    version: "2.22.287-black-plate-pseudo",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
