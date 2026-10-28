@@ -3673,15 +3673,44 @@ html.jf-lcars-video .mainAnimatedPages {
 }
 .localUsers .cardBox.visualCardBox {
   background: #000 !important;
-  border: 3px solid var(--orange-red, #e7442a) !important;
+  border: 3px solid var(--lcars-info-bright, var(--bright-blue)) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   overflow: hidden !important;
   position: relative !important;
 }
+.localUsers .cardBox.visualCardBox {
+  display: flex !important;
+  flex-direction: column !important;
+}
 .localUsers .cardScalable.visualCardBox-cardScalable {
   background: var(--dark-gray) !important;
   border-radius: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  flex: 0 0 auto !important;
+}
+.localUsers .cardPadder,
+.localUsers .cardPadder-square {
+  margin: 0 !important;
+}
+/* Absolute fill — no side gap inside the border */
+.localUsers .cardContent,
+.localUsers a.cardContent.emby-button,
+.localUsers a.cardContent {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 .localUsers .cardImage,
 .localUsers .defaultCardBackground,
@@ -3690,6 +3719,18 @@ html.jf-lcars-video .mainAnimatedPages {
   background-color: var(--dark-gray) !important;
   background-image: none !important;
   border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 .localUsers .cardImageIcon.person {
   color: var(--ghost-gray) !important;
@@ -6625,6 +6666,15 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
 }
 
+/* Hide LCARS user action rail (Edit / Library / Parental / Delete) */
+#jf-lcars-user-rail,
+#jf-lcars-user-rail.jf-lcars-user-rail-on,
+.jf-lcars-rail-btn {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* ========== Users page (Jellyfin cards + #btnAddUser) ========== */
 .dashboardDocument .content-primary .verticalSection {
   margin: 0 0 0.75rem 0 !important;
@@ -6702,12 +6752,32 @@ html.jf-lcars-active .alphaPickerButton.selected {
 .dashboardDocument .content-primary .localUsers .card.scalableCard,
 .dashboardDocument .content-primary .card.jf-lcars-user-selected,
 .dashboardDocument .content-primary .localUsers .cardBox.visualCardBox {
-  border: 3px solid var(--orange-red, #e7442a) !important;
+  border: 3px solid var(--lcars-info-bright, var(--bright-blue)) !important;
   border-radius: 0 !important;
   background: #000 !important;
   box-shadow: none !important;
   margin: 0 !important;
   overflow: hidden !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardScalable {
+  width: 100% !important;
+  margin: 0 !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardContent,
+.dashboardDocument .content-primary .localUsers .card .cardImage {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardImage {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.dashboardDocument .content-primary .localUsers .card .cardPadder-square {
+  /* preserve aspect ratio box — do not zero padding */
+  padding-bottom: 100% !important;
 }
 .dashboardDocument .content-primary .localUsers .card .cardBox,
 .dashboardDocument .content-primary .localUsers .card .cardScalable,
@@ -8717,114 +8787,19 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   }
 
   function ensureUserActionRail() {
+    /* User action rail removed per theme preference */
     try {
-      var hash = location.hash || "";
-      var onUsers = hash.indexOf("dashboard/users") !== -1;
-      var localUsers = document.querySelector(".localUsers");
-      var well = document.querySelector(
-        ".dashboardDocument .content-primary, .content-primary.MuiBox-root, .content-primary"
-      );
       var rail = document.getElementById("jf-lcars-user-rail");
-
-      if (!onUsers) {
-        if (rail) {
-          rail.classList.remove("jf-lcars-user-rail-on");
-          rail.style.cssText = "display:none";
-        }
-        if (__jfRailPoll) { clearInterval(__jfRailPoll); __jfRailPoll = null; }
-        return;
+      if (rail) {
+        rail.classList.remove("jf-lcars-user-rail-on");
+        rail.style.cssText = "display:none !important";
+        if (rail.parentNode) rail.parentNode.removeChild(rail);
       }
-
-      if (!localUsers || !well) {
-        if (!__jfRailPoll) {
-          var n = 0;
-          __jfRailPoll = setInterval(function () {
-            n++;
-            scheduleUserActionRail();
-            if (n >= 12 || document.querySelector(".localUsers")) {
-              clearInterval(__jfRailPoll);
-              __jfRailPoll = null;
-            }
-          }, 500);
-        }
-        return;
+      if (typeof __jfRailPoll !== "undefined" && __jfRailPoll) {
+        clearInterval(__jfRailPoll);
+        __jfRailPoll = null;
       }
-      if (__jfRailPoll) { clearInterval(__jfRailPoll); __jfRailPoll = null; }
-
-      if (!rail) {
-        rail = document.createElement("div");
-        rail.id = "jf-lcars-user-rail";
-        rail.setAttribute("aria-label", "User actions");
-        [
-          { id: "open", label: "Edit user", icon: "mode_edit" },
-          { id: "access", label: "Library access", icon: "lock" },
-          { id: "parentalcontrol", label: "Parental control", icon: "person" },
-          { id: "delete", label: "Delete", icon: "delete" }
-        ].forEach(function (a) {
-          var btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "jf-lcars-rail-btn";
-          btn.setAttribute("data-action", a.id);
-          btn.innerHTML = '<span class="material-icons" aria-hidden="true">' + a.icon +
-            '</span><span class="jf-lcars-rail-label">' + a.label + "</span>";
-          btn.addEventListener("click", function (ev) {
-            ev.preventDefault();
-            ev.stopPropagation();
-            triggerUserAction(a.id);
-          });
-          rail.appendChild(btn);
-        });
-        document.body.appendChild(rail);
-      }
-
-            var rect = well.getBoundingClientRect();
-      var barW = 72; /* matches --lcars-well-right */
-      var tb = 12;
-      var top = Math.round(rect.top + tb + 6);
-      /* center rail in the right border gutter */
-      var rightGap = Math.max(0, Math.round(window.innerWidth - rect.right));
-      if (top < 4) top = 4;
-
-      rail.style.cssText = [
-        "position:fixed",
-        "top:" + top + "px",
-        "right:" + rightGap + "px",
-        "left:auto",
-        "width:" + barW + "px",
-        "min-width:" + barW + "px",
-        "max-width:" + barW + "px",
-        "display:flex",
-        "flex-direction:column",
-        "flex-wrap:nowrap",
-        "align-items:stretch",
-        "gap:5px",
-        "visibility:visible",
-        "opacity:1",
-        "z-index:12050",
-        "pointer-events:auto",
-        "margin:0",
-        "padding:0",
-        "box-sizing:border-box",
-        "background:transparent",
-        "border:none"
-      ].join(";") + ";";
-      rail.classList.add("jf-lcars-user-rail-on");
-
-      if (!localUsers.__jfLcarsSelectBound) {
-        localUsers.__jfLcarsSelectBound = true;
-        localUsers.addEventListener("click", function (e) {
-          var card = e.target.closest(".card[data-userid]");
-          if (!card) return;
-          var prev = localUsers.querySelector(".card.jf-lcars-user-selected");
-          if (prev && prev !== card) prev.classList.remove("jf-lcars-user-selected");
-          card.classList.add("jf-lcars-user-selected");
-        }, true);
-        var first = localUsers.querySelector(".card[data-userid]");
-        if (first) first.classList.add("jf-lcars-user-selected");
-      }
-    } catch (e) {
-      console.warn("[JellyfinLCARS] user rail", e);
-    }
+    } catch (e) {}
   }
 
   function getSelectedUserCard() {
@@ -11114,7 +11089,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.293-add-user-form-90",
+    version: "2.22.297-remove-user-rail",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
