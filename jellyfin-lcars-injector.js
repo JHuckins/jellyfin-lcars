@@ -57,7 +57,6 @@
   --drawer-background-color: var(--primary-gray);
   --primary-color: var(--orange-red);
   --accent: var(--orange-red);
-  /* Semantic status — Picard palette only (no non-Picard greens/purples) */
   --lcars-alert: var(--orange-red);
   --lcars-alert-soft: var(--light-orange-red);
   --lcars-info: var(--blue);
@@ -930,7 +929,20 @@ html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-arm,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-curve,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-vfill,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-gap,
-html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-tlcap {
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-tlcap,
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome,
+html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome > div {
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+}
+/* Top-runner join segment must track Home hover too */
+html.jf-lcars-library #jf-lcars-top-runner .jf-lcars-seg-a,
+html.jf-lcars-library .jf-lcars-top-runner .jf-lcars-seg-a {
+  background: var(--primary-gray) !important;
+  background-color: var(--primary-gray) !important;
+}
+html.jf-lcars-lib-home-hot.jf-lcars-library #jf-lcars-top-runner .jf-lcars-seg-a,
+html.jf-lcars-lib-home-hot.jf-lcars-library .jf-lcars-top-runner .jf-lcars-seg-a {
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
@@ -9834,13 +9846,31 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var want = !!on;
       document.documentElement.classList.toggle("jf-lcars-lib-home-hot", want);
       if (document.body) document.body.classList.toggle("jf-lcars-lib-home-hot", want);
+      var fill = want ? lcarsGhostGray() : lcarsPrimaryGray();
       if (home) {
         home.classList.toggle("jf-lcars-lib-home-hot", want);
-        var fill = want ? lcarsGhostGray() : lcarsPrimaryGray();
         home.style.setProperty("background", fill, "important");
         home.style.setProperty("background-color", fill, "important");
       }
       paintLibHomeChrome(want);
+      /* Force every painted piece of the Home L (arm/curve/runner join) */
+      try {
+        var chrome = document.getElementById("jf-lcars-lib-elbow-chrome");
+        if (chrome) {
+          chrome.style.setProperty("background", "transparent", "important");
+          var kids = chrome.querySelectorAll("div");
+          for (var i = 0; i < kids.length; i++) {
+            if (kids[i].classList.contains("jf-lcars-lib-chrome-hit")) continue;
+            kids[i].style.setProperty("background", fill, "important");
+            kids[i].style.setProperty("background-color", fill, "important");
+          }
+        }
+        var segs = document.querySelectorAll("#jf-lcars-top-runner .jf-lcars-seg-a, .jf-lcars-top-runner .jf-lcars-seg-a");
+        for (var s = 0; s < segs.length; s++) {
+          segs[s].style.setProperty("background", fill, "important");
+          segs[s].style.setProperty("background-color", fill, "important");
+        }
+      } catch (eForce) {}
     } catch (e) {}
   }
 
@@ -11132,7 +11162,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
 
 
-  /* Resolved ha-lcars theme palettes -> Jellyfin CSS vars (hex) */
+  /* Resolved LCARs theme palettes -> Jellyfin CSS vars (hex) */
   var LCARS_THEME_PALETTES = {
     "LCARS 25C": {
       primaryGray: "#6d748c", mediumDarkGray: "#52596e", lightGray: "#9ea5ba", ghostGray: "#d2d5df",
@@ -11461,7 +11491,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.321-frame-theme-vars",
+    version: "2.22.322-home-arm-hover",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
