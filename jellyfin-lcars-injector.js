@@ -57,6 +57,7 @@
   --drawer-background-color: var(--primary-gray);
   --primary-color: var(--orange-red);
   --accent: var(--orange-red);
+  /* Semantic status — Picard palette only (no non-Picard greens/purples) */
   --lcars-alert: var(--orange-red);
   --lcars-alert-soft: var(--light-orange-red);
   --lcars-info: var(--blue);
@@ -2165,7 +2166,17 @@ body.dashboardDocument {
   padding: 0 !important;
   margin: 0 !important;
   display: block !important;
-  background: transparent !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 0 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
+.dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
+  overflow: visible !important;
+  z-index: 19 !important;
 }
 
 /* Hide section subheaders (Server, Devices, Plugins, …) */
@@ -2191,11 +2202,12 @@ body.dashboardDocument {
   justify-content: flex-end !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  margin: 0 0 3px 0 !important;
+  margin: 0 !important;
   padding: 0.45rem 0.65rem !important;
   min-height: 2.4rem !important;
   height: auto !important;
   border: none !important;
+  border-bottom: 3px solid #000 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   background: var(--primary-gray) !important;
@@ -2208,6 +2220,12 @@ body.dashboardDocument {
   text-align: right !important;
   overflow: hidden !important;
   position: relative !important;
+}
+
+/* Gutter = 3px black border-bottom on each button (survives hover) */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > .MuiListItem-root > .MuiListItemButton-root {
+  margin-bottom: 0 !important;
+  z-index: 0 !important;
 }
 
 /* Variable heights — LCARS uneven panels (some ~3× base) */
@@ -2287,9 +2305,33 @@ body.dashboardDocument {
   color: #000 !important;
 }
 
-.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover {
-  filter: brightness(1.12) !important;
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover,
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-focusVisible {
+  filter: none !important;
+  margin: 0 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  outline: none !important;
   border: none !important;
+  border-bottom: 3px solid #000 !important;
+  z-index: 0 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
+  filter: none !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
+  color: #000 !important;
+  border-bottom: 3px solid #000 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-selected:not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root.Mui-selected:not([href="#/dashboard"]):not([href="#/dashboard/"]) {
+  margin: 0 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-bottom: 3px solid #000 !important;
+}
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiTouchRipple-root {
+  display: none !important;
 }
 /* Dashboard hover must not change box model */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
@@ -9181,40 +9223,55 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var fill = on ? lcarsGhostGray() : lcarsPrimaryGray();
       document.documentElement.style.setProperty("--lcars-dash-fill", fill);
       /* Color only — do NOT call pinLcarsTopChrome (that reflowed the menu on hover) */
+      var link = queryDashLink();
+      if (link) {
+        link.style.setProperty("background", fill, "important");
+        link.style.setProperty("background-color", fill, "important");
+      }
       var panel = document.getElementById("jf-lcars-dash-panel");
       if (panel) {
         panel.style.setProperty("background", fill, "important");
         panel.style.setProperty("background-color", fill, "important");
       }
-      var segA = document.querySelector("#jf-lcars-top-runner .jf-lcars-seg-a, .jf-lcars-top-runner .jf-lcars-seg-a");
-      if (segA) {
-        segA.style.setProperty("background", fill, "important");
-        segA.style.setProperty("background-color", fill, "important");
+      var segA = document.querySelectorAll("#jf-lcars-top-runner .jf-lcars-seg-a, .jf-lcars-top-runner .jf-lcars-seg-a");
+      for (var si = 0; si < segA.length; si++) {
+        segA[si].style.setProperty("background", fill, "important");
+        segA[si].style.setProperty("background-color", fill, "important");
       }
-      var arm = document.querySelector("#jf-lcars-elbow-chrome .jf-lcars-elbow-arm");
-      var curve = document.querySelector("#jf-lcars-elbow-chrome .jf-lcars-elbow-curve");
-      if (arm) {
-        arm.style.setProperty("background", fill, "important");
-        arm.style.setProperty("background-color", fill, "important");
+      var chrome = document.getElementById("jf-lcars-elbow-chrome");
+      if (chrome) {
+        var kids = chrome.querySelectorAll("div, span");
+        for (var i = 0; i < kids.length; i++) {
+          kids[i].style.setProperty("background", fill, "important");
+          kids[i].style.setProperty("background-color", fill, "important");
+        }
       }
-      if (curve) {
-        curve.style.setProperty("background", fill, "important");
-        curve.style.setProperty("background-color", fill, "important");
-      }
+      ["jf-lcars-dash-elbow", "jf-lcars-dash-bridge", "jf-lcars-dash-elbow-cut"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.style.setProperty("background", fill, "important");
+        el.style.setProperty("background-color", fill, "important");
+      });
     } catch (e) {}
   }
 
   function bindDashHover() {
     try {
       var link = queryDashLink();
-      if (!link || link.__lcarsHotBound) return;
-      link.__lcarsHotBound = true;
-      link.addEventListener("pointerenter", function () { setDashHot(true); });
-      link.addEventListener("pointerleave", function () { setDashHot(false); });
-      link.addEventListener("focusin", function () { setDashHot(true); });
-      link.addEventListener("focusout", function () {
-        if (!link.matches(":hover")) setDashHot(false);
-      });
+      if (!link) return;
+      if (!link.__lcarsHotBound) {
+        link.__lcarsHotBound = true;
+        link.addEventListener("pointerenter", function () { setDashHot(true); });
+        link.addEventListener("pointerleave", function (e) {
+          var rt = e.relatedTarget;
+          if (rt && rt.closest && (rt.closest(".jf-lcars-dash-arm-hit") || rt.closest(".jf-lcars-dash-curve-hit") || rt.closest("#jf-lcars-dash-unified-hit"))) return;
+          setDashHot(false);
+        });
+        link.addEventListener("focusin", function () { setDashHot(true); });
+        link.addEventListener("focusout", function () {
+          if (!link.matches(":hover")) setDashHot(false);
+        });
+      }
     } catch (e) {}
   }
 
@@ -10168,6 +10225,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     try {
       var link = queryDashLink();
       if (!link) return;
+      bindDashHover();
       link.classList.add("jf-lcars-has-arm");
       var arm = link.querySelector(".jf-lcars-dash-arm-hit");
       if (!arm) {
@@ -10193,16 +10251,73 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var rt = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-dash-row-top"), 10);
         if (rt > 20) topPx = rt;
       } catch (e2) {}
+      /* Wider/taller hits so the full L (panel join + arm + curve) is hoverable/clickable */
       arm.style.cssText =
         "position:fixed!important;left:" + drawerW + "px!important;top:" + topPx +
-        "px!important;width:192px!important;height:30px!important;z-index:12061!important;" +
+        "px!important;width:220px!important;height:36px!important;z-index:12061!important;" +
         "pointer-events:auto!important;cursor:pointer!important;display:block!important;" +
         "background:transparent!important;margin:0!important;padding:0!important;border:none!important;";
       curve.style.cssText =
-        "position:fixed!important;left:" + (drawerW - 30) + "px!important;top:" + topPx +
-        "px!important;width:72px!important;height:72px!important;z-index:12060!important;" +
+        "position:fixed!important;left:" + (drawerW - 40) + "px!important;top:" + topPx +
+        "px!important;width:90px!important;height:90px!important;z-index:12060!important;" +
         "pointer-events:auto!important;cursor:pointer!important;display:block!important;" +
         "background:transparent!important;margin:0!important;padding:0!important;border:none!important;";
+      if (!arm.__lcarsHotBound) {
+        arm.__lcarsHotBound = true;
+        arm.addEventListener("pointerenter", function () { setDashHot(true); });
+        arm.addEventListener("pointerleave", function (e) {
+          var rt = e.relatedTarget;
+          if (rt && (rt === link || (rt.closest && (rt.closest("a[href=\"#/dashboard\"]") || rt.closest("a[href=\"#/dashboard/\"]") || rt.closest(".jf-lcars-dash-curve-hit"))))) return;
+          setDashHot(false);
+        });
+        arm.addEventListener("click", function (e) {
+          e.preventDefault();
+          try { link.click(); } catch (eC) { location.hash = "#/dashboard"; }
+        });
+      }
+      if (!curve.__lcarsHotBound) {
+        curve.__lcarsHotBound = true;
+        curve.addEventListener("pointerenter", function () { setDashHot(true); });
+        curve.addEventListener("pointerleave", function (e) {
+          var rt = e.relatedTarget;
+          if (rt && (rt === link || (rt.closest && (rt.closest("a[href=\"#/dashboard\"]") || rt.closest("a[href=\"#/dashboard/\"]") || rt.closest(".jf-lcars-dash-arm-hit"))))) return;
+          setDashHot(false);
+        });
+        curve.addEventListener("click", function (e) {
+          e.preventDefault();
+          try { link.click(); } catch (eC) { location.hash = "#/dashboard"; }
+        });
+      }
+      /* Body-level unified hit covering panel + arm + curve */
+      var u = document.getElementById("jf-lcars-dash-unified-hit");
+      if (!u && document.body) {
+        u = document.createElement("a");
+        u.id = "jf-lcars-dash-unified-hit";
+        u.href = "#/dashboard";
+        u.setAttribute("aria-label", "Dashboard");
+        document.body.appendChild(u);
+      }
+      if (u) {
+        var homeBottom = topPx + 180;
+        try {
+          var lr = link.getBoundingClientRect();
+          if (lr.bottom > topPx) homeBottom = Math.round(lr.bottom);
+        } catch (e3) {}
+        u.style.cssText =
+          "position:fixed!important;left:0!important;top:" + topPx +
+          "px!important;width:" + (drawerW + 220) + "px!important;height:" +
+          Math.max(90, homeBottom - topPx + 8) + "px!important;" +
+          "z-index:12055!important;display:block!important;background:transparent!important;" +
+          "cursor:pointer!important;pointer-events:auto!important;margin:0!important;padding:0!important;border:none!important;";
+        if (!u.__lcarsHotBound) {
+          u.__lcarsHotBound = true;
+          u.addEventListener("pointerenter", function () { setDashHot(true); });
+          u.addEventListener("pointerleave", function () { setDashHot(false); });
+        }
+        /* Keep Dashboard link above the unified hit so its text stays interactive */
+        link.style.setProperty("position", "relative", "important");
+        link.style.setProperty("z-index", "12080", "important");
+      }
     } catch (e) {}
   }
 
@@ -11162,7 +11277,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
 
 
-  /* Resolved LCARs theme palettes -> Jellyfin CSS vars (hex) */
+  /* Resolved ha-lcars theme palettes -> Jellyfin CSS vars (hex) */
   var LCARS_THEME_PALETTES = {
     "LCARS 25C": {
       primaryGray: "#6d748c", mediumDarkGray: "#52596e", lightGray: "#9ea5ba", ghostGray: "#d2d5df",
@@ -11491,7 +11606,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.322-home-arm-hover",
+    version: "2.22.326-border-gutter",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
