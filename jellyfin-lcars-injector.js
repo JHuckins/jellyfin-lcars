@@ -522,11 +522,11 @@ body.jf-lcars-active::after {
   --spacers: 0.65rem;
   --curve-outer: 50px;
   --curve-inner: 28px;
-  --seg-a: #6d748c;
-  --seg-b: #d2d5df;
-  --seg-c: #52596e;
-  --seg-d: #9ea5ba;
-  --seg-accent: #e7442a;
+  --seg-a: var(--primary-gray);
+  --seg-b: var(--ghost-gray);
+  --seg-c: var(--medium-dark-gray);
+  --seg-d: var(--light-gray);
+  --seg-accent: var(--orange-red);
 
   position: relative !important;
   box-sizing: border-box !important;
@@ -553,25 +553,25 @@ body.jf-lcars-active::after {
    * Bottom segmented blocks
    */
   background-image:
-    radial-gradient(circle at center, #d2d5df 0 70%, transparent 71%),
+    radial-gradient(circle at center, var(--ghost-gray) 0 70%, transparent 71%),
     linear-gradient(
       to right,
       transparent 0 50%,
       #000 50% calc(50% + 10px),
-      #d2d5df calc(50% + 10px) 100%
+      var(--ghost-gray) calc(50% + 10px) 100%
     ),
     linear-gradient(#000, #000),
     linear-gradient(
       to right,
       transparent 0 16%,
       #000 16% calc(16% + 6px),
-      #6d748c calc(16% + 6px) 30%,
+      var(--primary-gray) calc(16% + 6px) 30%,
       #000 30% calc(30% + 6px),
-      #d2d5df calc(30% + 6px) 42%,
+      var(--ghost-gray) calc(30% + 6px) 42%,
       #000 42% calc(42% + 10px),
-      #52596e calc(42% + 10px) 58%,
+      var(--medium-dark-gray) calc(42% + 10px) 58%,
       #000 58% calc(58% + 6px),
-      #9ea5ba calc(58% + 6px) 78%,
+      var(--light-gray) calc(58% + 6px) 78%,
       #000 78% 100%
     ) !important;
   background-size:
@@ -922,8 +922,8 @@ html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home:hover,
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home.jf-lcars-lib-home-hot,
 html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home {
-  background: #d2d5df !important;
-  background-color: #d2d5df !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
   filter: none !important;
 }
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-arm,
@@ -931,8 +931,8 @@ html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-curve,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-vfill,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-gap,
 html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome .jf-lcars-lib-elbow-tlcap {
-  background: #d2d5df !important;
-  background-color: #d2d5df !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
 }
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home:hover {
   filter: none !important;
@@ -3454,7 +3454,7 @@ html.jf-lcars-video .mainAnimatedPages {
 }
 .card.overflowPortraitCard .itemProgressBarForeground,
 .card[data-type="Movie"] .itemProgressBarForeground {
-  background: #e7442a !important;
+  background: var(--orange-red) !important;
   height: 100% !important;
 }
 /* Universal: image column width matches year bar; no rounded corners */
@@ -7787,8 +7787,8 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   display: flex !important;
 }
 html.jf-lcars-dash-hot #jf-lcars-dash-panel {
-  background: #d2d5df !important;
-  background-color: #d2d5df !important;
+  background: var(--ghost-gray) !important;
+  background-color: var(--ghost-gray) !important;
 }
 
 /* Real Dashboard link is hit-target only; #jf-lcars-dash-panel shows the label */
@@ -9129,7 +9129,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var topPx = parseInt(rootStyle.getPropertyValue("--lcars-dash-row-top"), 10);
       if (isNaN(topPx)) topPx = parseInt(rootStyle.getPropertyValue("--lcars-nav-sticky-top"), 10) || 52;
       var hot = document.documentElement.classList.contains("jf-lcars-dash-hot");
-      var fill = hot ? "#d2d5df" : "#6d748c"; /* ghost-gray | primary-gray */
+      var fill = hot ? lcarsGhostGray() : lcarsPrimaryGray(); /* ghost-gray | primary-gray */
       el.style.display = "block";
       el.style.cssText =
         "position:fixed!important;top:" + topPx + "px!important;left:" + drawerW +
@@ -9166,7 +9166,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     try {
       document.documentElement.classList.toggle("jf-lcars-dash-hot", !!on);
       if (document.body) document.body.classList.toggle("jf-lcars-dash-hot", !!on);
-      var fill = on ? "#d2d5df" : "#6d748c";
+      var fill = on ? lcarsGhostGray() : lcarsPrimaryGray();
       document.documentElement.style.setProperty("--lcars-dash-fill", fill);
       /* Color only — do NOT call pinLcarsTopChrome (that reflowed the menu on hover) */
       var panel = document.getElementById("jf-lcars-dash-panel");
@@ -9221,7 +9221,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             mDash.style.setProperty("height", "5.5rem", "important");
             mDash.style.setProperty("min-height", "5.5rem", "important");
             mDash.style.setProperty("width", "100%", "important");
-            mDash.style.setProperty("background", "#6d748c", "important");
+            mDash.style.setProperty("background", lcarsPrimaryGray(), "important");
             mDash.style.setProperty("color", "#000", "important");
           }
         } catch (eM) {}
@@ -9270,7 +9270,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       document.documentElement.style.setProperty("--lcars-dash-curve", "60px");
 
       var hot = document.documentElement.classList.contains("jf-lcars-dash-hot");
-      var fill = hot ? "#d2d5df" : "#6d748c";
+      var fill = hot ? lcarsGhostGray() : lcarsPrimaryGray();
       document.documentElement.style.setProperty("--lcars-dash-fill", fill);
 
       var dashBtn = queryDashLink();
@@ -9603,7 +9603,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function paintLibHomeChrome(hot) {
     try {
-      var fill = hot ? "#d2d5df" : "#6d748c";
+      var fill = hot ? lcarsGhostGray() : lcarsPrimaryGray();
       document.documentElement.style.setProperty("--lcars-dash-fill", fill);
       var home = queryLibHomeLink();
       if (home) {
@@ -9836,7 +9836,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       if (document.body) document.body.classList.toggle("jf-lcars-lib-home-hot", want);
       if (home) {
         home.classList.toggle("jf-lcars-lib-home-hot", want);
-        var fill = want ? "#d2d5df" : "#6d748c";
+        var fill = want ? lcarsGhostGray() : lcarsPrimaryGray();
         home.style.setProperty("background", fill, "important");
         home.style.setProperty("background-color", fill, "important");
       }
@@ -10621,7 +10621,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           btn.style.setProperty("line-height", "1.15", "important");
           btn.style.setProperty("letter-spacing", "0.04em", "important");
           btn.style.setProperty("text-transform", "uppercase", "important");
-          btn.style.setProperty("color", "#f3f4f7", "important");
+          btn.style.setProperty("color", lcarsStarlight(), "important");
           btn.style.setProperty("background", "transparent", "important");
           btn.style.setProperty("border", "none", "important");
           btn.style.setProperty("padding", "0.06rem 0.1rem", "important");
@@ -10689,11 +10689,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         el.style.setProperty("max-height", "1.85rem", "important");
         el.style.setProperty("padding", "0", "important");
         el.style.setProperty("margin", "0", "important");
-        el.style.setProperty("border", "2px solid #e7442a", "important");
+        el.style.setProperty("border", "2px solid " + lcarsOrangeRed(), "important");
         el.style.setProperty("border-radius", "0", "important");
         el.style.setProperty("background", "#000", "important");
         el.style.setProperty("background-color", "#000", "important");
-        el.style.setProperty("color", "#e7442a", "important");
+        el.style.setProperty("color", lcarsOrangeRed(), "important");
         el.style.setProperty("font-size", "0", "important");
         el.style.setProperty("line-height", "0", "important");
         el.style.setProperty("text-indent", "-9999px", "important");
@@ -10717,8 +10717,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         }
         var svgs = el.querySelectorAll(".MuiSvgIcon-root, svg");
         for (var s = 0; s < svgs.length; s++) {
-          svgs[s].style.setProperty("color", "#e7442a", "important");
-          svgs[s].style.setProperty("fill", "#e7442a", "important");
+          svgs[s].style.setProperty("color", lcarsOrangeRed(), "important");
+          svgs[s].style.setProperty("fill", lcarsOrangeRed(), "important");
           svgs[s].style.setProperty("font-size", "1.15rem", "important");
           svgs[s].style.setProperty("width", "1.15rem", "important");
           svgs[s].style.setProperty("height", "1.15rem", "important");
@@ -11131,6 +11131,286 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   }
 
 
+
+  /* Resolved ha-lcars theme palettes -> Jellyfin CSS vars (hex) */
+  var LCARS_THEME_PALETTES = {
+    "LCARS 25C": {
+      primaryGray: "#6d748c", mediumDarkGray: "#52596e", lightGray: "#9ea5ba", ghostGray: "#d2d5df",
+      orangeRed: "#e7442a", lightOrange: "#ff6753", paleOrange: "#ff977b",
+      blue: "#37a6d1", brightBlue: "#67caf0", darkBlue: "#1c3c55"
+    },
+    "LCARS 25C (Blue Alert)": {
+      primaryGray: "#6d748c", mediumDarkGray: "#52596e", lightGray: "#9ea5ba", ghostGray: "#d2d5df",
+      orangeRed: "#5588ee", lightOrange: "#88ccff", paleOrange: "#99ccff",
+      blue: "#2266ff", brightBlue: "#5588ff", darkBlue: "#1111ee"
+    },
+    "LCARS 25C (Red Alert)": {
+      primaryGray: "#6d748c", mediumDarkGray: "#52596e", lightGray: "#9ea5ba", ghostGray: "#d2d5df",
+      orangeRed: "#8b0000", lightOrange: "#bf1b1b", paleOrange: "#d66a60",
+      blue: "#37a6d1", brightBlue: "#67caf0", darkBlue: "#1c3c55"
+    },
+    "LCARS 25C (Yellow Alert)": {
+      primaryGray: "#6d748c", mediumDarkGray: "#52596e", lightGray: "#9ea5ba", ghostGray: "#d2d5df",
+      orangeRed: "#ffcc33", lightOrange: "#ffaa00", paleOrange: "#ffcc66",
+      blue: "#37a6d1", brightBlue: "#67caf0", darkBlue: "#1c3c55"
+    },
+    "LCARS Breen": {
+      primaryGray: "#288855", mediumDarkGray: "#0f5616", lightGray: "#88de90", ghostGray: "#ddffdd",
+      orangeRed: "#88de90", lightOrange: "#99dd66", paleOrange: "#33ff33",
+      blue: "#229a6c", brightBlue: "#37bd76", darkBlue: "#0f5616"
+    },
+    "LCARS Cardassia": {
+      primaryGray: "#288855", mediumDarkGray: "#4f1a23", lightGray: "#996699", ghostGray: "#cc99cc",
+      orangeRed: "#88ffff", lightOrange: "#88ccff", paleOrange: "#99ccff",
+      blue: "#88ffff", brightBlue: "#66ccff", darkBlue: "#344470"
+    },
+    "LCARS Classic": {
+      primaryGray: "#ffe399", mediumDarkGray: "#c5b358", lightGray: "#f5deb3", ghostGray: "#ffeecc",
+      orangeRed: "#ff2200", lightOrange: "#ff5555", paleOrange: "#ff8866",
+      blue: "#5588ff", brightBlue: "#88ccff", darkBlue: "#2255ff"
+    },
+    "LCARS Default": {
+      primaryGray: "#ffbbaa", mediumDarkGray: "#ffaa90", lightGray: "#ddbbff", ghostGray: "#cc88ff",
+      orangeRed: "#dd4444", lightOrange: "#ff5555", paleOrange: "#ff8866",
+      blue: "#4455ff", brightBlue: "#7788ff", darkBlue: "#1111ee"
+    },
+    "LCARS Kronos": {
+      primaryGray: "#ff2200", mediumDarkGray: "#930a00", lightGray: "#ffaa00", ghostGray: "#ffcc33",
+      orangeRed: "#ff7700", lightOrange: "#ff8833", paleOrange: "#ffaa44",
+      blue: "#ffaa00", brightBlue: "#ffcc66", darkBlue: "#930a00"
+    },
+    "LCARS Picard [LCARdS Blue Accent]": {
+      primaryGray: "#9ea5ba", mediumDarkGray: "#6d748c", lightGray: "#d2d5df", ghostGray: "#f3f4f7",
+      orangeRed: "#37a6d1", lightOrange: "#67caf0", paleOrange: "#93e1ff",
+      blue: "#37a6d1", brightBlue: "#67caf0", darkBlue: "#1c3c55"
+    },
+    "LCARS Picard [LCARdS Red Accent]": {
+      primaryGray: "#9ea5ba", mediumDarkGray: "#6d748c", lightGray: "#d2d5df", ghostGray: "#f3f4f7",
+      orangeRed: "#ff6753", lightOrange: "#ff8470", paleOrange: "#ff977b",
+      blue: "#37a6d1", brightBlue: "#67caf0", darkBlue: "#1c3c55"
+    },
+    "LCARS Lower Decks I": {
+      primaryGray: "#ffaa00", mediumDarkGray: "#91550b", lightGray: "#ffeecc", ghostGray: "#fff5c7",
+      orangeRed: "#ff7700", lightOrange: "#ffaa44", paleOrange: "#ffcc66",
+      blue: "#ff4400", brightBlue: "#ff8833", darkBlue: "#91550b"
+    },
+    "LCARS Lower Decks II": {
+      primaryGray: "#ffaa00", mediumDarkGray: "#91550b", lightGray: "#ffeecc", ghostGray: "#fff5c7",
+      orangeRed: "#ff7700", lightOrange: "#ffaa44", paleOrange: "#ffcc66",
+      blue: "#ff4400", brightBlue: "#ff8833", darkBlue: "#91550b"
+    },
+    "LCARS Modern": {
+      primaryGray: "#ddbbff", mediumDarkGray: "#9996BA", lightGray: "#aaaaff", ghostGray: "#ccdeff",
+      orangeRed: "#ffaa00", lightOrange: "#ffcc33", paleOrange: "#ffcc66",
+      blue: "#aaaaff", brightBlue: "#88ccff", darkBlue: "#4455ff"
+    },
+    "LCARS Navigation": {
+      primaryGray: "#827A53", mediumDarkGray: "#B8A666", lightGray: "#CDB972", ghostGray: "#F7EE51",
+      orangeRed: "#F7EE51", lightOrange: "#CDB972", paleOrange: "#ffe399",
+      blue: "#6499FF", brightBlue: "#88ccff", darkBlue: "#2255ff"
+    },
+    "LCARS Nemesis Blue": {
+      primaryGray: "#2255ff", mediumDarkGray: "#444a77", lightGray: "#ccaa88", ghostGray: "#ccdeff",
+      orangeRed: "#ff7744", lightOrange: "#ff8866", paleOrange: "#ffaa90",
+      blue: "#2255ff", brightBlue: "#5588ff", darkBlue: "#1111ee"
+    },
+    "LCARS Picard I": {
+      primaryGray: "#9FA5BD", mediumDarkGray: "#656B83", lightGray: "#d2d5df", ghostGray: "#f3f4f7",
+      orangeRed: "#E7432A", lightOrange: "#ff6753", paleOrange: "#ff977b",
+      blue: "#37a6d1", brightBlue: "#67caf0", darkBlue: "#30374A"
+    },
+    "LCARS Picard II": {
+      primaryGray: "#6efaf9", mediumDarkGray: "#21bece", lightGray: "#d6f6f1", ghostGray: "#e2c599",
+      orangeRed: "#e1915c", lightOrange: "#E5960C", paleOrange: "#ffcc66",
+      blue: "#21bece", brightBlue: "#6efaf9", darkBlue: "#012556"
+    },
+    "LCARS Red Alert": {
+      primaryGray: "#cc2233", mediumDarkGray: "#9d361e", lightGray: "#dfdfdf", ghostGray: "#f7f7f7",
+      orangeRed: "#ff0000", lightOrange: "#ee0000", paleOrange: "#d66a60",
+      blue: "#bf1b1b", brightBlue: "#ff5555", darkBlue: "#360000"
+    },
+    "LCARS Romulus": {
+      primaryGray: "#33cc99", mediumDarkGray: "#288855", lightGray: "#cc88ff", ghostGray: "#ddbbff",
+      orangeRed: "#ff7700", lightOrange: "#ff8833", paleOrange: "#ffaa44",
+      blue: "#33cc99", brightBlue: "#88de90", darkBlue: "#0f5616"
+    },
+    "LCARS TNG": {
+      primaryGray: "#f5deb3", mediumDarkGray: "#d2b48c", lightGray: "#ffcc33", ghostGray: "#ffeecc",
+      orangeRed: "#cc99cc", lightOrange: "#dd88dd", paleOrange: "#ffcc66",
+      blue: "#cc99cc", brightBlue: "#ddbbff", darkBlue: "#444a77"
+    },
+    "LCARS TNGbuttons": {
+      primaryGray: "#f5cd9f", mediumDarkGray: "#d2b48c", lightGray: "#ffcc33", ghostGray: "#efc861",
+      orangeRed: "#cc99cc", lightOrange: "#dd88dd", paleOrange: "#ffcc66",
+      blue: "#cc99cc", brightBlue: "#ddbbff", darkBlue: "#444a77"
+    },
+    "LCARS Transporter": {
+      primaryGray: "#2C374B", mediumDarkGray: "#51596C", lightGray: "#6E748C", ghostGray: "#9ea5ba",
+      orangeRed: "#FA6851", lightOrange: "#ff8470", paleOrange: "#ff977b",
+      blue: "#2A7092", brightBlue: "#37a6d1", darkBlue: "#1c3c55"
+    },
+    "LCARS Zeldaar": {
+      primaryGray: "#ddbbff", mediumDarkGray: "#774477", lightGray: "#ffcc99", ghostGray: "#ffbbaa",
+      orangeRed: "#cc6666", lightOrange: "#ff8866", paleOrange: "#ffaa90",
+      blue: "#7788ff", brightBlue: "#aaaaff", darkBlue: "#663366"
+    }
+  };
+  var LCARS_THEME_OPTIONS = Object.keys(LCARS_THEME_PALETTES);
+
+  function applyLcarsTheme(name) {
+    try {
+      var p = LCARS_THEME_PALETTES[name];
+      if (!p) return;
+      var r = document.documentElement;
+      var map = {
+        "--primary-gray": p.primaryGray,
+        "--medium-dark-gray": p.mediumDarkGray,
+        "--light-gray": p.lightGray,
+        "--ghost-gray": p.ghostGray,
+        "--orange-red": p.orangeRed,
+        "--light-orange-red": p.lightOrange,
+        "--pale-orange-red": p.paleOrange,
+        "--blue": p.blue,
+        "--bright-blue": p.brightBlue,
+        "--medium-dark-blue": p.darkBlue,
+        "--lcars-primary": p.orangeRed,
+        "--lcars-highlight": p.paleOrange,
+        "--lcars-accent": p.blue,
+        "--lcars-text": p.lightGray,
+        "--lcars-text-secondary": p.ghostGray,
+        "--theme-primary-color": p.orangeRed,
+        "--primary-color": p.orangeRed,
+        "--accent": p.orangeRed,
+        "--lcars-alert": p.orangeRed,
+        "--lcars-alert-soft": p.lightOrange,
+        "--lcars-info": p.blue,
+        "--lcars-info-bright": p.brightBlue,
+        "--lcars-sublabels": p.darkBlue,
+        "--lcars-confirm": p.darkBlue,
+        "--lcars-system": p.primaryGray,
+        "--drawer-background-color": p.primaryGray,
+        "--lcars-sidebar-bar": p.primaryGray,
+        "--lcars-header-bar": p.lightGray,
+        "--seg-a": p.primaryGray,
+        "--seg-b": p.ghostGray,
+        "--seg-c": p.mediumDarkGray,
+        "--seg-d": p.lightGray,
+        "--seg-accent": p.orangeRed,
+        "--lcars-dash-fill": p.primaryGray
+      };
+      for (var k in map) {
+        if (map.hasOwnProperty(k)) r.style.setProperty(k, map[k]);
+      }
+      r.setAttribute("data-jf-lcars-theme", name);
+      try { localStorage.setItem("jf-lcars-theme", name); } catch (e0) {}
+      /* Refresh chrome that cached fill colors */
+      try {
+        var fill = p.primaryGray;
+        document.documentElement.style.setProperty("--lcars-dash-fill", fill);
+        var panel = document.getElementById("jf-lcars-dash-panel");
+        if (panel) {
+          panel.style.setProperty("background", fill, "important");
+          panel.style.setProperty("background-color", fill, "important");
+        }
+        var ids = ["jf-lcars-elbow-chrome", "jf-lcars-dash-elbow", "jf-lcars-dash-bridge"];
+        for (var ii = 0; ii < ids.length; ii++) {
+          var node = document.getElementById(ids[ii]);
+          if (!node) continue;
+          var paints = node.querySelectorAll(".jf-lcars-elbow-arm, .jf-lcars-elbow-curve, .jf-lcars-seg-a");
+          for (var pi = 0; pi < paints.length; pi++) {
+            paints[pi].style.setProperty("background", fill, "important");
+            paints[pi].style.setProperty("background-color", fill, "important");
+          }
+        }
+        var segs = document.querySelectorAll("#jf-lcars-top-runner .jf-lcars-seg-a, .jf-lcars-top-runner .jf-lcars-seg-a");
+        for (var si = 0; si < segs.length; si++) {
+          segs[si].style.setProperty("background", fill, "important");
+          segs[si].style.setProperty("background-color", fill, "important");
+        }
+      } catch (e1) {}
+    } catch (e) {
+      console.warn("[JellyfinLCARS] apply theme", e);
+    }
+  }
+  try { window.__jfApplyLcarsTheme = applyLcarsTheme; } catch (eW) {}
+
+  function lcarsCssVar(name, fallback) {
+    try {
+      var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return v || fallback || "";
+    } catch (e) {
+      return fallback || "";
+    }
+  }
+  function lcarsPrimaryGray() { return lcarsCssVar("--primary-gray", "#6d748c"); }
+  function lcarsGhostGray() { return lcarsCssVar("--ghost-gray", "#d2d5df"); }
+  function lcarsOrangeRed() { return lcarsCssVar("--orange-red", "#e7442a"); }
+  function lcarsStarlight() { return lcarsCssVar("--starlight", "#f3f4f7"); }
+
+
+
+  function ensureLcarsThemeSelect() {
+    try {
+      if (!window.__jfLcarsThemeDelegate) {
+        window.__jfLcarsThemeDelegate = true;
+        document.addEventListener("change", function jfLcarsThemeDelegate(ev) {
+          try {
+            var t = ev && ev.target;
+            if (!t || !t.getAttribute || t.getAttribute("data-jf-lcars-theme-select") !== "1") return;
+            var v = t.value || "";
+            if (v && typeof window.__jfApplyLcarsTheme === "function") window.__jfApplyLcarsTheme(v);
+          } catch (eD) {}
+        }, true);
+      }
+      var form = document.getElementById("JavaScriptInjectorConfigForm");
+      if (!form) return;
+      var srcInputs = form.querySelectorAll("input.script-src-input");
+      for (var i = 0; i < srcInputs.length; i++) {
+        var src = srcInputs[i];
+        var container = src.closest(".inputContainer");
+        if (!container) continue;
+        if (container.nextElementSibling && container.nextElementSibling.classList.contains("jf-lcars-theme-select-wrap")) {
+          continue;
+        }
+        var wrap = document.createElement("div");
+        wrap.className = "inputContainer jf-lcars-theme-select-wrap";
+        var label = document.createElement("label");
+        label.className = "inputLabel inputLabelUnfocused";
+        label.setAttribute("for", "jf-lcars-theme-select-" + i);
+        label.textContent = "LCARS Theme";
+        var sel = document.createElement("select");
+        sel.className = "emby-select-withcolor emby-select jf-lcars-theme-select";
+        sel.id = "jf-lcars-theme-select-" + i;
+        /* plain <select> — do not set is=emby-select (custom element upgrade breaks listeners) */
+        var opt0 = document.createElement("option");
+        opt0.value = "";
+        opt0.textContent = "- Select theme -";
+        sel.appendChild(opt0);
+        for (var t = 0; t < LCARS_THEME_OPTIONS.length; t++) {
+          var o = document.createElement("option");
+          o.value = LCARS_THEME_OPTIONS[t];
+          o.textContent = LCARS_THEME_OPTIONS[t];
+          sel.appendChild(o);
+        }
+        try {
+          var saved = localStorage.getItem("jf-lcars-theme");
+          if (saved && LCARS_THEME_PALETTES[saved]) sel.value = saved;
+        } catch (eLS) {}
+        sel.setAttribute("data-jf-lcars-theme-select", "1");
+        var desc = document.createElement("div");
+        desc.className = "fieldDescription";
+        desc.textContent = "Choose an LCARS color theme (from ha-lcars theme definitions).";
+        wrap.appendChild(label);
+        wrap.appendChild(sel);
+        wrap.appendChild(desc);
+        if (container.nextSibling) container.parentNode.insertBefore(wrap, container.nextSibling);
+        else container.parentNode.appendChild(wrap);
+      }
+    } catch (e) {
+      console.warn("[JellyfinLCARS] theme select", e);
+    }
+  }
+
   function run() {
     try {
       injectCss();
@@ -11143,6 +11423,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             syncChromeForViewport();
       ensureDashElbow();
       scheduleUserActionRail();
+      ensureLcarsThemeSelect();
+      try {
+        var _th = localStorage.getItem("jf-lcars-theme");
+        if (_th && LCARS_THEME_PALETTES[_th] && document.documentElement.getAttribute("data-jf-lcars-theme") !== _th) {
+          applyLcarsTheme(_th);
+        }
+      } catch (eTh) {}
       syncVideoMode();
       bindDrawerScroll();
       ensureDashArmHit();
@@ -11174,7 +11461,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.314-dash-card-pr-5",
+    version: "2.22.321-frame-theme-vars",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
