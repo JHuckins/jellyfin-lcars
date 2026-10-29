@@ -6677,6 +6677,21 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
 }
 
+/* Dashboard library count cards — left text / right icon padding */
+.dashboardDocument .content-primary .MuiCard-root .MuiStack-root > .MuiBox-root,
+.dashboardDocument .content-primary .MuiCard-root .MuiStack-root > .MuiBox-root .MuiTypography-root {
+  padding-left: 5px !important;
+  box-sizing: border-box !important;
+}
+.dashboardDocument .content-primary .MuiGrid-container .MuiCard-root .MuiStack-root > .MuiBox-root:first-child {
+  padding-left: 5px !important;
+}
+.dashboardDocument .content-primary .MuiCard-root .MuiStack-root > .MuiSvgIcon-root,
+.dashboardDocument .content-primary .MuiGrid-container .MuiCard-root .MuiSvgIcon-root {
+  padding-right: 5px !important;
+  box-sizing: content-box !important;
+}
+
 /* Hide LCARS user action rail (Edit / Library / Parental / Delete) */
 #jf-lcars-user-rail,
 #jf-lcars-user-rail.jf-lcars-user-rail-on,
@@ -11159,7 +11174,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.312-server-list-plus-12",
+    version: "2.22.314-dash-card-pr-5",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
