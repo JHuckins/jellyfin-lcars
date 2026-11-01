@@ -47,6 +47,12 @@ jellyfin-lcars/
 └── Screenshots
 
 ```
+---
+
+## Sample Screenshots
+
+![Jellyfin configuration dashboard](dashboard.png)
+![Jellyfin mobile movies view](mobile-movie-view.png)
 
 ---
 
