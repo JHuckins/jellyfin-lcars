@@ -1,7 +1,5 @@
-/**
- * Jellyfin LCARS
- * License: MIT
- */
+
+
 (function () {
   "use strict";
   if (window.JellyfinLCARS && window.JellyfinLCARS.__lcarsBooted) return;
@@ -17,10 +15,8 @@
   var DASH_CUT_ID = "jf-lcars-dash-elbow-cut";
   var DASH_BRIDGE_ID = "jf-lcars-dash-bridge";
   var __lcarsLibNavCache = null;
-  var THEME_CSS = `/*
- * Jellyfin LCARS
- * License: MIT
- */
+  var THEME_CSS = `
+
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap');
 :root {
   --blue: #37a6d1;
@@ -57,6 +53,7 @@
   --drawer-background-color: var(--primary-gray);
   --primary-color: var(--orange-red);
   --accent: var(--orange-red);
+  
   --lcars-alert: var(--orange-red);
   --lcars-alert-soft: var(--light-orange-red);
   --lcars-info: var(--blue);
@@ -68,7 +65,6 @@
   --lcars-admin-drawer: 240px;
 }
 
-/* Narrow: hide admin/desktop chrome — library mobile curve is positioned in JS */
 html.jf-lcars-narrow #jf-lcars-elbow-chrome,
 html.jf-lcars-narrow #jf-lcars-dash-panel,
 html.jf-lcars-narrow #jf-lcars-dash-elbow,
@@ -89,7 +85,7 @@ html.jf-lcars-narrow:not(.jf-lcars-library) .jf-lcars-frame {
   opacity: 0 !important;
   pointer-events: none !important;
 }
-/* Mobile library: dedicated #jf-lcars-mobile-elbow owns the L-curve (JS-positioned) */
+
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-elbow,
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-elbow-cut,
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-frame,
@@ -101,7 +97,7 @@ html.jf-lcars-narrow.jf-lcars-library .jf-lcars-frame {
   opacity: 0 !important;
   pointer-events: none !important;
 }
-/* Desktop runner stays hidden on mobile library; dedicated mobile bar instead */
+
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-top-runner,
 html.jf-lcars-narrow.jf-lcars-library .jf-lcars-top-runner {
   display: none !important;
@@ -118,7 +114,7 @@ html.jf-lcars-narrow.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-mobile-top-
   visibility: visible !important;
   opacity: 1 !important;
   position: fixed !important;
-  /* 56 rail + ~48 curve arm + 10px black gap (desktop-like) */
+  
   left: 117px !important;
   right: 0 !important;
   top: calc(var(--lcars-lib-row-top, 48px) - 1px) !important;
@@ -156,7 +152,6 @@ html.jf-lcars-narrow.jf-lcars-library #jf-lcars-mobile-elbow {
   display: block !important;
 }
 
-/* Mobile library: gray L frame; single curve = content top-left at the rail */
 html.jf-lcars-narrow.jf-lcars-library #jf-lcars-mobile-elbow {
   display: block !important;
 }
@@ -172,7 +167,7 @@ html.jf-lcars-narrow.jf-lcars-library .mainAnimatedPages {
   background: #000 !important;
   position: relative !important;
   z-index: 1100 !important;
-  /* Align curve to rail edge; tuck 5px up under the gray bar */
+  
   margin-left: 56px !important;
   margin-top: -5px !important;
   padding-top: calc(var(--lcars-mobile-bar-h, 22px) + 3px) !important;
@@ -180,14 +175,14 @@ html.jf-lcars-narrow.jf-lcars-library .mainAnimatedPages {
   max-width: none !important;
   box-sizing: border-box !important;
 }
-/* AppBar already offset by rail; avoid double-indent on body */
+
 html.jf-lcars-narrow.jf-lcars-library body {
   padding-left: 0 !important;
 }
 html.jf-lcars-narrow.jf-lcars-library {
   --lcars-lib-content-inset: 56px;
 }
-/* Secondary toolbar: no extra curve */
+
 html.jf-lcars-narrow.jf-lcars-library .MuiToolbar-root.padded-left,
 html.jf-lcars-narrow.jf-lcars-library .MuiToolbar-root {
   border-radius: 0 !important;
@@ -195,14 +190,12 @@ html.jf-lcars-narrow.jf-lcars-library .MuiToolbar-root {
   margin-left: 0 !important;
 }
 
-
-
 html, body {
   background: #000 !important;
   color: var(--light-gray) !important;
   font-family: var(--lcars-font) !important;
 }
-/* Material Icons / MUI font icons must NOT inherit Antonio */
+
 .material-icons,
 .material-icons:not([class*="outlined"]),
 span.material-icons,
@@ -225,8 +218,7 @@ button .material-icons,
 .MuiSvgIcon-root {
   font-family: inherit !important;
 }
-/* ========== FRAME ========== */
-/* Solid left column full height */
+
 .jf-lcars-frame {
   position: fixed;
   left: 0;
@@ -241,10 +233,7 @@ button .material-icons,
 .jf-lcars-left-rail {
   display: none !important;
 }
-/*
- * Concave L-elbow at 48px (header bottom)
- * Gray plate + page-colored quarter cut = visible concave corner
- */
+
 .jf-lcars-elbow {
   position: fixed !important;
   display: block !important;
@@ -310,7 +299,7 @@ body.jf-lcars-active::after {
   content: none !important;
   display: none !important;
 }
-/* ========== HEADER — fixed 48px row; tabs centered in same vertical band ========== */
+
 .skinHeader,
 .skinHeader-withBackground,
 .skinHeader.semiTransparent,
@@ -350,7 +339,7 @@ body.jf-lcars-active::after {
   height: 48px !important;
   min-height: 48px !important;
   max-height: 48px !important;
-  /* let clicks reach centered tabs in the empty middle */
+  
   pointer-events: none !important;
 }
 .headerLeft,
@@ -368,10 +357,7 @@ body.jf-lcars-active::after {
 .headerRight {
   margin-left: auto !important;
 }
-/*
- * Bordered tabs: centered on the icon row.
- * pointer-events restored; z-index above headerTop so clicks work.
- */
+
 .headerTabs,
 .sectionTabs {
   position: absolute !important;
@@ -436,13 +422,12 @@ body.jf-lcars-active::after {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
-  /* do not force display — let Jellyfin hide logo-only / empty titles */
+  
 }
 .headerTabs.sectionTabs {
-  /* background handled in single-row header rules */
+  
 }
-/* ========== CONTENT ========== */
-/* Offset for fixed header (48) + thin bar (16) — keep gap tight */
+
 .backgroundContainer,
 .mainAnimatedPages {
   margin-left: var(--lcars-sidebar) !important;
@@ -452,16 +437,6 @@ body.jf-lcars-active::after {
     padding-top: 5rem;
 }
 
-
-
-
-
-/* ========== Dashboard main content visibility ========== */
-/*
- * MUI permanent drawer owns horizontal inset (padding-left / width).
- * Do not set left/width on .mainAnimatedPage — that hid the main column.
- * Ensure text and papers remain visible on black LCARS surfaces.
- */
 .dashboardDocument .mainAnimatedPage,
 .dashboardDocument .mainAnimatedPages {
   opacity: 1 !important;
@@ -502,19 +477,12 @@ body.jf-lcars-active::after {
   color: var(--orange-red) !important;
 }
 
-/* Library LCARS frame is for non-admin shell only */
 .dashboardDocument .jf-lcars-frame,
 .dashboardDocument #jf-lcars-frame {
   display: none !important;
   width: 0 !important;
 }
 
-/* ========== LCARS container wraps content-primary (image-frame) ========== */
-/*
- * JS injects <div class="lcars-container"> around .content-primary.
- * .lcars-container = red L + top/bottom bars + outer curves
- * .content-primary = black plate with inner left curves
- */
 .dashboardDocument .lcars-container {
   --frame-h: 28px;
   --frame-rail: 36px;
@@ -541,16 +509,13 @@ body.jf-lcars-active::after {
   margin-left: 40px !important;
   margin-bottom: 2rem !important;
 
-  /* Padding = rail + top/bottom bars; content-primary fills the rest */
+  
   padding: var(--frame-h) 0 var(--frame-h) var(--frame-rail) !important;
 
-  /* Red L base */
+  
   background-color: var(--seg-accent) !important;
-  /*
-   * Top: black gap + gray bar (stops before pill center)
-   * Black underlay under tip + gray radial pill endcap
-   * Bottom segmented blocks
-   */
+  
+
   background-image:
     radial-gradient(circle at center, var(--ghost-gray) 0 70%, transparent 71%),
     linear-gradient(
@@ -588,10 +553,6 @@ body.jf-lcars-active::after {
   flex-direction: column !important;
 }
 
-/*
- * Absolute black plate on container = full inner field + inner curves.
- * content-primary is transparent on top so empty areas stay black (not red).
- */
 .dashboardDocument .lcars-container::before {
   content: "" !important;
   display: block !important;
@@ -635,7 +596,6 @@ body.jf-lcars-active::after {
   display: none !important;
 }
 
-/* Unwrapped fallback before JS runs */
 .dashboardDocument .content-primary:not(.lcars-container *) {
   margin-top: 8rem !important;
   margin-right: max(4%, 28px) !important;
@@ -647,14 +607,12 @@ body.jf-lcars-active::after {
   box-sizing: border-box !important;
 }
 
-/* Below 900px: lcars-container flush left */
 @media screen and (max-width: 899.98px) {
   .dashboardDocument .lcars-container {
     margin-left: 0 !important;
   }
 }
 
-/* Below 750px: strip content well frame; 50px top margin */
 @media screen and (max-width: 750px) {
   .dashboardDocument .lcars-container {
     border: none !important;
@@ -695,11 +653,6 @@ body.jf-lcars-active::after {
   }
 }
 
-/* ========== Dashboard plugin cards (MUI) — LCARS primary-nav style ========== */
-/*
- * Reference: thelcars Picard #primary-nav buttons
- * black field, 3px orange-red border, uppercase labels
- */
 .MuiCard-root,
 .MuiPaper-root.MuiCard-root {
   background: #000 !important;
@@ -730,7 +683,7 @@ body.jf-lcars-active::after {
   margin-top: 0 !important;
   border: none !important;
 }
-/* Users page cards: ensure full perimeter border */
+
 .dashboardDocument .content-primary .MuiCard-root,
 .dashboardDocument .lcars-container .MuiCard-root,
 .dashboardDocument .MuiGrid-item .MuiCard-root {
@@ -747,7 +700,7 @@ body.jf-lcars-active::after {
   border: none !important;
   margin: 0 !important;
 }
-/* Title + version labels — Picard nav text */
+
 .MuiCardContent-root .MuiTypography-root,
 .MuiCardContent-root .MuiTypography-body1,
 .MuiCardContent-root .MuiTypography-body2 {
@@ -772,11 +725,11 @@ body.jf-lcars-active::after {
 .MuiCardContent-root .MuiStack-root {
   width: 100% !important;
 }
-/* Grid gutters stay clean on black field */
+
 .MuiGrid-item .MuiCard-root {
  
 }
-/* Cards */
+
 .card,
 .cardBox {
   border-radius: 8px !important;
@@ -796,7 +749,7 @@ body.jf-lcars-active::after {
   color: var(--light-gray) !important;
   font-family: var(--lcars-font) !important;
 }
-/* Buttons */
+
 .raised,
 .emby-button.raised,
 button.raised {
@@ -822,7 +775,7 @@ button.button-submit:hover,
   color: #000 !important;
   filter: brightness(var(--lcars-hover-brighten));
 }
-/* Library left nav (non-dashboard) — same LCARS button language as admin drawer */
+
 #jf-lcars-library-nav {
   display: none;
   position: fixed !important;
@@ -830,10 +783,10 @@ button.button-submit:hover,
   top: 0 !important;
   width: var(--lcars-admin-drawer, 240px) !important;
   height: 100vh !important;
-  /* Above elbow chrome (12060) so Home square/icon paints in front */
+  
   z-index: 12070 !important;
   box-sizing: border-box !important;
-  /* Top pad matches AppBar strip so Home sits like Dashboard under the header line */
+  
   padding: var(--lcars-lib-row-top, 48px) 0 56px 0 !important;
   margin: 0 !important;
   background: #000 !important;
@@ -846,7 +799,7 @@ button.button-submit:hover,
 html.jf-lcars-library #jf-lcars-library-nav {
   display: flex !important;
   flex-direction: column !important;
-  /* Dashboard drawer uses 3px between items, not flex gap */
+  
   gap: 0 !important;
   align-items: stretch !important;
 }
@@ -884,12 +837,12 @@ html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
 #jf-lcars-library-nav .jf-lcars-lib-btn:nth-child(4n+3) { background: var(--light-gray, #9ea5ba) !important; color: #000 !important; }
 #jf-lcars-library-nav .jf-lcars-lib-btn:nth-child(4n+4) { background: var(--orange-red, #e7442a) !important; color: #000 !important; }
 #jf-lcars-library-nav .jf-lcars-lib-btn:nth-child(4n+5) { background: var(--primary-gray, #6d748c) !important; color: #000 !important; }
-/* First item = Home — same geometry as Dashboard list item + elbow */
+
 #jf-lcars-library-nav .jf-lcars-lib-btn:first-child,
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home {
   --lcars-dash-fill: var(--primary-gray, #6d748c);
   --lcars-dash-arm: 30px;
-  /* Short horizontal arm; curve sits near menu edge (not deep into content) */
+  
   --lcars-dash-arm-len: 36px;
   --lcars-dash-curve: 60px;
   min-height: 10.8rem !important;
@@ -911,13 +864,13 @@ html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
   position: relative !important;
   z-index: 2 !important;
 }
-/* Arm + curve: painted by #jf-lcars-lib-elbow-chrome (JS), same pattern as dashboard elbow chrome */
+
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::before,
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home::after {
   content: none !important;
   display: none !important;
 }
-/* Hover / hot only — ghost-gray. Idle (even if is-active) stays primary-gray so hover is visible. */
+
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home:hover,
 #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home.jf-lcars-lib-home-hot,
 html.jf-lcars-lib-home-hot #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home {
@@ -935,7 +888,7 @@ html.jf-lcars-lib-home-hot #jf-lcars-lib-elbow-chrome > div {
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
-/* Top-runner join segment must track Home hover too */
+
 html.jf-lcars-library #jf-lcars-top-runner .jf-lcars-seg-a,
 html.jf-lcars-library .jf-lcars-top-runner .jf-lcars-seg-a {
   background: var(--primary-gray) !important;
@@ -952,8 +905,7 @@ html.jf-lcars-lib-home-hot.jf-lcars-library .jf-lcars-top-runner .jf-lcars-seg-a
 #jf-lcars-lib-elbow-chrome {
   pointer-events: none !important;
 }
-/* (seam box-shadow removed — was global and interacted poorly with desktop runner) */
-/* Unified hit over Home panel + arm + curve (see #jf-lcars-lib-unified-hit) */
+
 #jf-lcars-lib-unified-hit {
   position: fixed !important;
   z-index: 12055 !important;
@@ -967,7 +919,7 @@ body > a#jf-lcars-lib-arm-hit { display: none !important; }
 #jf-lcars-library-nav .jf-lcars-lib-curve-hit {
   display: none !important;
 }
-/* Keep top AppBar strip visible; black full-width strip behind buttons */
+
 html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root,
 html.jf-lcars-library:not(.jf-lcars-video) .skinHeader {
   display: flex !important;
@@ -1002,17 +954,12 @@ html.jf-lcars-library:not(.jf-lcars-video) .headerTop {
   height: 1.15rem !important;
   flex-shrink: 0 !important;
 }
-/*
- * Library content offset — NEW APPROACH
- * Fixed nav is out of flow. Push ALL in-flow content with body padding-left.
- * Zero every margin-left that the base theme applies via --lcars-sidebar.
- * Inset = nav width (240) + 20px.
- */
+
 html.jf-lcars-library:not(.jf-lcars-video) {
   --lcars-sidebar: 0px;
   --lcars-lib-content-inset: calc(var(--lcars-admin-drawer, 240px) + 20px);
 }
-/* Library home/client pages only — never dashboardDocument */
+
 html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) body,
 html.jf-lcars-library:not(.jf-lcars-video) body:not(.dashboardDocument) {
   padding-left: var(--lcars-lib-content-inset) !important;
@@ -1023,7 +970,7 @@ body.dashboardDocument,
 html.jf-lcars-library.dashboardDocument body {
   padding-left: 0 !important;
 }
-/* Library main content — 60px top clearance under header/runner */
+
 html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) .mainAnimatedPages,
 html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) .mainAnimatedPage,
 html.jf-lcars-library:not(.jf-lcars-video):not(.dashboardDocument) .page,
@@ -1046,20 +993,20 @@ html.jf-lcars-library:not(.jf-lcars-video) .page {
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
-/* Fixed chrome stays viewport-anchored (not shifted by body padding) */
+
 html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
   left: 0 !important;
   margin-left: 0 !important;
   padding-left: 0 !important;
 }
-/* ≥900px: full-width LCARS library nav (existing styles) */
+
 @media screen and (min-width: 900px) {
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     display: flex !important;
     width: var(--lcars-admin-drawer, 240px) !important;
   }
 }
-/* <900px: thin left rail — square icon-only buttons */
+
 @media screen and (max-width: 899px) {
   html.jf-lcars-library:not(.jf-lcars-video) {
     --lcars-sidebar: 56px;
@@ -1075,7 +1022,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     width: 56px !important;
     max-width: 56px !important;
     min-width: 56px !important;
-    /* Sit just under the mobile LCARS curve (header + curve) */
+    
     padding: 107px 0 24px 0 !important;
     left: 0 !important;
     top: 0 !important;
@@ -1085,7 +1032,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     overflow-x: hidden !important;
     overflow-y: auto !important;
   }
-  /* Hide top hamburger on library only — dashboard keeps it for the drawer */
+  
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="Open navigation"],
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="Open drawer"],
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="Menu"],
@@ -1106,7 +1053,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     overflow: hidden !important;
     pointer-events: none !important;
   }
-  /* Dashboard: ensure hamburger stays visible */
+  
   html.jf-lcars-active.dashboardDocument .MuiAppBar-root button.MuiIconButton-root[aria-label="Open navigation"],
   html.jf-lcars-active.dashboardDocument .MuiAppBar-root button.MuiIconButton-root:has([data-testid="MenuIcon"]),
   html.jf-lcars-active.dashboardDocument .MuiToolbar-root button.MuiIconButton-edgeStart:not([aria-label="Back"]),
@@ -1136,13 +1083,13 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     position: relative !important;
     z-index: 5 !important;
   }
-  /* Spacing home → favorites (12 - 10 = 2px) */
+  
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home,
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child {
     margin-bottom: 2px !important;
   }
-  /* Home expands upward so curve/strips are part of the real <a> hit box */
-  /* Tall continuous stem for curve hit; icon centered in the bottom 56px band */
+  
+  
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home,
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav a.jf-lcars-lib-btn:first-child {
     overflow: visible !important;
@@ -1164,7 +1111,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     margin: 0 !important;
     line-height: 1 !important;
   }
-  /* Icon only — hide text labels */
+  
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-label {
     display: none !important;
   }
@@ -1177,7 +1124,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     display: block !important;
     margin: 0 !important;
   }
-  /* First (Home) still square, not tall panel */
+  
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn.jf-lcars-lib-home,
   html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-btn:first-child {
     height: 56px !important;
@@ -1189,7 +1136,7 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     display: none !important;
     content: none !important;
   }
-  /* Hide top toolbar library links — they live in the left icon rail now */
+  
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root.jf-lcars-lib-source,
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="collectionType"]),
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/movies"]),
@@ -1198,13 +1145,13 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
   html.jf-lcars-library:not(.jf-lcars-video) header .MuiToolbar-root .MuiStack-root.jf-lcars-lib-source {
     display: none !important;
   }
-  /* Header starts after icon rail */
+  
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root,
   html.jf-lcars-library:not(.jf-lcars-video) .skinHeader {
     left: 56px !important;
   }
 }
-/* Hide admin dash chrome + thin left rail when library menu owns the left column */
+
 html.jf-lcars-library #jf-lcars-dash-panel,
 html.jf-lcars-library #jf-lcars-dash-elbow,
 html.jf-lcars-library #jf-lcars-dash-bridge,
@@ -1214,7 +1161,7 @@ html.jf-lcars-library #jf-lcars-elbow-chrome {
   opacity: 0 !important;
   pointer-events: none !important;
 }
-/* Hide permanent admin drawer only on desktop library layout */
+
 @media (min-width: 1100px) {
   html.jf-lcars-library .dashboardDocument .MuiDrawer-root,
   html.jf-lcars-library .dashboardDocument .MuiDrawer-docked {
@@ -1223,7 +1170,7 @@ html.jf-lcars-library #jf-lcars-elbow-chrome {
     visibility: hidden !important;
   }
 }
-/* Desktop library: hide default admin frame elbows (lib nav owns the column) */
+
 @media (min-width: 900px) {
   html.jf-lcars-library .jf-lcars-frame,
   html.jf-lcars-library #jf-lcars-frame,
@@ -1237,9 +1184,7 @@ html.jf-lcars-library #jf-lcars-elbow-chrome {
     visibility: hidden !important;
   }
 }
-/* Mobile library: elbows are shown at the rail edge via .jf-lcars-narrow.jf-lcars-library rules */
 
-/* Top runner spans from library nav edge (same as admin drawer) */
 html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-top-runner,
 html.jf-lcars-library:not(.jf-lcars-video) .jf-lcars-top-runner {
   left: calc(var(--lcars-admin-drawer, 240px) + 6px) !important;
@@ -1258,10 +1203,7 @@ html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root {
   top: 0 !important;
   z-index: 1105 !important;
 }
-/*
- * Top toolbar library links live in the left nav now.
- * Hide that stack only when the left library menu is visible (≥1100px).
- */
+
 @media screen and (min-width: 900px) {
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="collectionType"]),
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root .MuiToolbar-root .MuiStack-root:has(> a.MuiButton-root[href*="/boxsets"]),
@@ -1279,7 +1221,6 @@ html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root {
   }
 }
 
-/* Drawer — black field; items are outlined keypad-style buttons */
 .mainDrawer {
   background: #000 !important;
   border-right: none !important;
@@ -1299,10 +1240,7 @@ html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root {
 .tmla-mask {
  background-color: unset !important;
 }
-/*
- * Nav items — match Picard keypad / primary-nav buttons:
- * black fill, light-gray border, uppercase label
- */
+
 .navMenuOption {
   border-radius: 2px !important;
   margin: 6px 4px !important;
@@ -1335,7 +1273,7 @@ html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root {
 .navMenuOptionIcon {
   color: inherit !important;
 }
-/* Header tabs — compact outlined pills (must not overflow header into bars) */
+
 .emby-tab-button,
 .headerTabs .emby-button {
   background: #000 !important;
@@ -1368,13 +1306,13 @@ html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root {
   border-color: var(--orange-red) !important;
   color: var(--pale-orange-red) !important;
 }
-/* Drawer nav — larger + gap between items */
+
 .navMenuOption {
   margin: 6px 4px 10px 4px !important;
   padding: 12px 14px !important;
   min-height: 44px !important;
 }
-/* Detail / forms */
+
 @media (min-width: 50em) {
     .readOnlyContent, form {
         max-width: unset;
@@ -1396,7 +1334,7 @@ textarea,
   color: var(--starlight) !important;
   border-radius: 4px !important;
 }
-/* Scrollbar */
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -1431,7 +1369,7 @@ textarea,
 .toast-alert {
   border-left-color: var(--lcars-alert) !important;
 }
-/* Played / favorite / progress indicators */
+
 .playedIndicator,
 .indicator.playedIndicator,
 .countIndicator,
@@ -1450,7 +1388,6 @@ textarea,
   color: var(--lcars-info-bright) !important;
 }
 
-/* ========== Detail / content left accents (lcars-css pattern, Picard colors) ========== */
 .detailSection,
 .detailPageContentContainer .detailSection,
 .itemDetailsGroup,
@@ -1472,29 +1409,18 @@ textarea,
 .detailSection .detailSectionHeader {
   border-left-color: var(--lcars-info) !important;
 }
-/* Genres / tags / metadata chips stay clean */
+
 .itemMiscInfo,
 .mediaInfoTags {
   border-left: none !important;
   padding-left: 0 !important;
 }
 
-/* ========== DASHBOARD — ion-inspired multi-bar panels (Picard colors) ========== */
-/*
- * Scoped carefully so the admin left nav (permanent drawer) is not broken.
- * Content panels only: Server / Activity / Paths / Devices cards.
- */
 .dashboardDocument,
 .dashboardDocument .content-primary {
   color: var(--light-gray) !important;
 }
 
-
-/* ========== DASHBOARD ELBOW (injected element, thelcars 80px) ========== */
-/*
- * Border L-curve. Overlaps drawer edge so gray is continuous (no black gap).
- * Arm thickness 20px; radius 80px.
- */
 #jf-lcars-dash-elbow,
 #jf-lcars-dash-elbow-cut,
 #jf-lcars-dash-bridge {
@@ -1507,7 +1433,7 @@ textarea,
 .dashboardDocument #jf-lcars-dash-elbow {
   display: none !important;
   position: fixed !important;
-  /* top of curve = top of Dashboard; bottom of curve ends above Dashboard bottom */
+  
   left: calc(var(--lcars-admin-drawer) - var(--lcars-dash-arm, 30px)) !important;
   top: var(--lcars-dash-row-top, 48px) !important;
   width: calc(var(--lcars-dash-arm, 30px) + var(--lcars-dash-curve-r, 80px)) !important;
@@ -1537,8 +1463,6 @@ textarea,
   pointer-events: none !important;
 }
 
-/* Hide the elbow if the dashboard is at a mobile device width */
-
 @media screen and (width <= 900px) {
   .dashboardDocument #jf-lcars-dash-elbow, .dashboardDocument #jf-lcars-dash-bridge {
     display: none !important;
@@ -1556,7 +1480,6 @@ textarea,
   }
 }
 
-/* ========== Narrow viewports (<750px) — prevent overlap / overflow ========== */
 @media screen and (max-width: 750px) {
   html.jf-lcars-active,
   html.jf-lcars-active body,
@@ -1564,14 +1487,11 @@ textarea,
   html.dashboardDocument,
   body.dashboardDocument {
     overflow-x: hidden !important;
-    /* NEVER 100vw here — with a docked drawer that overshoots the right edge */
+    
     max-width: 100% !important;
   }
-  /*
-   * Equal left/right inset. Prefer content-primary padding (always present on
-   * Plugins / dashboard pages) rather than main — MUI drawer layout may not
-   * put our padding on the flex main column reliably.
-   */
+  
+
   .dashboardDocument main,
   .dashboardDocument main.MuiBox-root,
   .dashboardDocument .mainAnimatedPage,
@@ -1597,13 +1517,13 @@ textarea,
     min-width: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    /* Equal side inset — this is what creates the visible right gap (+5px) */
+    
     padding-left: 17px !important;
     padding-right: 17px !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
   }
-  /* Plugin category chip row uses negative margins in Jellyfin — cancel under 750 */
+  
   .dashboardDocument .content-primary .MuiStack-root:has(> .MuiChip-root) {
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -1612,7 +1532,7 @@ textarea,
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
-  /* Legacy MUI Grid negative margins eat into side padding — kill them */
+  
   .dashboardDocument .content-primary .MuiGrid-container,
   .dashboardDocument #pluginsPage .MuiGrid-container {
     width: 100% !important;
@@ -1628,7 +1548,7 @@ textarea,
     box-sizing: border-box !important;
     max-width: 100% !important;
   }
-  /* Header: wrap title + Manage Repositories so the button isn't clipped */
+  
   .dashboardDocument .content-primary .MuiStack-root:has(> .MuiButton-outlined),
   .dashboardDocument .content-primary .MuiStack-root:has(input[placeholder*="Search" i]),
   .dashboardDocument .content-primary .MuiStack-root:has(> .MuiTypography-h1),
@@ -1648,7 +1568,7 @@ textarea,
     max-width: 100% !important;
     flex: 0 1 auto !important;
   }
-  /* Papers / cards stay inside well */
+  
   .dashboardDocument .content-primary .MuiPaper-root,
   .dashboardDocument .content-primary .MuiCard-root,
   .dashboardDocument .content-primary .MuiBox-root {
@@ -1656,7 +1576,7 @@ textarea,
     min-width: 0 !important;
     box-sizing: border-box !important;
   }
-  /* Typography: wrap normally, no forced narrow columns */
+  
   .dashboardDocument .content-primary .MuiTypography-root,
   .dashboardDocument .content-primary h1,
   .dashboardDocument .content-primary h2,
@@ -1667,7 +1587,7 @@ textarea,
     word-break: normal !important;
     white-space: normal !important;
   }
-  /* Activity / list rows: horizontal layout, text can wrap as sentences */
+  
   .dashboardDocument .content-primary a.MuiListItemButton-root,
   .dashboardDocument .content-primary .MuiListItem-root,
   .dashboardDocument .content-primary .MuiListItemButton-root {
@@ -1699,7 +1619,7 @@ textarea,
   .dashboardDocument .content-primary .MuiListItemIcon-root {
     flex-shrink: 0 !important;
   }
-  /* Stacks / grids: allow shrink, wrap */
+  
   .dashboardDocument .content-primary .MuiStack-root,
   .dashboardDocument .content-primary .MuiGrid-container,
   .dashboardDocument .content-primary .MuiGrid-item {
@@ -1711,32 +1631,28 @@ textarea,
     max-width: 100% !important;
     width: 100% !important;
   }
-  /* Live TV heading rows wrap cleanly */
+  
   .dashboardDocument .MuiStack-root:has(> .MuiTypography-h2):has(.MuiButton-root) {
     flex-wrap: wrap !important;
     column-gap: 0.5rem !important;
     row-gap: 0.5rem !important;
     max-width: 100% !important;
   }
-  /* Buttons don't force overflow */
+  
   .dashboardDocument .content-primary .MuiButton-root {
     max-width: 100% !important;
   }
-  /* Hide decorative right LCARS rails that steal width if present */
+  
   .dashboardDocument .content-primary::before,
   .dashboardDocument .content-primary::after {
     display: none !important;
   }
-  /* Segmented bars inside papers: scale down */
+  
   .dashboardDocument .content-primary .MuiPaper-root:not(.MuiCard-root)::before {
     max-width: 100% !important;
   }
 }
 
-/* Dashboard home grid — fill available width
- * Parent must be 100% so flex children can grow into the well.
- * Items use flex-grow ratios (not % of auto) so they consume free space.
- */
 .dashboardDocument .content-primary {
   width: 100% !important;
   max-width: 100% !important;
@@ -1754,7 +1670,6 @@ textarea,
   min-width: 0 !important;
 }
 
-/* Single column at 1300px and below */
 @media (max-width: 1300px) {
   .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item {
     flex: 1 1 100% !important;
@@ -1765,7 +1680,6 @@ textarea,
   }
 }
 
-/* xl: Server : Activity : Paths = 2 : 1 : 1 */
 @media (min-width: 1536px) {
   .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item.MuiGrid-grid-xl-6 {
     flex: 2 1 0 !important;
@@ -1779,7 +1693,6 @@ textarea,
   }
 }
 
-/* 1301–1535: lg proportions (7+5, then full-width third) */
 @media (min-width: 1301px) and (max-width: 1535.98px) {
   .dashboardDocument .content-primary > .MuiGrid-container > .MuiGrid-item.MuiGrid-grid-lg-7 {
     flex: 7 1 0 !important;
@@ -1798,7 +1711,6 @@ textarea,
   }
 }
 
-/* Drawer list secondary/primary text spacing */
 .dashboardDocument .MuiDrawer-paper .MuiListItemText-root,
 .dashboardDocument .MuiDrawer-paper .MuiListItemText-multiline {
   margin-left: 10px !important;
@@ -1808,31 +1720,18 @@ textarea,
   display: none !important;
 }
 
-/* Runner starts where bridge ends */
-/* runner geometry: consolidated below */
-
-
-/* ----- Admin left nav — clean continuous column + flush runner ----- */
-/*
- * Previous floating elbow/cut pseudo-elements broke the layout.
- * Approach: drawer is the gray column; top-runner abuts it flush;
- * first runner segment is primary-gray so column → bars read continuous.
- * Optional large curve deferred until junction is stable.
- */
 html.dashboardDocument,
 body.dashboardDocument,
 .dashboardDocument {
   --lcars-admin-drawer: 240px;
 }
 
-/* Hide library-mode frame chrome on dashboard */
 .dashboardDocument .jf-lcars-frame,
 .dashboardDocument .jf-lcars-elbow,
 .dashboardDocument .jf-lcars-elbow-cut {
   display: none !important;
 }
 
-/* Header + runner flush to drawer right edge */
 .dashboardDocument .skinHeader,
 .dashboardDocument .skinHeader-withBackground,
 .dashboardDocument .skinHeader.focuscontainer-x {
@@ -1848,21 +1747,11 @@ body.dashboardDocument,
   z-index: 1093 !important;
 }
 
-/* First segment matches column gray → continuous color into the bars */
-/* seg-a: see primary-gray / --lcars-dash-fill rules */
-
 .dashboardDocument .backgroundContainer,
 .dashboardDocument .mainAnimatedPages {
   margin-left: 0 !important;
 }
 
-
-
-/* ========== Jellyfin / MUI palette bridge (stable tokens, no .css-*) ========== */
-/*
- * Accent mapping only — avoid global background/paper overrides that break
- * home header and clip dashboard content layout.
- */
 .jf-lcars-active {
   --jf-palette-primary-main: var(--orange-red);
   --jf-palette-primary-mainChannel: 231 68 42;
@@ -1885,21 +1774,11 @@ body.dashboardDocument {
   --jf-card-borderRadius: 0px !important;
 }
 
-
-/* Preserve MUI permanent-drawer content inset (do not zero padding-left) */
 .dashboardDocument .MuiDrawer-docked + .MuiBox-root,
 .dashboardDocument main.MuiBox-root {
   box-sizing: border-box !important;
 }
 
-
-
-
-/* ========== Drawer — sticky LCARS header + internal nav scroll ========== */
-/*
- * Top (server header + Dashboard + LCARS bar): sticky / fixed — does not scroll away.
- * Nav items below Dashboard: scroll inside the drawer only (no page scroll, no scrollbar).
- */
 .dashboardDocument .MuiDrawer-root.MuiDrawer-docked,
 .dashboardDocument .MuiDrawer-docked {
   width: var(--lcars-admin-drawer) !important;
@@ -1932,7 +1811,7 @@ body.dashboardDocument {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
-/* Permanent fixed drawer geometry — desktop only (mobile uses MUI temporary drawer) */
+
 @media (min-width: 900px) {
   .dashboardDocument .MuiDrawer-paper,
   .dashboardDocument .MuiDrawer-paperAnchorLeft,
@@ -1948,7 +1827,7 @@ body.dashboardDocument {
     padding: 0 0 56px 0 !important;
   }
 }
-/* Mobile temporary drawer — width + surface; LCARS U-frame is in the narrow block below */
+
 @media (max-width: 899px) {
   .dashboardDocument .MuiDrawer-paper,
   .MuiDrawer-paperAnchorTemporary,
@@ -1956,13 +1835,13 @@ body.dashboardDocument {
   .MuiModal-root .MuiDrawer-paper {
     background: #000 !important;
     background-color: #000 !important;
-    /* extra width for the right LCARS bar */
+    
     width: min(294px, 88vw) !important;
     max-width: min(294px, 88vw) !important;
-    /* never force visibility/transform — MUI slides the temporary drawer */
+    
   }
 }
-/* ===== Mobile temporary drawer — LCARS flatside buttons (library + dashboard) ===== */
+
 @media (max-width: 899px) {
   .MuiDrawer-paperAnchorTemporary,
   .MuiDrawer-root .MuiDrawer-paper,
@@ -2022,7 +1901,7 @@ body.dashboardDocument {
     letter-spacing: 0.06em !important;
     text-align: right !important;
   }
-  /* Color cycle for mobile drawer rows */
+  
   .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root,
   .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root {
     background: var(--primary-gray) !important;
@@ -2077,7 +1956,7 @@ body.dashboardDocument {
     text-transform: none !important;
     font-weight: 400 !important;
   }
-  /* Hide server/logo header row in mobile drawer (library + dashboard) */
+  
   .MuiDrawer-paperAnchorTemporary .MuiList-root:first-child > .MuiListItem-root:first-child,
   .MuiDrawer-paperAnchorTemporary .MuiList-root:first-of-type > .MuiListItem-root:first-child,
   .MuiModal-root .MuiDrawer-paper .MuiList-root:first-child > .MuiListItem-root:first-child,
@@ -2099,7 +1978,7 @@ body.dashboardDocument {
     pointer-events: none !important;
     border: none !important;
   }
-  /* HOME — 2× height */
+  
   .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root[href="#/"],
   .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root[href="#/home"],
   .MuiDrawer-paperAnchorTemporary a.MuiListItemButton-root[href^="#/home?"],
@@ -2111,7 +1990,7 @@ body.dashboardDocument {
     align-items: flex-end !important;
     padding-bottom: 0.65rem !important;
   }
-  /* Second-to-last button — 1.5× (Movies when Shows is last) */
+  
   .MuiDrawer-paperAnchorTemporary .MuiListItem-root:nth-last-child(2) > .MuiListItemButton-root,
   .MuiModal-root .MuiDrawer-paper .MuiListItem-root:nth-last-child(2) > .MuiListItemButton-root {
     min-height: 3.9rem !important;
@@ -2119,9 +1998,8 @@ body.dashboardDocument {
     padding-top: 0.7rem !important;
     padding-bottom: 0.7rem !important;
   }
-  /* mobile curve geometry owned by html.jf-lcars-narrow.jf-lcars-library rules */
+  
 }
-
 
 .dashboardDocument .MuiDrawer-paper::-webkit-scrollbar {
   display: none !important;
@@ -2129,7 +2007,6 @@ body.dashboardDocument {
   height: 0 !important;
 }
 
-/* Server header + Dashboard sticky — desktop only */
 @media (min-width: 900px) {
   .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
     position: sticky !important;
@@ -2178,7 +2055,6 @@ body.dashboardDocument {
   z-index: 19 !important;
 }
 
-/* Hide section subheaders (Server, Devices, Plugins, …) */
 .dashboardDocument .MuiDrawer-paper .MuiListSubheader-root,
 .dashboardDocument .MuiDrawer-paper .MuiListSubheader-sticky,
 .dashboardDocument .MuiDrawer-paper .MuiListSubheader-gutters,
@@ -2191,7 +2067,6 @@ body.dashboardDocument {
   border: none !important;
 }
 
-/* Solid LCARS bars */
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root,
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-gutters {
@@ -2221,13 +2096,11 @@ body.dashboardDocument {
   position: relative !important;
 }
 
-/* Gutter = 3px black border-bottom on each button (survives hover) */
 .dashboardDocument .MuiDrawer-paper > .MuiList-root > .MuiListItem-root > .MuiListItemButton-root {
   margin-bottom: 0 !important;
   z-index: 0 !important;
 }
 
-/* Variable heights — LCARS uneven panels (some ~3× base) */
 .dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+1) > .MuiListItemButton-root,
 .dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+1) {
   min-height: 2.4rem !important;
@@ -2246,7 +2119,7 @@ body.dashboardDocument {
 }
 .dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(7n+4) > .MuiListItemButton-root,
 .dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(7n+4) {
-  min-height: 7.2rem !important; /* ~3× base */
+  min-height: 7.2rem !important; 
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
   align-items: flex-end !important;
@@ -2266,7 +2139,6 @@ body.dashboardDocument {
   min-height: 2.4rem !important;
 }
 
-/* Alternating solid colors */
 .dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(6n+1) > .MuiListItemButton-root:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
 .dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:nth-child(6n+1):not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   background: var(--primary-gray) !important;
@@ -2304,7 +2176,6 @@ body.dashboardDocument {
   color: #000 !important;
 }
 
-/* Hover must beat alternating nth-child fills (use accent — ghost-gray panels would not change) */
 .dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root > .MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
 .dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
 .dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(n) > .MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
@@ -2345,7 +2216,7 @@ body.dashboardDocument {
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root .MuiTouchRipple-root {
   display: none !important;
 }
-/* Dashboard hover must not change box model */
+
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover {
   margin: 0 !important;
@@ -2408,7 +2279,6 @@ body.dashboardDocument {
   border-bottom: 3px solid #000 !important;
 }
 
-/* Configuration / plugin pages selected nav — keep black gutter */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href*="configurationpage"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href*="configurationpage"] {
   border-bottom: 3px solid #000 !important;
@@ -2420,7 +2290,6 @@ body.dashboardDocument {
   fill: #000 !important;
 }
 
-/* Server header — hide original only on dashboard; painted square is #jf-lcars-home-square */
 html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child,
 .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
   position: fixed !important;
@@ -2435,7 +2304,7 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   z-index: 0 !important;
   overflow: hidden !important;
 }
-/* Hidden until JS marks dashboard route */
+
 #jf-lcars-home-square:not([data-jf-show="1"]) {
   display: none !important;
   visibility: hidden !important;
@@ -2473,7 +2342,7 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   background-position: center center !important;
   background-size: 28px 28px !important;
 }
-/* Mobile: match other top-bar square buttons */
+
 @media (max-width: 899px) {
   #jf-lcars-home-square {
     width: 45px !important;
@@ -2491,10 +2360,9 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   }
 }
 
-/* Nested submenu — Picard keypad cluster: dual left bars + bordered keys */
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root {
   position: relative !important;
-  /* Dual vertical bars via background — always visible when open, no JS required */
+  
   background-color: #000 !important;
   background-image:
     linear-gradient(var(--primary-gray), var(--primary-gray)),
@@ -2508,18 +2376,18 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   box-sizing: border-box !important;
   overflow: visible !important;
 }
-/* Dual left side bars — independent flex children (margins adjustable) */
+
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar {
-  /* optional DOM bars — primary paint is collapse background-image */
+  
   display: none !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar-a {
-  margin: 0 2px 0 0 !important; /* outer */
+  margin: 0 2px 0 0 !important; 
   background: var(--primary-gray) !important;
   background-color: var(--primary-gray) !important;
 }
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root > .jf-lcars-sub-bar-b {
-  margin: 0 6px 0 2px !important; /* inner — extra gap before buttons */
+  margin: 0 6px 0 2px !important; 
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
@@ -2541,7 +2409,7 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   padding: 0 !important;
   background: transparent !important;
 }
-/* Bordered key-style buttons (black fill, light outline) */
+
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root,
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root {
   background: #000 !important;
@@ -2606,16 +2474,14 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   -webkit-text-fill-color: var(--starlight, #f3f4f7) !important;
 }
 
-
-/* Dashboard + true concave LCARS elbow (L with inner quarter-circle) */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected {
   --lcars-dash-fill: var(--primary-gray);
-  /* fixed lengths — no clamp (stable gap to runner) */
+  
   --lcars-dash-arm: 30px;
-  /* arm + first runner section (seg-a 96px) so the circled gap is covered */
+  
   --lcars-dash-arm-len: 192px;
   --lcars-dash-curve: 60px;
   background: var(--primary-gray) !important;
@@ -2641,16 +2507,11 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   z-index: 2 !important;
 }
 
-/*
- * Concave elbow: gray square with bottom-right quarter cut out (mask).
- * Remaining shape = horizontal top + vertical left with smooth inner radius.
- * Arm length = first runner segment only.
- */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::after,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::after {
   content: "" !important;
   display: block !important;
-  /* fixed so drawer overflow does not clip the elbow */
+  
   position: fixed !important;
   left: var(--lcars-dash-curve-left, auto) !important;
   top: var(--lcars-dash-row-top, 48px) !important;
@@ -2663,7 +2524,7 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   border: none !important;
   border-radius: 0 !important;
   pointer-events: auto !important;
-  /* under button label, above page chrome so the exposed curve is clickable */
+  
   z-index: 29 !important;
   -webkit-mask-image: radial-gradient(
     circle at 100% 100%,
@@ -2681,7 +2542,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   mask-repeat: no-repeat !important;
 }
 
-/* Horizontal bar starts at button edge (not past full curve plate) */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::before,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::before {
   content: "" !important;
@@ -2689,7 +2549,7 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   position: fixed !important;
   left: var(--lcars-dash-arm-left, 0) !important;
   top: var(--lcars-dash-row-top, 48px) !important;
-  /* full first segment — entire bar is part of the hit target */
+  
   width: var(--lcars-dash-arm-len) !important;
   height: var(--lcars-dash-arm) !important;
   background: var(--lcars-dash-fill) !important;
@@ -2697,29 +2557,22 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   border: none !important;
   border-radius: 0 !important;
   pointer-events: auto !important;
-  /* above runner / content overlays so clicks hit the <a> */
+  
   z-index: 30 !important;
   box-sizing: border-box !important;
   cursor: pointer !important;
 }
 
-/* First runner section — bridges Dashboard arm to the rest of the bar */
 .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a {
   flex: 0 0 96px !important;
   background: var(--primary-gray) !important;
   background-color: var(--primary-gray) !important;
   opacity: 1 !important;
-  pointer-events: none !important; /* paint only; Dashboard arm-hit covers clicks */
+  pointer-events: none !important; 
   border-right: var(--lcars-bar-gap, 8px) solid #000 !important;
   min-height: 100% !important;
 }
 
-/* When Dashboard is hovered/selected, tint first section via body class set by JS optional —
- * arm-hit already paints over the joint; keep seg-a as continuous starlight base */
-
-
-
-/* Real hit targets (span) — same paint as elbow; guaranteed clickable */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"] .jf-lcars-dash-arm-hit,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] .jf-lcars-dash-arm-hit {
   position: fixed !important;
@@ -2758,7 +2611,7 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
     #000 calc(var(--lcars-dash-curve, 80px) - var(--lcars-dash-arm, 30px) + 1px)
   ) !important;
 }
-/* Prefer real spans; hide duplicate pseudo paint to avoid double thickness */
+
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].jf-lcars-has-arm::before,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].jf-lcars-has-arm::before,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].jf-lcars-has-arm::after,
@@ -2766,7 +2619,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   opacity: 0 !important;
   pointer-events: none !important;
 }
-
 
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover {
@@ -2800,11 +2652,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   mask-image: none !important;
 }
 
-
-
-
-/* Content well — no pseudo curves */
-/* Content well — no pseudo curves */
 .dashboardDocument main,
 .dashboardDocument .content-primary {
   position: relative !important;
@@ -2846,7 +2693,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   font-weight: 700 !important;
 }
 
-/* ----- Content panels only (main column, not drawer) ----- */
 .dashboardDocument main .MuiPaper-root:not(.MuiCard-root),
 .dashboardDocument .content-primary .MuiPaper-root:not(.MuiCard-root) {
   background: #000 !important;
@@ -2857,7 +2703,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   overflow: visible !important;
 }
 
-/* Segmented top bar on content papers / path lists only */
 .dashboardDocument main .MuiPaper-root:not(.MuiCard-root)::before,
 .dashboardDocument main .MuiList-root::before,
 .dashboardDocument .content-primary .MuiPaper-root:not(.MuiCard-root)::before {
@@ -2883,7 +2728,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   ) !important;
 }
 
-/* Server logs / read-only lists — right margin so content clears the well edge */
 .dashboardDocument .serverLogs,
 .dashboardDocument .readOnlyContent,
 .dashboardDocument .serverLogs.readOnlyContent,
@@ -2902,7 +2746,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   box-sizing: border-box !important;
 }
 
-/* Content lists (Activity, Paths) — left rail + bottom curve, NOT drawer lists */
 .dashboardDocument main .MuiList-root,
 .dashboardDocument .content-primary .MuiList-root {
   position: relative !important;
@@ -2961,7 +2804,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   font-weight: 400 !important;
 }
 
-/* Paths progress */
 .dashboardDocument main .MuiLinearProgress-root {
   height: 8px !important;
   border-radius: 0 !important;
@@ -2976,7 +2818,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   border-radius: 0 !important;
 }
 
-/* Server info table / dl rows */
 .dashboardDocument main .MuiTable-root,
 .dashboardDocument main .MuiTableCell-root {
   border-color: var(--medium-dark-gray) !important;
@@ -2990,7 +2831,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   font-weight: 700 !important;
 }
 
-/* Action buttons */
 .dashboardDocument main .MuiButton-root {
   font-family: var(--lcars-font) !important;
   text-transform: uppercase !important;
@@ -3017,7 +2857,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   background: #000 !important;
 }
 
-/* Stat tiles (Movies 308, Series, etc.) */
 .dashboardDocument main .MuiCard-root,
 .dashboardDocument main [class*="stat"] {
   background: #000 !important;
@@ -3030,7 +2869,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   font-weight: 700 !important;
 }
 
-/* Section labels SERVER > ACTIVITY > */
 .dashboardDocument main .MuiTypography-overline,
 .dashboardDocument main a[class*="section"] {
   font-family: var(--lcars-font) !important;
@@ -3040,19 +2878,16 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   font-weight: 700 !important;
 }
 
-/* Device cards */
 .dashboardDocument main .MuiCardContent-root {
   border-color: var(--medium-dark-gray) !important;
 }
 
-/* Activity icons — map MUI success blue to Picard info blue */
 .dashboardDocument main .MuiAvatar-root,
 .dashboardDocument main [class*="Avatar"] {
   background: var(--blue) !important;
   color: #000 !important;
 }
 
-/* Activity list rows: space between avatar and text */
 .dashboardDocument .content-primary a.MuiListItemButton-root,
 .dashboardDocument .content-primary .MuiListItemButton-root {
   display: flex !important;
@@ -3061,7 +2896,7 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   column-gap: 0.75rem !important;
 }
 .dashboardDocument .content-primary .MuiListItemAvatar-root {
-  margin-right: 0 !important; /* gap on parent handles spacing */
+  margin-right: 0 !important; 
   margin-top: 0.15rem !important;
   min-width: 0 !important;
   flex-shrink: 0 !important;
@@ -3077,12 +2912,6 @@ html.jf-lcars-active.dashboardDocument .MuiDrawer-paper > .MuiList-root:first-ch
   gap: 0.1rem !important;
 }
 
-
-/* ========== VIDEO PLAYBACK — full-bleed, hide LCARS chrome ========== */
-/*
- * #videoOsdPage / [data-type="video-osd"] is the fullscreen player shell.
- * Hide frame, elbow, runner; zero content offsets so video is edge-to-edge.
- */
 body:has(#videoOsdPage:not(.hide)) .jf-lcars-frame,
 body:has(#videoOsdPage:not(.hide)) .jf-lcars-elbow,
 body:has(#videoOsdPage:not(.hide)) .jf-lcars-elbow-cut,
@@ -3103,9 +2932,9 @@ body:has([data-type="video-osd"]:not(.hide)) .skinHeader,
 html.jf-lcars-video .skinHeader {
   left: 0 !important;
   margin-left: 0 !important;
-  display: none !important; /* OSD has its own controls */
+  display: none !important; 
 }
-/* Restore drawer left in video mode (override theme left: -265px) */
+
 body:has(#videoOsdPage:not(.hide)) .mainDrawer,
 body:has([data-type="video-osd"]:not(.hide)) .mainDrawer,
 html.jf-lcars-video .mainDrawer,
@@ -3131,7 +2960,7 @@ html.jf-lcars-video .mainAnimatedPages {
   width: 100% !important;
   max-width: 100% !important;
 }
-/* ========== OSD CONTROLS — LCARS bar aesthetic ========== */
+
 .videoOsdBottom {
   background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 70%, transparent 100%) !important;
   font-family: var(--lcars-font) !important;
@@ -3154,10 +2983,7 @@ html.jf-lcars-video .mainAnimatedPages {
   letter-spacing: 0.04em !important;
   font-size: 0.85rem !important;
 }
-/*
- * Progress bar ≈ LCARS horizontal bar (rounded capsule, warm orange)
- * Reference: thelcars.com solid bar with rounded ends
- */
+
 .osdPositionSlider.mdl-slider,
 .videoOsdBottom .mdl-slider {
   height: 14px !important;
@@ -3176,7 +3002,7 @@ html.jf-lcars-video .mainAnimatedPages {
   background: var(--pale-orange-red) !important;
   border-radius: 999px !important;
 }
-/* Thumb */
+
 .videoOsdBottom .mdl-slider::-webkit-slider-thumb {
   width: 18px !important;
   height: 18px !important;
@@ -3192,7 +3018,7 @@ html.jf-lcars-video .mainAnimatedPages {
   border: 2px solid var(--starlight) !important;
   border-radius: 50% !important;
 }
-/* Chapter markers on the bar */
+
 .videoOsdBottom .sliderMarker {
   background: var(--ghost-gray) !important;
   width: 2px !important;
@@ -3200,7 +3026,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .videoOsdBottom .sliderMarker.watched {
   background: var(--orange-red) !important;
 }
-/* Volume slider — thinner LCARS rail */
+
 .osdVolumeSliderContainer .mdl-slider-background-lower {
   background: var(--blue) !important;
   border-radius: 999px !important;
@@ -3209,7 +3035,7 @@ html.jf-lcars-video .mainAnimatedPages {
   background: var(--medium-dark-gray) !important;
   border-radius: 999px !important;
 }
-/* OSD icon buttons */
+
 .videoOsdBottom .paper-icon-button-light,
 .videoOsdBottom .emby-button {
   color: var(--starlight) !important;
@@ -3225,7 +3051,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .videoOsdBottom .xlargePaperIconButton {
   color: inherit !important;
 }
-/* Chapter thumb bubble */
+
 .chapterThumbContainer {
   border: 2px solid var(--orange-red) !important;
   border-radius: 0 !important;
@@ -3236,12 +3062,7 @@ html.jf-lcars-video .mainAnimatedPages {
   text-transform: uppercase !important;
   color: var(--light-orange-red) !important;
 }
-/* ========== LIBRARY / HOME CARDS — LCARS panel tiles ========== */
-/*
- * [14px bar][5px gap][ image column ]
- *                 [ year + progress under image ]
- * Bar on cardBox so it is never clipped; meta row matches image width.
- */
+
 .card.overflowBackdropCard .cardBox,
 .card[data-type="CollectionFolder"] .cardBox,
 .card[data-type="UserView"] .cardBox,
@@ -3260,7 +3081,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .card[data-type="UserView"] .cardBox-bottompadded {
   padding-bottom: 0 !important;
 }
-/* Left vertical bar — full height of card content */
+
 .card.overflowBackdropCard .cardBox::before,
 .card[data-type="CollectionFolder"] .cardBox::before,
 .card[data-type="UserView"] .cardBox::before,
@@ -3277,7 +3098,7 @@ html.jf-lcars-video .mainAnimatedPages {
   z-index: 5 !important;
   pointer-events: none !important;
 }
-/* Image column: 14px bar + 5px gap */
+
 .card.overflowBackdropCard .cardScalable,
 .card[data-type="CollectionFolder"] .cardScalable,
 .card[data-type="UserView"] .cardScalable,
@@ -3290,7 +3111,7 @@ html.jf-lcars-video .mainAnimatedPages {
   overflow: hidden !important;
   background: var(--dark-gray) !important;
 }
-/* No bar on scalable (cardBox owns it) */
+
 .card.overflowBackdropCard .cardScalable::before,
 .card[data-type="CollectionFolder"] .cardScalable::before,
 .card[data-type="UserView"] .cardScalable::before,
@@ -3310,7 +3131,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .card[data-type="CollectionFolder"] .cardPadder {
   border-radius: 0 !important;
 }
-/* Hide title under tiles */
+
 .card.overflowBackdropCard .cardText-first,
 .card[data-type="CollectionFolder"] .cardText-first,
 .card[data-type="UserView"] .cardText-first,
@@ -3319,7 +3140,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .card .cardText-first .textActionButton {
   display: none !important;
 }
-/* Year — under image column only */
+
 .card.overflowBackdropCard .cardText-secondary,
 .card[data-type="CollectionFolder"] .cardText-secondary,
 .card[data-type="UserView"] .cardText-secondary,
@@ -3340,10 +3161,7 @@ html.jf-lcars-video .mainAnimatedPages {
   font-size: 0.8rem !important;
   text-align: left !important;
 }
-/*
- * Progress bar — simple track under/on the poster.
- * Prefer overlay-at-bottom-of-image (inside cardScalable) full width of image.
- */
+
 .cardScalable .innerCardFooter,
 .cardScalable .cardFooter,
 .cardScalable .cardProgressBarContainer {
@@ -3358,7 +3176,7 @@ html.jf-lcars-video .mainAnimatedPages {
   background: transparent !important;
   z-index: 2 !important;
 }
-/* Sibling footers under the image column */
+
 .cardBox > .innerCardFooter,
 .cardBox > .cardFooter,
 .card .cardProgressBarContainer:not(.cardScalable *) {
@@ -3404,7 +3222,7 @@ html.jf-lcars-video .mainAnimatedPages {
   margin: 0 !important;
   padding: 0 !important;
 }
-/* Year inside a footer row */
+
 .card .innerCardFooter,
 .card .cardFooter {
   display: flex !important;
@@ -3420,7 +3238,7 @@ html.jf-lcars-video .mainAnimatedPages {
   padding: 2px 6px !important;
   background: transparent !important;
 }
-/* ========== PORTRAIT / MOVIE CARDS — same layout, orange-red bar ========== */
+
 .card.overflowPortraitCard .cardBox,
 .card[data-type="Movie"] .cardBox,
 .card[data-type="Episode"] .cardBox,
@@ -3464,7 +3282,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .card[data-type="Movie"] .cardPadder {
   border-radius: 0 !important;
 }
-/* Hide title; keep year */
+
 .card.overflowPortraitCard .cardText-first,
 .card[data-type="Movie"] .cardText-first,
 .card[data-type="Episode"] .cardText-first,
@@ -3492,7 +3310,6 @@ html.jf-lcars-video .mainAnimatedPages {
   text-align: left !important;
 }
 
-/* Below 550px: portrait cards at 50% width (2-column grid) */
 @media (max-width: 549.98px) {
   .itemsContainer .card.portraitCard,
   .itemsContainer .card.overflowPortraitCard,
@@ -3520,7 +3337,7 @@ html.jf-lcars-video .mainAnimatedPages {
     box-sizing: border-box !important;
   }
 }
-/* Below 400px: single full-width portrait card */
+
 @media (max-width: 399.98px) {
   .itemsContainer .card.portraitCard,
   .itemsContainer .card.overflowPortraitCard,
@@ -3579,7 +3396,7 @@ html.jf-lcars-video .mainAnimatedPages {
   background: var(--orange-red) !important;
   height: 100% !important;
 }
-/* Universal: image column width matches year bar; no rounded corners */
+
 .jf-lcars-active .card .cardBox,
 .jf-lcars-active .card .cardScalable,
 .jf-lcars-active .card .cardContent,
@@ -3613,7 +3430,7 @@ html.jf-lcars-video .mainAnimatedPages {
   box-sizing: border-box !important;
   border-radius: 0 !important;
 }
-/* BoxSet / collection portrait tiles get same treatment */
+
 .card[data-type="BoxSet"] .cardBox,
 .card[data-type="BoxSet"] .cardScalable,
 .card .cardPadder-portrait {
@@ -3629,8 +3446,6 @@ html.jf-lcars-video .mainAnimatedPages {
   max-width: calc(100% - 22px) !important;
 }
 
-/* ========== Centered PLAY only ========== */
-/* Portrait FAB play button (cardOverlayFab-primary) */
 .card .cardOverlayFab-primary,
 .card button.cardOverlayFab-primary {
   background: var(--orange-red) !important;
@@ -3747,7 +3562,7 @@ html.jf-lcars-video .mainAnimatedPages {
   display: flex !important;
   gap: 2px !important;
 }
-/* Below 750px: more-menu (⋮) on library/home cards — 10px right margin */
+
 @media (max-width: 749.98px) {
   .card button[data-action="menu"],
   .card .cardOverlayButton[data-action="menu"],
@@ -3785,7 +3600,6 @@ html.jf-lcars-video .mainAnimatedPages {
   content: none !important;
 }
 
-/* ========== USERS section + local user cards ========== */
 .dashboardDocument .content-primary .verticalSection {
   margin: 0.5rem 0.25rem 1rem 0.25rem !important;
 }
@@ -3797,7 +3611,7 @@ html.jf-lcars-video .mainAnimatedPages {
   letter-spacing: 0.1em !important;
   font-weight: 700 !important;
 }
-/* legacy users rules superseded by #btnAddUser / localUsers block below */
+
 .localUsers .card.squareCard,
 .localUsers .card.squareCard-scalable {
   width: 10.5em !important;
@@ -3830,7 +3644,7 @@ html.jf-lcars-video .mainAnimatedPages {
 .localUsers .cardPadder-square {
   margin: 0 !important;
 }
-/* Absolute fill — no side gap inside the border */
+
 .localUsers .cardContent,
 .localUsers a.cardContent.emby-button,
 .localUsers a.cardContent {
@@ -3918,7 +3732,6 @@ html.jf-lcars-video .mainAnimatedPages {
   float: none !important;
 }
 
-/* ========== Permanent user action rail ========== */
 #jf-lcars-user-rail {
   display: none;
   position: fixed;
@@ -3990,8 +3803,6 @@ html.jf-lcars-video .mainAnimatedPages {
   filter: brightness(var(--lcars-hover-brighten));
 }
 
-
-/* User card footer — never vertical text / ⋮ */
 .localUsers .cardFooter.visualCardBox-cardFooter,
 .localUsers .visualCardBox-cardFooter {
   display: flex !important;
@@ -4036,13 +3847,6 @@ html.jf-lcars-video .mainAnimatedPages {
   overflow: hidden !important;
 }
 
-
-/* ========== Card overlay buttons — LCARS squares ========== */
-/*
- * Markup: .cardOverlayButton-br > button.cardOverlayButton
- *   emby-playstatebutton | emby-ratingbutton | data-action=menu
- * Match flat LCARS color squares (ghost / primary-gray / medium-dark-gray).
- */
 .cardOverlayButton-br {
   display: flex !important;
   flex-direction: row !important;
@@ -4073,19 +3877,18 @@ html.jf-lcars-video .mainAnimatedPages {
   opacity: 1 !important;
 }
 
-/* 1: Mark played */
 .cardOverlayButton-br .cardOverlayButton:nth-child(1),
 .cardOverlayButton-br button.emby-playstatebutton {
   background: var(--ghost-gray) !important;
   color: #000 !important;
 }
-/* 2: Favorite (default unfavorited) */
+
 .cardOverlayButton-br .cardOverlayButton:nth-child(2),
 .cardOverlayButton-br button.emby-ratingbutton {
   background: var(--primary-gray) !important;
   color: #000 !important;
 }
-/* 3: More menu */
+
 .cardOverlayButton-br .cardOverlayButton:nth-child(3),
 .cardOverlayButton-br button[data-action="menu"] {
   background: var(--medium-dark-gray) !important;
@@ -4104,24 +3907,17 @@ html.jf-lcars-video .mainAnimatedPages {
   opacity: 1 !important;
 }
 
-/* Default icon color inherits from button unless favorited/played overrides below */
 .cardOverlayButton-br .cardOverlayButton:not([data-isfavorite="true"]) .cardOverlayButtonIcon,
 .cardOverlayButton-br .cardOverlayButton:not([data-isfavorite="true"]) .material-icons {
   color: inherit !important;
 }
 
-/* Played state */
 .cardOverlayButton-br button.emby-playstatebutton[data-played="true"],
 .cardOverlayButton-br .playstatebutton-icon-played {
   background: var(--orange-red) !important;
   color: #000 !important;
 }
 
-/*
- * Favorite ACTIVE — data-isfavorite="true"
- * Icon must be --lcars-alert-soft (light-orange-red). High specificity to beat
- * paper-icon-button / material-icons defaults and the inherit rule above.
- */
 .cardOverlayButton-br button.emby-ratingbutton[data-isfavorite="true"],
 .cardOverlayButton-br button.emby-ratingbutton[dataisfavorite="true"],
 .cardOverlayContainer button.emby-ratingbutton[data-isfavorite="true"],
@@ -4146,13 +3942,6 @@ button.emby-ratingbutton[data-isfavorite="true"] .cardOverlayButtonIcon {
   -webkit-text-fill-color: var(--lcars-alert-soft) !important;
 }
 
-
-
-
-/* ========== Library list toolbar — outlined LCARS tiles ========== */
-/*
- * Dark fill + light border; Material icons must stay visible (font + color).
- */
 .listPaging,
 .paging .listPaging {
   display: inline-flex !important;
@@ -4206,7 +3995,6 @@ button.btnFilter.paper-icon-button-light {
   overflow: visible !important;
 }
 
-/* Force Material Icons glyphs to render inside toolbar buttons */
 .btnPreviousPage .material-icons,
 .btnNextPage .material-icons,
 .btnPlayAll .material-icons,
@@ -4285,14 +4073,6 @@ button.btnFilter .material-icons {
   gap: 4px !important;
 }
 
-
-
-/* ========== Tables — LCARS tile grid + text-bar headers ========== */
-/*
- * Gutters via border-collapse:separate + border-spacing (black shows through).
- * Headers: square-end text bars. Body: mosaic tiles.
- * Palette: #37a6d1 #41c4f7 #2a7193 #f3f4f7 #d2d5df #1c3c55
- */
 .MuiTableContainer-root,
 .tableContainer,
 .detailTableContainer {
@@ -4326,7 +4106,6 @@ table {
      margin: 2px;
 }
 
-/* Kill MUI collapse / divider lines that erase gutters */
 .MuiTable-root .MuiTableCell-root,
 .MuiTable-root td,
 .MuiTable-root th {
@@ -4344,7 +4123,6 @@ table {
   display: none !important;
 }
 
-/* --- Header: LCARS text bar (square ends) --- */
 .MuiTableHead-root .MuiTableCell-head,
 .MuiTable-root thead th,
 table thead th {
@@ -4388,7 +4166,6 @@ table thead th:nth-child(6n+6) { background: var(--starlight) !important; color:
   font-weight: 700 !important;
 }
 
-/* Header sort arrows + column ⋮ — always visible, same color rest/hover/active */
 .MuiTableHead-root .MuiTableCell-head .MuiSvgIcon-root,
 .MuiTableHead-root .MuiTableCell-head .MuiIconButton-root,
 .MuiTableHead-root .MuiTableCell-head .MuiIconButton-root .MuiSvgIcon-root,
@@ -4423,7 +4200,6 @@ table thead th:nth-child(6n+6) { background: var(--starlight) !important; color:
   background: transparent !important;
 }
 
-/* Sticky header: same tile bg, no overlap gutters */
 .MuiTableCell-stickyHeader {
   background-clip: padding-box !important;
   opacity: 1 !important;
@@ -4435,7 +4211,6 @@ table thead th:nth-child(6n+6) { background: var(--starlight) !important; color:
 .MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+5) { background: var(--dark-blue) !important; }
 .MuiTableHead-root .MuiTableCell-head.MuiTableCell-stickyHeader:nth-child(6n+6) { background: var(--starlight) !important; }
 
-/* --- Body cells: mosaic tiles --- */
 .MuiTableBody-root .MuiTableCell-body,
 .MuiTable-root tbody td,
 table tbody td {
@@ -4485,7 +4260,6 @@ table tbody td:nth-child(6n+6) {
   color: #000 !important;
 }
 
-/* Row hover without breaking alignment */
 .MuiTableBody-root .MuiTableRow-root:hover .MuiTableCell-body {
   filter: brightness(1.06);
 }
@@ -4504,7 +4278,6 @@ table tbody td:nth-child(6n+6) {
   color: inherit !important;
 }
 
-/* Avatar / action columns — keep content centered in tile */
 .MuiTableBody-root .MuiTableCell-body .MuiAvatar-root {
   width: 28px !important;
   height: 28px !important;
@@ -4517,7 +4290,6 @@ table tbody td:nth-child(6n+6) {
   vertical-align: middle !important;
 }
 
-/* Activity Level/Severity column — wider so INFORMATION chip is not clipped */
 .dashboardDocument .MuiTable-root,
 .dashboardDocument table.MuiTable-root {
   --col-Severity-size: 130 !important;
@@ -4538,7 +4310,7 @@ table tbody td:nth-child(6n+6) {
   text-overflow: clip !important;
   white-space: nowrap !important;
 }
-/* User column — wider header label + centered avatar */
+
 .dashboardDocument .MuiTable-root th[data-index="2"],
 .dashboardDocument .MuiTable-root td[data-index="2"] {
   width: calc(var(--col-User-size, 110) * 1px) !important;
@@ -4575,7 +4347,7 @@ table tbody td:nth-child(6n+6) {
   bottom: 7px !important;
   margin-top: 0.5rem !important;
 }
-/* Rows-per-page select: strip the global MuiInput margin-top */
+
 .MuiTablePagination-root .MuiInputBase-root,
 .MuiTablePagination-root .MuiInput-root,
 .MuiTablePagination-root .MuiInput-underline,
@@ -4584,7 +4356,6 @@ table tbody td:nth-child(6n+6) {
   margin-top: 0 !important;
 }
 
-/* MRT toolbar icon group (filters / columns / density / fullscreen) — 6px gaps */
 .MuiBox-root:has(> .MuiIconButton-root[aria-label="Show/Hide filters"]),
 .MuiBox-root:has(> .MuiIconButton-root[aria-label="Show/Hide columns"]),
 .MuiBox-root:has(> .MuiIconButton-root[aria-label="Toggle density"]),
@@ -4600,7 +4371,6 @@ table tbody td:nth-child(6n+6) {
   margin: 0 !important;
 }
 
-/* Pagination first/prev/next/last — full border + 3px gaps */
 .MuiTablePagination-root {
   overflow: visible !important;
   padding-bottom: 4px !important;
@@ -4620,7 +4390,7 @@ table tbody td:nth-child(6n+6) {
   border-bottom-color: var(--ghost-gray, #d2d5df) !important;
   border-left-color: var(--ghost-gray, #d2d5df) !important;
   border-radius: 0 !important;
-  /* box-shadow draws bottom edge even if border is clipped */
+  
   box-shadow: 0 0 0 1px var(--ghost-gray, #d2d5df) !important;
   outline: none !important;
   overflow: visible !important;
@@ -4644,12 +4414,6 @@ table tbody td:nth-child(6n+6) {
   margin: 0 !important;
 }
 
-
-
-/* ========== MUI Back / Forward buttons — outlined LCARS tiles ========== */
-/*
- * Back & Forward icon buttons: black fill, light-gray border, square corners.
- */
 button.MuiIconButton-root[aria-label="Back"],
 button.MuiIconButton-root[aria-label="back"],
 button.MuiIconButton-root[aria-label="Forward"],
@@ -4722,17 +4486,6 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   fill: var(--starlight) !important;
 }
 
-
-
-
-
-
-
-/* ========== App toolbar nav (Favorites / Movies / …) — Picard bars ========== */
-/*
- * Endcap + black gap + body (picard.css .buttons button).
- * Body after the gap is at least square; icons centered in that body.
- */
 .jf-lcars-active .MuiToolbar-root,
 .jf-lcars-active .MuiToolbar-root.MuiToolbar-dense {
   gap: 0.30rem !important;
@@ -4746,18 +4499,12 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   flex-wrap: wrap !important;
 }
 
-/* Shared tile metrics */
 .jf-lcars-active .MuiToolbar-root {
   --lcars-tb-h: 2.6rem;
   --lcars-tb-cap: 10px;
   --lcars-tb-gap: 8px;
 }
 
-
-
-/*
- * Secondary nav strip — push ALL items (title, count, actions) to the right.
- */
 .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar,
 .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]),
@@ -4805,7 +4552,6 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   flex: 0 0 auto !important;
 }
 
-/* Below 1200px: sec-toolbar = 60% width, items split evenly across 2 rows */
 @media (max-width: 1199.98px) {
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
@@ -4823,7 +4569,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     gap: 0.35rem 0.4rem !important;
     box-sizing: border-box !important;
   }
-  /* Flatten so Movies, chip, Play All, Shuffle, Filter… become grid items */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiStack-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiStack-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiStack-root,
@@ -4835,7 +4581,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-root {
     display: contents !important;
   }
-  /* Keep natural LCARS button widths */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiButton-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root,
@@ -4848,7 +4594,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     margin: 0 !important;
     box-sizing: border-box !important;
   }
-  /* Spacer must not paint any LCARS red bar */
+  
   .jf-lcars-active .jf-lcars-sec-spacer {
     display: block !important;
     border: none !important;
@@ -4874,7 +4620,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
     content: none !important;
     display: none !important;
   }
-  /* Next/Previous ordered last via JS so they share the rightmost column */
+  
 }
 .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root,
 .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-root,
@@ -4899,7 +4645,6 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   padding: 0 0.65rem !important;
 }
 
-/* Library view menu button label (Collections / Episodes / etc.) */
 .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"],
 .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
 .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2 {
@@ -4910,7 +4655,6 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   text-transform: uppercase !important;
 }
 
-/* Secondary strip icon actions: [red bar][gap][square body] */
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root:is([title="Filter"],[title="Sort"],[title="View settings"],[title="Previous"],[title="Next"]) {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 8px;
@@ -4944,7 +4688,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   pointer-events: none !important;
   z-index: 0 !important;
 }
-/* ≥1200px: space between Previous and Next arrow buttons */
+
 @media (min-width: 1200px) {
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Next"],
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Next"],
@@ -4953,7 +4697,6 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   }
 }
 
-/* Shuffle: same [red bar][gap][square] as filter icons; extra left margin from Play All */
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Shuffle"],
 .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Shuffle"] {
   --lcars-tb-cap: 6px;
@@ -4963,7 +4706,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   height: var(--lcars-tb-h) !important;
   min-height: var(--lcars-tb-h) !important;
   max-height: var(--lcars-tb-h) !important;
-  /* red bar + gap + square body (= height) */
+  
   width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
   min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
   max-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
@@ -5007,7 +4750,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   z-index: 1 !important;
   margin: 0 !important;
 }
-/* Play All: one red endcap only; never stretch into row 2 (orphan red bar) */
+
 .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Play All"],
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Play All"] {
   background-image:
@@ -5024,7 +4767,7 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   min-height: 2.6rem !important;
   grid-row: 1 !important;
 }
-/* All sec-toolbar controls: same height at every breakpoint */
+
 .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root,
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root {
   --lcars-tb-h: 2.6rem;
@@ -5037,11 +4780,6 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   align-items: center !important;
 }
 
-
-
-
-
-/* ========== A–Z alphabet index (library list) ========== */
 html.jf-lcars-active .alphaPicker,
 html.jf-lcars-active .alphaPicker-fixed,
 html.jf-lcars-active .alphaPicker-fixed-right,
@@ -5054,7 +4792,7 @@ body.jf-lcars-active .alphaPicker-fixed,
 body.jf-lcars-active .alphaPicker-fixed-right {
   font-family: var(--lcars-font, "Antonio", sans-serif) !important;
   position: fixed !important;
-  /* Below primary header + LCARS runner + secondary toolbar */
+  
   top: calc(48px + var(--lcars-bar-h, 25px) + 28px + 6rem) !important;
   bottom: 0.75rem !important;
   right: 0.2rem !important;
@@ -5077,11 +4815,7 @@ body.jf-lcars-active .alphaPicker-fixed-right {
   pointer-events: auto !important;
   box-sizing: border-box !important;
 }
-/*
- * Fixed A–Z sits on the right. A left margin on it would shift letters
- * into the cards — instead reserve space on the content so cards stop
- * 5px before the letter column (column width ≈ 1.6rem + right offset).
- */
+
 html.jf-lcars-active:has(.alphaPicker, .alphaPicker-fixed, .alphaPicker-fixed-right, .alphaPicker-vertical) .itemsContainer,
 html.jf-lcars-active:has(.alphaPicker, .alphaPicker-fixed, .alphaPicker-fixed-right, .alphaPicker-vertical) .padded-right,
 html.jf-lcars-active:has(.alphaPicker, .alphaPicker-fixed, .alphaPicker-fixed-right, .alphaPicker-vertical) .MuiContainer-root,
@@ -5145,7 +4879,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   html.jf-lcars-active .alphaPicker-fixed,
   html.jf-lcars-active .alphaPicker-fixed-right,
   html.jf-lcars-active .alphaPicker-vertical {
-    /* leave room for reset-filters square above the letters */
+    
     top: calc(48px + var(--lcars-bar-h, 25px) + 28px + 6.5rem + 2.4rem) !important;
   }
   html.jf-lcars-active .alphaPickerButton,
@@ -5156,10 +4890,8 @@ html.jf-lcars-active .alphaPickerButton.selected {
     font-size: 1.1rem !important;
   }
 
-  /*
-   * Reset Filters (FilterAltOff) — under 600px:
-   * icon-only square with orange-red border, fixed above A–Z on the right
-   */
+  
+
   .jf-lcars-active .MuiToolbar-root .MuiChip-root + .MuiButton-root,
   .jf-lcars-active .MuiToolbar-root .MuiBox-root:has(> .MuiChip-root) > .MuiButton-root,
   .jf-lcars-active .MuiToolbar-root .MuiButton-root:has([data-testid="FilterAltOffIcon"]),
@@ -5226,7 +4958,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     height: 1.15rem !important;
     margin: 0 !important;
   }
-  /* hide any visible label text */
+  
   .jf-lcars-active .MuiToolbar-root .MuiChip-root + .MuiButton-root > span:not(.MuiButton-startIcon):not(.MuiTouchRipple-root),
   .jf-lcars-active .MuiToolbar-root .MuiBox-root:has(> .MuiChip-root) > .MuiButton-root > span:not(.MuiButton-startIcon):not(.MuiTouchRipple-root),
   .jf-lcars-active .MuiToolbar-root .MuiButton-root.jf-lcars-reset-filters > span:not(.MuiButton-startIcon):not(.MuiTouchRipple-root) {
@@ -5238,13 +4970,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   }
 }
 
-/* ========== LCARS form dialogs — text-bar header + bar footer ========== */
-/*
- * Top: thelcars.com/text-bar.php
- *   [RED■][gap][mid][ BLACK TITLE BLACK ][mid][gap][RED■]  — square ends
- * Bottom: thelcars.com/html-elements.php .lcars-bar
- *   bar height matches submit button height; breaks at the button
- */
 .jf-lcars-active .dialogContainer {
   background: rgba(0, 0, 0, 0.88) !important;
 }
@@ -5263,7 +4988,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
-  /* much larger than dialog-small default */
+  
   width: min(860px, 92vw) !important;
   max-width: min(860px, 92vw) !important;
   min-width: min(640px, 92vw) !important;
@@ -5289,7 +5014,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   display: none !important;
 }
 
-/* ---- TEXT-BAR HEADER ---- */
 .jf-lcars-active .formDialogHeader {
   display: flex !important;
   flex-direction: row !important;
@@ -5393,7 +5117,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   z-index: 2 !important;
 }
 
-/* ---- CONTENT (fills extra height) ---- */
 .jf-lcars-active .formDialogContent {
   position: relative !important;
   z-index: 1 !important;
@@ -5468,7 +5191,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   background: #000 !important;
 }
 
-/* ---- FOOTER: absolute bottom, bar takes most width ---- */
 .jf-lcars-active .formDialogFooter,
 .jf-lcars-active .dialog.formDialog .formDialogFooter {
   display: flex !important;
@@ -5480,7 +5202,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
   background: transparent !important;
   border: none !important;
-  /* hard-pin to dialog bottom edge */
+  
   position: absolute !important;
   left: 0 !important;
   right: 0 !important;
@@ -5491,7 +5213,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   min-height: var(--btn-h) !important;
   z-index: 5 !important;
 }
-/* bar grows — majority of the width */
+
 .jf-lcars-active .formDialogFooter::before {
   content: "" !important;
   flex: 1 1 auto !important;
@@ -5509,7 +5231,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   content: none !important;
   display: none !important;
 }
-/* button stays compact on the right — does NOT expand */
+
 .jf-lcars-active .formDialogFooter .button-submit,
 .jf-lcars-active .formDialogFooter .btnSubmit,
 .jf-lcars-active .formDialogFooter .raised.emby-button,
@@ -5531,7 +5253,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   border-radius: 0 !important;
 }
 
-/* Filter popover — LCARS readout panels (black + orange-red frame) */
 .jf-lcars-active .MuiPopover-paper:has([id*="filters"]),
 .jf-lcars-active .MuiPopover-paper:has([aria-controls*="filters"]),
 .jf-lcars-active .MuiPopover-paper:has(.MuiAccordion-root) {
@@ -5595,7 +5316,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   border-top: 1px solid var(--orange-red, #e7442a) !important;
   border-radius: 0 !important;
 }
-/* Reset filters control in same popover */
+
 .jf-lcars-active .MuiPopover-paper button[title="Reset filters"] {
   border: 2px solid var(--orange-red, #e7442a) !important;
   border-radius: 0 !important;
@@ -5612,9 +5333,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   fill: var(--orange-red, #e7442a) !important;
 }
 
-/* Live TV sections: h2 + Add side-by-side; Add Provider + Refresh side-by-side
- * Sections stack vertically via full-width breaks (MuiBox / empty grids).
- */
 .dashboardDocument .MuiStack-root:has(> .MuiTypography-h2):has(.MuiButton-root),
 .dashboardDocument .MuiStack-root:has(> h2.MuiTypography-root):has(.MuiButton-root) {
   display: flex !important;
@@ -5635,7 +5353,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   width: auto !important;
   flex: 0 0 auto !important;
 }
-/* Full-width break between Tuner block and Providers block */
+
 .dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > .MuiBox-root,
 .dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) > .MuiGrid-root {
   flex: 1 0 100% !important;
@@ -5653,7 +5371,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   align-self: center !important;
   margin-left: 0 !important;
 }
-/* Add Provider + Refresh Guide Data on one row */
+
 .dashboardDocument .MuiStack-root:has(> .MuiButton-root:has([data-testid="AddIcon"])):has(> .MuiButton-outlined),
 .dashboardDocument .MuiStack-root:has(> button.MuiButton-containedPrimary:has([data-testid="AddIcon"])):has(> .MuiButton-outlined) {
   display: flex !important;
@@ -5665,7 +5383,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   width: auto !important;
 }
 
-/* Add* actions — [red 6px][black gap 6px][perfect square body + icon] (in-box, not clipped) */
 .jf-lcars-active .MuiButton-root:has([data-testid="AddIcon"]),
 .jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"]),
 .jf-lcars-active button.MuiButton-root:has([data-testid="AddIcon"]),
@@ -5680,7 +5397,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   --lcars-tb-gap: 6px;
   --lcars-tb-side: 2.6rem;
   box-sizing: border-box !important;
-  /* total width = bar + gap + square */
+  
   width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-side)) !important;
   min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-side)) !important;
   max-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-side)) !important;
@@ -5736,7 +5453,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
 .jf-lcars-active a.MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon,
 .jf-lcars-active button.MuiButton-containedPrimary:has([data-testid="AddIcon"]) .MuiButton-startIcon,
 .dashboardDocument .MuiButton-root:has([data-testid="AddIcon"]) .MuiButton-startIcon {
-  /* Center icon strictly inside the gray square (right of bar+gap) */
+  
   position: absolute !important;
   top: 0 !important;
   bottom: 0 !important;
@@ -5764,7 +5481,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   fill: #000 !important;
 }
 
-/* Red bar spacing matches User Menu IconButton (cap 6px + gap 6px) */
 .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
@@ -5816,14 +5532,13 @@ html.jf-lcars-active .alphaPickerButton.selected {
   z-index: 1 !important;
 }
 
-/* <600px: library-view → [red bar][gap][perfect square + dropdown arrow only] */
 @media (max-width: 599.98px) {
   .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"],
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[aria-controls="library-view-menu"] {
     --lcars-tb-cap: 6px;
     --lcars-tb-gap: 8px;
     --lcars-tb-h: 2.6rem;
-    /* border-box so outer height matches desktop (2.6rem total) */
+    
     box-sizing: border-box !important;
     width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
     min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
@@ -5846,7 +5561,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     align-self: center !important;
     grid-row: 1 !important;
   }
-  /* black gap between red bar and square body */
+  
   .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"]::before {
     content: "" !important;
     display: block !important;
@@ -5859,7 +5574,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     pointer-events: none !important;
     z-index: 1 !important;
   }
-  /* hide "Movies" / label text only — keep dropdown arrow */
+  
   .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-root,
   .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiTypography-h2 {
     display: none !important;
@@ -5875,7 +5590,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     content: none !important;
     display: none !important;
   }
-  /* dropdown arrow centered in the square body */
+  
   .jf-lcars-active .MuiButton-root[aria-controls="library-view-menu"] .MuiButton-endIcon {
     display: inline-flex !important;
     margin: 0 !important;
@@ -5894,7 +5609,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     width: 1.5rem !important;
     height: 1.5rem !important;
   }
-  /* Icon-only sec buttons: perfect square body after red bar */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Filter"],
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Sort"],
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="View settings"],
@@ -5925,7 +5640,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     align-self: center !important;
   }
 
-  /* Play All: same outer height as desktop / other squares */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Play All"],
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Play All"] {
     --lcars-tb-cap: 6px;
@@ -5980,7 +5695,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     content: none !important;
     display: none !important;
   }
-  /* hide "Play All" text nodes / labels; keep start icon */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Play All"] .MuiButton-startIcon,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Play All"] .MuiButton-startIcon {
     display: inline-flex !important;
@@ -6007,8 +5722,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     z-index: 2 !important;
   }
 
-
-  /* Shared top-row alignment: Movies + Play All + Filter/View/Next */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[aria-controls="library-view-menu"],
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Filter"],
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="View settings"],
@@ -6023,12 +5737,12 @@ html.jf-lcars-active .alphaPickerButton.selected {
     align-self: start !important;
     grid-row: 2 !important;
   }
-  /* <600px: fixed 5 columns = button footprint; chip may overflow cell, not track size */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) {
     display: grid !important;
-    grid-template-columns: repeat(5, calc(2.6rem + 14px)) !important; /* match button outer width */
+    grid-template-columns: repeat(5, calc(2.6rem + 14px)) !important; 
     grid-template-rows: auto auto !important;
     grid-auto-flow: row !important;
     width: max-content !important;
@@ -6048,7 +5762,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root {
     margin: 0 !important;
   }
-  /* Chip = width of Movies + Play All, centered under that pair */
+  
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-root {
     grid-column: 1 / 3 !important;
@@ -6062,14 +5776,8 @@ html.jf-lcars-active .alphaPickerButton.selected {
   }
 }
 
-/*
- * <400px: library secondary toolbar —
- *   - Movies / Play / Filter / View / Shuffle / AZ → plain perfect squares, tight
- *   - Previous + Next (arrow buttons) → KEEP red left bar
- * Targets the toolbar that owns library-view-menu (not AppBar icon row).
- */
 @media (max-width: 399.98px) {
-  /* Default: every control in the library sec toolbar is a plain square */
+  
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiButton-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root,
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root,
@@ -6094,7 +5802,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     border-radius: 0 !important;
     background-image: none !important;
   }
-  /* Kill red-bar / gap pseudos on everything in that toolbar */
+  
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiButton-root::before,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiButton-root::after,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root::before,
@@ -6107,7 +5815,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     width: 0 !important;
     background: transparent !important;
   }
-  /* EXCEPTION: Previous + Next keep [red bar][gap][square] */
+  
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiButton-root[title="Previous"],
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiButton-root[title="Next"],
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Previous"],
@@ -6147,7 +5855,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     pointer-events: none !important;
     z-index: 1 !important;
   }
-  /* Tight grid: square columns 5px apart; Prev/Next may overflow cell slightly */
+  
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]),
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]),
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar {
@@ -6156,7 +5864,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     row-gap: 5px !important;
     gap: 5px !important;
   }
-  /* Kill MUI ButtonGroup internal margins that add extra space */
+  
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiButtonGroup-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-root,
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButtonGroup-root {
@@ -6177,7 +5885,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root {
     margin: 0 !important;
   }
-  /* Item-count chip ("01-200 OF 309"): text 3px smaller under 400px */
+  
   .jf-lcars-active .MuiToolbar-root:has([aria-controls="library-view-menu"]) .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiChip-root,
   .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiChip-root,
@@ -6193,11 +5901,11 @@ html.jf-lcars-active .alphaPickerButton.selected {
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) {
   position: relative !important;
   z-index: 2 !important;
-  /* Clear the LCARS top runner + a bit more breathing room */
+  
   margin-top: calc(48px + var(--lcars-bar-h, 25px) + 28px) !important;
   flex-wrap: wrap !important;
 }
-/* Primary top nav — never inherit secondary spacing */
+
 .jf-lcars-active .MuiAppBar-root .MuiToolbar-root,
 .jf-lcars-active header.MuiAppBar-root .MuiToolbar-root,
 .jf-lcars-active header .MuiToolbar-root,
@@ -6206,7 +5914,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   padding-top: 0 !important;
 }
 
-/* Keep top nav clear of left LCARS vertical bar */
 .jf-lcars-active .MuiAppBar-root,
 .jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
 .jf-lcars-active .MuiToolbar-root {
@@ -6223,7 +5930,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   margin-left: 0 !important;
 }
 
-/* AppBar stacks primary + secondary strips (all widths) */
 .jf-lcars-active .MuiAppBar-root,
 .jf-lcars-active header.MuiPaper-root.MuiAppBar-root,
 .jf-lcars-active header.MuiAppBar-root {
@@ -6233,7 +5939,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   align-items: stretch !important;
 }
 
-/* When app bar is full-bleed width:100%, push content with padding instead */
 .jf-lcars-active .MuiAppBar-root.MuiAppBar-positionFixed,
 .jf-lcars-active .MuiAppBar-positionSticky {
   left: var(--lcars-sidebar, 56px) !important;
@@ -6250,7 +5955,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
 .jf-lcars-active .MuiToolbar-root .MuiStack-root {
   margin-left: 0 !important;
 }
-/* Emby skin header already uses left: sidebar; reinforce padding */
+
 .jf-lcars-active .skinHeader {
   left: var(--lcars-sidebar, 56px) !important;
   width: auto !important;
@@ -6258,7 +5963,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
 }
 
-/* Text nav links */
 .jf-lcars-active .MuiToolbar-root a.MuiButton-root,
 .jf-lcars-active .MuiToolbar-root a.MuiButton-text,
 .jf-lcars-active .MuiToolbar-root .MuiButton-textInherit {
@@ -6269,7 +5973,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
   height: var(--lcars-tb-h) !important;
   min-height: var(--lcars-tb-h) !important;
-  /* body at least square after cap+gap */
+  
   min-width: calc(var(--lcars-tb-cap) + var(--lcars-tb-gap) + var(--lcars-tb-h)) !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -6307,7 +6011,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   z-index: 1 !important;
 }
 
-/* Color mix */
 .jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
   border-left-color: var(--primary-gray) !important;
   background-color: var(--ghost-gray) !important;
@@ -6325,7 +6028,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   background-color: var(--primary-gray) !important;
 }
 
-/* First toolbar button = true square, home icon only */
 .jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-child,
 .jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:first-of-type {
   width: var(--lcars-tb-h) !important;
@@ -6341,7 +6043,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   -webkit-text-fill-color: transparent !important;
   justify-content: center !important;
   align-items: center !important;
-  /* no left cap — keeps outer box a true square */
+  
   border-left: none !important;
   background-color: var(--light-gray) !important;
   overflow: hidden !important;
@@ -6382,7 +6084,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   display: inline-block !important;
 }
 
-/* Second toolbar button = heart icon only (Favorites), no label text */
 .jf-lcars-active .MuiToolbar-root .MuiStack-root > a.MuiButton-root:nth-child(2) {
   width: var(--lcars-tb-h) !important;
   min-width: var(--lcars-tb-h) !important;
@@ -6444,8 +6145,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   max-height: 1.15em !important;
 }
 
-/* Icon-only toolbar buttons — square body, icon centered */
-/* AppBar header icons: [red bar][black gap][perfect square body] */
 .jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root,
 .jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root,
 .jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root,
@@ -6456,7 +6155,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   --lcars-tb-cap: 6px;
   --lcars-tb-gap: 6px;
   box-sizing: border-box !important;
-  /* total width = bar + gap + square body; body content box is square */
+  
   height: var(--lcars-tb-h) !important;
   min-height: var(--lcars-tb-h) !important;
   max-height: var(--lcars-tb-h) !important;
@@ -6477,7 +6176,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   align-items: center !important;
   justify-content: center !important;
 }
-/* Black gap strip between red bar and square body */
+
 .jf-lcars-active .MuiAppBar-root .MuiToolbar-root > .MuiIconButton-root::before,
 .jf-lcars-active .MuiAppBar-root .MuiToolbar-root > a.MuiIconButton-root::before,
 .jf-lcars-active .MuiAppBar-root .MuiToolbar-root .MuiBox-root > .MuiIconButton-root::before,
@@ -6527,7 +6226,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   margin: 0 !important;
 }
 
-/* User menu — square orange plate */
 .jf-lcars-active .MuiToolbar-root .MuiIconButton-root[aria-label="User Menu"] {
   border-left-color: var(--pale-orange-red) !important;
   background-color: var(--orange-red) !important;
@@ -6545,14 +6243,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   fill: #000 !important;
 }
 
-/* ========== MUI / plugin buttons — LCARS tiles (stable classes only) ========== */
-/*
- * Filled buttons (defined background) → Picard "MORE THEMES" bar:
- *   solid gray body, left orange-red accent strip, NO outer border.
- * Outlined / text keep thin borders.
- */
-
-/* Shared type */
 .dashboardDocument .MuiButton-root,
 .dashboardDocument button.MuiButton-root,
 .dashboardDocument .MuiButtonBase-root.MuiButton-root,
@@ -6575,11 +6265,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
 }
 
-/* --- Filled / contained: red endcap + gap + body (MORE THEMES) --- */
-/*
- * [6px orange] [8px black gap] [gray body]
- * Text: uniform size, right-aligned in the body (Picard panel labels).
- */
 .dashboardDocument .MuiButton-contained,
 .dashboardDocument .MuiButton-containedPrimary,
 .dashboardDocument .MuiButton-containedSecondary,
@@ -6613,7 +6298,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   text-align: right !important;
   justify-content: flex-end !important;
   align-items: center !important;
-  /* prevent stretch next to multi-line form rows */
+  
   min-height: 2.5rem !important;
   height: 2.5rem !important;
   max-height: 2.5rem !important;
@@ -6623,7 +6308,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   flex-shrink: 0 !important;
   box-sizing: border-box !important;
 }
-/* SAVE / submit actions in settings stacks */
+
 .dashboardDocument button.MuiButton-containedPrimary,
 .dashboardDocument button[type="submit"].MuiButton-contained,
 .jf-lcars-active button.MuiButton-containedPrimary {
@@ -6648,7 +6333,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   filter: none !important;
 }
 
-/* Error filled */
 .dashboardDocument .MuiButton-containedError,
 .dashboardDocument .MuiButton-colorError.MuiButton-contained {
   background-image:
@@ -6661,7 +6345,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     linear-gradient(var(--pale-orange-red), var(--pale-orange-red)),
     linear-gradient(var(--light-orange-red), var(--light-orange-red)) !important;
 }
-/* Dashboard action row: Scan All / Restart / Shutdown — spaced, aligned */
+
 .dashboardDocument .content-primary .MuiStack-root:has(> .MuiButton-contained) {
   display: flex !important;
   flex-direction: row !important;
@@ -6680,7 +6364,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  /* keep LCARS endcap + gap readable with icon + label */
+  
   padding-left: calc(var(--lcars-btn-cap, 6px) + var(--lcars-btn-gap, 8px) + 0.65rem) !important;
   padding-right: 0.85rem !important;
   min-width: 0 !important;
@@ -6696,8 +6380,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   font-size: 1.15rem !important;
 }
 
-
-/* Secondary filled */
 .dashboardDocument .MuiButton-containedSecondary {
   background-image:
     linear-gradient(var(--bright-blue), var(--bright-blue)),
@@ -6705,7 +6387,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   color: #000 !important;
 }
 
-/* --- Outlined: black + light border (no left bar) --- */
 .dashboardDocument .MuiButton-outlined,
 .dashboardDocument .MuiButton-outlinedPrimary,
 .dashboardDocument .MuiButton-outlinedSecondary,
@@ -6722,7 +6403,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   background: #000 !important;
 }
 
-/* Text */
 .dashboardDocument .MuiButton-text,
 .dashboardDocument .MuiButton-textPrimary {
   background: transparent !important;
@@ -6734,12 +6414,10 @@ html.jf-lcars-active .alphaPickerButton.selected {
   background: rgba(109, 116, 140, 0.2) !important;
 }
 
-/* Disabled */
 .dashboardDocument .MuiButton-root.Mui-disabled {
   opacity: 0.4 !important;
 }
 
-/* Icon buttons — square outlined tiles */
 .dashboardDocument .MuiIconButton-root {
   border-radius: 0 !important;
   color: var(--ghost-gray) !important;
@@ -6760,7 +6438,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   font-size: 1.35rem !important;
 }
 
-/* Button groups */
 .dashboardDocument .MuiButtonGroup-root {
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -6769,7 +6446,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   border-radius: 0 !important;
 }
 
-/* Toggle */
 .dashboardDocument .MuiToggleButton-root {
   border-radius: 0 !important;
   border: 2px solid var(--light-gray) !important;
@@ -6786,7 +6462,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   border-left: 6px solid var(--orange-red) !important;
 }
 
-/* Add User form — constrain width to 90% */
 .dashboardDocument .content-primary:has(.newUserProfileForm),
 .dashboardDocument .content-primary:has(form.newUserProfileForm) {
   min-width: 90% !important;
@@ -6799,7 +6474,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
 }
 
-/* Dashboard library count cards — left text / right icon padding */
 .dashboardDocument .content-primary .MuiCard-root .MuiStack-root > .MuiBox-root,
 .dashboardDocument .content-primary .MuiCard-root .MuiStack-root > .MuiBox-root .MuiTypography-root {
   padding-left: 5px !important;
@@ -6814,7 +6488,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: content-box !important;
 }
 
-/* Hide LCARS user action rail (Edit / Library / Parental / Delete) */
 #jf-lcars-user-rail,
 #jf-lcars-user-rail.jf-lcars-user-rail-on,
 .jf-lcars-rail-btn {
@@ -6823,7 +6496,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   pointer-events: none !important;
 }
 
-/* ========== Users page (Jellyfin cards + #btnAddUser) ========== */
 .dashboardDocument .content-primary .verticalSection {
   margin: 0 0 0.75rem 0 !important;
   padding: 0 !important;
@@ -6841,7 +6513,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   padding: 0 !important;
 }
 
-/* Add User (+) — emby fab, icon centered */
 .dashboardDocument #btnAddUser,
 .dashboardDocument .sectionTitleButton.fab,
 .dashboardDocument button.fab.sectionTitleButton.emby-button {
@@ -6882,7 +6553,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   transform: none !important;
 }
 
-/* User cards grid — tighter wrap */
 .dashboardDocument .content-primary .localUsers.itemsContainer,
 .dashboardDocument .content-primary .itemsContainer.vertical-wrap.localUsers,
 .dashboardDocument .content-primary .itemsContainer.vertical-wrap {
@@ -6895,7 +6565,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   padding: 0 !important;
 }
 
-/* User square cards — full perimeter border */
 .dashboardDocument .content-primary .localUsers .card.squareCard,
 .dashboardDocument .content-primary .localUsers .card.scalableCard,
 .dashboardDocument .content-primary .card.jf-lcars-user-selected,
@@ -6924,7 +6593,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   justify-content: center !important;
 }
 .dashboardDocument .content-primary .localUsers .card .cardPadder-square {
-  /* preserve aspect ratio box — do not zero padding */
+  
   padding-bottom: 100% !important;
 }
 .dashboardDocument .content-primary .localUsers .card .cardBox,
@@ -6950,7 +6619,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   font-size: 0.75rem !important;
 }
 
-/* MUI FAB fallback (other pages) */
 .dashboardDocument .MuiFab-root {
   border-radius: 0 !important;
   background: var(--orange-red, #e7442a) !important;
@@ -6963,7 +6631,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   padding: 0 !important;
 }
 
-/* Tabs */
 .dashboardDocument .MuiTab-root {
   font-family: var(--lcars-font) !important;
   text-transform: uppercase !important;
@@ -6976,9 +6643,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   color: #000 !important;
 }
 
-/* Chips → LCARS pill row (picard pill-buttons); wrap, no horizontal scroll
- * Color cycle: light-gray | light-orange-red | medium-dark-gray | medium-dark-blue
- */
 .dashboardDocument .MuiChip-root,
 .jf-lcars-active .MuiChip-root {
   font-family: var(--lcars-font) !important;
@@ -7004,7 +6668,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   font-weight: 700 !important;
   overflow: visible !important;
 }
-/* Pill color cycle */
+
 .dashboardDocument .MuiChip-root:nth-child(4n+1),
 .jf-lcars-active .MuiChip-root:nth-child(4n+1) {
   background: var(--light-gray, #9ea5ba) !important;
@@ -7038,7 +6702,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   outline: 2px solid var(--blue, #37a6d1) !important;
   outline-offset: 2px !important;
 }
-/* Chip containers wrap instead of scrolling */
+
 .dashboardDocument .MuiStack-root:has(> .MuiChip-root),
 .dashboardDocument .MuiBox-root:has(> .MuiChip-root),
 .dashboardDocument [class*="Chip"]:has(.MuiChip-root),
@@ -7054,7 +6718,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   align-items: center !important;
 }
 
-/* Inputs — avoid label/value overlap; modest spacing between rows */
 .dashboardDocument .MuiInputBase-root,
 .dashboardDocument .MuiOutlinedInput-root,
 .dashboardDocument .MuiFilledInput-root {
@@ -7064,22 +6727,22 @@ html.jf-lcars-active .alphaPickerButton.selected {
   background: #000 !important;
   box-sizing: border-box !important;
 }
-/* Filled: room for floating label above value; clear of top/bottom borders */
+
 .dashboardDocument .MuiFilledInput-root {
   min-height: 4.1rem !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 .dashboardDocument .MuiFilledInput-input {
-  padding-top: calc(1.85rem + 7px) !important; /* space under shrunk label (+2px then +5px) */
-  padding-bottom: 0.9rem !important; /* space above bottom border */
+  padding-top: calc(1.85rem + 7px) !important; 
+  padding-bottom: 0.9rem !important; 
   padding-left: 1rem !important;
   padding-right: 0.85rem !important;
   line-height: 1.3 !important;
   font-size: 1rem !important;
   box-sizing: border-box !important;
 }
-/* Multiline textareas (Login Disclaimer, Custom CSS, etc.) */
+
 .dashboardDocument .MuiFilledInput-root.MuiInputBase-multiline,
 .dashboardDocument .MuiInputBase-root.MuiInputBase-multiline {
   padding-left: 0 !important;
@@ -7095,7 +6758,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   box-sizing: border-box !important;
   line-height: 1.45 !important;
 }
-/* Outlined / standard */
+
 .dashboardDocument .MuiOutlinedInput-input,
 .dashboardDocument .MuiInputBase-input:not(.MuiFilledInput-input) {
   padding-top: 0.65rem !important;
@@ -7121,7 +6784,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
 }
-/* Shrunk label sits in the top band of filled fields — gap under top border */
+
 .dashboardDocument .MuiInputLabel-root.MuiInputLabel-shrink,
 .dashboardDocument .MuiInputLabel-filled.MuiInputLabel-shrink {
   transform: translate(12px, 14px) scale(0.75) !important;
@@ -7133,10 +6796,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   margin-top: 0.75rem !important;
   margin-bottom: 0.5rem !important;
 }
-/*
- * Plugins / dashboard header Search field —
- * match adjacent outlined button (MANAGE REPOSITORIES) size + LCARS type.
- */
+
 .dashboardDocument .MuiOutlinedInput-root:has(input[placeholder*="Search" i]),
 .dashboardDocument .MuiOutlinedInput-root:has(input[type="search"]),
 .dashboardDocument .MuiInputBase-root:has(input[placeholder*="Search" i]),
@@ -7192,7 +6852,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   color: var(--ghost-gray) !important;
   opacity: 1 !important;
 }
-/* Header row: Search TextField shouldn't add form vertical margins */
+
 .dashboardDocument .MuiStack-root:has(> .MuiTypography-h1) .MuiTextField-root:has(input[placeholder*="Search" i]),
 .dashboardDocument .MuiStack-root:has(> .MuiTypography-h2) .MuiTextField-root:has(input[placeholder*="Search" i]),
 .dashboardDocument .MuiStack-root:has(> .MuiButton-outlined) .MuiTextField-root:has(input[placeholder*="Search" i]),
@@ -7202,13 +6862,9 @@ html.jf-lcars-active .alphaPickerButton.selected {
   margin-bottom: 0 !important;
   align-self: center !important;
 }
-/*
- * Below 750px: Plugins SearchInput (custom SearchContainer + InputBase, not TextField)
- * drops to its own full-width row. Jellyfin only does this at MUI xs (<600);
- * override the sm+ auto width / nowrap up through 750px.
- */
+
 @media (max-width: 749.98px) {
-  /* Header Stack: Plugins title + Manage Repositories + Search */
+  
   .dashboardDocument .MuiStack-root:has(> .MuiButton-outlined):has(input[placeholder*="Search" i]),
   .dashboardDocument .MuiStack-root:has(> .MuiTypography-h1):has(input[placeholder*="Search" i]),
   .dashboardDocument .MuiStack-root:has(> .MuiTypography-root):has(input[placeholder*="Search" i]) {
@@ -7216,7 +6872,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     flex-direction: row !important;
     row-gap: 0.5rem !important;
   }
-  /* Box that wraps SearchInput — force full width row */
+  
   .dashboardDocument .MuiStack-root:has(> .MuiButton-outlined) > .MuiBox-root:has(input[placeholder*="Search" i]),
   .dashboardDocument .MuiStack-root:has(> .MuiTypography-h1) > .MuiBox-root:has(input[placeholder*="Search" i]),
   .dashboardDocument .MuiStack-root:has(> .MuiTypography-root) > .MuiBox-root:has(input[placeholder*="Search" i]),
@@ -7232,7 +6888,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     display: flex !important;
     box-sizing: border-box !important;
   }
-  /* SearchContainer styled div (direct parent of InputBase) */
+  
   .dashboardDocument .MuiStack-root > .MuiBox-root:has(input[placeholder*="Search" i]) > div,
   .dashboardDocument .MuiBox-root:has(input[placeholder*="Search" i]) > div:has(> .MuiInputBase-root) {
     width: 100% !important;
@@ -7251,7 +6907,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   margin-bottom: 0.25rem !important;
   line-height: 1.4 !important;
 }
-/* Transcoding / settings forms: keep text clear of the right edge */
+
 .dashboardDocument form,
 .dashboardDocument form .MuiStack-root {
   width: 100% !important;
@@ -7285,13 +6941,13 @@ html.jf-lcars-active .alphaPickerButton.selected {
   overflow-wrap: anywhere !important;
   word-break: break-word !important;
 }
-/* Extra right inset on settings content so form copy isn't flush to the viewport */
+
 .dashboardDocument .content-primary:has(form),
 .dashboardDocument .content-primary:has(.MuiFormControl-root) {
   padding-right: 1.5rem !important;
   box-sizing: border-box !important;
 }
-/* Select: room for dropdown arrow so it doesn't cover the value */
+
 .dashboardDocument form .MuiSelect-select,
 .dashboardDocument form .MuiSelect-filled,
 .dashboardDocument form .MuiInputBase-input.MuiSelect-select,
@@ -7325,7 +6981,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
 }
-/* Select underline fields (algorithm / range) */
+
 .dashboardDocument .MuiInput-root,
 .dashboardDocument .MuiInput-underline {
   margin-top: 0.5rem !important;
@@ -7336,7 +6992,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   padding-bottom: 0.35rem !important;
 }
 
-/* Alerts */
 .dashboardDocument .MuiAlert-root {
   border-radius: 0 !important;
   font-family: var(--lcars-font) !important;
@@ -7345,7 +7000,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   color: var(--ghost-gray) !important;
 }
 
-/* Legacy Emby raised / submit — filled MORE THEMES style */
 .jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):not(.emby-button-outline),
 .jf-lcars-active button.raised,
 .jf-lcars-active .raised.emby-button,
@@ -7411,7 +7065,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   }
 }
 
-/* sticky Dashboard under server header */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
   position: sticky !important;
@@ -7419,7 +7072,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   z-index: 19 !important;
 }
 
-/* Opaque black mask under top chrome — hides content scrolling underneath */
 #jf-lcars-header-mask {
   display: none;
   position: fixed !important;
@@ -7448,8 +7100,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   z-index: 12035 !important;
 }
 
-
-/* --- Scroll-proof LCARS top chrome (runner + curve) --- */
 .dashboardDocument .jf-lcars-top-runner,
 #jf-lcars-top-runner {
   position: fixed !important;
@@ -7508,7 +7158,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
     #000 calc(var(--lcars-dash-curve, 60px) - var(--lcars-dash-arm, 30px) + 1px)
   ) !important;
 }
-/* Hide drawer-local curve/arm so only fixed chrome draws them */
+
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::before,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::before,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::after,
@@ -7523,7 +7173,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   visibility: hidden !important;
   pointer-events: none !important;
 }
-/* Dashboard button fixed under server header while menu scrolls */
+
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
   position: fixed !important;
@@ -7548,14 +7198,14 @@ html.jf-lcars-active .alphaPickerButton.selected {
   padding-bottom: 3px !important;
   box-sizing: border-box !important;
 }
-/* Stable nav geometry defaults (avoid JS first-paint hop) */
+
 html.jf-lcars-active,
 html.jf-lcars-active.dashboardDocument {
   --lcars-nav-sticky-top: 54px;
   --lcars-dash-row-height: 10.8rem;
   --lcars-admin-drawer: 240px;
 }
-/* Spacer replaced by margin-top on server list — always present, no JS inject hop */
+
 #jf-lcars-nav-header-spacer {
   display: none !important;
   height: 0 !important;
@@ -7566,12 +7216,11 @@ html.jf-lcars-active.dashboardDocument {
   pointer-events: none !important;
 }
 .dashboardDocument .MuiDrawer-paper > .MuiList-root[aria-labelledby="server-subheader"] {
-  /* Sticky top only — Dashboard placeholder provides panel height + 3px gap */
+  
   margin-top: var(--lcars-nav-sticky-top, 54px) !important;
   padding-top: 0 !important;
 }
 
-/* Tables fill their content containers */
 .dashboardDocument main .MuiTableContainer-root,
 .dashboardDocument main .MuiPaper-root:has(.MuiTable-root),
 .dashboardDocument main .MuiPaper-root:has(table),
@@ -7605,7 +7254,6 @@ html.jf-lcars-active.dashboardDocument {
   box-sizing: border-box !important;
 }
 
-/* ========== LCARS MUI Menu / Popover (column actions, etc.) ========== */
 .MuiPopover-paper.MuiMenu-paper,
 .MuiMenu-paper,
 .MuiPopover-paper {
@@ -7618,7 +7266,7 @@ html.jf-lcars-active.dashboardDocument {
   padding: 6px 8px !important;
   overflow: visible !important;
 }
-/* User account menu: pin just under LCARS top bar */
+
 .MuiPopover-paper.MuiMenu-paper.jf-lcars-user-menu,
 .MuiMenu-paper.jf-lcars-user-menu,
 .jf-lcars-user-menu.MuiPaper-root {
@@ -7659,7 +7307,7 @@ html.jf-lcars-active.dashboardDocument {
 .MuiMenuItem-root:last-child {
   margin-bottom: 0 !important;
 }
-/* Left LCARS square accent + margin before content */
+
 .MuiMenuItem-root::before {
   content: "" !important;
   display: block !important;
@@ -7667,7 +7315,7 @@ html.jf-lcars-active.dashboardDocument {
   width: 14px !important;
   height: 14px !important;
   min-width: 14px !important;
-  margin: 0 12px 0 0 !important; /* right margin after the square */
+  margin: 0 12px 0 0 !important; 
   background: var(--primary-gray) !important;
   background-color: var(--primary-gray) !important;
   border-radius: 0 !important;
@@ -7722,7 +7370,6 @@ html.jf-lcars-active.dashboardDocument {
   margin-bottom: 6px !important;
 }
 
-/* Dashboard + elbow + first runner segment share hover/selected fill */
 html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
 html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
 html.jf-lcars-dash-hot #jf-lcars-elbow-chrome .jf-lcars-elbow-arm,
@@ -7738,7 +7385,7 @@ html.jf-lcars-dash-hot .jf-lcars-top-runner .jf-lcars-seg-a,
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
-/* Fix spacer under fixed Dashboard — hard 3px black gutter below panel */
+
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
   background: #000 !important;
@@ -7746,7 +7393,7 @@ html.jf-lcars-dash-hot .jf-lcars-top-runner .jf-lcars-seg-a,
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
-  /* panel height only — gutter is border-bottom on a ::after */
+  
   min-height: var(--lcars-dash-row-height, 10.8rem) !important;
   height: auto !important;
   max-height: none !important;
@@ -7777,7 +7424,6 @@ html.jf-lcars-dash-hot .jf-lcars-top-runner .jf-lcars-seg-a,
   background: #000 !important;
 }
 
-/* Dashboard page: keep selected Dashboard panel continuous (no gap, no white elbow) */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"].Mui-selected,
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected:hover,
@@ -7802,7 +7448,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
-/* Flush under server header — no black band */
+
 .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
   margin: 0 !important;
   padding: 0 !important;
@@ -7815,14 +7461,13 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   margin-top: 0 !important;
   border-top: none !important;
 }
-/* seg-a always matches dash fill */
+
 .dashboardDocument .jf-lcars-top-runner .jf-lcars-seg-a,
 #jf-lcars-top-runner .jf-lcars-seg-a {
   background: var(--lcars-dash-fill, var(--primary-gray)) !important;
   background-color: var(--lcars-dash-fill, var(--primary-gray)) !important;
 }
 
-/* Second nav item under Dashboard — flush under placeholder (no hover gap hop) */
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]) + .MuiListItem-root,
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) + .MuiListItem-root {
   position: relative !important;
@@ -7842,7 +7487,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   opacity: 1 !important;
   visibility: visible !important;
 }
-/* Dashboard list-item placeholder — row height + 3px gap as padding-bottom (stable) */
+
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
   overflow: hidden !important;
@@ -7854,7 +7499,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   box-sizing: border-box !important;
   flex-shrink: 0 !important;
 }
-/* GENERAL (2nd item) — peer height, no margin hop */
+
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/settings"],
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/settings"]) > .MuiListItemButton-root {
   position: relative !important;
@@ -7864,7 +7509,6 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   margin-top: 0 !important;
 }
 
-/* Scrolling nav items stay under fixed Dashboard + server header */
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:not(:has(> a[href="#/dashboard"])):not(:has(> a[href="#/dashboard/"])) {
   position: relative !important;
   z-index: 1 !important;
@@ -7877,7 +7521,6 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   z-index: 12051 !important;
 }
 
-/* Menu list scrolls underneath fixed Dashboard + server header */
 .dashboardDocument .MuiDrawer-paper {
   isolation: auto !important;
 }
@@ -7885,7 +7528,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
   position: fixed !important;
   z-index: 12050 !important;
-  /* solid fill so scrolling items disappear behind it */
+  
   background: var(--lcars-dash-fill, #6d748c) !important;
   background-color: var(--lcars-dash-fill, #6d748c) !important;
 }
@@ -7893,7 +7536,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   z-index: 12051 !important;
   background: #000 !important;
 }
-/* Scrolling items: low stack level so they pass under the fixed chrome */
+
 .dashboardDocument .MuiDrawer-paper .MuiList-root:not(:first-child),
 .dashboardDocument .MuiDrawer-paper .MuiListItem-root:not(:has(> a[href="#/dashboard"])):not(:has(> a[href="#/dashboard/"])),
 .dashboardDocument .MuiDrawer-paper .MuiCollapse-root {
@@ -7906,7 +7549,6 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   z-index: 1 !important;
 }
 
-/* Body-level Dashboard panel — always above drawer scroll (avoids drawer stacking context) */
 #jf-lcars-dash-panel {
   display: none;
   position: fixed !important;
@@ -7934,7 +7576,7 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
-/* Never let Dashboard link fill paint the gutter under the panel */
+
 html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
 html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
@@ -7963,7 +7605,6 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   z-index: 12060 !important;
 }
 
-/* Real Dashboard link is hit-target only; #jf-lcars-dash-panel shows the label */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
   background: transparent !important;
@@ -7996,7 +7637,6 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   zoom: 1 !important;
 }
 
-/* Main library content clears fixed top LCARS header + runner */
 .jf-lcars-active:not(.dashboardDocument) .mainAnimatedPage,
 .jf-lcars-active:not(.dashboardDocument) .page,
 .jf-lcars-active:not(.dashboardDocument) #mainContent,
@@ -8006,7 +7646,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
   padding-bottom: 50px !important;
   box-sizing: border-box !important;
 }
-/* Ensure bottom gap survives nested scroll / flex shells */
+
 .jf-lcars-active:not(.dashboardDocument) .padded-bottom-page,
 .jf-lcars-active:not(.dashboardDocument) .sections,
 .jf-lcars-active:not(.dashboardDocument) .homeSectionsContainer,
@@ -8017,7 +7657,7 @@ html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-r
 .jf-lcars-active:not(.dashboardDocument) .mainAnimatedPages {
   padding-bottom: 50px !important;
 }
-/* When header is fixed, ensure first section isn't under the bar */
+
 .jf-lcars-active:not(.dashboardDocument) .skinHeader + .mainAnimatedPages,
 .jf-lcars-active:not(.dashboardDocument) .mainDrawer-scrollContainer {
   padding-top: 0 !important;
@@ -8038,7 +7678,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   margin-left: 12px !important;
 }
 
-/* content-primary: shrink-wrap when showing cards/tiles (not data tables) */
 .dashboardDocument .content-primary:has(.localUsers),
 .dashboardDocument .content-primary:has(.itemsContainer.vertical-wrap),
 .dashboardDocument .content-primary:has(.MuiGrid-container),
@@ -8055,14 +7694,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   max-width: 100% !important;
 }
 
-
 .dashboardDocument .MuiGrid-container > .MuiGrid-item:has(.MuiCard-root) {
     max-width: max-content !important;
 }
 
-
-
-/* Library media cards — wider so image titles have horizontal padding */
 .dashboardDocument .MuiGrid-container > .MuiGrid-item:has(.MuiCard-root .MuiCardMedia-root) {
   box-sizing: border-box !important;
 }
@@ -8089,9 +7724,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   padding-right: 4px !important;
 }
 
-/* ========== < 900px: straight top bar, no curve/Dashboard chrome ========== */
 @media (max-width: 899px) {
-  /* Hide dashboard-only chrome (arm/panel) — keep junction elbow */
+  
   #jf-lcars-dash-panel,
   #jf-lcars-elbow-chrome,
   #jf-lcars-dash-elbow,
@@ -8106,7 +7740,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     opacity: 0 !important;
     pointer-events: none !important;
   }
-  /* Dashboard — always tall flatside button on mobile (no empty spacer above) */
+  
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"] {
     position: relative !important;
@@ -8152,7 +7786,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     text-transform: uppercase !important;
     letter-spacing: 0.06em !important;
   }
-  /* Parent list item: only as tall as the button — no leftover desktop spacer */
+  
   .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard"]),
   .dashboardDocument .MuiDrawer-paper .MuiListItem-root:has(> a[href="#/dashboard/"]) {
     position: relative !important;
@@ -8165,7 +7799,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     background: transparent !important;
     background-color: transparent !important;
   }
-  /* Align all other mobile drawer rows consistently */
+  
   .dashboardDocument .MuiDrawer-paper .MuiListItem-root {
     margin: 0 0 3px 0 !important;
     padding: 0 !important;
@@ -8176,7 +7810,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     margin: 0 !important;
     border-radius: 0 !important;
   }
-  /* Junction curve stays simple under header */
+  
   #jf-lcars-elbow {
     top: 48px !important;
     left: 0 !important;
@@ -8190,7 +7824,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     width: 40px !important;
     height: 40px !important;
   }
-  /* Kill leftover spacer / empty gap under server header */
+  
   #jf-lcars-nav-header-spacer {
     display: none !important;
     height: 0 !important;
@@ -8206,7 +7840,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
-  /* Submenu text visible on mobile */
+  
   .dashboardDocument .MuiDrawer-paper .MuiCollapse-root .MuiListItemButton-root,
   .dashboardDocument .MuiDrawer-paper .MuiCollapse-root a.MuiListItemButton-root {
     color: var(--ghost-gray) !important;
@@ -8228,7 +7862,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     fill: var(--pale-orange-red) !important;
     -webkit-text-fill-color: var(--pale-orange-red) !important;
   }
-  /* === Mobile drawer: kill desktop sticky/fixed/elbow, clean stack === */
+  
   .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child,
   .dashboardDocument .MuiDrawer-paper > .MuiList-root {
     position: relative !important;
@@ -8274,7 +7908,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     transform: none !important;
     float: none !important;
   }
-  /* Dashboard always the tall first control — overrides desktop 10.8rem + selected */
+  
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
@@ -8300,7 +7934,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     padding: 0 !important;
     background: transparent !important;
   }
-  /* Remove any injected spacer nodes */
+  
   #jf-lcars-nav-header-spacer,
   .dashboardDocument .MuiDrawer-paper > #jf-lcars-nav-header-spacer {
     display: none !important;
@@ -8312,7 +7946,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     overflow: hidden !important;
     border: none !important;
   }
-  /* Server header list: no extra bottom space */
+  
   .dashboardDocument .MuiDrawer-paper > .MuiList-root:first-child {
     margin: 0 0 3px 0 !important;
     padding: 0 !important;
@@ -8322,7 +7956,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     margin: 0 !important;
     min-height: 0 !important;
   }
-  /* No desktop elbow pseudos on mobile */
+  
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::before,
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]::before,
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]::after,
@@ -8333,7 +7967,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     height: 0 !important;
     opacity: 0 !important;
   }
-  /* Drawer paper: flush left, full height under header */
+  
   .dashboardDocument .MuiDrawer-paper,
   .MuiDrawer-paperAnchorLeft,
   .MuiDrawer-paperAnchorTemporary,
@@ -8348,7 +7982,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     padding-left: 10px !important;
     padding-right: 10px !important;
     border-radius: 0 !important;
-    /* do NOT force transform:none — MUI uses translateX to hide closed temporary drawer */
+    
   }
   .dashboardDocument .MuiDrawer-root,
   .MuiDrawer-root.MuiDrawer-modal,
@@ -8361,7 +7995,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     margin: 0 !important;
     padding: 0 !important;
   }
-  /* Dashboard hover: color only — never move (no transform/margin/top change) */
+  
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover,
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected:hover,
@@ -8381,7 +8015,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     fill: #000 !important;
     -webkit-text-fill-color: #000 !important;
   }
-  /* Idle dashboard button always primary-gray (selected too) so hover is visible */
+  
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"].Mui-selected,
@@ -8391,7 +8025,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     transform: none !important;
   }
 
-  /* Left vertical rail */
+  
   .dashboardDocument .jf-lcars-frame,
   #jf-lcars-frame,
   .jf-lcars-frame {
@@ -8407,7 +8041,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     z-index: 1099 !important;
     pointer-events: none !important;
   }
-  /* Junction elbow: rail → horizontal bar (concave cut) */
+  
   #jf-lcars-elbow,
   .jf-lcars-elbow {
     display: block !important;
@@ -8438,7 +8072,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     z-index: 1091 !important;
     pointer-events: none !important;
   }
-  /* Top runner — 30px, starts after elbow */
+  
   .dashboardDocument .jf-lcars-top-runner,
   #jf-lcars-top-runner,
   .jf-lcars-top-runner {
@@ -8478,7 +8112,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   #jf-lcars-header-mask {
     display: none !important;
   }
-  /* Main content to the RIGHT of the vertical bar */
+  
   .dashboardDocument .MuiDrawer-root + .MuiBox-root,
   .dashboardDocument main.MuiBox-root,
   .dashboardDocument main,
@@ -8491,10 +8125,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   .backgroundContainer {
     margin-left: var(--lcars-sidebar, 56px) !important;
   }
-  /*
-   * Mobile drawer — LCARS U-frame (menu only; content-primary uses image-frame separately).
-   * Thick bars top/right/bottom, left flush, segmented with gaps.
-   */
+  
+
   .dashboardDocument .MuiDrawer-paper,
   .MuiDrawer-paperAnchorLeft,
   .MuiDrawer-paperAnchorTemporary,
@@ -8525,7 +8157,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     position: fixed !important;
     left: 0 !important;
   }
-  /* Segmented U-frame — drawer paper only (never content-primary) */
+  
   .dashboardDocument .MuiDrawer-paper::before,
   .MuiDrawer-paperAnchorLeft::before,
   .MuiDrawer-paperAnchorTemporary::before,
@@ -8645,10 +8277,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     text-align: right !important;
     box-sizing: border-box !important;
   }
-  /*
-   * Top / bottom menu buttons follow the frame’s inner right curves
-   * (outer curve − bar thickness) so they nest into the LCARS U-frame.
-   */
+  
+
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
   .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
   .dashboardDocument .MuiDrawer-paper .MuiList-root:not(:has(img)):first-of-type .MuiListItem-root:first-child > .MuiListItemButton-root {
@@ -8703,8 +8333,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   }
 }
 
-
-/* Spin button itself — full height, flush right, red background */
 .dashboardDocument input[type="number"]::-webkit-outer-spin-button,
 .dashboardDocument input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: inner-spin-button !important;
@@ -8732,7 +8360,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   background: var(--lcars-alert-soft, #ff6753) !important;
 }
 
-/* Number inputs — hide native spinner; custom LCARS column via JS */
 .dashboardDocument input[type="number"]::-webkit-outer-spin-button,
 .dashboardDocument input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
@@ -8747,7 +8374,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   -moz-appearance: textfield !important;
   appearance: textfield !important;
 }
-/* Number fields: full width, fixed height, spinner flush to right */
+
 .dashboardDocument .MuiFormControl-root:has(input[type="number"]),
 .dashboardDocument .MuiTextField-root:has(input[type="number"]) {
   width: 100% !important;
@@ -8815,7 +8442,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   color: var(--primary-gray, #6d748c) !important;
 }
 
-/* ========== infoBanner — go-center on black (thelcars html-elements) ========== */
 .jf-lcars-active .infoBanner,
 .dashboardDocument .infoBanner {
   background: #000 !important;
@@ -8841,19 +8467,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   text-underline-offset: 0.2rem !important;
 }
 
-/* ========== Path / directory rows — flatside color cycle (picard sample) ==========
- * Pattern repeats every 3 rows:
- *   1) blue stripe + light-gray body
- *   2) orange-red stripe + light-gray body
- *   3) orange-red stripe + medium-dark-gray body
- */
 .jf-lcars-active .directoryPicker .listItem,
 .jf-lcars-active .directoryEditor .listItem,
 .jf-lcars-active .pathEditor .listItem,
 .dashboardDocument .directoryPicker .listItem,
 .dashboardDocument .directoryEditor .listItem,
 
-/* User preferences menu — even-width tile grid */
 .jf-lcars-active .verticalSection:has(> a.lnkUserProfile),
 .jf-lcars-active .verticalSection:has(> a.lnkDisplayPreferences),
 .dashboardDocument .verticalSection:has(> a.lnkUserProfile),
@@ -8934,11 +8553,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   text-align: left !important;
   overflow: hidden !important;
   color: #000 !important;
-  /* default = pattern 2 (orange + light-gray) */
+  
   background: var(--light-gray, #9ea5ba) !important;
   background-color: var(--light-gray, #9ea5ba) !important;
 }
-/* Black gap between stripe and body */
+
 .jf-lcars-active .directoryPicker .listItem::before,
 .jf-lcars-active .directoryEditor .listItem::before,
 .dashboardDocument .directoryPicker .listItem::before,
@@ -8958,7 +8577,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   z-index: 1 !important;
   pointer-events: none !important;
 }
-/* Cycle: 1 = blue + light-gray */
+
 .jf-lcars-active .directoryPicker .listItem:nth-child(3n+1),
 .jf-lcars-active .directoryEditor .listItem:nth-child(3n+1),
 .dashboardDocument .directoryPicker .listItem:nth-child(3n+1),
@@ -8971,7 +8590,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   background: var(--light-gray, #9ea5ba) !important;
   background-color: var(--light-gray, #9ea5ba) !important;
 }
-/* Cycle: 2 = orange-red + light-gray */
+
 .jf-lcars-active .directoryPicker .listItem:nth-child(3n+2),
 .jf-lcars-active .directoryEditor .listItem:nth-child(3n+2),
 .dashboardDocument .directoryPicker .listItem:nth-child(3n+2),
@@ -8984,7 +8603,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   background: var(--light-gray, #9ea5ba) !important;
   background-color: var(--light-gray, #9ea5ba) !important;
 }
-/* Cycle: 3 = orange-red + medium-dark-gray */
+
 .jf-lcars-active .directoryPicker .listItem:nth-child(3n),
 .jf-lcars-active .directoryEditor .listItem:nth-child(3n),
 .dashboardDocument .directoryPicker .listItem:nth-child(3n),
@@ -9041,7 +8660,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 .jf-lcars-active button.listItem.listItem-border:not(:nth-child(3n)) .material-icons {
   color: #000 !important;
 }
-/* Wrapper gap like flatside-button-wrapper */
+
 .jf-lcars-active .directoryPicker,
 .jf-lcars-active .directoryEditor,
 .dashboardDocument .directoryPicker,
@@ -9079,7 +8698,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   }
 
   function ensureUserActionRail() {
-    /* User action rail removed per theme preference */
+    
     try {
       var rail = document.getElementById("jf-lcars-user-rail");
       if (rail) {
@@ -9140,7 +8759,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }, 50);
   }
 
-
   function ensureDashElbow() {
     if (typeof isNarrowViewport === "function" && isNarrowViewport()) {
       ["jf-lcars-dash-elbow","jf-lcars-dash-bridge","jf-lcars-dash-elbow-cut"].forEach(function (id) {
@@ -9183,7 +8801,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       if (header) {
         var r = header.getBoundingClientRect();
         if (r.height > 8) h = Math.ceil(r.height);
-        /* use height not bottom — bottom jumps when header is not at y=0 */
+        
         if (!narrow && r.bottom > h) h = Math.ceil(r.bottom);
       }
       if (!narrow) {
@@ -9204,8 +8822,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var offset = h + 8;
       document.documentElement.style.setProperty("--lcars-header-height", h + "px");
       document.documentElement.style.setProperty("--lcars-content-top", offset + "px");
-      /* Do NOT set --lcars-lib-row-top here — syncLibraryNav owns AppBar bottom only.
-         measureHeader's h can include runner/tabs bottom and pushes the menu down. */
+      
+
       if (narrow) {
         document.documentElement.style.setProperty("--lcars-dash-row-top", h + "px");
       }
@@ -9234,7 +8852,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         ".dashboardDocument .MuiDrawer-paper .MuiCollapse-root, .dashboardDocument .MuiDrawer-paper .MuiCollapse-vertical"
       );
       collapses.forEach(function (col) {
-        /* skip zero-size closed collapses for injection target still OK */
+        
         var a = col.querySelector(".jf-lcars-sub-bar-a");
         var b = col.querySelector(".jf-lcars-sub-bar-b");
         if (!a) {
@@ -9251,7 +8869,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         } else {
           b.parentNode && b.parentNode.removeChild(b);
         }
-        /* always pin as first two children so flex order is bar-a | bar-b | wrapper */
+        
         col.insertBefore(b, col.firstChild);
         col.insertBefore(a, col.firstChild);
       });
@@ -9299,7 +8917,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }
       if (!panel) return;
       var lab = (label || "DASHBOARD").replace(/\s+/g, " ").trim();
-      /* Prefer short title without icons noise */
+      
       var m = lab.match(/dashboard/i);
       var title = m ? "DASHBOARD" : lab;
       var textEl = panel.querySelector("#jf-lcars-dash-label");
@@ -9310,7 +8928,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         panel.appendChild(textEl);
       }
       textEl.textContent = title;
-      /* Height must match CSS 10.8rem exactly (not 10.8*16px) or gap under panel shifts */
+      
       panel.style.cssText =
         "display:flex!important;position:fixed!important;left:0!important;top:" + stickyTop +
         "px!important;width:" + drawerW + "px!important;height:10.8rem!important;min-height:10.8rem!important;" +
@@ -9357,7 +8975,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var topPx = parseInt(rootStyle.getPropertyValue("--lcars-dash-row-top"), 10);
       if (isNaN(topPx)) topPx = parseInt(rootStyle.getPropertyValue("--lcars-nav-sticky-top"), 10) || 52;
       var hot = document.documentElement.classList.contains("jf-lcars-dash-hot");
-      var fill = hot ? lcarsGhostGray() : lcarsPrimaryGray(); /* ghost-gray | primary-gray */
+      var fill = hot ? lcarsGhostGray() : lcarsPrimaryGray(); 
       el.style.display = "block";
       el.style.cssText =
         "position:fixed!important;top:" + topPx + "px!important;left:" + drawerW +
@@ -9396,10 +9014,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       if (document.body) document.body.classList.toggle("jf-lcars-dash-hot", !!on);
       var fill = on ? lcarsGhostGray() : lcarsPrimaryGray();
       document.documentElement.style.setProperty("--lcars-dash-fill", fill);
-      /* Color only — do NOT call pinLcarsTopChrome (that reflowed the menu on hover) */
+      
       var link = queryDashLink();
       if (link) {
-        /* Keep link transparent — panel paints the face; preserves black gutter under panel */
+        
         link.style.setProperty("background", "transparent", "important");
         link.style.setProperty("background-color", "transparent", "important");
       }
@@ -9440,12 +9058,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function ensureHomeSquare() {
     try {
-      /* Strict: only admin dashboard routes (hash contains /dashboard) */
+      
       var h = "";
       try { h = (location.hash || "").toLowerCase(); } catch (eH) {}
       var onDash = h.indexOf("/dashboard") !== -1;
       if (!onDash) {
-        /* fallback: body.dashboardDocument AND not library view */
+        
         try {
           if (document.body && document.body.classList.contains("dashboardDocument") &&
               !(typeof isLibraryView === "function" && isLibraryView())) {
@@ -9522,7 +9140,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           sq.style.setProperty("background-position", "center", "important");
         });
       }
-      /* Remove old hit if present */
+      
       var oldHit = document.getElementById("jf-lcars-home-square-hit");
       if (oldHit) oldHit.remove();
     } catch (e) {}
@@ -9550,7 +9168,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function pinLcarsTopChrome() {
     try {
-      /* Mobile: hide chrome only — no elbows/runners, no fixed dash button */
+      
       if (isNarrowViewport()) {
         syncChromeForViewport();
         try {
@@ -9592,7 +9210,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         fl.style.setProperty("background", "#000", "important");
         fl.style.setProperty("box-sizing", "border-box", "important");
       }
-      /* Use locked sticky top — prevent menu vertical hop across calls */
+      
       var stickyTop = window.__jfLcarsStickyTopLocked || 54;
       if (!window.__jfLcarsStickyTopLocked && fl) {
         var fr = fl.getBoundingClientRect();
@@ -9605,7 +9223,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       document.documentElement.style.setProperty("--lcars-dash-row-top", stickyTop + "px");
       document.documentElement.style.setProperty("--lcars-dash-arm", "30px");
       document.documentElement.style.setProperty("--lcars-dash-row-height", "10.8rem");
-      /* Arm starts at drawer edge; curve sits at joint (slightly into drawer) */
+      
       document.documentElement.style.setProperty("--lcars-dash-arm-left", drawerW + "px");
       document.documentElement.style.setProperty("--lcars-dash-curve-left", (drawerW - 30) + "px");
       document.documentElement.style.setProperty("--lcars-dash-arm-len", "192px");
@@ -9641,7 +9259,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         dashBtn.style.setProperty("max-height", "10.8rem", "important");
         dashBtn.style.setProperty("margin", "0", "important");
         dashBtn.style.setProperty("padding", "0.75rem 0.65rem", "important");
-        /* Panel paints the visible face; button is the click layer only */
+        
         dashBtn.style.setProperty("background", "transparent", "important");
         dashBtn.style.setProperty("background-color", "transparent", "important");
         dashBtn.style.setProperty("color", "transparent", "important");
@@ -9660,11 +9278,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           hideKids[hi].style.setProperty("opacity", "0", "important");
         }
         var parent = dashBtn.closest(".MuiListItem-root");
-        /*
-         * Placeholder geometry is owned by CSS (10.8rem + 3px).
-         * Only apply inline styles once — repeated pinLcarsTopChrome calls
-         * were rewriting margin-top:7px on GENERAL and causing hops.
-         */
+        
+
         if (parent && !parent.__jfLcarsPlaceLocked) {
           parent.__jfLcarsPlaceLocked = true;
           parent.style.setProperty("min-height", "10.8rem", "important");
@@ -9739,12 +9354,12 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
 
   function ensureNavHeaderSpacer() {
     try {
-      /* Spacer disabled — server list uses CSS margin-top: var(--lcars-nav-sticky-top) */
+      
       var sp = document.getElementById("jf-lcars-nav-header-spacer");
       if (sp) {
         sp.style.cssText = "display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;";
       }
-      /* Lock sticky top once so later pinLcarsTopChrome calls do not shift the menu */
+      
       if (!window.__jfLcarsStickyTopLocked) {
         var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
         var first = paper && paper.querySelector(":scope > .MuiList-root");
@@ -9759,21 +9374,19 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
-
-
   function wrapContentPrimary() {
     try {
       if (!document.body || !document.body.classList.contains("dashboardDocument") &&
           !document.documentElement.classList.contains("dashboardDocument") &&
           !document.querySelector(".dashboardDocument")) {
-        /* still try below */
+        
       }
       var nodes = document.querySelectorAll(".dashboardDocument .content-primary, .content-primary.MuiBox-root, .content-primary");
       for (var i = 0; i < nodes.length; i++) {
         var el = nodes[i];
         if (!el || !el.parentNode) continue;
         if (el.parentNode.classList && el.parentNode.classList.contains("lcars-container")) continue;
-        /* only wrap dashboard content-primary */
+        
         if (!el.closest(".dashboardDocument") && !document.querySelector(".dashboardDocument")) continue;
         var wrap = document.createElement("div");
         wrap.className = "lcars-container";
@@ -9791,14 +9404,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         if (w > 80 && w < 400) {
           document.documentElement.style.setProperty("--lcars-admin-drawer", w + "px");
         }
-        /* fixed viewport column; pin chrome (header, dashboard, runner, elbow) */
+        
         paper.style.setProperty("overflow-x", "hidden", "important");
         paper.style.setProperty("overflow-y", "auto", "important");
         paper.style.setProperty("position", "fixed", "important");
         paper.style.setProperty("left", "0", "important");
         if (window.matchMedia && window.matchMedia("(max-width: 899px)").matches) {
           paper.style.setProperty("top", "56px", "important");
-          /* Hug menu content so bottom LCARS bar wraps last item */
+          
           paper.style.setProperty("height", "auto", "important");
           paper.style.setProperty("max-height", "calc(100vh - 56px)", "important");
         } else {
@@ -9879,7 +9492,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
-  /** Hide table columns where every body cell has no visible text. */
+  
   function pruneEmptyTableColumns() {
     try {
       var tables = document.querySelectorAll(
@@ -9906,10 +9519,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           for (var r2 = 0; r2 < body.rows.length; r2++) {
             var cell = body.rows[r2].cells[c];
             if (!cell) continue;
-            // Prefer text content; ignore pure whitespace
+            
             var text = (cell.innerText || cell.textContent || "").replace(/\s+/g, " ").trim();
-            // Icons-only action columns still count as content if they have buttons
-            // but spacer columns are empty of both text and interactive controls
+            
+            
             var hasControl = !!cell.querySelector(
               "button, a, input, select, textarea, img, svg, .MuiAvatar-root"
             );
@@ -9926,7 +9539,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           if (headRow && headRow.cells[c]) {
             headRow.cells[c].style.display = display;
           }
-          // Sticky header clones / extra header rows
+          
           var allHeadRows = table.querySelectorAll("thead tr");
           for (var h = 0; h < allHeadRows.length; h++) {
             var hc = allHeadRows[h].cells[c];
@@ -9999,11 +9612,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var rt = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-lib-row-top"), 10);
         if (rt > 20) rowTop = rt;
       } catch (e2) {}
-      /* Desktop: 10px up, 10px left from nav edge. Mobile: near left rail, same height. */
+      
       var left;
-      var topY = Math.max(0, narrow ? (rowTop - 1) : (rowTop - 5)); /* mobile: 47 when rowTop=48; desktop unchanged */
+      var topY = Math.max(0, narrow ? (rowTop - 1) : (rowTop - 5)); 
       if (narrow) {
-        left = 21; /* mobile curve left */
+        left = 21; 
       } else {
         left = Math.max(0, drawerW - 36 - 5);
       }
@@ -10012,7 +9625,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         "px!important;z-index:12060!important;opacity:1!important;visibility:visible!important;" +
         "pointer-events:none!important;margin:0!important;padding:0!important;border:none!important;" +
         "background:transparent!important;display:block!important;";
-      /* Prefer lib-elbow-chrome; hide legacy mobile elbow to avoid double curves */
+      
       var meOld = document.getElementById("jf-lcars-mobile-elbow");
       if (meOld) {
         meOld.style.setProperty("display", "none", "important");
@@ -10022,7 +9635,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var curveEl = chrome.querySelector(".jf-lcars-lib-elbow-curve");
       if (armEl) {
         if (narrow) {
-          /* Mobile: arm matches segmented bar; gap fills notch within arm band only */
+          
           var barHMob = 36;
           var armLeft = -left;
           var armW = left + 88;
@@ -10033,7 +9646,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             "border:none!important;border-radius:0!important;" +
             "z-index:3!important;display:block!important;opacity:1!important;visibility:visible!important;" +
             "pointer-events:none!important;";
-          /* Notch fill — same rect as arm (never extends above top:0) */
+          
           var gapStrip = chrome.querySelector(".jf-lcars-lib-elbow-gap");
           if (!gapStrip) {
             gapStrip = document.createElement("div");
@@ -10081,7 +9694,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }
       if (curveEl) {
         if (narrow) {
-          /* No clip-path inset — that cut a 4px notch off the top of the curve */
+          
           curveEl.style.cssText =
             "position:absolute!important;left:0!important;top:0!important;width:72px!important;height:73px!important;" +
             "background:" + fill + "!important;background-color:" + fill + "!important;border:none!important;" +
@@ -10103,7 +9716,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         }
       }
 
-      /* Transparent hit over curve chrome — lives inside chrome, receives events */
+      
       var cHit = chrome.querySelector(".jf-lcars-lib-chrome-hit");
       if (!cHit) {
         cHit = document.createElement("a");
@@ -10137,7 +9750,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           "background:transparent!important;cursor:pointer!important;" +
           "pointer-events:auto!important;z-index:20!important;display:block!important;";
       }
-      /* Body-level unified hit also covers home+curve */
+      
       var hit = document.getElementById("jf-lcars-lib-unified-hit");
       if (!hit && document.body) {
         hit = document.createElement("a");
@@ -10191,7 +9804,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         home.style.setProperty("background-color", fill, "important");
       }
       paintLibHomeChrome(want);
-      /* Force every painted piece of the Home L (arm/curve/runner join) */
+      
       try {
         var chrome = document.getElementById("jf-lcars-lib-elbow-chrome");
         if (chrome) {
@@ -10224,7 +9837,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         link.__lcarsLibHotBound = true;
         link.addEventListener("pointerenter", function () { setLibHomeHot(true); });
         link.addEventListener("pointerleave", function (e) {
-          /* Don't clear if moving onto unified hit */
+          
           var rt = e.relatedTarget;
           if (rt && rt.closest && rt.closest("#jf-lcars-lib-unified-hit")) return;
           setLibHomeHot(false);
@@ -10244,7 +9857,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (ePaint) {}
   }
 
-
   function isNarrowViewport() {
     try {
       return window.innerWidth < 900;
@@ -10260,7 +9872,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     return narrow;
   }
 
-  /** Mobile: hide fixed LCARS chrome. Desktop: clear hide overrides only. */
+  
   function syncChromeForViewport() {
     try {
       var narrow = setNarrowClass();
@@ -10309,7 +9921,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       } catch (eH) {}
 
       if (narrow && isLib) {
-        /* Hide default chrome (desktop runner untouched via CSS hide only) */
+        
         [elbow, cut, runner, frame].forEach(function (el) {
           if (!el) return;
           el.style.setProperty("display", "none", "important");
@@ -10326,7 +9938,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         document.documentElement.style.setProperty("--lcars-lib-row-top", headerH + "px");
         document.documentElement.classList.add("jf-lcars-library", "jf-lcars-narrow");
         if (document.body) document.body.classList.add("jf-lcars-library", "jf-lcars-narrow");
-        /* Dedicated mobile segmented bar — does not share state with desktop runner */
+        
         var mtb = document.getElementById("jf-lcars-mobile-top-bar");
         if (!mtb && document.body) {
           mtb = document.createElement("div");
@@ -10395,7 +10007,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
               "border-radius:0!important;";
           }
         }
-        /* Inline-apply content curve — CSS selectors often miss MUI page shells */
+        
         var contentNodes = document.querySelectorAll(
           ".mainAnimatedPage, .page, .mainAnimatedPages, #mainContent, " +
           ".skinBody, main.MuiBox-root, main, .content-primary"
@@ -10412,7 +10024,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           cn.style.setProperty("z-index", "1100", "important");
           cn.style.setProperty("box-sizing", "border-box", "important");
         }
-        /* Secondary toolbars: kill competing radii */
+        
         document.querySelectorAll(".MuiToolbar-root, .headerTabs, .sectionTabs").forEach(function (tb) {
           if (!tb || !tb.style) return;
           tb.style.setProperty("border-radius", "0", "important");
@@ -10482,7 +10094,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var root = paper.closest(".MuiDrawer-root");
         var open = root && root.classList.contains("MuiDrawer-open");
         if (!open) return;
-        /* Hide server logo row only while open */
+        
         paper.querySelectorAll(".MuiListItem-root").forEach(function (li) {
           if (li.querySelector("img") || li.querySelector(".MuiListItemText-secondary")) {
             var a = li.querySelector("a[href]");
@@ -10499,7 +10111,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   }
 
   function ensureMobileDrawerObserver() {
-    /* disabled — was fighting MUI open/close and viewport sync */
+    
   }
 
   function ensureDashArmHit() {
@@ -10532,7 +10144,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var rt = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-dash-row-top"), 10);
         if (rt > 20) topPx = rt;
       } catch (e2) {}
-      /* Wider/taller hits so the full L (panel join + arm + curve) is hoverable/clickable */
+      
       arm.style.cssText =
         "position:fixed!important;left:" + drawerW + "px!important;top:" + topPx +
         "px!important;width:220px!important;height:36px!important;z-index:12061!important;" +
@@ -10569,7 +10181,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           try { link.click(); } catch (eC) { location.hash = "#/dashboard"; }
         });
       }
-      /* Body-level unified hit covering panel + arm + curve */
+      
       var u = document.getElementById("jf-lcars-dash-unified-hit");
       if (!u && document.body) {
         u = document.createElement("a");
@@ -10595,7 +10207,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           u.addEventListener("pointerenter", function () { setDashHot(true); });
           u.addEventListener("pointerleave", function () { setDashHot(false); });
         }
-        /* Keep Dashboard link above the unified hit so its text stays interactive */
+        
         link.style.setProperty("position", "relative", "important");
         link.style.setProperty("z-index", "12080", "important");
       }
@@ -10689,7 +10301,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             var next = cur + dir * stepVal;
             if (min !== null && !isNaN(min) && next < min) next = min;
             if (max !== null && !isNaN(max) && next > max) next = max;
-            /* respect step precision */
+            
             var dec = (String(stepVal).split(".")[1] || "").length;
             input.value = dec ? next.toFixed(dec) : String(next);
             input.dispatchEvent(new Event("input", { bubbles: true }));
@@ -10724,7 +10336,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
-
   function isDashboardView() {
     try {
       if (document.body && document.body.classList.contains("dashboardDocument")) return true;
@@ -10747,7 +10358,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       if (h.indexOf("/list") !== -1) return true;
       if (h.indexOf("/search") !== -1) return true;
       if (h.indexOf("/metadata") !== -1) return true;
-      /* default non-dashboard client routes */
+      
       if (h.indexOf("/dashboard") === -1 && h.indexOf("/login") === -1) return true;
       return false;
     } catch (e) {
@@ -10758,7 +10369,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   function defaultLibIcon(label, href) {
     var l = (label || "").toLowerCase();
     var h = (href || "").toLowerCase();
-    /* Minimal Material-style path icons (24x24) — check specific tabs BEFORE generic /home */
+    
     if (l.indexOf("fav") !== -1 || h.indexOf("tab=1") !== -1) {
       return '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>';
     }
@@ -10785,7 +10396,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     var seen = {};
     function normKey(href) {
       var h = String(href || "").toLowerCase();
-      /* Keep tab query so Home and Favorites are distinct */
+      
       if (h === "#/" || h === "#/home") return "#/home";
       if (h.indexOf("tab=1") !== -1) return "#/home?tab=1";
       if (h.indexOf("tab=2") !== -1) return "#/home?tab=2";
@@ -10793,9 +10404,9 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
     function looksLikeServerId(label) {
       var t = String(label || "").replace(/\s+/g, "");
-      /* server ids / host hashes — skip as nav items */
+      
       if (t.length >= 8 && /^[a-f0-9]+$/i.test(t)) return true;
-      if (/^\d+\.\d+/.test(t)) return true; /* version like 12.0 */
+      if (/^\d+\.\d+/.test(t)) return true; 
       return false;
     }
     function add(href, label, iconHtml) {
@@ -10805,7 +10416,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       seen[key] = true;
       var lab = (label || "").replace(/\s+/g, " ").trim() || "ITEM";
       if (looksLikeServerId(lab)) return;
-      /* Always use canonical SVG icons — toolbar clones are unreliable on mobile */
+      
       var ic = defaultLibIcon(lab, href);
       items.push({ href: href, label: lab, iconHtml: ic });
     }
@@ -10813,7 +10424,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       add("#/", "Home", "");
       add("#/home?tab=1", "Favorites", "");
       add("#/home?tab=2", "Collections", "");
-      /* Movies/Shows hrefs filled from cache/toolbar when available */
+      
       add("#/movies", "Movies", "");
       add("#/tv", "Shows", "");
     }
@@ -10869,7 +10480,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }
       if (items.length >= 2) break;
     }
-    /* Prefer a stable full cache once captured — invalidate if Home or Favorites missing */
+    
     function cacheHasHomeAndFav(list) {
       var hasH = false, hasF = false;
       for (var i = 0; i < list.length; i++) {
@@ -10889,13 +10500,13 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } else {
       __lcarsLibNavCache = null;
     }
-    /* Never show a 1–2 item rail — seed full defaults and merge real hrefs */
+    
     if (items.length < 3) {
       var prior = items.slice();
       items = [];
       seen = {};
       seedDefaults();
-      /* Overlay real hrefs from partial scan */
+      
       for (var p = 0; p < prior.length; p++) {
         var pk = normKey(prior[p].href);
         for (var q = 0; q < items.length; q++) {
@@ -10907,11 +10518,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         }
       }
     }
-    /* Canonical icons always */
+    
     for (var j = 0; j < items.length; j++) {
       items[j].iconHtml = defaultLibIcon(items[j].label, items[j].href);
     }
-    /* Stable order: Home, Favorites, Collections, Movies, Shows, then others */
+    
     function rank(it) {
       var l = (it.label || "").toLowerCase();
       var h = (it.href || "").toLowerCase();
@@ -10923,7 +10534,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       return 50;
     }
     items.sort(function (a, b) { return rank(a) - rank(b); });
-    /* Always ensure Home is first */
+    
     var hasHome = false;
     for (var hi = 0; hi < items.length; hi++) {
       var hl = (items[hi].label || "").toLowerCase();
@@ -10961,7 +10572,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           document.body.style.removeProperty("padding-left");
         }
         document.documentElement.style.removeProperty("--lcars-lib-content-inset");
-        /* Restore sidebar token for dashboard chrome */
+        
         if (isDash) {
           document.documentElement.style.removeProperty("--lcars-sidebar");
         }
@@ -10981,7 +10592,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         document.body.style.setProperty("padding-left", inset + "px", "important");
         document.body.style.setProperty("box-sizing", "border-box", "important");
       }
-      /* Strip any leftover inline margins from earlier approaches */
+      
       var shells = document.querySelectorAll(
         ".mainAnimatedPages, .backgroundContainer, .skinBody, #mainContent, main, main.MuiBox-root, .page, .mainAnimatedPage"
       );
@@ -10993,8 +10604,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
-
-
   function styleAlphaPicker() {
     try {
       var pickers = document.querySelectorAll(
@@ -11005,7 +10614,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var top =
         "calc(48px + var(--lcars-bar-h, 25px) + 28px + 6rem)";
       if (under600) {
-        /* room for reset-filters square above letters */
+        
         top = "calc(48px + var(--lcars-bar-h, 25px) + 28px + 6.5rem + 2.4rem)";
       }
       var letterSize = under600 ? "1.1rem" : "1.15rem";
@@ -11027,7 +10636,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         p.style.setProperty("margin", "0", "important");
         p.style.setProperty("max-width", "none", "important");
         p.style.setProperty("box-sizing", "border-box", "important");
-        /* Reserve right gutter so posters never sit under the letters (5px gap) */
+        
         var clearPad = "calc(1.6rem + 5px + 0.25rem)";
         var content = document.querySelectorAll(
           ".itemsContainer, .padded-right, .MuiContainer-root, main"
@@ -11067,7 +10676,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         ".MuiToolbar-root .MuiButton-root:has([data-testid='FilterAltOffIcon']), " +
         ".MuiToolbar-root .MuiButton-root:has(.MuiButton-startIcon svg[data-testid='FilterAltOffIcon'])"
       );
-      /* also match by visible text when icon testid missing */
+      
       if (!candidates.length) {
         var allBtns = document.querySelectorAll(".MuiToolbar-root .MuiButton-root");
         var found = [];
@@ -11083,7 +10692,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var el = candidates[c];
         el.classList.add("jf-lcars-reset-filters");
         if (!under600) {
-          /* clear mobile-only fixed styles on wider viewports */
+          
           el.style.removeProperty("position");
           el.style.removeProperty("top");
           el.style.removeProperty("right");
@@ -11154,7 +10763,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
-  /* Under 750px: force equal side inset on dashboard content-primary (CSS alone was ignored by Grid/sx). */
+  
   function fixDashboardSideInset() {
     try {
       var under750 = window.innerWidth < 750;
@@ -11210,10 +10819,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         bar.style.setProperty("gap", "0.35rem", "important");
         bar.style.setProperty("padding-right", "1.25rem", "important");
         bar.style.setProperty("margin-right", "0.5rem", "important");
-        /* Desktop: vertically center all controls on one baseline */
+        
         bar.style.setProperty("align-items", narrowBar ? "start" : "center", "important");
         if (narrowBar) {
-          /* 2 rows, natural item widths; under 600px shrink-wrap (not 60%) */
+          
           var under600 = window.innerWidth < 600;
           bar.style.setProperty("display", "grid", "important");
           bar.style.setProperty("grid-template-rows", "auto auto", "important");
@@ -11229,21 +10838,15 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           bar.style.setProperty("margin-left", "auto", "important");
           bar.style.setProperty("justify-content", under600 ? "start" : "end", "important");
           bar.style.removeProperty("flex-direction");
-          /* Flatten wrappers so all controls are grid items */
+          
           var flat = bar.querySelectorAll(".MuiStack-root, .MuiBox-root, .MuiButtonGroup-root");
           for (var f = 0; f < flat.length; f++) {
             flat[f].style.setProperty("display", "contents", "important");
           }
-          /*
-           * Column-first 2-row order (pairs share a column):
-           *   Movies/Chip | Play/Shuffle | Filter/(spacer) | View/Sort | Next/Prev
-           * Sort sits under View; Next above Previous on the right.
-           */
-          /*
-           * Column pairs (column-first, 2 rows):
-           *   Movies/(spacer) | Play All/Chip | Filter/Shuffle | View/Sort | Next/Prev
-           * Chip centered under Play All.
-           */
+          
+
+          
+
           var orderMap = {
             "Play All": 3,
             "Filter": 5,
@@ -11257,7 +10860,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           var movieBtn = bar.querySelector('.MuiButton-root[aria-controls*="view-menu"]');
           if (movieBtn) movieBtn.style.setProperty("order", "1", "important");
           var chipEl = bar.querySelector(".MuiChip-root");
-          if (chipEl) chipEl.style.setProperty("order", "4", "important"); /* under Play All */
+          if (chipEl) chipEl.style.setProperty("order", "4", "important"); 
           for (var oi = 0; oi < allBtns.length; oi++) {
             var el = allBtns[oi];
             var t = el.getAttribute("title") || "";
@@ -11266,7 +10869,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
               el.style.removeProperty("grid-column");
               el.style.removeProperty("grid-row");
             }
-            /* no selective translateX — was misaligning Filter/Shuffle vs View/Sort */
+            
             el.style.removeProperty("transform");
           }
           if (movieBtn) movieBtn.style.removeProperty("transform");
@@ -11275,7 +10878,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             chipEl.style.setProperty("justify-self", "center", "important");
             chipEl.style.setProperty("align-self", "center", "important");
           }
-          /* Spacer under Movies (order 2) so Play All/Chip pair in next column */
+          
           var spacer = bar.querySelector(".jf-lcars-sec-spacer");
           if (!spacer) {
             spacer = document.createElement("span");
@@ -11286,19 +10889,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           spacer.style.cssText =
             "display:block!important;width:0!important;min-width:0!important;height:0!important;" +
             "overflow:hidden!important;order:2!important;pointer-events:none!important;margin:0!important;padding:0!important;";
-          /* Even column gaps; under 600px shrink-wrap and pin group to the right */
+          
           bar.style.setProperty("gap", "0.35rem 0.55rem", "important");
           bar.style.setProperty("column-gap", "0.55rem", "important");
           bar.style.setProperty("row-gap", "0.35rem", "important");
           bar.style.removeProperty("transform");
           if (window.innerWidth < 600) {
-            /*
-             * Fixed column tracks sized to the square buttons only (not the chip).
-             * Chip keeps natural width and may overflow its cell; buttons stay evenly spaced.
-             * Cols: 1 Movies | 2 Play All | 3 Filter | 4 View | 5 Next
-             * Row2:   (empty) | chip      | Shuffle  | Sort   | Prev
-             * Under 400px: plain 2.6rem squares (no red bar) with 5px gaps.
-             */
+            
+
             var under400 = window.innerWidth < 400;
             var colW = under400 ? "2.6rem" : "calc(2.6rem + 14px)";
             var gapXY = under400 ? "5px" : "0.35rem 0.4rem";
@@ -11351,7 +10949,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
               pe.style.removeProperty("order");
             }
             if (chip600) {
-              /* Span Movies + Play All columns; width = those two buttons + gap; centered under them */
+              
               chip600.style.setProperty("grid-column", "1 / 3", "important");
               chip600.style.setProperty("grid-row", "2", "important");
               chip600.style.setProperty("justify-self", "stretch", "important");
@@ -11368,7 +10966,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
                 "display:none!important;width:0!important;height:0!important;order:0!important;";
             }
           } else {
-            /* ≥600px: clear under-600 fixed-column placement so 60%/order layout works */
+            
             bar.style.removeProperty("grid-template-columns");
             bar.style.setProperty("grid-auto-flow", "column", "important");
             bar.style.setProperty("grid-auto-columns", "max-content", "important");
@@ -11439,11 +11037,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var chrome = document.getElementById("jf-lcars-lib-elbow-chrome");
         if (chrome) chrome.style.display = "none";
         setLibHomeHot(false);
-        /* Clear library-only body inset so dashboard / other pages are unaffected */
+        
         applyLibraryContentInset();
         return;
       }
-      /* Always build/show left library nav on library views (CSS switches full vs icon rail) */
+      
       if (false) {
         if (nav) nav.style.display = "none";
         applyLibraryContentInset();
@@ -11463,7 +11061,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       var sig = items.map(function (it) { return (it.href || "") + "|" + (it.label || ""); }).join(";");
       sig += "@@" + hash.split("?")[0];
       if (nav.getAttribute("data-lcars-sig") === sig && nav.querySelector(".jf-lcars-lib-btn")) {
-        /* Keep existing nodes so hover bindings stay alive; only refresh active class */
+        
         var existing = nav.querySelectorAll(".jf-lcars-lib-btn");
         for (var ei = 0; ei < existing.length; ei++) {
           var eh = existing[ei].getAttribute("href");
@@ -11516,7 +11114,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       applyLibraryContentInset();
       ensureLibArmHit();
 
-      /* Hide thin left rail + admin chrome — library nav replaces them */
+      
       ["jf-lcars-dash-panel", "jf-lcars-dash-elbow", "jf-lcars-dash-bridge", "jf-lcars-elbow-chrome",
        "jf-lcars-frame", "jf-lcars-elbow", "jf-lcars-elbow-cut"].forEach(function (id) {
         var el = document.getElementById(id);
@@ -11525,7 +11123,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           el.style.setProperty("visibility", "hidden", "important");
         }
       });
-      /* Match dashboard: arm/curve anchored to top of Home + drawer edge */
+      
       var drawerW = 240;
       try {
         var dw = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-admin-drawer"), 10);
@@ -11556,9 +11154,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
 
-
-
-  /* Resolved ha-lcars theme palettes -> Jellyfin CSS vars (hex) */
+  
   var LCARS_THEME_PALETTES = {
     "LCARS 25C": {
       primaryGray: "#6d748c", mediumDarkGray: "#52596e", lightGray: "#9ea5ba", ghostGray: "#d2d5df",
@@ -11729,7 +11325,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }
       r.setAttribute("data-jf-lcars-theme", name);
       try { localStorage.setItem("jf-lcars-theme", name); } catch (e0) {}
-      /* Refresh chrome that cached fill colors */
+      
       try {
         var fill = p.primaryGray;
         document.documentElement.style.setProperty("--lcars-dash-fill", fill);
@@ -11753,7 +11349,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           segs[si].style.setProperty("background", fill, "important");
           segs[si].style.setProperty("background-color", fill, "important");
         }
-        /* Home square — follow theme vars */
+        
         var sq = document.getElementById("jf-lcars-home-square");
         if (sq) {
           var sqFill = sq.classList.contains("jf-lcars-home-hot") ? "var(--ghost-gray)" : "var(--orange-red)";
@@ -11780,8 +11376,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   function lcarsGhostGray() { return lcarsCssVar("--ghost-gray", "#d2d5df"); }
   function lcarsOrangeRed() { return lcarsCssVar("--orange-red", "#e7442a"); }
   function lcarsStarlight() { return lcarsCssVar("--starlight", "#f3f4f7"); }
-
-
 
   function ensureLcarsThemeSelect() {
     try {
@@ -11815,7 +11409,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         var sel = document.createElement("select");
         sel.className = "emby-select-withcolor emby-select jf-lcars-theme-select";
         sel.id = "jf-lcars-theme-select-" + i;
-        /* plain <select> — do not set is=emby-select (custom element upgrade breaks listeners) */
+        
         var opt0 = document.createElement("option");
         opt0.value = "";
         opt0.textContent = "- Select theme -";
@@ -11845,11 +11439,10 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
 
-
   function lcarsUserMenuTopPx() {
     try {
       var bottom = 0;
-      /* Prefer the visible LCARS top runner / segmented bar bottom */
+      
       var candidates = [
         document.getElementById("jf-lcars-top-runner"),
         document.querySelector(".jf-lcars-top-runner"),
@@ -11869,7 +11462,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           if (r.height > 4 && r.bottom > bottom) bottom = r.bottom;
         } catch (eC) {}
       }
-      /* Also honor CSS vars used for chrome */
+      
       try {
         var rt = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lcars-lib-row-top"), 10);
         if (rt > bottom) bottom = rt;
@@ -11909,7 +11502,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         } catch (eA) {}
       };
       apply();
-      /* MUI may overwrite top after open — re-apply a few times */
+      
       requestAnimationFrame(apply);
       setTimeout(apply, 30);
       setTimeout(apply, 100);
@@ -11983,7 +11576,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       syncLibraryNav();
       alignSecondaryToolbar();
       fixDashboardSideInset();
-      /* Desktop library only: hide permanent admin drawer. Never touch mobile temporary drawer. */
+      
       try {
         var narrowHide = window.matchMedia && window.matchMedia("(max-width: 1099px)").matches;
         if (typeof isLibraryView === "function" && isLibraryView() && !narrowHide) {
@@ -11991,7 +11584,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             d.style.setProperty("display", "none", "important");
           });
         } else {
-          /* Clear any leftover inline hide so mobile/dashboard drawers can show */
+          
           document.querySelectorAll(".MuiDrawer-root, .MuiDrawer-docked, .MuiDrawer-paper").forEach(function (d) {
             if (d.style.display === "none") d.style.removeProperty("display");
           });
@@ -12002,7 +11595,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.354-nav-hover-accent",
+    version: "2.22.357-no-comments",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
@@ -12057,7 +11650,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
   } catch (e) {}
   setInterval(syncVideoMode, 500);
   window.addEventListener("scroll", function () {
-    /* Do not call measureAdminDrawer on scroll — it reflowed the drawer nav */
+    
     wrapContentPrimary();
     syncTopBtn();
   }, { passive: true });
