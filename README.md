@@ -35,10 +35,6 @@ That single script:
 
 ---
 
-### Changing Color themes.
-
-Once you've completed the **Save** step above
-
 ## Project layout
 
 ```
