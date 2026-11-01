@@ -2305,6 +2305,19 @@ body.dashboardDocument {
   color: #000 !important;
 }
 
+/* Hover must beat alternating nth-child fills (use accent — ghost-gray panels would not change) */
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root > .MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root > a.MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper > .MuiList-root .MuiListItem-root:nth-child(n) > .MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]),
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
+  background: var(--pale-orange-red) !important;
+  background-color: var(--pale-orange-red) !important;
+  color: #000 !important;
+  filter: none !important;
+  border-bottom: 3px solid #000 !important;
+}
+
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover,
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root.Mui-focusVisible {
   filter: none !important;
@@ -2318,8 +2331,8 @@ body.dashboardDocument {
 }
 .dashboardDocument .MuiDrawer-paper .MuiListItemButton-root:hover:not(.Mui-selected):not([href="#/dashboard"]):not([href="#/dashboard/"]) {
   filter: none !important;
-  background: var(--ghost-gray) !important;
-  background-color: var(--ghost-gray) !important;
+  background: var(--pale-orange-red) !important;
+  background-color: var(--pale-orange-red) !important;
   color: #000 !important;
   border-bottom: 3px solid #000 !important;
 }
@@ -4560,7 +4573,7 @@ table tbody td:nth-child(6n+6) {
   text-transform: uppercase !important;
   background: #000 !important;
   position: relative !important;
-  bottom: 5px !important;
+  bottom: 7px !important;
   margin-top: 0.5rem !important;
 }
 /* Rows-per-page select: strip the global MuiInput margin-top */
@@ -7922,6 +7935,34 @@ html.jf-lcars-dash-hot #jf-lcars-dash-panel {
   background: var(--ghost-gray) !important;
   background-color: var(--ghost-gray) !important;
 }
+/* Never let Dashboard link fill paint the gutter under the panel */
+html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
+html.jf-lcars-dash-hot .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"],
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"]:hover,
+.dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard/"]:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  max-height: var(--lcars-dash-row-height, 10.8rem) !important;
+  height: var(--lcars-dash-row-height, 10.8rem) !important;
+}
+#jf-lcars-dash-panel {
+  height: var(--lcars-dash-row-height, 10.8rem) !important;
+  max-height: var(--lcars-dash-row-height, 10.8rem) !important;
+  overflow: hidden !important;
+}
+.jf-lcars-dash-gap {
+  display: block !important;
+  height: 3px !important;
+  width: 100% !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  pointer-events: none !important;
+  position: relative !important;
+  z-index: 12060 !important;
+}
 
 /* Real Dashboard link is hit-target only; #jf-lcars-dash-panel shows the label */
 .dashboardDocument .MuiDrawer-paper a.MuiListItemButton-root[href="#/dashboard"],
@@ -9359,13 +9400,22 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       /* Color only — do NOT call pinLcarsTopChrome (that reflowed the menu on hover) */
       var link = queryDashLink();
       if (link) {
-        link.style.setProperty("background", fill, "important");
-        link.style.setProperty("background-color", fill, "important");
+        /* Keep link transparent — panel paints the face; preserves black gutter under panel */
+        link.style.setProperty("background", "transparent", "important");
+        link.style.setProperty("background-color", "transparent", "important");
       }
       var panel = document.getElementById("jf-lcars-dash-panel");
       if (panel) {
         panel.style.setProperty("background", fill, "important");
         panel.style.setProperty("background-color", fill, "important");
+        panel.style.setProperty("height", "10.8rem", "important");
+        panel.style.setProperty("max-height", "10.8rem", "important");
+      }
+      var gap = document.querySelector(".jf-lcars-dash-gap");
+      if (gap) {
+        gap.style.setProperty("background", "#000", "important");
+        gap.style.setProperty("background-color", "#000", "important");
+        gap.style.setProperty("height", "3px", "important");
       }
       var segA = document.querySelectorAll("#jf-lcars-top-runner .jf-lcars-seg-a, .jf-lcars-top-runner .jf-lcars-seg-a");
       for (var si = 0; si < segA.length; si++) {
@@ -9434,8 +9484,9 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       }
       if (!sq) return;
       sq.setAttribute("data-jf-show", "1");
-      var idle = lcarsOrangeRed();
-      var hot = lcarsGhostGray();
+      var idle = "var(--orange-red)";
+      var hot = "var(--ghost-gray)";
+      var iconSize = size <= 48 ? "24px" : "28px";
       sq.style.setProperty("display", "flex", "important");
       sq.style.setProperty("visibility", "visible", "important");
       sq.style.setProperty("position", "fixed", "important");
@@ -9447,33 +9498,29 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       sq.style.setProperty("cursor", "pointer", "important");
       sq.style.setProperty("pointer-events", "auto", "important");
       sq.style.setProperty("box-sizing", "border-box", "important");
-      sq.style.setProperty("border-bottom", "3px solid #000", "important");
+      sq.style.setProperty("border-bottom", size <= 48 ? "none" : "3px solid #000", "important");
       sq.style.setProperty("align-items", "center", "important");
       sq.style.setProperty("justify-content", "center", "important");
-      if (!sq.classList.contains("jf-lcars-home-hot")) {
-        sq.style.setProperty("background-color", idle, "important");
-      }
+      sq.style.setProperty("background-color", sq.classList.contains("jf-lcars-home-hot") ? hot : idle, "important");
       sq.style.setProperty("background-image", icon, "important");
       sq.style.setProperty("background-repeat", "no-repeat", "important");
       sq.style.setProperty("background-position", "center", "important");
-      sq.style.setProperty("background-size", "28px 28px", "important");
+      sq.style.setProperty("background-size", iconSize + " " + iconSize, "important");
       if (!sq.__lcarsHomeBound) {
         sq.__lcarsHomeBound = true;
         sq.addEventListener("pointerenter", function () {
           sq.classList.add("jf-lcars-home-hot");
-          sq.style.setProperty("background-color", hot, "important");
+          sq.style.setProperty("background-color", "var(--ghost-gray)", "important");
           sq.style.setProperty("background-image", icon, "important");
           sq.style.setProperty("background-repeat", "no-repeat", "important");
           sq.style.setProperty("background-position", "center", "important");
-          sq.style.setProperty("background-size", "28px 28px", "important");
         });
         sq.addEventListener("pointerleave", function () {
           sq.classList.remove("jf-lcars-home-hot");
-          sq.style.setProperty("background-color", idle, "important");
+          sq.style.setProperty("background-color", "var(--orange-red)", "important");
           sq.style.setProperty("background-image", icon, "important");
           sq.style.setProperty("background-repeat", "no-repeat", "important");
           sq.style.setProperty("background-position", "center", "important");
-          sq.style.setProperty("background-size", "28px 28px", "important");
         });
       }
       /* Remove old hit if present */
@@ -11707,6 +11754,14 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
           segs[si].style.setProperty("background", fill, "important");
           segs[si].style.setProperty("background-color", fill, "important");
         }
+        /* Home square — follow theme vars */
+        var sq = document.getElementById("jf-lcars-home-square");
+        if (sq) {
+          var sqFill = sq.classList.contains("jf-lcars-home-hot") ? "var(--ghost-gray)" : "var(--orange-red)";
+          sq.style.setProperty("background-color", sqFill, "important");
+        } else {
+          try { ensureHomeSquare(); } catch (eSq) {}
+        }
       } catch (e1) {}
     } catch (e) {
       console.warn("[JellyfinLCARS] apply theme", e);
@@ -11948,7 +12003,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.349-pref-menu-1col-550",
+    version: "2.22.354-nav-hover-accent",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
