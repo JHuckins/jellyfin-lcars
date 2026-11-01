@@ -51,8 +51,8 @@ jellyfin-lcars/
 
 ## Sample Screenshots
 
-![Jellyfin configuration dashboard](https://devopsdrops.com/img/blog-posts/jellyfin-dashboard.png)
-![Jellyfin mobile movies view](https://devopsdrops.com/img/blog-posts/jellyfin-mobile-movie-view.png)
+![Jellyfin configuration dashboard](https://devopsdrops.com/img/blog-posts/jellyfin-lcars-dashboard.png)
+![Jellyfin mobile movies view](https://devopsdrops.com/img/blog-posts/jellyfin-lcars-mobile-movie-view.png)
 
 ---
 
