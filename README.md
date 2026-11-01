@@ -25,6 +25,7 @@ You only need to complete this step once.
 3. In the *Script Name* field use **jellyfin-lcars-injector.js**. 
 4. Copy the [script contents](https://raw.githubusercontent.com/JHuckins/jellyfin-lcars/refs/heads/main/jellyfin-lcars-injector.js) into the text area below the *Script Name* field.
 5. Click/Tap **Save**.
+6. Optionally refresh the page and select a color theme from the list above the text area. 
 
 That single script:
 - Injects panel/frame CSS (`<style>`)
@@ -33,6 +34,10 @@ That single script:
 - Auto-inits and re-runs on SPA navigation
 
 ---
+
+### Changing Color themes.
+
+Once you've completed the **Save** step above
 
 ## Project layout
 
