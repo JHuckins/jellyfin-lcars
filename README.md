@@ -27,7 +27,7 @@ You only need to complete this step once.
 5. Click/Tap **Save**.
 6. Optionally refresh the page and select a color theme from the list above the text area. 
 
-![Javascript Injector options](js-injector-options.png)
+![Javascript Injector options](https://devopsdrops.com/img/blog-posts/js-injector-options.png)
 
 That single script:
 - Injects panel/frame CSS (`<style>`)
