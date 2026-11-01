@@ -57,7 +57,6 @@
   --drawer-background-color: var(--primary-gray);
   --primary-color: var(--orange-red);
   --accent: var(--orange-red);
-  /* Semantic status — Picard palette only (no non-Picard greens/purples) */
   --lcars-alert: var(--orange-red);
   --lcars-alert-soft: var(--light-orange-red);
   --lcars-info: var(--blue);
