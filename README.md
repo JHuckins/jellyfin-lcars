@@ -44,7 +44,6 @@ jellyfin-lcars/
 ├── jellyfin-lcars-injector.js     # Single script containing the theme
 ├── LICENSE
 ├── README.md
-└── Screenshots
 
 ```
 ---
