@@ -4695,6 +4695,13 @@ button.MuiIconButton-root:has([data-testid="ArrowForwardIcon"]):hover svg {
   .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Next"] {
     margin-left: 0.5rem !important;
   }
+  .jf-lcars-active .MuiToolbar-root.jf-lcars-sec-toolbar .MuiButton-root[title="Sort"],
+  .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Sort"],
+  .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButtonGroup-text .MuiButton-root[title="Sort"],
+  .jf-lcars-active .MuiToolbar-root .MuiButtonGroup-middleButton[title="Sort"] {
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+  }
 }
 
 .jf-lcars-active .MuiToolbar-root:has([aria-controls*="view-menu"]) .MuiButton-root[title="Shuffle"],
@@ -11595,7 +11602,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.357-no-comments",
+    version: "2.22.358-sort-margin-1200",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
