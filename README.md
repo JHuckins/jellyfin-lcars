@@ -43,7 +43,7 @@ That single script:
 jellyfin-lcars/
 ├── jellyfin-lcars-injector.js     # Single script containing the theme
 ├── LICENSE
-├── README.md
+└── README.md
 
 ```
 ---
