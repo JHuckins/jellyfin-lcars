@@ -787,7 +787,7 @@ button.button-submit:hover,
   z-index: 12070 !important;
   box-sizing: border-box !important;
   
-  padding: var(--lcars-lib-row-top, 48px) 0 56px 0 !important;
+  padding: var(--lcars-lib-row-top, 48px) 0 0 0 !important;
   margin: 0 !important;
   background: #000 !important;
   overflow-x: hidden !important;
@@ -802,6 +802,21 @@ html.jf-lcars-library #jf-lcars-library-nav {
   
   gap: 0 !important;
   align-items: stretch !important;
+}
+#jf-lcars-library-nav .jf-lcars-lib-nav-fill {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: var(--primary-gray, #6d748c) !important;
+  background-color: var(--primary-gray, #6d748c) !important;
+  pointer-events: none !important;
+  align-self: stretch !important;
+}
+html.jf-lcars-library #jf-lcars-library-nav {
+  padding-bottom: 0 !important;
 }
 html.jf-lcars-library.jf-lcars-video #jf-lcars-library-nav {
   display: none !important;
@@ -1022,8 +1037,9 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     width: 56px !important;
     max-width: 56px !important;
     min-width: 56px !important;
-    
-    padding: 107px 0 24px 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    padding: 107px 0 0 0 !important;
     left: 0 !important;
     top: 0 !important;
     background: #000 !important;
@@ -1031,6 +1047,12 @@ html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav {
     gap: 3px !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
+  }
+  html.jf-lcars-library:not(.jf-lcars-video) #jf-lcars-library-nav .jf-lcars-lib-nav-fill {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    background: var(--primary-gray, #6d748c) !important;
+    background-color: var(--primary-gray, #6d748c) !important;
   }
   
   html.jf-lcars-library:not(.jf-lcars-video) .MuiAppBar-root button.MuiIconButton-root[aria-label="Open navigation"],
@@ -1824,7 +1846,31 @@ body.dashboardDocument {
     min-height: 0 !important;
     width: var(--lcars-admin-drawer) !important;
     max-width: var(--lcars-admin-drawer) !important;
-    padding: 0 0 56px 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .dashboardDocument .MuiDrawer-paper .jf-lcars-dash-nav-fill,
+  .dashboardDocument .MuiDrawer-paper .MuiList-root > .jf-lcars-dash-nav-fill {
+    flex: 1 1 auto !important;
+    min-height: 48px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: var(--primary-gray, #6d748c) !important;
+    background-color: var(--primary-gray, #6d748c) !important;
+    pointer-events: none !important;
+    align-self: stretch !important;
+    display: block !important;
+  }
+}
+@media (max-width: 899px) {
+  .dashboardDocument .MuiDrawer-paper .jf-lcars-dash-nav-fill {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    flex: none !important;
   }
 }
 
@@ -5130,7 +5176,7 @@ html.jf-lcars-active .alphaPickerButton.selected {
   flex: 1 1 auto !important;
   box-sizing: border-box !important;
   margin: 0 !important;
-  padding: 1rem 1.5rem calc(var(--btn-h, 44px) + 1.25rem) !important;
+  padding: 1rem 1.5rem 0 !important;
   background: #000 !important;
   color: var(--ghost-gray, #d2d5df) !important;
   font-family: var(--lcars-font) !important;
@@ -5204,21 +5250,87 @@ html.jf-lcars-active .alphaPickerButton.selected {
   flex-direction: row !important;
   align-items: stretch !important;
   gap: 0 !important;
-  margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
-  background: transparent !important;
+  background: #000 !important;
   border: none !important;
-  
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  position: relative !important;
+  z-index: 20 !important;
   height: var(--btn-h) !important;
   min-height: var(--btn-h) !important;
-  z-index: 5 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  flex: 0 0 auto !important;
+  align-self: stretch !important;
+}
+.jf-lcars-active .dialog.formDialog > .formDialogFooter,
+.jf-lcars-active .formDialog > .formDialogFooter {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  left: auto !important;
+  right: auto !important;
+  position: relative !important;
+}
+.jf-lcars-active .formDialog .formDialogContent {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.jf-lcars-active .formDialogContent .dialogContentInner,
+.jf-lcars-active .formDialogContent .dialog-content-centered,
+.jf-lcars-active .formDialogContent form.dialogContentInner {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+.jf-lcars-active .formDialogContent .metadataFormFields,
+.jf-lcars-active .formDialogContent .dialog-content-centered > :not(.formDialogFooter) {
+  max-width: 36rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+.jf-lcars-active .formDialogContent .formDialogFooter,
+.jf-lcars-active .formDialogContent form > .formDialogFooter {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  align-self: stretch !important;
+}
+.jf-lcars-active .formDialogContent {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.jf-lcars-active .formDialogContent > form,
+.jf-lcars-active .formDialogContent .editItemMetadataForm {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+.jf-lcars-active .formDialogContent .dialogContentInner {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 100% !important;
+  box-sizing: border-box !important;
+}
+.jf-lcars-active .formDialogContent .metadataFormFields {
+  flex: 1 1 auto !important;
 }
 
 .jf-lcars-active .formDialogFooter::before {
@@ -5251,13 +5363,46 @@ html.jf-lcars-active .alphaPickerButton.selected {
   max-width: 9rem !important;
   height: var(--btn-h) !important;
   min-height: var(--btn-h) !important;
-  margin: 0 !important;
   padding-left: 1.25rem !important;
   padding-right: 1.25rem !important;
   position: relative !important;
   z-index: 2 !important;
   box-sizing: border-box !important;
   border-radius: 0 !important;
+}
+.jf-lcars-active .formDialogFooter .formDialogFooterItem:not(.button-reset):not(.btnReset) {
+  margin: 0 !important;
+}
+.jf-lcars-active .formDialogFooter .button-reset,
+.jf-lcars-active .formDialogFooter .btnReset,
+.jf-lcars-active .formDialogFooter button.button-reset,
+.jf-lcars-active .formDialogFooter .formDialogFooterItem.button-reset,
+.jf-lcars-active .formDialogFooter .formDialogFooterItem.btnReset,
+.jf-lcars-active .formDialogFooter button.raised.button-reset.formDialogFooterItem {
+  margin: 0 !important;
+  border-left: 8px solid #000 !important;
+  border-right: 8px solid #000 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  height: 100% !important;
+  min-height: var(--btn-h, 44px) !important;
+  max-height: none !important;
+  align-self: stretch !important;
+  box-sizing: border-box !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.jf-lcars-active .formDialogFooter {
+  align-items: stretch !important;
+}
+.jf-lcars-active .formDialogFooter .formDialogFooterItem,
+.jf-lcars-active .formDialogFooter .raised.emby-button {
+  height: 100% !important;
+  min-height: var(--btn-h, 44px) !important;
+  align-self: stretch !important;
 }
 
 .jf-lcars-active .MuiPopover-paper:has([id*="filters"]),
@@ -11080,6 +11225,16 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
             (pathOnly === "#/" && (hash === "#" || hash === "#/" || hash.indexOf("#/home") === 0));
           existing[ei].classList.toggle("is-active", on);
         }
+      try {
+        var fill = nav.querySelector(".jf-lcars-lib-nav-fill");
+        if (!fill) {
+          fill = document.createElement("div");
+          fill.className = "jf-lcars-lib-nav-fill";
+          fill.setAttribute("aria-hidden", "true");
+        }
+        if (fill.parentElement !== nav) nav.appendChild(fill);
+        else if (fill !== nav.lastElementChild) nav.appendChild(fill);
+      } catch (eFill) {}
         applyLibraryContentInset();
         ensureLibArmHit();
         return;
@@ -11117,6 +11272,15 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
         a.appendChild(t);
         nav.appendChild(a);
       }
+      try {
+        var fill2 = nav.querySelector(".jf-lcars-lib-nav-fill");
+        if (!fill2) {
+          fill2 = document.createElement("div");
+          fill2.className = "jf-lcars-lib-nav-fill";
+          fill2.setAttribute("aria-hidden", "true");
+        }
+        nav.appendChild(fill2);
+      } catch (eFill2) {}
       nav.style.display = "flex";
       applyLibraryContentInset();
       ensureLibArmHit();
@@ -11550,6 +11714,77 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
+
+  function ensureFormDialogFooter() {
+    try {
+      document.querySelectorAll(".formDialog.opened, .dialog.formDialog.opened, .formDialog").forEach(function (dlg) {
+        if (!dlg || !dlg.classList) return;
+        var footer = dlg.querySelector(".formDialogFooter");
+        if (!footer) return;
+        if (footer.parentElement === dlg) return;
+        dlg.appendChild(footer);
+      });
+      if (window.__jfLcarsFormFooterObs) return;
+      window.__jfLcarsFormFooterObs = new MutationObserver(function (muts) {
+        if (window.__jfLcarsFormFooterBusy) return;
+        window.__jfLcarsFormFooterBusy = true;
+        try {
+          for (var i = 0; i < muts.length; i++) {
+            var m = muts[i];
+            if (!m.addedNodes) continue;
+            for (var j = 0; j < m.addedNodes.length; j++) {
+              var n = m.addedNodes[j];
+              if (!n || n.nodeType !== 1) continue;
+              var dlg = null;
+              if (n.classList && n.classList.contains("formDialog")) dlg = n;
+              else if (n.querySelector) dlg = n.querySelector(".formDialog");
+              if (!dlg) continue;
+              var footer = dlg.querySelector(".formDialogFooter");
+              if (footer && footer.parentElement !== dlg) dlg.appendChild(footer);
+            }
+          }
+        } finally {
+          window.__jfLcarsFormFooterBusy = false;
+        }
+      });
+      window.__jfLcarsFormFooterObs.observe(document.body, { childList: true, subtree: true });
+    } catch (e) {}
+  }
+
+
+
+
+
+  function ensureDashNavFill() {
+    try {
+      var narrow = window.matchMedia && window.matchMedia("(max-width: 899px)").matches;
+      document.querySelectorAll(".jf-lcars-dash-nav-fill").forEach(function (n) {
+        if (narrow) n.remove();
+      });
+      if (narrow) return;
+      if (!document.querySelector(".dashboardDocument")) {
+        document.querySelectorAll(".jf-lcars-dash-nav-fill").forEach(function (n) { n.remove(); });
+        return;
+      }
+      var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
+      if (!paper) return;
+      var lists = paper.querySelectorAll(".MuiList-root");
+      var host = lists && lists.length ? lists[lists.length - 1] : paper;
+      var fill = host.querySelector(":scope > .jf-lcars-dash-nav-fill") || paper.querySelector(".jf-lcars-dash-nav-fill");
+      if (!fill) {
+        fill = document.createElement("div");
+        fill.className = "jf-lcars-dash-nav-fill";
+        fill.setAttribute("aria-hidden", "true");
+      }
+      host.appendChild(fill);
+      try {
+        host.style.setProperty("display", "flex", "important");
+        host.style.setProperty("flex-direction", "column", "important");
+        host.style.setProperty("min-height", "100%", "important");
+      } catch (eS) {}
+    } catch (e) {}
+  }
+
   function run() {
     try {
       injectCss();
@@ -11574,6 +11809,8 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureDashArmHit();
       ensureHomeSquare();
       ensureUserMenuPlacement();
+      ensureFormDialogFooter();
+      ensureDashNavFill();
       ensureLibArmHit();
       fixMobileDrawerLayout();
       ensureSubmenuBars();
@@ -11602,7 +11839,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.358-sort-margin-1200",
+    version: "2.22.377-dash-nav-fill-desktop",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
