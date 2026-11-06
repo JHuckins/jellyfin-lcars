@@ -1850,28 +1850,6 @@ body.dashboardDocument {
     display: flex !important;
     flex-direction: column !important;
   }
-  .dashboardDocument .MuiDrawer-paper .jf-lcars-dash-nav-fill,
-  .dashboardDocument .MuiDrawer-paper .MuiList-root > .jf-lcars-dash-nav-fill {
-    flex: 1 1 auto !important;
-    min-height: 48px !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    background: var(--primary-gray, #6d748c) !important;
-    background-color: var(--primary-gray, #6d748c) !important;
-    pointer-events: none !important;
-    align-self: stretch !important;
-    display: block !important;
-  }
-}
-@media (max-width: 899px) {
-  .dashboardDocument .MuiDrawer-paper .jf-lcars-dash-nav-fill {
-    display: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    flex: none !important;
-  }
 }
 
 @media (max-width: 899px) {
@@ -11446,6 +11424,11 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       primaryGray: "#ddbbff", mediumDarkGray: "#774477", lightGray: "#ffcc99", ghostGray: "#ffbbaa",
       orangeRed: "#cc6666", lightOrange: "#ff8866", paleOrange: "#ffaa90",
       blue: "#7788ff", brightBlue: "#aaaaff", darkBlue: "#663366"
+    },
+    "LCARS Monochrome": {
+      primaryGray: "#c6c6c6", mediumDarkGray: "#4a4a4a", lightGray: "#e2e2e2", ghostGray: "#f4f4f4",
+      orangeRed: "#d0d0d0", lightOrange: "#eaeaea", paleOrange: "#b8b8b8",
+      blue: "#a8a8a8", brightBlue: "#bcbcbc", darkBlue: "#3a3a3a"
     }
   };
   var LCARS_THEME_OPTIONS = Object.keys(LCARS_THEME_PALETTES);
@@ -11714,7 +11697,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
-
   function ensureFormDialogFooter() {
     try {
       document.querySelectorAll(".formDialog.opened, .dialog.formDialog.opened, .formDialog").forEach(function (dlg) {
@@ -11751,40 +11733,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
-
-
-
-
-  function ensureDashNavFill() {
-    try {
-      var narrow = window.matchMedia && window.matchMedia("(max-width: 899px)").matches;
-      document.querySelectorAll(".jf-lcars-dash-nav-fill").forEach(function (n) {
-        if (narrow) n.remove();
-      });
-      if (narrow) return;
-      if (!document.querySelector(".dashboardDocument")) {
-        document.querySelectorAll(".jf-lcars-dash-nav-fill").forEach(function (n) { n.remove(); });
-        return;
-      }
-      var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
-      if (!paper) return;
-      var lists = paper.querySelectorAll(".MuiList-root");
-      var host = lists && lists.length ? lists[lists.length - 1] : paper;
-      var fill = host.querySelector(":scope > .jf-lcars-dash-nav-fill") || paper.querySelector(".jf-lcars-dash-nav-fill");
-      if (!fill) {
-        fill = document.createElement("div");
-        fill.className = "jf-lcars-dash-nav-fill";
-        fill.setAttribute("aria-hidden", "true");
-      }
-      host.appendChild(fill);
-      try {
-        host.style.setProperty("display", "flex", "important");
-        host.style.setProperty("flex-direction", "column", "important");
-        host.style.setProperty("min-height", "100%", "important");
-      } catch (eS) {}
-    } catch (e) {}
-  }
-
   function run() {
     try {
       injectCss();
@@ -11810,7 +11758,6 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureHomeSquare();
       ensureUserMenuPlacement();
       ensureFormDialogFooter();
-      ensureDashNavFill();
       ensureLibArmHit();
       fixMobileDrawerLayout();
       ensureSubmenuBars();
@@ -11839,7 +11786,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.377-dash-nav-fill-desktop",
+    version: "2.22.383-monochrome-light-btns",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
