@@ -7130,9 +7130,287 @@ html.jf-lcars-active .alphaPickerButton.selected {
   color: var(--ghost-gray) !important;
 }
 
-.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):not(.emby-button-outline),
-.jf-lcars-active button.raised,
-.jf-lcars-active .raised.emby-button,
+
+.jf-lcars-active .detailPageWrapperContainer .itemTags a.button-link,
+.jf-lcars-active .detailPageWrapperContainer .itemTags a.emby-button,
+.jf-lcars-active .detailPageWrapperContainer .itemExternalLinks a.button-link,
+.jf-lcars-active .detailPageWrapperContainer .itemExternalLinks a.emby-button,
+.jf-lcars-active .detailPageWrapperContainer .itemDetailsGroup a.button-link,
+.jf-lcars-active .detailPageWrapperContainer .itemDetailsGroup a.emby-button,
+.jf-lcars-active .detailPageWrapperContainer a.overview-expand,
+.jf-lcars-active .detailPageWrapperContainer .overview-controls a.emby-button {
+  background: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-left: none !important;
+  box-shadow: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0.1rem 0.25rem !important;
+  margin: 0 0.2rem 0 0 !important;
+  color: var(--ghost-gray, #d2d5df) !important;
+  -webkit-text-fill-color: var(--ghost-gray, #d2d5df) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  font-weight: 500 !important;
+  font-size: inherit !important;
+  display: inline !important;
+  line-height: inherit !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .itemTags a.button-link:hover,
+.jf-lcars-active .detailPageWrapperContainer .itemExternalLinks a.button-link:hover,
+.jf-lcars-active .detailPageWrapperContainer .itemDetailsGroup a.button-link:hover,
+.jf-lcars-active .detailPageWrapperContainer a.overview-expand:hover {
+  color: var(--starlight, #f3f4f7) !important;
+  -webkit-text-fill-color: var(--starlight, #f3f4f7) !important;
+  text-decoration: underline !important;
+  filter: none !important;
+  background: none !important;
+  background-image: none !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .itemDetailsGroup .label,
+.jf-lcars-active .detailPageWrapperContainer .detailsGroupItem .label,
+.jf-lcars-active .detailPageWrapperContainer .detailsGroupItem p.label {
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  border-left: none !important;
+  color: var(--light-gray, #9ea5ba) !important;
+  padding: 0 !important;
+  margin: 0 0.5rem 0 0 !important;
+  min-width: 0 !important;
+  display: inline !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .itemDetailsGroup,
+.jf-lcars-active .detailPageWrapperContainer .detailsGroupItem,
+.jf-lcars-active .detailPageWrapperContainer .detailSectionContent,
+.jf-lcars-active .detailPageWrapperContainer .overview,
+.jf-lcars-active .detailPageWrapperContainer .tagline {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+.jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContainer {
+  display: grid !important;
+  grid-template-columns: auto 1fr !important;
+  grid-template-rows: auto auto !important;
+  grid-template-areas:
+    "poster ribbon"
+    "poster content" !important;
+  align-items: start !important;
+  column-gap: 1.25rem !important;
+  row-gap: 30px !important;
+  overflow: visible !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailImageContainer {
+  grid-area: poster !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-self: start !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailRibbon {
+  grid-area: ribbon !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  flex-wrap: nowrap !important;
+  gap: 0.35rem !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 0.5rem 1rem !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  width: 100% !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailRibbon .infoWrapper {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  order: 1 !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailRibbon .mainDetailButtons {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  order: 2 !important;
+  flex: 0 0 auto !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContent {
+  grid-area: content !important;
+  margin: 30px 0 0 0 !important;
+  padding-top: 0 !important;
+  padding-left: 1rem !important;
+  padding-right: 15px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  clear: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContent.padded-right,
+.jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContent.padded-left,
+.jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContent.padded-left.padded-right {
+  padding-left: 1rem !important;
+  padding-right: 15px !important;
+  margin-left: 0 !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailRibbon {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailSection {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  border-left: 2px solid var(--orange-red, #e7442a) !important;
+  padding-left: 10px !important;
+  box-sizing: border-box !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .detailSectionContent,
+.jf-lcars-active .detailPageWrapperContainer .itemDetailsGroup,
+.jf-lcars-active .detailPageWrapperContainer .overview,
+.jf-lcars-active .detailPageWrapperContainer .tagline,
+.jf-lcars-active .detailPageWrapperContainer .detailSectionContent p {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  border-left: none !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .overview-controls,
+.jf-lcars-active .detailPageWrapperContainer a.overview-expand {
+  margin-right: 15px !important;
+}
+@media (max-width: 999px) {
+  .jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContainer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    grid-template-columns: none !important;
+    grid-template-areas: none !important;
+  }
+  .jf-lcars-active .detailPageWrapperContainer .detailImageContainer,
+  .jf-lcars-active .detailPageWrapperContainer .detailImageContainer.hide-mobile,
+  .jf-lcars-active .detailPageWrapperContainer .detailImageContainer.hide-desktop {
+    display: block !important;
+    position: relative !important;
+    order: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto 0.75rem auto !important;
+    padding: 0 !important;
+    float: none !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    z-index: 1 !important;
+  }
+  .jf-lcars-active .detailPageWrapperContainer .detailImageContainer .card,
+  .jf-lcars-active .detailPageWrapperContainer .detailImageContainer .portraitCard,
+  .jf-lcars-active .detailPageWrapperContainer .detailImageContainer .cardBox {
+    position: relative !important;
+    width: min(280px, 70vw) !important;
+    max-width: min(280px, 70vw) !important;
+    margin: 0 auto !important;
+    float: none !important;
+  }
+  .jf-lcars-active .detailPageWrapperContainer .detailRibbon {
+    order: 2 !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    z-index: 2 !important;
+  }
+  .jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContent {
+    order: 3 !important;
+    position: relative !important;
+    width: 100% !important;
+    margin-top: 20px !important;
+    z-index: 2 !important;
+  }
+  .jf-lcars-active .detailPageWrapperContainer .detailRibbon .infoWrapper .detailImageContainer {
+    display: none !important;
+  }
+}
+
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons .detailButton,
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons button.button-flat.detailButton,
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons button.emby-button.detailButton {
+  --lcars-db-cap: 6px;
+  --lcars-db-gap: 8px;
+  --lcars-db-size: 2.6rem;
+  box-sizing: border-box !important;
+  width: calc(var(--lcars-db-cap) + var(--lcars-db-gap) + var(--lcars-db-size)) !important;
+  min-width: calc(var(--lcars-db-cap) + var(--lcars-db-gap) + var(--lcars-db-size)) !important;
+  max-width: calc(var(--lcars-db-cap) + var(--lcars-db-gap) + var(--lcars-db-size)) !important;
+  height: var(--lcars-db-size) !important;
+  min-height: var(--lcars-db-size) !important;
+  max-height: var(--lcars-db-size) !important;
+  margin: 0 !important;
+  padding: 0 0 0 var(--lcars-db-gap) !important;
+  border: none !important;
+  border-left: var(--lcars-db-cap) solid var(--orange-red, #e7442a) !important;
+  border-radius: 0 !important;
+  background: var(--light-gray, #9ea5ba) !important;
+  background-color: var(--light-gray, #9ea5ba) !important;
+  background-image: none !important;
+  color: #000 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons .detailButton::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: var(--lcars-db-gap) !important;
+  height: 100% !important;
+  background: #000 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons .detailButton .detailButton-content,
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons .detailButton .material-icons,
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons .detailButton .detailButton-icon {
+  position: relative !important;
+  z-index: 1 !important;
+  margin: 0 !important;
+  color: #000 !important;
+  font-size: 1.35rem !important;
+  line-height: 1 !important;
+}
+.jf-lcars-active .detailPageWrapperContainer .mainDetailButtons .detailButton:hover {
+  background: var(--ghost-gray, #d2d5df) !important;
+  background-color: var(--ghost-gray, #d2d5df) !important;
+  background-image: none !important;
+  filter: none !important;
+}
+
+.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):not(.emby-button-outline):not(.button-link):not(.button-flat):not(.detailButton):not(.overview-expand),
+.jf-lcars-active button.raised:not(.button-flat):not(.detailButton),
+.jf-lcars-active .raised.emby-button:not(.button-flat):not(.detailButton),
 .jf-lcars-active .fab.emby-button,
 .jf-lcars-active .btnSubmit,
 .jf-lcars-active .button-submit {
@@ -7165,8 +7443,8 @@ html.jf-lcars-active .alphaPickerButton.selected {
   background-repeat: no-repeat !important;
   padding: 0.5rem 1.15rem 0.5rem calc(var(--lcars-btn-cap) + var(--lcars-btn-gap) + 0.75rem) !important;
 }
-.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):hover,
-.jf-lcars-active button.raised:hover {
+.jf-lcars-active .emby-button:not(.headerButton):not(.cardOverlayButton):not(.button-link):not(.button-flat):not(.detailButton):hover,
+.jf-lcars-active button.raised:not(.button-flat):not(.detailButton):hover {
   background-image:
     linear-gradient(var(--orange-red), var(--orange-red)),
     linear-gradient(var(--ghost-gray), var(--ghost-gray)) !important;
@@ -11786,7 +12064,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.383-monochrome-light-btns",
+    version: "2.22.395-detail-stack-no-overlap",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
