@@ -1850,6 +1850,28 @@ body.dashboardDocument {
     display: flex !important;
     flex-direction: column !important;
   }
+  .dashboardDocument .MuiDrawer-paper .jf-lcars-dash-nav-fill,
+  .dashboardDocument .MuiDrawer-paper .MuiList-root > .jf-lcars-dash-nav-fill {
+    flex: 1 1 auto !important;
+    min-height: 48px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: var(--primary-gray, #6d748c) !important;
+    background-color: var(--primary-gray, #6d748c) !important;
+    pointer-events: none !important;
+    align-self: stretch !important;
+    display: block !important;
+  }
+}
+@media (max-width: 899px) {
+  .dashboardDocument .MuiDrawer-paper .jf-lcars-dash-nav-fill {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    flex: none !important;
+  }
 }
 
 @media (max-width: 899px) {
@@ -7130,7 +7152,6 @@ html.jf-lcars-active .alphaPickerButton.selected {
   color: var(--ghost-gray) !important;
 }
 
-
 .jf-lcars-active .detailPageWrapperContainer .itemTags a.button-link,
 .jf-lcars-active .detailPageWrapperContainer .itemTags a.emby-button,
 .jf-lcars-active .detailPageWrapperContainer .itemExternalLinks a.button-link,
@@ -7294,6 +7315,14 @@ html.jf-lcars-active .alphaPickerButton.selected {
   margin-right: 15px !important;
 }
 @media (max-width: 999px) {
+  .jf-lcars-active .layout-desktop .itemBackdrop,
+  .layout-desktop:has(.detailPageWrapperContainer) .itemBackdrop,
+  .jf-lcars-active:has(.detailPageWrapperContainer) .layout-desktop .itemBackdrop,
+  .jf-lcars-active .itemBackdrop {
+    height: 8vh !important;
+    min-height: 8vh !important;
+    max-height: 8vh !important;
+  }
   .jf-lcars-active .detailPageWrapperContainer .detailPagePrimaryContainer {
     display: flex !important;
     flex-direction: column !important;
@@ -12011,6 +12040,37 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     } catch (e) {}
   }
 
+
+  function ensureDashNavFill() {
+    try {
+      var narrow = window.matchMedia && window.matchMedia("(max-width: 899px)").matches;
+      document.querySelectorAll(".jf-lcars-dash-nav-fill").forEach(function (n) {
+        if (narrow) n.remove();
+      });
+      if (narrow) return;
+      if (!document.querySelector(".dashboardDocument")) {
+        document.querySelectorAll(".jf-lcars-dash-nav-fill").forEach(function (n) { n.remove(); });
+        return;
+      }
+      var paper = document.querySelector(".dashboardDocument .MuiDrawer-paper");
+      if (!paper) return;
+      var lists = paper.querySelectorAll(".MuiList-root");
+      var host = lists && lists.length ? lists[lists.length - 1] : paper;
+      var fill = host.querySelector(":scope > .jf-lcars-dash-nav-fill") || paper.querySelector(".jf-lcars-dash-nav-fill");
+      if (!fill) {
+        fill = document.createElement("div");
+        fill.className = "jf-lcars-dash-nav-fill";
+        fill.setAttribute("aria-hidden", "true");
+      }
+      host.appendChild(fill);
+      try {
+        host.style.setProperty("display", "flex", "important");
+        host.style.setProperty("flex-direction", "column", "important");
+        host.style.setProperty("min-height", "100%", "important");
+      } catch (eS) {}
+    } catch (e) {}
+  }
+
   function run() {
     try {
       injectCss();
@@ -12036,6 +12096,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
       ensureHomeSquare();
       ensureUserMenuPlacement();
       ensureFormDialogFooter();
+      ensureDashNavFill();
       ensureLibArmHit();
       fixMobileDrawerLayout();
       ensureSubmenuBars();
@@ -12064,7 +12125,7 @@ button.MuiIconButton-root:has(svg[data-testid="MoreVertIcon"]),
     }
   }
   window.JellyfinLCARS = {
-    version: "2.22.395-detail-stack-no-overlap",
+    version: "2.22.399-dash-fill-desktop",
     init: function () { run(); return this; },
     refresh: run,
     destroy: function () {
