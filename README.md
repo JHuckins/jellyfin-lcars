@@ -62,6 +62,8 @@ jellyfin-lcars/
 - Mobile App: Coming soon
 - Native TV apps: not supported / no JS
 
+---
+
 ## License
 
 MIT
